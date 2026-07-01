@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum EstadoMateria {
+  CURSANDO
+  PARA_FINALIZAR
+  REGULAR
+  FINALIZADA
+}
+
+enum TipoEntrega {
+  TP
+  PARCIAL
+  FINAL
+}
+
+enum EstadoEntrega {
+  PENDIENTE
+  EN_CURSO
+  ENTREGADO
+}
+
+enum CategoriaLink {
+  GOOGLE_DRIVE
+  PLATAFORMA_UCASAL
+  GITHUB
+  OTRO
+}
+
+enum Modalidad {
+  PRESENCIAL
+  VIRTUAL
+}
+
+enum DiaSemana {
+  LUNES
+  MARTES
+  MIERCOLES
+  JUEVES
+  VIERNES
+}
+
+model Perfil {
+  id            String   @id @default(cuid())
+  nombre        String
+  emailUcasal   String   @unique
+  carrera       String   @default("Ingeniería Informática")
+  anioIngreso   Int
+  legajo        String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Materia {
+  id            String         @id @default(cuid())
+  nombre        String
+  codigo        String?
+  estado        EstadoMateria  @default(CURSANDO)
+  cuatrimestre  Int?
+  anio          Int?
+  profesor      String?
+  correlativas  String?
+  notas         String?
+  promocional   Boolean        @default(false)
+  semestre      String?
+  entregas      Entrega[]
+  horarios      Horario[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Entrega {
+  id            String         @id @default(cuid())
+  titulo        String
+  tipo          TipoEntrega
+  fecha         DateTime
+  estado        EstadoEntrega  @default(PENDIENTE)
+  recurso       String?
+  prioridad     String?
+  materiaId     String
+  materia       Materia        @relation(fields: [materiaId], references: [id], onDelete: Cascade)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Horario {
+  id            String     @id @default(cuid())
+  dia           DiaSemana
+  horaInicio    String
+  horaFin       String
+  modalidad     Modalidad  @default(PRESENCIAL)
+  aulaLink      String?
+  materiaId     String
+  materia       Materia    @relation(fields: [materiaId], references: [id], onDelete: Cascade)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model LinkExterno {
+  id            String         @id @default(cuid())
+  nombre        String
+  url           String
+  categoria     CategoriaLink  @default(OTRO)
+  favorito      Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
