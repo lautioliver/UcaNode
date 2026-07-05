@@ -42,9 +42,6 @@ export default function RootLayout({
         <div className="mx-auto min-h-screen max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
             <Link href="/" className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-sm font-bold text-white">
-                UC
-              </div>
               <div>
                 <p className="text-lg font-semibold tracking-tight">UcaNode</p>
                 <p className="text-xs text-secondary">Ing. Informática · Ucasal</p>
