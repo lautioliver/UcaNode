@@ -53,6 +53,7 @@ model Perfil {
   carrera       String   @default("Ingeniería Informática")
   anioIngreso   Int
   legajo        String?
+  password      String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }

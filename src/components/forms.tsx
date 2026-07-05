@@ -407,15 +407,17 @@ export function PerfilForm({
     carrera: string;
     anioIngreso: number;
     legajo: string | null;
+    password: string | null;
   };
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
 
   return (
-    <form action={formAction} className="grid max-w-lg gap-3">
-      <input name="nombre" required defaultValue={defaultValues.nombre} placeholder="Nombre completo" className={input} />
-      <input name="emailUcasal" type="email" required defaultValue={defaultValues.emailUcasal} placeholder="email@ucasal.edu.ar" className={input} />
-      <input name="carrera" required defaultValue={defaultValues.carrera} className={input} />
+    <form action={formAction} className="grid max-w-lg gap-3 sm:grid-cols-2">
+      <input name="nombre" required defaultValue={defaultValues.nombre} placeholder="Usuario Ucasal" className={input} />
+      <input name="password" type="password" defaultValue={defaultValues.password ?? ""} placeholder="Contraseña" className={input} />
+      <input name="emailUcasal" type="email" required defaultValue={defaultValues.emailUcasal} placeholder="email@ucasal.edu.ar" className={`${input} sm:col-span-2`} />
+      <input name="carrera" required defaultValue={defaultValues.carrera} className={`${input} sm:col-span-2`} />
       <input name="anioIngreso" type="number" required defaultValue={defaultValues.anioIngreso} className={input} />
       <input name="legajo" defaultValue={defaultValues.legajo ?? ""} placeholder="Legajo (opcional)" className={input} />
       <FormFeedback state={state} pending={pending} submitLabel="Guardar perfil" />

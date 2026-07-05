@@ -81,4 +81,5 @@ export const perfilSchema = z.object({
     .min(1900, "Año inválido")
     .max(2100, "Año inválido"),
   legajo: z.string().nullable().optional(),
+  password: z.string().nullable().optional(),
 });
