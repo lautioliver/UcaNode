@@ -1,9 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { prisma } from "@/lib/prisma";
 import { SectionCard } from "@/components/layout";
 import { EntregaRow } from "@/components/calendario";
-import { estadoMateriaLabel } from "@/lib/labels";
-import { prisma } from "@/lib/prisma";
+import { estadoMateriaLabel, diaSemanaLabel, modalidadLabel } from "@/lib/labels";
+
+export const metadata: Metadata = {
+  title: "Materia — UcaNode",
+};
 
 export default async function MateriaDetailPage({
   params,
@@ -23,13 +28,13 @@ export default async function MateriaDetailPage({
 
   return (
     <main className="space-y-6">
-      <Link href="/materias" className="text-sm text-emerald-400 hover:underline">
+      <Link href="/materias" className="text-sm text-accent hover:text-accent-hover">
         ← Volver a materias
       </Link>
 
       <div>
-        <h1 className="text-2xl font-semibold">{materia.nombre}</h1>
-        <p className="text-sm text-zinc-500">
+        <h1 className="text-2xl font-semibold text-primary">{materia.nombre}</h1>
+        <p className="text-sm text-muted">
           {[materia.codigo, estadoMateriaLabel[materia.estado], materia.profesor]
             .filter(Boolean)
             .join(" · ")}
@@ -45,7 +50,7 @@ export default async function MateriaDetailPage({
               ))}
             </div>
           ) : (
-            <p className="text-sm text-zinc-500">Sin entregas registradas.</p>
+            <p className="text-sm text-muted">Sin entregas registradas.</p>
           )}
         </SectionCard>
 
@@ -55,18 +60,18 @@ export default async function MateriaDetailPage({
               {materia.horarios.map((h) => (
                 <div
                   key={h.id}
-                  className="rounded-xl border border-white/10 bg-zinc-950/40 px-3 py-2 text-sm"
+                  className="rounded-lg border border-border bg-surface px-3 py-2 text-sm"
                 >
-                  <p className="font-medium">{h.dia}</p>
-                  <p className="text-zinc-500">
-                    {h.horaInicio} – {h.horaFin} · {h.modalidad}
+                  <p className="font-medium text-primary">{diaSemanaLabel[h.dia]}</p>
+                  <p className="text-muted">
+                    {h.horaInicio} – {h.horaFin} · {modalidadLabel[h.modalidad]}
                   </p>
-                  {h.aulaLink && <p className="text-zinc-500">{h.aulaLink}</p>}
+                  {h.aulaLink && <p className="text-muted">{h.aulaLink}</p>}
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-sm text-zinc-500">Sin horarios cargados.</p>
+            <p className="text-sm text-muted">Sin horarios cargados.</p>
           )}
         </SectionCard>
       </div>

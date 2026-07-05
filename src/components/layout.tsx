@@ -8,16 +8,16 @@ const navItems = [
 
 export function AppHeader({ perfilNombre }: { perfilNombre?: string }) {
   return (
-    <header className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur">
+    <header className="flex items-center justify-between gap-4 rounded-xl border border-border bg-surface-card px-5 py-4">
       <div className="flex items-center gap-3">
-        <span className="text-sm font-medium text-zinc-400">Navegación</span>
+        <span className="text-sm font-medium text-secondary">Navegación</span>
         <div className="flex gap-2">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               title={item.title}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-emerald-500/40 bg-emerald-500/10 text-sm font-semibold text-emerald-300 transition hover:bg-emerald-500/20"
+              className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent-ghost text-sm font-semibold text-accent transition hover:bg-accent-subtle"
             >
               {item.label}
             </Link>
@@ -27,9 +27,9 @@ export function AppHeader({ perfilNombre }: { perfilNombre?: string }) {
 
       <Link
         href="/perfil"
-        className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-zinc-100 transition hover:bg-white/10"
+        className="flex items-center gap-2 rounded-lg border border-border bg-surface-card px-4 py-2 text-sm font-medium text-primary transition hover:bg-surface-hover"
       >
-        <User className="h-4 w-4 text-emerald-400" />
+        <User className="h-4 w-4 text-accent" />
         {perfilNombre ?? "Usuario Ucasal"}
       </Link>
     </header>
@@ -46,9 +46,9 @@ export function SectionCard({
   action?: React.ReactNode;
 }) {
   return (
-    <section className="flex min-h-[320px] flex-col rounded-2xl border border-white/10 bg-zinc-900/60 p-4 shadow-xl">
+    <section className="flex min-h-[280px] flex-col rounded-xl border border-border bg-surface-card p-5">
       <div className="mb-4 flex items-center justify-between gap-2">
-        <h2 className="text-lg font-semibold text-zinc-100">{title}</h2>
+        <h2 className="text-base font-semibold text-primary">{title}</h2>
         {action}
       </div>
       <div className="flex-1 overflow-auto">{children}</div>
@@ -58,7 +58,7 @@ export function SectionCard({
 
 export function EmptyState({ message }: { message: string }) {
   return (
-    <p className="rounded-xl border border-dashed border-white/10 px-4 py-8 text-center text-sm text-zinc-500">
+    <p className="rounded-lg border border-dashed border-border px-4 py-8 text-center text-sm text-muted">
       {message}
     </p>
   );
@@ -74,7 +74,7 @@ export function LinkButton({
   return (
     <Link
       href={href}
-      className="inline-flex items-center gap-1 text-xs font-medium text-emerald-400 hover:text-emerald-300"
+      className="inline-flex items-center gap-1 text-xs font-medium text-accent hover:text-accent-hover"
     >
       {children}
       <ExternalLink className="h-3 w-3" />
@@ -84,8 +84,8 @@ export function LinkButton({
 
 export function CalendarSectionTitle() {
   return (
-    <div className="mb-3 flex items-center gap-2 text-lg font-semibold text-zinc-100">
-      <Calendar className="h-5 w-5 text-emerald-400" />
+    <div className="mb-3 flex items-center gap-2 text-base font-semibold text-primary">
+      <Calendar className="h-5 w-5 text-accent" />
       Calendario
     </div>
   );

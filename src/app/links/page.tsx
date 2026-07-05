@@ -1,9 +1,15 @@
-import { ExternalLink, Star } from "lucide-react";
-import { createLink } from "@/lib/actions";
-import { AppHeader, SectionCard } from "@/components/layout";
-import { categoriaLinkLabel } from "@/lib/labels";
+import type { Metadata } from "next";
+import { Star, ExternalLink } from "lucide-react";
 import { prisma } from "@/lib/prisma";
-import { CategoriaLink } from "@/generated/prisma/client";
+import { SectionCard } from "@/components/layout";
+import { LinkCreateForm, LinkEditForm } from "@/components/forms";
+import { ItemActions } from "@/components/item-actions";
+import { createLink, updateLink, deleteLink } from "@/lib/actions";
+import { categoriaLinkLabel } from "@/lib/labels";
+
+export const metadata: Metadata = {
+  title: "Links — UcaNode",
+};
 
 export default async function LinksPage() {
   const [links, perfil] = await Promise.all([
@@ -15,78 +21,65 @@ export default async function LinksPage() {
 
   return (
     <main className="space-y-6">
-      <AppHeader perfilNombre={perfil?.nombre} />
-
-      <div>
-        <h1 className="text-2xl font-semibold">Links externos</h1>
-        <p className="text-sm text-zinc-500">
-          Accesos directos a Drive, campus, GitHub y más (botón 2 del dashboard).
-        </p>
-      </div>
+      <header className="flex items-center justify-between gap-4 rounded-xl border border-border bg-surface-card px-5 py-4">
+        <div>
+          <h1 className="text-2xl font-semibold text-primary">Links externos</h1>
+          <p className="text-sm text-muted">
+            Accesos directos a Drive, campus, GitHub y más.
+          </p>
+        </div>
+        {perfil?.nombre && (
+          <span className="text-sm text-secondary">{perfil.nombre}</span>
+        )}
+      </header>
 
       <SectionCard title="Nuevo link">
-        <form action={createLink} className="grid gap-3 sm:grid-cols-2">
-          <input
-            name="nombre"
-            required
-            placeholder="Nombre"
-            className="rounded-lg border border-white/10 bg-zinc-950 px-3 py-2 text-sm"
-          />
-          <input
-            name="url"
-            type="url"
-            required
-            placeholder="https://..."
-            className="rounded-lg border border-white/10 bg-zinc-950 px-3 py-2 text-sm"
-          />
-          <select
-            name="categoria"
-            defaultValue={CategoriaLink.OTRO}
-            className="rounded-lg border border-white/10 bg-zinc-950 px-3 py-2 text-sm"
-          >
-            {Object.entries(categoriaLinkLabel).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-          <label className="flex items-center gap-2 text-sm text-zinc-400">
-            <input name="favorito" type="checkbox" className="rounded" />
-            Marcar como favorito
-          </label>
-          <button
-            type="submit"
-            className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500 sm:col-span-2"
-          >
-            Agregar link
-          </button>
-        </form>
+        <LinkCreateForm action={createLink} />
       </SectionCard>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {links.map((link) => (
-          <a
+          <ItemActions
             key={link.id}
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group rounded-2xl border border-white/10 bg-zinc-900/60 p-4 transition hover:border-emerald-500/30 hover:bg-zinc-900"
-          >
-            <div className="flex items-start justify-between gap-2">
-              <div>
-                <p className="font-medium text-zinc-100">{link.nombre}</p>
-                <p className="mt-1 text-xs text-zinc-500">
-                  {categoriaLinkLabel[link.categoria]}
-                </p>
-              </div>
-              <div className="flex items-center gap-1">
-                {link.favorito && (
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                )}
-                <ExternalLink className="h-4 w-4 text-zinc-600 group-hover:text-emerald-400" />
-              </div>
-            </div>
-          </a>
+            label={link.nombre}
+            deleteAction={deleteLink}
+            deleteId={link.id}
+            view={
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <p className="font-medium text-primary">{link.nombre}</p>
+                    <p className="mt-1 text-xs text-muted">
+                      {categoriaLinkLabel[link.categoria]}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {link.favorito && (
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    )}
+                    <ExternalLink className="h-4 w-4 text-muted group-hover:text-accent" />
+                  </div>
+                </div>
+              </a>
+            }
+            editForm={
+              <LinkEditForm
+                action={updateLink}
+                defaultValues={{
+                  id: link.id,
+                  nombre: link.nombre,
+                  url: link.url,
+                  categoria: link.categoria,
+                  favorito: link.favorito,
+                }}
+              />
+            }
+          />
         ))}
       </div>
     </main>

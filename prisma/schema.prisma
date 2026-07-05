@@ -60,7 +60,7 @@ model Perfil {
 model Materia {
   id            String         @id @default(cuid())
   nombre        String
-  codigo        String?
+  codigo        String?        @unique
   estado        EstadoMateria  @default(CURSANDO)
   cuatrimestre  Int?
   anio          Int?
@@ -73,6 +73,9 @@ model Materia {
   horarios      Horario[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+
+  @@index([estado])
+  @@index([nombre])
 }
 
 model Entrega {
@@ -87,6 +90,10 @@ model Entrega {
   materia       Materia        @relation(fields: [materiaId], references: [id], onDelete: Cascade)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+
+  @@index([fecha])
+  @@index([materiaId])
+  @@index([estado])
 }
 
 model Horario {

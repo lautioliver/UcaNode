@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { EstadoMateria } from "@/generated/prisma/client";
 import { CalendarioMes } from "@/components/calendario";
 import {
@@ -10,6 +11,10 @@ import {
 import { MateriaList } from "@/components/materia-card";
 import { estadoMateriaLabel } from "@/lib/labels";
 import { prisma } from "@/lib/prisma";
+
+export const metadata: Metadata = {
+  title: "Dashboard — UcaNode",
+};
 
 export default async function DashboardPage() {
   const [perfil, cursando, otrasMaterias, entregas] = await Promise.all([
@@ -68,7 +73,7 @@ export default async function DashboardPage() {
             <div className="space-y-4">
               {grouped.map(({ estado, materias }) => (
                 <div key={estado}>
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">
                     {estadoMateriaLabel[estado]}
                   </p>
                   <MateriaList materias={materias} />
@@ -81,7 +86,7 @@ export default async function DashboardPage() {
         </SectionCard>
       </div>
 
-      <section className="rounded-2xl border border-white/10 bg-zinc-900/60 p-4 shadow-xl">
+      <section className="rounded-xl border border-border bg-surface-card p-5">
         <div className="mb-4 flex items-center justify-between">
           <CalendarSectionTitle />
           <LinkButton href="/entregas">+ Entregas</LinkButton>

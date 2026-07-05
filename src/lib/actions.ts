@@ -1,94 +1,464 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import {
-  CategoriaLink,
-  DiaSemana,
-  EstadoEntrega,
-  EstadoMateria,
-  Modalidad,
-  TipoEntrega,
-} from "@/generated/prisma/client";
+import { revalidatePath, refresh } from "next/cache";
+import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { checkRateLimit } from "@/lib/rate-limit";
+import {
+  materiaSchema,
+  entregaSchema,
+  horarioSchema,
+  linkSchema,
+  perfilSchema,
+} from "@/lib/schemas";
 
-export async function createMateria(formData: FormData) {
-  await prisma.materia.create({
-    data: {
-      nombre: String(formData.get("nombre")),
-      codigo: String(formData.get("codigo") || "") || null,
-      estado: (formData.get("estado") as EstadoMateria) || EstadoMateria.CURSANDO,
-      cuatrimestre: formData.get("cuatrimestre")
-        ? Number(formData.get("cuatrimestre"))
-        : null,
-      anio: formData.get("anio") ? Number(formData.get("anio")) : null,
-      profesor: String(formData.get("profesor") || "") || null,
-      semestre: String(formData.get("semestre") || "") || null,
-    },
-  });
+export type ActionResult = {
+  success: boolean;
+  message?: string;
+  errors?: Record<string, string[]>;
+};
+
+function ok(message?: string): ActionResult {
+  return { success: true, message };
+}
+
+function fail(message: string, errors?: Record<string, string[]>): ActionResult {
+  return { success: false, message, errors };
+}
+
+async function checkLimit(): Promise<ActionResult | null> {
+  const hdrs = await headers();
+  const ip = hdrs.get("x-forwarded-for") ?? hdrs.get("x-real-ip") ?? "unknown";
+  if (!checkRateLimit(ip)) {
+    return fail("Demasiadas solicitudes. Esperá un momento e intentá de nuevo.");
+  }
+  return null;
+}
+
+function safeStr(formData: FormData, key: string): string | null {
+  const val = formData.get(key);
+  if (val === null || val === undefined) return null;
+  const str = String(val).trim();
+  return str === "" ? null : str;
+}
+
+function safeNum(formData: FormData, key: string): number | null {
+  const val = safeStr(formData, key);
+  if (val === null) return null;
+  const n = Number(val);
+  return Number.isNaN(n) ? null : n;
+}
+
+// ── MATERIAS ──────────────────────────────────────────────
+
+function revalidateMateria(id?: string) {
   revalidatePath("/");
   revalidatePath("/materias");
+  if (id) revalidatePath(`/materias/${id}`);
 }
 
-export async function createEntrega(formData: FormData) {
-  await prisma.entrega.create({
-    data: {
-      titulo: String(formData.get("titulo")),
-      tipo: formData.get("tipo") as TipoEntrega,
-      fecha: new Date(String(formData.get("fecha"))),
-      estado:
-        (formData.get("estado") as EstadoEntrega) || EstadoEntrega.PENDIENTE,
-      materiaId: String(formData.get("materiaId")),
-      recurso: String(formData.get("recurso") || "") || null,
-    },
+export async function createMateria(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+
+  const parsed = materiaSchema.safeParse({
+    nombre: safeStr(formData, "nombre"),
+    codigo: safeStr(formData, "codigo"),
+    estado: formData.get("estado") || "CURSANDO",
+    cuatrimestre: safeNum(formData, "cuatrimestre"),
+    anio: safeNum(formData, "anio"),
+    profesor: safeStr(formData, "profesor"),
+    semestre: safeStr(formData, "semestre"),
+    correlativas: safeStr(formData, "correlativas"),
+    notas: safeStr(formData, "notas"),
+    promocional: formData.get("promocional") === "on",
   });
+
+  if (!parsed.success) {
+    return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
+  }
+
+  try {
+    await prisma.materia.create({ data: parsed.data });
+    revalidateMateria();
+    refresh();
+    return ok("Materia creada");
+  } catch (e) {
+    console.error("createMateria", e);
+    return fail("Error al crear la materia");
+  }
+}
+
+export async function updateMateria(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+  const id = safeStr(formData, "id");
+  if (!id) return fail("ID requerido");
+
+  const parsed = materiaSchema.safeParse({
+    nombre: safeStr(formData, "nombre"),
+    codigo: safeStr(formData, "codigo"),
+    estado: formData.get("estado"),
+    cuatrimestre: safeNum(formData, "cuatrimestre"),
+    anio: safeNum(formData, "anio"),
+    profesor: safeStr(formData, "profesor"),
+    semestre: safeStr(formData, "semestre"),
+    correlativas: safeStr(formData, "correlativas"),
+    notas: safeStr(formData, "notas"),
+    promocional: formData.get("promocional") === "on",
+  });
+
+  if (!parsed.success) {
+    return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
+  }
+
+  try {
+    await prisma.materia.update({ where: { id }, data: parsed.data });
+    revalidateMateria(id);
+    refresh();
+    return ok("Materia actualizada");
+  } catch (e) {
+    console.error("updateMateria", e);
+    return fail("Error al actualizar la materia");
+  }
+}
+
+export async function deleteMateria(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+  const id = safeStr(formData, "id");
+  if (!id) return fail("ID requerido");
+
+  try {
+    await prisma.materia.delete({ where: { id } });
+    revalidateMateria();
+    refresh();
+    return ok("Materia eliminada");
+  } catch (e) {
+    console.error("deleteMateria", e);
+    return fail("Error al eliminar la materia");
+  }
+}
+
+// ── ENTREGAS ──────────────────────────────────────────────
+
+function revalidateEntrega(materiaId?: string) {
   revalidatePath("/");
   revalidatePath("/entregas");
+  if (materiaId) revalidatePath(`/materias/${materiaId}`);
 }
 
-export async function createHorario(formData: FormData) {
-  await prisma.horario.create({
-    data: {
-      dia: formData.get("dia") as DiaSemana,
-      horaInicio: String(formData.get("horaInicio")),
-      horaFin: String(formData.get("horaFin")),
-      modalidad:
-        (formData.get("modalidad") as Modalidad) || Modalidad.PRESENCIAL,
-      aulaLink: String(formData.get("aulaLink") || "") || null,
-      materiaId: String(formData.get("materiaId")),
-    },
+export async function createEntrega(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+
+  const parsed = entregaSchema.safeParse({
+    titulo: safeStr(formData, "titulo"),
+    tipo: formData.get("tipo"),
+    fecha: safeStr(formData, "fecha"),
+    estado: formData.get("estado") || "PENDIENTE",
+    materiaId: safeStr(formData, "materiaId"),
+    recurso: safeStr(formData, "recurso"),
+    prioridad: safeStr(formData, "prioridad"),
   });
+
+  if (!parsed.success) {
+    return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
+  }
+
+  try {
+    await prisma.entrega.create({ data: parsed.data });
+    revalidateEntrega(parsed.data.materiaId);
+    refresh();
+    return ok("Entrega creada");
+  } catch (e) {
+    console.error("createEntrega", e);
+    return fail("Error al crear la entrega");
+  }
+}
+
+export async function updateEntrega(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+  const id = safeStr(formData, "id");
+  if (!id) return fail("ID requerido");
+
+  const parsed = entregaSchema.safeParse({
+    titulo: safeStr(formData, "titulo"),
+    tipo: formData.get("tipo"),
+    fecha: safeStr(formData, "fecha"),
+    estado: formData.get("estado"),
+    materiaId: safeStr(formData, "materiaId"),
+    recurso: safeStr(formData, "recurso"),
+    prioridad: safeStr(formData, "prioridad"),
+  });
+
+  if (!parsed.success) {
+    return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
+  }
+
+  try {
+    await prisma.entrega.update({ where: { id }, data: parsed.data });
+    revalidateEntrega(parsed.data.materiaId);
+    refresh();
+    return ok("Entrega actualizada");
+  } catch (e) {
+    console.error("updateEntrega", e);
+    return fail("Error al actualizar la entrega");
+  }
+}
+
+export async function deleteEntrega(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+  const id = safeStr(formData, "id");
+  if (!id) return fail("ID requerido");
+
+  try {
+    await prisma.entrega.delete({ where: { id } });
+    revalidateEntrega();
+    refresh();
+    return ok("Entrega eliminada");
+  } catch (e) {
+    console.error("deleteEntrega", e);
+    return fail("Error al eliminar la entrega");
+  }
+}
+
+// ── HORARIOS ──────────────────────────────────────────────
+
+function revalidateHorario() {
+  revalidatePath("/");
   revalidatePath("/horarios");
 }
 
-export async function createLink(formData: FormData) {
-  await prisma.linkExterno.create({
-    data: {
-      nombre: String(formData.get("nombre")),
-      url: String(formData.get("url")),
-      categoria:
-        (formData.get("categoria") as CategoriaLink) || CategoriaLink.OTRO,
-      favorito: formData.get("favorito") === "on",
-    },
+export async function createHorario(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+
+  const parsed = horarioSchema.safeParse({
+    dia: formData.get("dia"),
+    horaInicio: safeStr(formData, "horaInicio"),
+    horaFin: safeStr(formData, "horaFin"),
+    modalidad: formData.get("modalidad") || "PRESENCIAL",
+    aulaLink: safeStr(formData, "aulaLink"),
+    materiaId: safeStr(formData, "materiaId"),
   });
+
+  if (!parsed.success) {
+    return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
+  }
+
+  try {
+    await prisma.horario.create({ data: parsed.data });
+    revalidateHorario();
+    refresh();
+    return ok("Horario creado");
+  } catch (e) {
+    console.error("createHorario", e);
+    return fail("Error al crear el horario");
+  }
+}
+
+export async function updateHorario(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+  const id = safeStr(formData, "id");
+  if (!id) return fail("ID requerido");
+
+  const parsed = horarioSchema.safeParse({
+    dia: formData.get("dia"),
+    horaInicio: safeStr(formData, "horaInicio"),
+    horaFin: safeStr(formData, "horaFin"),
+    modalidad: formData.get("modalidad"),
+    aulaLink: safeStr(formData, "aulaLink"),
+    materiaId: safeStr(formData, "materiaId"),
+  });
+
+  if (!parsed.success) {
+    return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
+  }
+
+  try {
+    await prisma.horario.update({ where: { id }, data: parsed.data });
+    revalidateHorario();
+    refresh();
+    return ok("Horario actualizado");
+  } catch (e) {
+    console.error("updateHorario", e);
+    return fail("Error al actualizar el horario");
+  }
+}
+
+export async function deleteHorario(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+  const id = safeStr(formData, "id");
+  if (!id) return fail("ID requerido");
+
+  try {
+    await prisma.horario.delete({ where: { id } });
+    revalidateHorario();
+    refresh();
+    return ok("Horario eliminado");
+  } catch (e) {
+    console.error("deleteHorario", e);
+    return fail("Error al eliminar el horario");
+  }
+}
+
+// ── LINKS ─────────────────────────────────────────────────
+
+function revalidateLink() {
+  revalidatePath("/");
   revalidatePath("/links");
 }
 
-export async function updatePerfil(formData: FormData) {
-  const data = {
-    nombre: String(formData.get("nombre")),
-    emailUcasal: String(formData.get("emailUcasal")),
-    carrera: String(formData.get("carrera")),
-    anioIngreso: Number(formData.get("anioIngreso")),
-    legajo: String(formData.get("legajo") || "") || null,
-  };
+export async function createLink(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
 
-  const existing = await prisma.perfil.findFirst();
-  if (existing) {
-    await prisma.perfil.update({ where: { id: existing.id }, data });
-  } else {
-    await prisma.perfil.create({ data });
+  const parsed = linkSchema.safeParse({
+    nombre: safeStr(formData, "nombre"),
+    url: safeStr(formData, "url"),
+    categoria: formData.get("categoria") || "OTRO",
+    favorito: formData.get("favorito") === "on",
+  });
+
+  if (!parsed.success) {
+    return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
   }
 
-  revalidatePath("/perfil");
+  try {
+    await prisma.linkExterno.create({ data: parsed.data });
+    revalidateLink();
+    refresh();
+    return ok("Link creado");
+  } catch (e) {
+    console.error("createLink", e);
+    return fail("Error al crear el link");
+  }
+}
+
+export async function updateLink(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+  const id = safeStr(formData, "id");
+  if (!id) return fail("ID requerido");
+
+  const parsed = linkSchema.safeParse({
+    nombre: safeStr(formData, "nombre"),
+    url: safeStr(formData, "url"),
+    categoria: formData.get("categoria"),
+    favorito: formData.get("favorito") === "on",
+  });
+
+  if (!parsed.success) {
+    return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
+  }
+
+  try {
+    await prisma.linkExterno.update({ where: { id }, data: parsed.data });
+    revalidateLink();
+    refresh();
+    return ok("Link actualizado");
+  } catch (e) {
+    console.error("updateLink", e);
+    return fail("Error al actualizar el link");
+  }
+}
+
+export async function deleteLink(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+  const id = safeStr(formData, "id");
+  if (!id) return fail("ID requerido");
+
+  try {
+    await prisma.linkExterno.delete({ where: { id } });
+    revalidateLink();
+    refresh();
+    return ok("Link eliminado");
+  } catch (e) {
+    console.error("deleteLink", e);
+    return fail("Error al eliminar el link");
+  }
+}
+
+// ── PERFIL ────────────────────────────────────────────────
+
+function revalidatePerfil() {
   revalidatePath("/");
+  revalidatePath("/perfil");
+}
+
+export async function updatePerfil(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+
+  const parsed = perfilSchema.safeParse({
+    nombre: safeStr(formData, "nombre"),
+    emailUcasal: safeStr(formData, "emailUcasal"),
+    carrera: safeStr(formData, "carrera"),
+    anioIngreso: safeStr(formData, "anioIngreso"),
+    legajo: safeStr(formData, "legajo"),
+  });
+
+  if (!parsed.success) {
+    return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
+  }
+
+  try {
+    const existing = await prisma.perfil.findFirst();
+    if (existing) {
+      await prisma.perfil.update({ where: { id: existing.id }, data: parsed.data });
+    } else {
+      await prisma.perfil.create({ data: parsed.data });
+    }
+    revalidatePerfil();
+    refresh();
+    return ok("Perfil guardado");
+  } catch (e) {
+    console.error("updatePerfil", e);
+    return fail("Error al guardar el perfil");
+  }
 }
