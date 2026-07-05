@@ -48,7 +48,7 @@ function FormFeedback({
 }
 
 const input =
-  "rounded-lg border border-border bg-surface px-3 py-2 text-sm text-primary placeholder:text-muted";
+  "rounded-lg border border-border bg-surface px-3 py-2 text-sm text-primary placeholder:text-muted outline-none focus:ring-2 focus:ring-accent focus:ring-inset";
 const select = input;
 
 export function MateriaCreateForm({

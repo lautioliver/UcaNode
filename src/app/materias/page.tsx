@@ -47,7 +47,7 @@ export default async function MateriasPage({
             type="search"
             defaultValue={q ?? ""}
             placeholder="Buscar materia..."
-            className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-primary placeholder:text-muted"
+            className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-primary placeholder:text-muted outline-none focus:ring-2 focus:ring-accent focus:ring-inset"
           />
         </form>
         <div className="space-y-2">
