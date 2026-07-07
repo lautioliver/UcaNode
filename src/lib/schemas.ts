@@ -40,6 +40,7 @@ export const materiaSchema = z.object({
   correlativas: z.string().nullable().optional(),
   notas: z.string().nullable().optional(),
   promocional: z.boolean().optional(),
+  dia: DiaSemana.nullable().optional(),
 });
 
 export const entregaSchema = z.object({
