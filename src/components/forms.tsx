@@ -48,18 +48,21 @@ function FormFeedback({
 }
 
 const input =
-  "rounded-lg border border-border bg-surface px-3 py-2 text-sm text-primary placeholder:text-muted";
+  "rounded-lg border border-border bg-surface px-3 py-2 text-sm text-primary placeholder:text-muted outline-none focus:ring-2 focus:ring-accent focus:ring-inset";
 const select = input;
 
 export function MateriaCreateForm({
   action,
+  dia,
 }: {
   action: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
+  dia?: string;
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
 
   return (
     <form action={formAction} className="grid gap-3 sm:grid-cols-2">
+      {dia && <input type="hidden" name="dia" value={dia} />}
       <input name="nombre" required placeholder="Nombre" className={input} />
       <input name="codigo" placeholder="Código (INF-201)" className={input} />
       <select name="estado" defaultValue="CURSANDO" className={select}>
@@ -101,6 +104,7 @@ export function MateriaEditForm({
     correlativas: string | null;
     notas: string | null;
     promocional: boolean;
+    dia: string | null;
   };
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
@@ -108,6 +112,7 @@ export function MateriaEditForm({
   return (
     <form action={formAction} className="grid gap-3 sm:grid-cols-2">
       <input type="hidden" name="id" value={defaultValues.id} />
+      {defaultValues.dia && <input type="hidden" name="dia" value={defaultValues.dia} />}
       <input name="nombre" required defaultValue={defaultValues.nombre} className={input} />
       <input name="codigo" defaultValue={defaultValues.codigo ?? ""} className={input} />
       <select name="estado" defaultValue={defaultValues.estado} className={select}>
@@ -407,15 +412,17 @@ export function PerfilForm({
     carrera: string;
     anioIngreso: number;
     legajo: string | null;
+    password: string | null;
   };
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
 
   return (
-    <form action={formAction} className="grid max-w-lg gap-3">
-      <input name="nombre" required defaultValue={defaultValues.nombre} placeholder="Nombre completo" className={input} />
-      <input name="emailUcasal" type="email" required defaultValue={defaultValues.emailUcasal} placeholder="email@ucasal.edu.ar" className={input} />
-      <input name="carrera" required defaultValue={defaultValues.carrera} className={input} />
+    <form action={formAction} className="grid max-w-lg gap-3 sm:grid-cols-2">
+      <input name="nombre" required defaultValue={defaultValues.nombre} placeholder="Usuario Ucasal" className={input} />
+      <input name="password" type="password" defaultValue={defaultValues.password ?? ""} placeholder="Contraseña" className={input} />
+      <input name="emailUcasal" type="email" required defaultValue={defaultValues.emailUcasal} placeholder="email@ucasal.edu.ar" className={`${input} sm:col-span-2`} />
+      <input name="carrera" required defaultValue={defaultValues.carrera} className={`${input} sm:col-span-2`} />
       <input name="anioIngreso" type="number" required defaultValue={defaultValues.anioIngreso} className={input} />
       <input name="legajo" defaultValue={defaultValues.legajo ?? ""} placeholder="Legajo (opcional)" className={input} />
       <FormFeedback state={state} pending={pending} submitLabel="Guardar perfil" />

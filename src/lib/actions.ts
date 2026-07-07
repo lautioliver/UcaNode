@@ -75,6 +75,7 @@ export async function createMateria(
     correlativas: safeStr(formData, "correlativas"),
     notas: safeStr(formData, "notas"),
     promocional: formData.get("promocional") === "on",
+    dia: safeStr(formData, "dia"),
   });
 
   if (!parsed.success) {
@@ -112,6 +113,7 @@ export async function updateMateria(
     correlativas: safeStr(formData, "correlativas"),
     notas: safeStr(formData, "notas"),
     promocional: formData.get("promocional") === "on",
+    dia: safeStr(formData, "dia"),
   });
 
   if (!parsed.success) {
@@ -441,6 +443,7 @@ export async function updatePerfil(
     carrera: safeStr(formData, "carrera"),
     anioIngreso: safeStr(formData, "anioIngreso"),
     legajo: safeStr(formData, "legajo"),
+    password: safeStr(formData, "password"),
   });
 
   if (!parsed.success) {

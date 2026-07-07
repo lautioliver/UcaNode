@@ -1,40 +1,5 @@
 import Link from "next/link";
-import { Calendar, ExternalLink, User } from "lucide-react";
-
-const navItems = [
-  { href: "/horarios", label: "1", title: "Horarios personalizados" },
-  { href: "/links", label: "2", title: "Links externos" },
-];
-
-export function AppHeader({ perfilNombre }: { perfilNombre?: string }) {
-  return (
-    <header className="flex items-center justify-between gap-4 rounded-xl border border-border bg-surface-card px-5 py-4">
-      <div className="flex items-center gap-3">
-        <span className="text-sm font-medium text-secondary">Navegación</span>
-        <div className="flex gap-2">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              title={item.title}
-              className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent-ghost text-sm font-semibold text-accent transition hover:bg-accent-subtle"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      <Link
-        href="/perfil"
-        className="flex items-center gap-2 rounded-lg border border-border bg-surface-card px-4 py-2 text-sm font-medium text-primary transition hover:bg-surface-hover"
-      >
-        <User className="h-4 w-4 text-accent" />
-        {perfilNombre ?? "Usuario Ucasal"}
-      </Link>
-    </header>
-  );
-}
+import { Calendar, ExternalLink } from "lucide-react";
 
 export function SectionCard({
   title,

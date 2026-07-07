@@ -31,6 +31,7 @@ export default async function PerfilPage() {
             carrera: perfil?.carrera ?? "Ingeniería Informática",
             anioIngreso: perfil?.anioIngreso ?? new Date().getFullYear(),
             legajo: perfil?.legajo ?? null,
+            password: perfil?.password ?? null,
           }}
         />
       </SectionCard>

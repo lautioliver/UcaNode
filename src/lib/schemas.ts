@@ -40,6 +40,7 @@ export const materiaSchema = z.object({
   correlativas: z.string().nullable().optional(),
   notas: z.string().nullable().optional(),
   promocional: z.boolean().optional(),
+  dia: DiaSemana.nullable().optional(),
 });
 
 export const entregaSchema = z.object({
@@ -81,4 +82,5 @@ export const perfilSchema = z.object({
     .min(1900, "Año inválido")
     .max(2100, "Año inválido"),
   legajo: z.string().nullable().optional(),
+  password: z.string().nullable().optional(),
 });

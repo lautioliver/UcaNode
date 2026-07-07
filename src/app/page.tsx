@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { EstadoMateria } from "@/generated/prisma/client";
 import { CalendarioMes } from "@/components/calendario";
 import {
-  AppHeader,
   CalendarSectionTitle,
   EmptyState,
   LinkButton,
@@ -51,8 +50,6 @@ export default async function DashboardPage() {
 
   return (
     <main className="space-y-6">
-      <AppHeader perfilNombre={perfil?.nombre} />
-
       <div className="grid gap-4 lg:grid-cols-2">
         <SectionCard
           title="Materias Cursando"
