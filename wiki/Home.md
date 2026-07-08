@@ -1,0 +1,30 @@
+# Wiki de UcaNode
+
+Esta wiki reúne la documentación técnica y funcional de UcaNode. El `README.md` queda como introducción rápida del proyecto; acá viven los detalles de arquitectura, datos, rutas y desarrollo.
+
+## Páginas
+
+- [Arquitectura](Arquitectura.md): cómo se conectan App Router, Server Components, Server Actions, Prisma y SQLite.
+- [Modelo de datos](Modelo-de-datos.md): entidades, relaciones, enums e índices definidos en Prisma.
+- [Rutas y flujos](Rutas-y-flujos.md): navegación principal, consultas por pantalla y flujo de lectura/escritura.
+- [Guía de desarrollo](Desarrollo.md): requisitos, setup, scripts y tareas habituales.
+- [Estructura del proyecto](Estructura-del-proyecto.md): carpetas principales y responsabilidad de cada archivo.
+
+## Resumen funcional
+
+UcaNode ayuda a centralizar la organización académica:
+
+- Materias por estado: cursando, para finalizar, regular y finalizada.
+- Entregas, parciales y finales asociados a materias.
+- Horarios semanales.
+- Links externos frecuentes.
+- Perfil del estudiante.
+- Correlatividades basadas en el plan de estudio.
+
+## Decisiones principales
+
+- La aplicación usa Next.js App Router con Server Components para leer datos en servidor.
+- Las escrituras pasan por Server Actions validadas con Zod.
+- Prisma 7 administra el acceso a SQLite mediante `@prisma/adapter-better-sqlite3`.
+- El cliente Prisma se genera dentro de `src/generated/prisma/`.
+- La base local (`dev.db`) es de desarrollo y puede regenerarse con migraciones y seed.
