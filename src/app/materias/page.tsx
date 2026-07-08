@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { EstadoMateria } from "@/generated/prisma/client";
+import { CounterChip, PageHeader } from "@/components/layout";
 import { prisma } from "@/lib/prisma";
 import { createMateria, updateMateria, deleteMateria } from "@/lib/actions";
 import { MateriaGrid } from "@/components/materia-grid";
@@ -9,6 +11,14 @@ export const metadata: Metadata = {
 
 export default async function MateriasPage() {
   const materias = await prisma.materia.findMany({ orderBy: { nombre: "asc" } });
+
+  const counts = {
+    cursando: materias.filter((m) => m.estado === EstadoMateria.CURSANDO).length,
+    porFinalizar: materias.filter((m) => m.estado === EstadoMateria.PARA_FINALIZAR)
+      .length,
+    regular: materias.filter((m) => m.estado === EstadoMateria.REGULAR).length,
+    finalizada: materias.filter((m) => m.estado === EstadoMateria.FINALIZADA).length,
+  };
 
   const json = materias.map((m) => ({
     id: m.id,
@@ -26,12 +36,18 @@ export default async function MateriasPage() {
   }));
 
   return (
-    <main className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-primary">Materias</h1>
-        <p className="text-sm text-muted">
-          Vista semanal de tus materias.
-        </p>
+    <main className="space-y-8">
+      <PageHeader
+        pill="Tu semestre en curso"
+        title="¿Cómo va tu semestre?"
+        description="Organizá tus materias por día de la semana. Tocá una tarjeta para editar o entrar al detalle."
+      />
+
+      <div className="flex flex-wrap items-center gap-2">
+        <CounterChip tone="accent" count={counts.cursando} label="Cursando" />
+        <CounterChip tone="warning" count={counts.porFinalizar} label="Para finalizar" />
+        <CounterChip tone="accent" count={counts.regular} label="Regular" />
+        <CounterChip tone="success" count={counts.finalizada} label="Finalizadas" />
       </div>
 
       <MateriaGrid

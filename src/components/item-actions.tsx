@@ -31,12 +31,12 @@ export function ItemActions({
 
   if (editing) {
     return (
-      <div className="rounded-lg border border-border-accent bg-surface p-3">
+      <div className="rounded-2xl border border-border-accent bg-surface-card p-5 shadow-[var(--shadow-card)]">
         {editForm}
         <button
           type="button"
           onClick={() => setEditing(false)}
-          className="mt-3 inline-flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-sm text-secondary hover:bg-surface-hover"
+          className="mt-3 inline-flex items-center gap-1 rounded-lg border border-border bg-surface px-3 py-1.5 text-sm text-secondary transition hover:bg-surface-hover"
         >
           <X className="h-3.5 w-3.5" />
           Cancelar
@@ -46,16 +46,16 @@ export function ItemActions({
   }
 
   return (
-    <div className="group flex items-start gap-2 rounded-lg border border-border bg-surface p-3">
-      <div className="min-w-0 flex-1">{view}</div>
-      <div className="flex shrink-0 gap-1 opacity-60 transition group-hover:opacity-100">
+    <div className="group relative">
+      {view}
+      <div className="absolute right-3 top-3 flex gap-1 opacity-0 transition group-hover:opacity-100 focus-within:opacity-100">
         <button
           type="button"
           onClick={() => setEditing(true)}
           title="Editar"
-          className="rounded-lg p-1.5 text-secondary hover:bg-surface-hover hover:text-accent"
+          className="rounded-lg border border-border bg-surface-card/95 p-1.5 text-secondary shadow-[var(--shadow-card)] backdrop-blur transition hover:text-accent"
         >
-          <Pencil className="h-4 w-4" />
+          <Pencil className="h-3.5 w-3.5" />
         </button>
         <form
           action={wrapDelete(deleteAction)}
@@ -67,9 +67,9 @@ export function ItemActions({
           <button
             type="submit"
             title="Eliminar"
-            className="rounded-lg p-1.5 text-secondary hover:bg-red-500/10 hover:text-red-500"
+            className="rounded-lg border border-border bg-surface-card/95 p-1.5 text-secondary shadow-[var(--shadow-card)] backdrop-blur transition hover:border-[color:var(--danger)]/40 hover:text-danger"
           >
-            <Trash2 className="h-4 w-4" />
+            <Trash2 className="h-3.5 w-3.5" />
           </button>
         </form>
       </div>

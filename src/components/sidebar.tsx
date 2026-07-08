@@ -18,6 +18,7 @@ import {
   User,
   X,
 } from "lucide-react";
+import { LogoMark } from "@/components/logo";
 
 type NavItem = {
   href: string;
@@ -78,14 +79,14 @@ export function Sidebar({
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
-  const widthClass = collapsed ? "lg:w-[72px]" : "lg:w-[240px]";
+  const showLabels = !collapsed || mobileOpen;
 
   return (
     <>
       <button
         type="button"
         onClick={() => setMobileOpen(true)}
-        className="fixed left-4 top-4 z-40 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface-card text-primary shadow-sm transition hover:bg-surface-hover lg:hidden"
+        className="fixed left-4 top-4 z-40 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface-card text-primary shadow-[var(--shadow-card)] transition hover:bg-surface-hover lg:hidden"
         aria-label="Abrir menú"
       >
         <Menu className="h-5 w-5" />
@@ -96,7 +97,7 @@ export function Sidebar({
           type="button"
           aria-label="Cerrar menú"
           onClick={() => setMobileOpen(false)}
-          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
         />
       )}
 
@@ -104,10 +105,12 @@ export function Sidebar({
         data-collapsed={collapsed}
         className={`fixed inset-y-0 left-0 z-50 flex w-[260px] flex-col border-r border-border bg-surface-card transition-[transform,width] duration-200 ease-out ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${widthClass}`}
+        } lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${
+          collapsed ? "lg:w-[76px]" : "lg:w-[240px]"
+        }`}
       >
         <div
-          className={`flex items-center gap-3 border-b border-border px-4 py-4 ${
+          className={`flex items-center gap-3 px-4 pt-6 pb-5 ${
             collapsed ? "lg:justify-center lg:px-2" : ""
           }`}
         >
@@ -117,13 +120,15 @@ export function Sidebar({
             className="flex min-w-0 items-center gap-3"
             title="UcaNode"
           >
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent-ghost text-accent">
-              <BookOpen className="h-5 w-5" />
-            </span>
-            {(!collapsed || mobileOpen) && (
+            <LogoMark className="h-9 w-9 shrink-0" />
+            {showLabels && (
               <span className="min-w-0">
-                <p className="truncate text-sm font-semibold text-primary">UcaNode</p>
-                <p className="truncate text-[11px] text-muted">Ing. Informática · Ucasal</p>
+                <p className="truncate text-[15px] font-semibold leading-tight text-primary">
+                  UcaNode
+                </p>
+                <p className="truncate text-[11px] leading-tight text-muted">
+                  Ing. Informática · Ucasal
+                </p>
               </span>
             )}
           </Link>
@@ -137,8 +142,13 @@ export function Sidebar({
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-2 py-3">
-          <ul className="space-y-1">
+        <nav className="flex-1 overflow-y-auto px-3 py-2">
+          {showLabels && (
+            <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+              Navegación
+            </p>
+          )}
+          <ul className="space-y-0.5">
             {NAV_ITEMS.map(({ href, label, Icon }) => {
               const active = isActive(href);
               return (
@@ -147,25 +157,22 @@ export function Sidebar({
                     href={href}
                     onClick={() => setMobileOpen(false)}
                     title={collapsed ? label : undefined}
-                    className={`group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${
+                    className={`group flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${
                       active
-                        ? "bg-accent-ghost text-accent"
+                        ? "bg-accent-ghost text-primary"
                         : "text-secondary hover:bg-surface-hover hover:text-primary"
                     } ${collapsed ? "lg:justify-center lg:px-0" : ""}`}
                   >
-                    {active && (
-                      <span
-                        aria-hidden
-                        className="absolute inset-y-1 left-0 w-1 rounded-r bg-accent"
-                      />
-                    )}
                     <Icon
                       className={`h-4 w-4 shrink-0 ${
                         active ? "text-accent" : "text-muted group-hover:text-primary"
                       }`}
                     />
-                    {(!collapsed || mobileOpen) && (
-                      <span className="truncate">{label}</span>
+                    {showLabels && (
+                      <span className={active ? "font-medium" : ""}>{label}</span>
+                    )}
+                    {active && showLabels && (
+                      <span className="ml-auto h-1.5 w-1.5 rounded-full bg-accent" />
                     )}
                   </Link>
                 </li>
@@ -174,31 +181,38 @@ export function Sidebar({
           </ul>
         </nav>
 
-        <div className="border-t border-border p-2">
+        <div className="border-t border-border p-3">
           <Link
             href="/perfil"
             onClick={() => setMobileOpen(false)}
             title={collapsed ? perfilNombre ?? "Perfil" : undefined}
-            className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${
+            className={`mb-1 flex items-center gap-3 rounded-lg px-2 py-2 text-sm transition ${
               isActive("/perfil")
-                ? "bg-accent-ghost text-accent"
-                : "text-secondary hover:bg-surface-hover hover:text-primary"
+                ? "bg-accent-ghost"
+                : "hover:bg-surface-hover"
             } ${collapsed ? "lg:justify-center lg:px-0" : ""}`}
           >
             <span
-              className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-accent ${
-                isActive("/perfil") ? "border-accent" : ""
+              className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-accent ${
+                isActive("/perfil")
+                  ? "bg-accent-subtle"
+                  : "bg-surface-hover"
               }`}
             >
               <User className="h-4 w-4" />
             </span>
-            {(!collapsed || mobileOpen) && (
-              <span className="min-w-0 truncate">{perfilNombre ?? "Perfil"}</span>
+            {showLabels && (
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium text-primary">
+                  {perfilNombre ?? "Perfil"}
+                </p>
+                <p className="truncate text-[10px] text-muted">Ver perfil</p>
+              </div>
             )}
           </Link>
 
           <div
-            className={`mt-1 flex items-center gap-1 ${
+            className={`flex items-center gap-1 ${
               collapsed ? "lg:flex-col" : "justify-between"
             }`}
           >
@@ -206,10 +220,10 @@ export function Sidebar({
               type="button"
               onClick={toggleTheme}
               title={dark ? "Modo claro" : "Modo oscuro"}
-              className="flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-secondary transition hover:bg-surface-hover hover:text-accent"
+              className="flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-xs text-secondary transition hover:bg-surface-hover hover:text-primary"
             >
               {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              {(!collapsed || mobileOpen) && (
+              {showLabels && (
                 <span>{dark ? "Modo claro" : "Modo oscuro"}</span>
               )}
             </button>

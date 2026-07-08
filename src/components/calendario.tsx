@@ -288,7 +288,7 @@ function VistaMes({ entregas }: { entregas: EntregaItem[] }) {
             >
               <span
                 className={`mx-auto block w-6 rounded-full text-center text-xs font-medium leading-6 ${
-                  today && !selected ? "bg-accent text-white" : ""
+                  today && !selected ? "bg-accent text-surface-card" : ""
                 }`}
               >
                 {format(day, "d")}
@@ -300,10 +300,10 @@ function VistaMes({ entregas }: { entregas: EntregaItem[] }) {
                       key={i}
                       className={`inline-block h-1.5 w-1.5 rounded-full ${
                         e.tipo === "TP"
-                          ? "bg-pink-400"
+                          ? "bg-accent"
                           : e.tipo === "PARCIAL"
-                            ? "bg-yellow-400"
-                            : "bg-red-400"
+                            ? "bg-warning"
+                            : "bg-danger"
                       }`}
                     />
                   ))}

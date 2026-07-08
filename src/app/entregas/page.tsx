@@ -1,28 +1,40 @@
 import type { Metadata } from "next";
+import { Search } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { CalendarioMes } from "@/components/calendario";
-import { SectionCard } from "@/components/layout";
+import {
+  CounterChip,
+  EmptyState,
+  FilterPill,
+  PageHeader,
+  SectionCard,
+} from "@/components/layout";
+import { EntregaCard } from "@/components/entrega-card";
 import { EntregaCreateForm, EntregaEditForm } from "@/components/forms";
 import { ItemActions } from "@/components/item-actions";
 import { createEntrega, updateEntrega, deleteEntrega } from "@/lib/actions";
-import {
-  estadoEntregaLabel,
-  tipoEntregaColor,
-  tipoEntregaLabel,
-} from "@/lib/labels";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
+import { tipoEntregaLabel } from "@/lib/labels";
+import { daysUntil } from "@/lib/entrega-utils";
+import { TipoEntrega } from "@/generated/prisma/client";
 
 export const metadata: Metadata = {
   title: "Entregas — UcaNode",
 };
 
+const FILTROS = [
+  { value: "", label: "Todos" },
+  { value: "TP", label: "TPs" },
+  { value: "PARCIAL", label: "Parciales" },
+  { value: "FINAL", label: "Finales" },
+] as const;
+
 export default async function EntregasPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; tipo?: string }>;
 }) {
-  const { q } = await searchParams;
+  const { q, tipo } = await searchParams;
+
   const [allEntregas, materias] = await Promise.all([
     prisma.entrega.findMany({
       include: { materia: true },
@@ -31,24 +43,61 @@ export default async function EntregasPage({
     prisma.materia.findMany({ orderBy: { nombre: "asc" } }),
   ]);
 
-  const entregas = q
-    ? allEntregas.filter(
-        (e) =>
-          e.titulo.toLowerCase().includes(q.toLowerCase()) ||
-          e.materia.nombre.toLowerCase().includes(q.toLowerCase()) ||
-          e.tipo.toLowerCase().includes(q.toLowerCase()),
-      )
-    : allEntregas;
+  const pendientes = allEntregas.filter((e) => e.estado !== "ENTREGADO");
+  const urgentes = pendientes.filter((e) => daysUntil(e.fecha) < 2);
+  const enSemana = pendientes.filter((e) => {
+    const d = daysUntil(e.fecha);
+    return d >= 2 && d <= 7;
+  });
+  const aTiempo = pendientes.filter((e) => daysUntil(e.fecha) > 7);
+
+  const entregas = allEntregas.filter((e) => {
+    if (tipo && e.tipo !== tipo) return false;
+    if (q) {
+      const s = q.toLowerCase();
+      return (
+        e.titulo.toLowerCase().includes(s) ||
+        e.materia.nombre.toLowerCase().includes(s) ||
+        e.tipo.toLowerCase().includes(s)
+      );
+    }
+    return true;
+  });
 
   const materiasList = materias.map((m) => ({ id: m.id, nombre: m.nombre }));
 
+  const buildFiltroHref = (t: string) => {
+    const params = new URLSearchParams();
+    if (t) params.set("tipo", t);
+    if (q) params.set("q", q);
+    const qs = params.toString();
+    return qs ? `/entregas?${qs}` : "/entregas";
+  };
+
   return (
-    <main className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-primary">Entregas</h1>
-        <p className="text-sm text-muted">
-          TP, parciales y finales de todas tus materias.
-        </p>
+    <main className="space-y-8">
+      <PageHeader
+        pill="Todas tus entregas"
+        title="¿Qué tenés que entregar?"
+        description="Filtra por tipo o buscá por nombre. Cada tarjeta muestra el estado y cuánto tiempo te queda."
+      />
+
+      <div className="flex flex-wrap items-center gap-2">
+        <CounterChip tone="danger" count={urgentes.length} label="Urgentes" />
+        <CounterChip tone="warning" count={enSemana.length} label="Esta semana" />
+        <CounterChip tone="success" count={aTiempo.length} label="A tiempo" />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-2">
+        {FILTROS.map((f) => (
+          <FilterPill
+            key={f.value}
+            href={buildFiltroHref(f.value)}
+            active={(tipo ?? "") === f.value}
+          >
+            {f.label}
+          </FilterPill>
+        ))}
       </div>
 
       <SectionCard title="Nueva entrega">
@@ -59,67 +108,64 @@ export default async function EntregasPage({
         <CalendarioMes entregas={allEntregas} />
       </SectionCard>
 
-      <SectionCard title="Lista completa">
-        <form className="mb-3">
-          <input
-            name="q"
-            type="search"
-            defaultValue={q ?? ""}
-            placeholder="Buscar entrega..."
-            className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-primary placeholder:text-muted"
-          />
-        </form>
-        <div className="space-y-2">
-          {entregas.map((e) => (
-            <ItemActions
-              key={e.id}
-              label={e.titulo}
-              deleteAction={deleteEntrega}
-              deleteId={e.id}
-              view={
-                <div className="flex items-center justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-primary">{e.titulo}</p>
-                    <p className="truncate text-xs text-muted">{e.materia.nombre}</p>
-                  </div>
-                  <div className="flex shrink-0 flex-col items-end gap-1">
-                    <span
-                      className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${tipoEntregaColor[e.tipo]}`}
-                    >
-                      {tipoEntregaLabel[e.tipo]}
-                    </span>
-                    <span className="text-xs text-secondary">
-                      {format(e.fecha, "d MMM yyyy", { locale: es })}
-                    </span>
-                    <span className="text-[10px] text-muted">
-                      {estadoEntregaLabel[e.estado]}
-                    </span>
-                  </div>
-                </div>
-              }
-              editForm={
-                <EntregaEditForm
-                  action={updateEntrega}
-                  materias={materiasList}
-                  defaultValues={{
-                    id: e.id,
-                    titulo: e.titulo,
-                    tipo: e.tipo,
-                    fecha: e.fecha.toISOString().slice(0, 10),
-                    estado: e.estado,
-                    materiaId: e.materiaId,
-                    recurso: e.recurso,
-                    prioridad: e.prioridad,
-                  }}
-                />
-              }
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-sm font-semibold text-primary">
+            {tipo
+              ? `${tipoEntregaLabel[tipo as TipoEntrega] ?? "Filtro"}s`
+              : "Todas las entregas"}
+          </h2>
+          <form className="relative w-full max-w-xs">
+            {tipo && <input type="hidden" name="tipo" value={tipo} />}
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+            <input
+              name="q"
+              type="search"
+              defaultValue={q ?? ""}
+              placeholder="Buscar entrega..."
+              className="w-full rounded-full border border-border bg-surface-card py-2 pl-9 pr-3 text-sm text-primary placeholder:text-muted focus:border-border-accent focus:outline-none"
             />
-          ))}
-          {entregas.length === 0 && q && (
-            <p className="text-sm text-muted">Sin resultados para &quot;{q}&quot;.</p>
-          )}
+          </form>
         </div>
-      </SectionCard>
+
+        {entregas.length > 0 ? (
+          <div className="grid gap-4 md:grid-cols-2">
+            {entregas.map((e) => (
+              <ItemActions
+                key={e.id}
+                label={e.titulo}
+                deleteAction={deleteEntrega}
+                deleteId={e.id}
+                view={<EntregaCard entrega={e} />}
+                editForm={
+                  <EntregaEditForm
+                    action={updateEntrega}
+                    materias={materiasList}
+                    defaultValues={{
+                      id: e.id,
+                      titulo: e.titulo,
+                      tipo: e.tipo,
+                      fecha: e.fecha.toISOString().slice(0, 10),
+                      estado: e.estado,
+                      materiaId: e.materiaId,
+                      recurso: e.recurso,
+                      prioridad: e.prioridad,
+                    }}
+                  />
+                }
+              />
+            ))}
+          </div>
+        ) : (
+          <EmptyState
+            message={
+              q
+                ? `Sin resultados para "${q}".`
+                : "No hay entregas cargadas todavía."
+            }
+          />
+        )}
+      </section>
     </main>
   );
 }
