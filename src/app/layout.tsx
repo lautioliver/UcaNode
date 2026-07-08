@@ -47,7 +47,6 @@ export default async function RootLayout({
             <Link href="/" className="flex items-center gap-3">
               <div>
                 <p className="text-lg font-semibold tracking-tight">UcaNode</p>
-                <p className="text-xs text-secondary">Ing. Informática · Ucasal</p>
               </div>
             </Link>
             <div className="flex items-center gap-2">
