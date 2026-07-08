@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useMemo, useState } from "react";
+import { Wand2 } from "lucide-react";
 import type { ActionResult } from "@/lib/actions";
 import {
   estadoMateriaLabel,
@@ -10,6 +11,7 @@ import {
   modalidadLabel,
   categoriaLinkLabel,
 } from "@/lib/labels";
+import { autoInfoFromName, type MateriaAutoInfo } from "@/lib/correlatividades";
 
 function FormFeedback({
   state,
@@ -73,6 +75,40 @@ function Field({
   );
 }
 
+function PlanSuggestion({
+  info,
+  onApply,
+}: {
+  info: MateriaAutoInfo | null;
+  onApply: () => void;
+}) {
+  if (!info) return null;
+  return (
+    <div className="sm:col-span-2 flex flex-col gap-2 rounded-lg border border-[color:var(--accent)]/30 bg-accent-ghost px-3 py-2 text-xs text-primary sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-0.5">
+        <span className="text-[11px] font-medium uppercase tracking-wider text-accent">
+          Detectada en el plan
+        </span>
+        <span className="font-medium">
+          {info.nombreOficial} · {info.codigo}
+        </span>
+        <span className="text-muted">
+          {info.anio}° año — {info.semestreLabel}
+          {info.correlativas ? ` · ${info.correlativas}` : ""}
+        </span>
+      </div>
+      <button
+        type="button"
+        onClick={onApply}
+        className="inline-flex items-center justify-center gap-1.5 rounded-md bg-accent px-2.5 py-1.5 text-xs font-medium text-white transition hover:bg-accent-hover"
+      >
+        <Wand2 className="h-3.5 w-3.5" />
+        Autocompletar
+      </button>
+    </div>
+  );
+}
+
 // ── MATERIA ─────────────────────────────────────────────
 
 export function MateriaCreateForm({
@@ -84,20 +120,43 @@ export function MateriaCreateForm({
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
 
+  const [nombre, setNombre] = useState("");
+  const [codigo, setCodigo] = useState("");
+  const [anio, setAnio] = useState("");
+  const [cuatrimestre, setCuatrimestre] = useState("");
+  const [semestre, setSemestre] = useState("");
+  const [correlativas, setCorrelativas] = useState("");
+
+  const detected = useMemo(() => autoInfoFromName(nombre), [nombre]);
+
+  const applyPlan = () => {
+    if (!detected) return;
+    setCodigo(detected.codigo);
+    setAnio(String(detected.anio));
+    setCuatrimestre(detected.cuatrimestre != null ? String(detected.cuatrimestre) : "");
+    setSemestre(detected.semestreLabel);
+    setCorrelativas(detected.correlativas);
+  };
+
   return (
     <form action={formAction} className="grid gap-4 sm:grid-cols-2">
       <Field label="Nombre" span>
         <input
           name="nombre"
           required
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
           placeholder="Ej: Algoritmos y Estructuras de Datos"
           className={`${input} w-full`}
         />
       </Field>
+      <PlanSuggestion info={detected} onApply={applyPlan} />
       <Field label="Código" hint="Sirve como prefijo en las entregas">
         <input
           name="codigo"
-          placeholder="Ej: INF-201"
+          value={codigo}
+          onChange={(e) => setCodigo(e.target.value)}
+          placeholder="Ej: 35-1050"
           className={`${input} w-full`}
         />
       </Field>
@@ -144,6 +203,8 @@ export function MateriaCreateForm({
           type="number"
           min={1}
           max={2}
+          value={cuatrimestre}
+          onChange={(e) => setCuatrimestre(e.target.value)}
           placeholder="1 o 2"
           className={`${input} w-full`}
         />
@@ -154,6 +215,8 @@ export function MateriaCreateForm({
           type="number"
           min={1}
           max={6}
+          value={anio}
+          onChange={(e) => setAnio(e.target.value)}
           placeholder="1 a 6"
           className={`${input} w-full`}
         />
@@ -161,14 +224,18 @@ export function MateriaCreateForm({
       <Field label="Semestre">
         <input
           name="semestre"
+          value={semestre}
+          onChange={(e) => setSemestre(e.target.value)}
           placeholder="Ej: 1° Semestre o Anual"
           className={`${input} w-full`}
         />
       </Field>
-      <Field label="Correlativas" span>
+      <Field label="Correlativas" span hint="Se completan automáticamente desde el plan al detectar la materia">
         <input
           name="correlativas"
-          placeholder="Ej: INF-101, MAT-101"
+          value={correlativas}
+          onChange={(e) => setCorrelativas(e.target.value)}
+          placeholder="Ej: Reg: LENG 1 · Aprob: FI"
           className={`${input} w-full`}
         />
       </Field>
@@ -210,6 +277,31 @@ export function MateriaEditForm({
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
 
+  const [nombre, setNombre] = useState(defaultValues.nombre);
+  const [codigo, setCodigo] = useState(defaultValues.codigo ?? "");
+  const [anio, setAnio] = useState(defaultValues.anio != null ? String(defaultValues.anio) : "");
+  const [cuatrimestre, setCuatrimestre] = useState(
+    defaultValues.cuatrimestre != null ? String(defaultValues.cuatrimestre) : "",
+  );
+  const [semestre, setSemestre] = useState(defaultValues.semestre ?? "");
+  const [correlativas, setCorrelativas] = useState(defaultValues.correlativas ?? "");
+
+  const detected = useMemo(() => autoInfoFromName(nombre), [nombre]);
+  const showSuggestion =
+    detected != null &&
+    (codigo !== detected.codigo ||
+      anio !== String(detected.anio) ||
+      semestre !== detected.semestreLabel);
+
+  const applyPlan = () => {
+    if (!detected) return;
+    setCodigo(detected.codigo);
+    setAnio(String(detected.anio));
+    setCuatrimestre(detected.cuatrimestre != null ? String(detected.cuatrimestre) : "");
+    setSemestre(detected.semestreLabel);
+    setCorrelativas(detected.correlativas);
+  };
+
   return (
     <form action={formAction} className="grid gap-4 sm:grid-cols-2">
       <input type="hidden" name="id" value={defaultValues.id} />
@@ -217,16 +309,19 @@ export function MateriaEditForm({
         <input
           name="nombre"
           required
-          defaultValue={defaultValues.nombre}
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
           placeholder="Ej: Algoritmos y Estructuras de Datos"
           className={`${input} w-full`}
         />
       </Field>
+      <PlanSuggestion info={showSuggestion ? detected : null} onApply={applyPlan} />
       <Field label="Código" hint="Sirve como prefijo en las entregas">
         <input
           name="codigo"
-          defaultValue={defaultValues.codigo ?? ""}
-          placeholder="Ej: INF-201"
+          value={codigo}
+          onChange={(e) => setCodigo(e.target.value)}
+          placeholder="Ej: 35-1050"
           className={`${input} w-full`}
         />
       </Field>
@@ -271,7 +366,8 @@ export function MateriaEditForm({
           type="number"
           min={1}
           max={2}
-          defaultValue={defaultValues.cuatrimestre ?? ""}
+          value={cuatrimestre}
+          onChange={(e) => setCuatrimestre(e.target.value)}
           placeholder="1 o 2"
           className={`${input} w-full`}
         />
@@ -282,7 +378,8 @@ export function MateriaEditForm({
           type="number"
           min={1}
           max={6}
-          defaultValue={defaultValues.anio ?? ""}
+          value={anio}
+          onChange={(e) => setAnio(e.target.value)}
           placeholder="1 a 6"
           className={`${input} w-full`}
         />
@@ -290,16 +387,18 @@ export function MateriaEditForm({
       <Field label="Semestre">
         <input
           name="semestre"
-          defaultValue={defaultValues.semestre ?? ""}
+          value={semestre}
+          onChange={(e) => setSemestre(e.target.value)}
           placeholder="Ej: 1° Semestre o Anual"
           className={`${input} w-full`}
         />
       </Field>
-      <Field label="Correlativas" span>
+      <Field label="Correlativas" span hint="Se completan automáticamente desde el plan al detectar la materia">
         <input
           name="correlativas"
-          defaultValue={defaultValues.correlativas ?? ""}
-          placeholder="Ej: INF-101, MAT-101"
+          value={correlativas}
+          onChange={(e) => setCorrelativas(e.target.value)}
+          placeholder="Ej: Reg: LENG 1 · Aprob: FI"
           className={`${input} w-full`}
         />
       </Field>
