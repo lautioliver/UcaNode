@@ -54,6 +54,68 @@ export function MateriaGrid({
     {} as Record<string, Materia[]>,
   );
 
+  const sinDia = materias.filter((m) => !m.dia || !dias.includes(m.dia as (typeof dias)[number]));
+
+  const renderMateriaCard = (m: Materia) => (
+    <ItemActions
+      key={m.id}
+      label={m.nombre}
+      modalTitle={m.nombre}
+      deleteAction={deleteMateria}
+      deleteId={m.id}
+      view={
+        <a
+          href={`/materias/${m.id}`}
+          className="block rounded-xl border border-border bg-surface p-3 pb-10 transition hover:border-border-strong"
+        >
+          <div className="flex flex-col gap-2">
+            <p className="text-sm font-medium leading-snug text-primary">
+              {m.nombre}
+            </p>
+            <div className="flex flex-wrap items-center gap-1.5">
+              {m.codigo && (
+                <span className="rounded border border-border-strong bg-surface-hover px-1.5 py-0.5 font-mono text-[10px] font-semibold text-secondary">
+                  {m.codigo}
+                </span>
+              )}
+              <StatusBadge
+                tone={
+                  estadoMateriaTone[m.estado as EstadoMateria] ?? "neutral"
+                }
+              >
+                {estadoMateriaLabel[m.estado as EstadoMateria]}
+              </StatusBadge>
+            </div>
+            {(m.profesor || m.semestre) && (
+              <p className="text-[11px] text-muted">
+                {[m.semestre, m.profesor].filter(Boolean).join(" · ")}
+              </p>
+            )}
+          </div>
+        </a>
+      }
+      editForm={
+        <MateriaEditForm
+          action={updateMateria}
+          defaultValues={{
+            id: m.id,
+            nombre: m.nombre,
+            codigo: m.codigo,
+            estado: m.estado,
+            profesor: m.profesor,
+            cuatrimestre: m.cuatrimestre,
+            anio: m.anio,
+            semestre: m.semestre,
+            correlativas: m.correlativas,
+            notas: m.notas,
+            promocional: m.promocional,
+            dia: m.dia,
+          }}
+        />
+      }
+    />
+  );
+
   return (
     <>
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
@@ -77,68 +139,7 @@ export function MateriaGrid({
                   Sin materias
                 </p>
               ) : (
-                porDia[dia].map((m) => (
-                  <ItemActions
-                    key={m.id}
-                    label={m.nombre}
-                    modalTitle={m.nombre}
-                    deleteAction={deleteMateria}
-                    deleteId={m.id}
-                    view={
-                      <a
-                        href={`/materias/${m.id}`}
-                        className="block rounded-xl border border-border bg-surface p-3 pb-10 transition hover:border-border-strong"
-                      >
-                        <div className="flex flex-col gap-2">
-                          <p className="text-sm font-medium leading-snug text-primary">
-                            {m.nombre}
-                          </p>
-                          <div className="flex flex-wrap items-center gap-1.5">
-                            {m.codigo && (
-                              <span className="rounded border border-border-strong bg-surface-hover px-1.5 py-0.5 font-mono text-[10px] font-semibold text-secondary">
-                                {m.codigo}
-                              </span>
-                            )}
-                            <StatusBadge
-                              tone={
-                                estadoMateriaTone[m.estado as EstadoMateria] ??
-                                "neutral"
-                              }
-                            >
-                              {estadoMateriaLabel[m.estado as EstadoMateria]}
-                            </StatusBadge>
-                          </div>
-                          {(m.profesor || m.semestre) && (
-                            <p className="text-[11px] text-muted">
-                              {[m.semestre, m.profesor]
-                                .filter(Boolean)
-                                .join(" · ")}
-                            </p>
-                          )}
-                        </div>
-                      </a>
-                    }
-                    editForm={
-                      <MateriaEditForm
-                        action={updateMateria}
-                        defaultValues={{
-                          id: m.id,
-                          nombre: m.nombre,
-                          codigo: m.codigo,
-                          estado: m.estado,
-                          profesor: m.profesor,
-                          cuatrimestre: m.cuatrimestre,
-                          anio: m.anio,
-                          semestre: m.semestre,
-                          correlativas: m.correlativas,
-                          notas: m.notas,
-                          promocional: m.promocional,
-                          dia: m.dia,
-                        }}
-                      />
-                    }
-                  />
-                ))
+                porDia[dia].map(renderMateriaCard)
               )}
             </div>
             <button
@@ -152,6 +153,27 @@ export function MateriaGrid({
           </section>
         ))}
       </div>
+
+      {sinDia.length > 0 && (
+        <section className="rounded-2xl border border-border bg-surface-card p-5 shadow-[var(--shadow-card)]">
+          <div className="mb-4 flex items-center justify-between gap-2">
+            <div>
+              <h3 className="text-sm font-semibold text-primary">
+                Sin día asignado
+              </h3>
+              <p className="text-[11px] text-muted">
+                Materias finalizadas o que aún no cargaste en un día de la semana.
+              </p>
+            </div>
+            <span className="shrink-0 rounded-full bg-surface-hover px-2 py-0.5 text-[10px] font-medium text-muted">
+              {sinDia.length}
+            </span>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {sinDia.map(renderMateriaCard)}
+          </div>
+        </section>
+      )}
 
       {modalDay && (
         <div
