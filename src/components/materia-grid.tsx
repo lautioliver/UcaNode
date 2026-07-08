@@ -56,22 +56,22 @@ export function MateriaGrid({
 
   return (
     <>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
         {dias.map((dia) => (
           <section
             key={dia}
-            className="flex min-h-[220px] flex-col rounded-2xl border border-border bg-surface-card p-4 shadow-[var(--shadow-card)]"
+            className="flex min-h-[240px] flex-col rounded-2xl border border-border bg-surface-card p-4 shadow-[var(--shadow-card)]"
           >
-            <div className="mb-3 flex items-center justify-between">
+            <div className="mb-3 flex items-center justify-between gap-2 border-b border-border pb-2">
               <h3 className="text-sm font-semibold text-primary">
                 {diaLabel[dia]}
               </h3>
-              <span className="text-[10px] text-muted">
-                {porDia[dia].length} materia{porDia[dia].length === 1 ? "" : "s"}
+              <span className="shrink-0 rounded-full bg-surface-hover px-2 py-0.5 text-[10px] font-medium text-muted">
+                {porDia[dia].length}
               </span>
             </div>
 
-            <div className="flex-1 space-y-2">
+            <div className="flex-1 space-y-2.5">
               {porDia[dia].length === 0 ? (
                 <p className="rounded-xl border border-dashed border-border px-3 py-6 text-center text-xs text-muted">
                   Sin materias
@@ -81,40 +81,41 @@ export function MateriaGrid({
                   <ItemActions
                     key={m.id}
                     label={m.nombre}
+                    modalTitle={m.nombre}
                     deleteAction={deleteMateria}
                     deleteId={m.id}
                     view={
                       <a
                         href={`/materias/${m.id}`}
-                        className="block rounded-xl border border-border bg-surface p-3 transition hover:border-border-strong"
+                        className="block rounded-xl border border-border bg-surface p-3 pb-10 transition hover:border-border-strong"
                       >
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="min-w-0">
-                            <p className="truncate text-sm font-medium text-primary">
-                              {m.nombre}
-                            </p>
-                            {m.codigo && (
-                              <p className="mt-0.5 text-[11px] text-muted">
-                                {m.codigo}
-                              </p>
-                            )}
-                          </div>
-                          <StatusBadge
-                            tone={
-                              estadoMateriaTone[m.estado as EstadoMateria] ??
-                              "neutral"
-                            }
-                          >
-                            {estadoMateriaLabel[m.estado as EstadoMateria]}
-                          </StatusBadge>
-                        </div>
-                        {(m.profesor || m.semestre) && (
-                          <p className="mt-2 text-[11px] text-muted">
-                            {[m.semestre, m.profesor]
-                              .filter(Boolean)
-                              .join(" · ")}
+                        <div className="flex flex-col gap-2">
+                          <p className="text-sm font-medium leading-snug text-primary">
+                            {m.nombre}
                           </p>
-                        )}
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            {m.codigo && (
+                              <span className="rounded border border-border-strong bg-surface-hover px-1.5 py-0.5 font-mono text-[10px] font-semibold text-secondary">
+                                {m.codigo}
+                              </span>
+                            )}
+                            <StatusBadge
+                              tone={
+                                estadoMateriaTone[m.estado as EstadoMateria] ??
+                                "neutral"
+                              }
+                            >
+                              {estadoMateriaLabel[m.estado as EstadoMateria]}
+                            </StatusBadge>
+                          </div>
+                          {(m.profesor || m.semestre) && (
+                            <p className="text-[11px] text-muted">
+                              {[m.semestre, m.profesor]
+                                .filter(Boolean)
+                                .join(" · ")}
+                            </p>
+                          )}
+                        </div>
                       </a>
                     }
                     editForm={

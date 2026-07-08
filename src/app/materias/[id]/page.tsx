@@ -40,7 +40,11 @@ export default async function MateriaDetailPage({
 
   const entregasEnriched = materia.entregas.map((e) => ({
     ...e,
-    materia: { nombre: materia.nombre, profesor: materia.profesor },
+    materia: {
+      nombre: materia.nombre,
+      codigo: materia.codigo,
+      profesor: materia.profesor,
+    },
   }));
 
   return (

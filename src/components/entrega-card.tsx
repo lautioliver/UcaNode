@@ -27,7 +27,7 @@ export type EntregaLite = {
   tipo: TipoEntrega;
   fecha: Date;
   estado: EstadoEntrega;
-  materia: { nombre: string; profesor?: string | null };
+  materia: { nombre: string; codigo?: string | null; profesor?: string | null };
 };
 
 export function EntregaCard({ entrega }: { entrega: EntregaLite }) {
@@ -46,8 +46,13 @@ export function EntregaCard({ entrega }: { entrega: EntregaLite }) {
             <Icon className="h-5 w-5" />
           </span>
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-primary">
-              {entrega.titulo}
+            <p className="flex min-w-0 items-center gap-1.5 text-sm font-semibold text-primary">
+              {entrega.materia.codigo && (
+                <span className="shrink-0 rounded border border-border-strong bg-surface-hover px-1.5 py-0.5 font-mono text-[10px] font-semibold text-secondary">
+                  {entrega.materia.codigo}
+                </span>
+              )}
+              <span className="truncate">{entrega.titulo}</span>
             </p>
             <p className="truncate text-xs text-muted">
               {entrega.materia.nombre}
