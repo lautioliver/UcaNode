@@ -24,6 +24,10 @@
 .DS_Store
 *.pem
 
+# local design references
+/b-cs.png
+/w-cs.png
+
 # debug
 npm-debug.log*
 yarn-debug.log*

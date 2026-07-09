@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
-import { User } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { cookies } from "next/headers";
+import { Sidebar } from "@/components/sidebar";
 import { prisma } from "@/lib/prisma";
 import "./globals.css";
 
@@ -22,56 +21,36 @@ export const metadata: Metadata = {
     "Sistema de autogestión para estudiantes de Ingeniería Informática de la Ucasal",
 };
 
-const navLinks = [
-  { href: "/", label: "Dashboard" },
-  { href: "/materias", label: "Materias" },
-  { href: "/entregas", label: "Entregas" },
-  { href: "/horarios", label: "Horarios" },
-  { href: "/links", label: "Links" },
-];
-
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const perfil = await prisma.perfil.findFirst();
+  const [perfil, cookieStore] = await Promise.all([
+    prisma.perfil.findFirst(),
+    cookies(),
+  ]);
+
+  const collapsed = cookieStore.get("ucanode_sidebar_collapsed")?.value === "1";
+  const themeCookie = cookieStore.get("ucanode_theme")?.value;
+  const dark = themeCookie !== "light";
 
   return (
-    <html lang="es" className="dark">
+    <html lang="es" className={dark ? "dark" : ""}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-surface text-primary antialiased`}
       >
-        <div className="mx-auto min-h-screen max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-            <Link href="/" className="flex items-center gap-3">
-              <div>
-                <p className="text-lg font-semibold tracking-tight">UcaNode</p>
-              </div>
-            </Link>
-            <div className="flex items-center gap-2">
-              <nav className="flex flex-wrap gap-1">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="rounded-lg px-3 py-1.5 text-sm text-secondary transition hover:bg-surface-hover hover:text-primary"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-              <Link
-                href="/perfil"
-                className="flex items-center gap-2 rounded-lg border border-border bg-surface-card px-4 py-1.5 text-sm font-medium text-primary transition hover:bg-surface-hover"
-              >
-                <User className="h-4 w-4 text-accent" />
-                {perfil?.nombre ?? "Perfil"}
-              </Link>
-              <ThemeToggle />
+        <div className="flex min-h-screen">
+          <Sidebar
+            perfilNombre={perfil?.nombre}
+            initialCollapsed={collapsed}
+            initialDark={dark}
+          />
+          <div className="flex min-h-screen min-w-0 flex-1 flex-col">
+            <div className="w-full flex-1 px-4 pb-10 pt-16 sm:px-6 lg:px-8 lg:pt-8">
+              <div className="mx-auto w-full max-w-7xl">{children}</div>
             </div>
           </div>
-          {children}
         </div>
       </body>
     </html>

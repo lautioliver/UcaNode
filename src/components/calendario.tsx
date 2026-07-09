@@ -32,7 +32,7 @@ type EntregaItem = {
   tipo: TipoEntrega;
   fecha: Date;
   estado: EstadoEntrega;
-  materia: { nombre: string };
+  materia: { nombre: string; codigo?: string | null };
 };
 
 type ViewMode = "lista" | "semana" | "mes";
@@ -45,12 +45,19 @@ export function EntregaRow({ entrega }: { entrega: EntregaItem }) {
   return (
     <div className="flex items-center justify-between gap-3 rounded-lg border border-border bg-surface px-3 py-2.5">
       <div className="min-w-0">
-        <p className="truncate text-sm font-medium text-primary">{entrega.titulo}</p>
+        <p className="truncate text-sm font-medium text-primary">
+          {entrega.materia.codigo && (
+            <span className="mr-1.5 rounded border border-border-strong bg-surface-hover px-1.5 py-px font-mono text-[10px] font-semibold text-secondary">
+              {entrega.materia.codigo}
+            </span>
+          )}
+          {entrega.titulo}
+        </p>
         <p className="truncate text-xs text-muted">{entrega.materia.nombre}</p>
       </div>
       <div className="flex shrink-0 flex-col items-end gap-1">
         <span
-          className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${tipoEntregaColor[entrega.tipo]}`}
+          className={`rounded-full border px-2 py-0.5 text-[10px] font-medium ${tipoEntregaColor[entrega.tipo]}`}
         >
           {tipoEntregaLabel[entrega.tipo]}
         </span>
@@ -183,8 +190,13 @@ function VistaSemana({ entregas }: { entregas: EntregaItem[] }) {
                   <div
                     key={e.id}
                     className="truncate rounded bg-surface-hover px-1 py-0.5 text-[10px] text-primary"
-                    title={`${e.titulo} — ${e.materia.nombre}`}
+                    title={`${e.materia.codigo ? `${e.materia.codigo} · ` : ""}${e.titulo} — ${e.materia.nombre}`}
                   >
+                    {e.materia.codigo && (
+                      <span className="mr-1 font-mono font-semibold text-secondary">
+                        {e.materia.codigo}
+                      </span>
+                    )}
                     {e.titulo}
                   </div>
                 ))}
@@ -288,7 +300,7 @@ function VistaMes({ entregas }: { entregas: EntregaItem[] }) {
             >
               <span
                 className={`mx-auto block w-6 rounded-full text-center text-xs font-medium leading-6 ${
-                  today && !selected ? "bg-accent text-white" : ""
+                  today && !selected ? "bg-accent text-surface-card" : ""
                 }`}
               >
                 {format(day, "d")}
@@ -300,10 +312,10 @@ function VistaMes({ entregas }: { entregas: EntregaItem[] }) {
                       key={i}
                       className={`inline-block h-1.5 w-1.5 rounded-full ${
                         e.tipo === "TP"
-                          ? "bg-pink-400"
+                          ? "bg-accent"
                           : e.tipo === "PARCIAL"
-                            ? "bg-yellow-400"
-                            : "bg-red-400"
+                            ? "bg-warning"
+                            : "bg-danger"
                       }`}
                     />
                   ))}
