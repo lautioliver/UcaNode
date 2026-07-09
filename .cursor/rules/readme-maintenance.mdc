@@ -1,0 +1,18 @@
+---
+description: Mantener README y wiki sincronizados con cambios relevantes del proyecto
+globs: README.md,wiki/**/*.md,package.json,.nvmrc,prisma/**/*,src/app/**/*,src/components/**/*,src/lib/**/*,src/data/**/*
+alwaysApply: false
+---
+
+# Mantenimiento de documentación
+
+Cuando un cambio de código afecte funcionalidades, rutas, scripts, stack, modelo de datos, setup, arquitectura o estructura del proyecto, revisá si `README.md` y `wiki/` siguen vigentes.
+
+Usá el agente `.cursor/agents/readme-maintainer.md` para esta revisión cuando el cambio sea más que una corrección trivial.
+
+Mantener la separación:
+
+- `README.md`: resumen corto, setup rápido, scripts principales y enlaces.
+- `wiki/`: detalles técnicos, diagramas, rutas, modelo de datos, arquitectura y estructura.
+
+Si no hace falta actualizar documentación, dejá constancia breve en el cierre de la tarea.
