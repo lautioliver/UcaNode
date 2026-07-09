@@ -1,0 +1,47 @@
+---
+description: Reglas de git y estrategia de ramas del proyecto UcaNode
+alwaysApply: true
+---
+
+# Git workflow — UcaNode
+
+## Ramas y su propósito
+
+- **`main`** → producción. Protegida en GitHub: **NO se permiten pushes directos**, solo PRs.
+  Se mergea únicamente cuando se libera una MVP / release. No la toques hasta que el usuario lo indique explícitamente.
+- **`develop`** → integración activa. Es el **target por defecto de todos los PRs** de features y fixes.
+- **`feature/*`** → trabajo en curso. Se abren PRs de estas ramas contra `develop`.
+
+## Reglas duras
+
+1. **Nunca pushear a `main`** ni proponerlo. Si el usuario pide "subí esto", asumí `develop` como base salvo que diga lo contrario.
+2. **Nunca mergear a `main`** desde una rama de trabajo salvo instrucción explícita del usuario relacionada al release de la MVP.
+3. **PRs siempre contra `develop`**. Si abrís un PR con `gh pr create`, pasá `--base develop` explícito.
+4. Si aparece un commit local en `main` (por accidente), no intentes pushearlo. Ofrecé al usuario `git reset --hard origin/main` para descartarlo — el cambio va a llegar a `main` de todos modos cuando se libere la MVP a través de PRs desde `develop`.
+
+## Antes de cambiar de rama
+
+Turbopack cachea agresivamente en `.next/dev/` y **no invalida al cambiar HEAD de git**, así que cambios de CSS o config quedan mostrando la versión vieja. Flujo recomendado:
+
+```bash
+# 1. Detener dev server (Ctrl+C o kill <pid>)
+# 2. Cambiar de rama
+git switch <rama>
+# 3. Si la nueva rama tiene cambios de globals.css, tailwind config o layout: limpiar cache
+rm -rf .next
+# 4. Levantar dev server
+npm run dev
+```
+
+## Node.js — ojo con módulos nativos
+
+- El proyecto usa Node 22 (ver `.nvmrc`).
+- Cursor Agent corre con **Node 24 bundled** (distinto ABI, 137 vs 127 del user).
+- Al ejecutar `npm install` / `npm rebuild` desde el agente, anteponé el Node correcto para no romper `better-sqlite3`:
+
+```bash
+export PATH="$HOME/.nvm/versions/node/v22.23.1/bin:$PATH"
+npm rebuild better-sqlite3   # o npm install <lo-que-sea>
+```
+
+Si el usuario ve `NODE_MODULE_VERSION 137 ... requires 127`: solución es `npm rebuild better-sqlite3` con Node 22 activo.
