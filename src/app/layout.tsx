@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { cookies } from "next/headers";
 import { Sidebar } from "@/components/sidebar";
+import { EntregaFab } from "@/components/entrega-fab";
 import { prisma } from "@/lib/prisma";
 import "./globals.css";
 
@@ -26,8 +27,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [perfil, cookieStore] = await Promise.all([
+  const [perfil, materias, cookieStore] = await Promise.all([
     prisma.perfil.findFirst(),
+    prisma.materia.findMany({ orderBy: { nombre: "asc" }, select: { id: true, nombre: true } }),
     cookies(),
   ]);
 
@@ -51,6 +53,7 @@ export default async function RootLayout({
               <div className="mx-auto w-full max-w-7xl">{children}</div>
             </div>
           </div>
+          <EntregaFab materias={materias} />
         </div>
       </body>
     </html>

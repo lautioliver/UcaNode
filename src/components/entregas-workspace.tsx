@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useOptimistic, useState, useTransition } from "react";
+import { useMemo, useState } from "react";
 import {
   addMonths,
   addWeeks,
@@ -24,7 +24,6 @@ import { CounterChip, EmptyState, FilterPill, PageHeader } from "@/components/la
 import {
   createEntrega,
   deleteEntrega,
-  toggleEntregaEstado,
   updateEntrega,
 } from "@/lib/actions";
 import { tipoEntregaLabel } from "@/lib/labels";
@@ -94,17 +93,9 @@ export function EntregasWorkspace({
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [tipo, setTipo] = useState(initialTipo);
   const [q, setQ] = useState(initialQ);
-  const [togglingId, setTogglingId] = useState<string | null>(null);
-  const [, startTransition] = useTransition();
-
-  const [entregas, updateOptimistic] = useOptimistic(
-    initialEntregas,
-    (state, patch: { id: string; estado: EstadoEntrega }) =>
-      state.map((e) => (e.id === patch.id ? { ...e, estado: patch.estado } : e)),
-  );
 
   const filtered = useMemo(() => {
-    return entregas.filter((e) => {
+    return initialEntregas.filter((e) => {
       if (tipo && e.tipo !== tipo) return false;
       if (q) {
         const s = q.toLowerCase();
@@ -116,7 +107,7 @@ export function EntregasWorkspace({
       }
       return true;
     });
-  }, [entregas, tipo, q]);
+  }, [initialEntregas, tipo, q]);
 
   const pendientes = filtered.filter((e) => e.estado !== "ENTREGADO");
   const urgentes = pendientes.filter((e) => daysUntil(new Date(e.fecha)) < 2);
@@ -173,17 +164,6 @@ export function EntregasWorkspace({
   const openEdit = (entrega: EntregaData) => setDrawer({ mode: "edit", entrega });
   const closeDrawer = () => setDrawer(null);
 
-  const handleToggle = async (entrega: EntregaData) => {
-    const next: EstadoEntrega =
-      entrega.estado === "ENTREGADO" ? "PENDIENTE" : "ENTREGADO";
-    setTogglingId(entrega.id);
-    startTransition(() => {
-      updateOptimistic({ id: entrega.id, estado: next });
-    });
-    await toggleEntregaEstado(entrega.id);
-    setTogglingId(null);
-  };
-
   const handleDelete = async (entrega: EntregaData) => {
     if (!confirm(`¿Eliminar "${entrega.titulo}"?`)) return;
     const fd = new FormData();
@@ -198,7 +178,7 @@ export function EntregasWorkspace({
         <PageHeader
           pill="Todas tus entregas"
           title="¿Qué tenés que entregar?"
-          description="Vista ágil por semana o mes. Tocá una tarjeta para editar, o el check para marcar como entregada."
+          description="Vista ágil por semana o mes. Tocá una tarjeta para editar."
         />
 
         <div className="flex flex-wrap items-center gap-2">
@@ -485,8 +465,6 @@ export function EntregasWorkspace({
                   entrega={{ ...e, fecha: e.fecha }}
                   interactive
                   onOpen={() => openEdit(e)}
-                  onToggleComplete={() => handleToggle(e)}
-                  toggling={togglingId === e.id}
                 />
               ))}
             </div>
@@ -502,20 +480,7 @@ export function EntregasWorkspace({
         </section>
       </main>
 
-      {/* FAB — fijo en viewport, visible en cualquier sección al scrollear */}
-      <button
-        type="button"
-        onClick={() => openCreate(selectedDate ?? undefined)}
-        aria-label="Agregar entrega"
-        className="group/fab fixed bottom-6 right-6 z-[100] flex h-14 w-14 items-center justify-center rounded-full bg-accent text-white shadow-[0_4px_20px_rgb(37_99_235_/_0.45)] transition hover:scale-105 hover:bg-accent-hover active:scale-95 sm:bottom-8 sm:right-8"
-      >
-        <Plus className="h-6 w-6" />
-        <span className="pointer-events-none absolute -top-10 right-0 whitespace-nowrap rounded-lg bg-primary px-2.5 py-1 text-xs font-medium text-surface opacity-0 shadow-[var(--shadow-md)] transition-opacity group-hover/fab:opacity-100">
-          Agregar entrega
-        </span>
-      </button>
-
-      {/* Drawer crear */}
+      {/* Drawer crear — contextual desde calendario (fecha pre-cargada) */}
       <Drawer
         open={drawer?.mode === "create"}
         onClose={closeDrawer}
