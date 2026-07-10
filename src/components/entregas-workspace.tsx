@@ -49,6 +49,8 @@ export type EntregaData = {
 
 type ViewMode = "semana" | "mes";
 
+type OrdenEstado = "pendientes-primero" | "entregados-primero";
+
 type DrawerState =
   | { mode: "create"; fecha?: string }
   | { mode: "edit"; entrega: EntregaData }
@@ -60,6 +62,11 @@ const FILTROS = [
   { value: "PARCIAL", label: "Parciales" },
   { value: "FINAL", label: "Finales" },
 ] as const;
+
+const ORDEN_ESTADO = [
+  { value: "pendientes-primero" as const, label: "Pendientes arriba" },
+  { value: "entregados-primero" as const, label: "Entregados arriba" },
+];
 
 const dayNames = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
 
@@ -93,6 +100,7 @@ export function EntregasWorkspace({
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [tipo, setTipo] = useState(initialTipo);
   const [q, setQ] = useState(initialQ);
+  const [ordenEstado, setOrdenEstado] = useState<OrdenEstado>("pendientes-primero");
 
   const filtered = useMemo(() => {
     return initialEntregas.filter((e) => {
@@ -141,13 +149,17 @@ export function EntregasWorkspace({
     return map;
   }, [filtered]);
 
-  const listEntregas = useMemo(
-    () =>
-      [...filtered].sort(
-        (a, b) => parseFechaLocal(a.fecha).getTime() - parseFechaLocal(b.fecha).getTime(),
-      ),
-    [filtered],
-  );
+  const listEntregas = useMemo(() => {
+    const entregadoRank = (e: EntregaData) => (e.estado === "ENTREGADO" ? 1 : 0);
+    return [...filtered].sort((a, b) => {
+      const rankA = entregadoRank(a);
+      const rankB = entregadoRank(b);
+      if (rankA !== rankB) {
+        return ordenEstado === "pendientes-primero" ? rankA - rankB : rankB - rankA;
+      }
+      return parseFechaLocal(a.fecha).getTime() - parseFechaLocal(b.fecha).getTime();
+    });
+  }, [filtered, ordenEstado]);
 
   const periodEntregas = useMemo(() => {
     if (view === "semana") {
@@ -196,6 +208,20 @@ export function EntregasWorkspace({
               type="button"
             >
               {f.label}
+            </FilterPill>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs text-muted">Orden:</span>
+          {ORDEN_ESTADO.map((o) => (
+            <FilterPill
+              key={o.value}
+              active={ordenEstado === o.value}
+              onClick={() => setOrdenEstado(o.value)}
+              type="button"
+            >
+              {o.label}
             </FilterPill>
           ))}
         </div>
@@ -371,7 +397,7 @@ export function EntregasWorkspace({
                   return (
                     <div
                       key={key}
-                      className={`group/day relative min-h-[72px] px-1.5 py-2 transition ${
+                      className={`group/day relative min-h-[88px] px-1.5 py-2 transition ${
                         !inMonth
                           ? "bg-surface text-muted"
                           : selected
@@ -406,19 +432,25 @@ export function EntregasWorkspace({
                         )}
                       </div>
                       {dayEntregas.length > 0 && (
-                        <div className="mt-0.5 flex justify-center gap-0.5">
-                          {dayEntregas.slice(0, 3).map((e, i) => (
+                        <div className="mt-1.5 flex flex-wrap justify-center gap-1 px-0.5">
+                          {dayEntregas.slice(0, 4).map((e, i) => (
                             <span
                               key={i}
-                              className={`inline-block h-1.5 w-1.5 rounded-full ${
+                              className={`inline-block h-2.5 w-2.5 rounded-full ring-1 ring-black/10 sm:h-3 sm:w-3 ${
                                 e.tipo === "TP"
                                   ? "bg-accent"
                                   : e.tipo === "PARCIAL"
                                     ? "bg-warning"
                                     : "bg-danger"
-                              }`}
+                              } ${e.estado === "ENTREGADO" ? "opacity-40" : ""}`}
+                              title={e.titulo}
                             />
                           ))}
+                          {dayEntregas.length > 4 && (
+                            <span className="text-[9px] font-medium text-muted">
+                              +{dayEntregas.length - 4}
+                            </span>
+                          )}
                         </div>
                       )}
                     </div>
