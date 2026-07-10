@@ -1,3 +1,5 @@
+"use client";
+
 import { ClipboardList, FileText, GraduationCap } from "lucide-react";
 import type { ComponentType } from "react";
 import type {
@@ -25,14 +27,25 @@ export type EntregaLite = {
   id: string;
   titulo: string;
   tipo: TipoEntrega;
-  fecha: Date;
+  fecha: Date | string;
   estado: EstadoEntrega;
   nota?: number | null;
   materia: { nombre: string; codigo?: string | null; profesor?: string | null };
 };
 
-export function EntregaCard({ entrega }: { entrega: EntregaLite }) {
-  const days = daysUntil(entrega.fecha);
+type EntregaCardProps = {
+  entrega: EntregaLite;
+  interactive?: boolean;
+  onOpen?: () => void;
+};
+
+export function EntregaCard({
+  entrega,
+  interactive = false,
+  onOpen,
+}: EntregaCardProps) {
+  const fecha = typeof entrega.fecha === "string" ? new Date(entrega.fecha) : entrega.fecha;
+  const days = daysUntil(fecha);
   const urgencia = urgenciaFromDays(days);
   const tone = urgenciaTone[urgencia];
   const Icon = tipoIcon[entrega.tipo];
@@ -40,7 +53,28 @@ export function EntregaCard({ entrega }: { entrega: EntregaLite }) {
   const entregado = entrega.estado === "ENTREGADO";
 
   return (
-    <article className="flex flex-col gap-4 rounded-2xl border border-border bg-surface-card p-5 shadow-[var(--shadow-card)] transition hover:border-border-strong">
+    <article
+      role={interactive ? "button" : undefined}
+      tabIndex={interactive ? 0 : undefined}
+      onClick={interactive ? onOpen : undefined}
+      onKeyDown={
+        interactive
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onOpen?.();
+              }
+            }
+          : undefined
+      }
+      className={`flex flex-col gap-4 rounded-2xl border border-border bg-surface-card p-5 shadow-[var(--shadow-card)] transition ${
+        entregado ? "opacity-55 saturate-75" : ""
+      } ${
+        interactive
+          ? "cursor-pointer hover:border-border-strong hover:shadow-[var(--shadow-md)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          : "hover:border-border-strong"
+      }`}
+    >
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-start gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-ghost text-accent">
@@ -57,9 +91,7 @@ export function EntregaCard({ entrega }: { entrega: EntregaLite }) {
             </p>
             <p className="truncate text-xs text-muted">
               {entrega.materia.nombre}
-              {entrega.materia.profesor
-                ? ` · ${entrega.materia.profesor}`
-                : ""}
+              {entrega.materia.profesor ? ` · ${entrega.materia.profesor}` : ""}
             </p>
           </div>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useMemo, useState } from "react";
+import { useActionState, useEffect, useMemo, useState } from "react";
 import { Wand2 } from "lucide-react";
 import type { ActionResult } from "@/lib/actions";
 import {
@@ -429,14 +429,24 @@ export function MateriaEditForm({
 export function EntregaCreateForm({
   action,
   materias,
+  defaultFecha,
+  onSuccess,
+  compact = false,
 }: {
   action: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
   materias: { id: string; nombre: string }[];
+  defaultFecha?: string;
+  onSuccess?: () => void;
+  compact?: boolean;
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
 
+  useEffect(() => {
+    if (state.success && state.message === "Entrega creada") onSuccess?.();
+  }, [state, onSuccess]);
+
   return (
-    <form action={formAction} className="grid gap-4 sm:grid-cols-2">
+    <form action={formAction} className={`grid gap-4 ${compact ? "" : "sm:grid-cols-2"}`}>
       <Field label="Título" span>
         <input
           name="titulo"
@@ -467,7 +477,13 @@ export function EntregaCreateForm({
         </select>
       </Field>
       <Field label="Fecha de entrega">
-        <input name="fecha" type="date" required className={`${input} w-full`} />
+        <input
+          name="fecha"
+          type="date"
+          required
+          defaultValue={defaultFecha ?? ""}
+          className={`${input} w-full`}
+        />
       </Field>
       <Field label="Estado">
         <select name="estado" defaultValue="PENDIENTE" className={`${select} w-full`}>
@@ -487,7 +503,15 @@ export function EntregaCreateForm({
           <option value="urgente">Urgente</option>
         </select>
       </Field>
-      <Field label="Recurso" span hint="Link al enunciado, consigna o repo (opcional)">
+      <Field
+        label={compact ? "Apuntes / enlace" : "Recurso"}
+        span
+        hint={
+          compact
+            ? "Notas, link al enunciado o repo (opcional)"
+            : "Link al enunciado, consigna o repo (opcional)"
+        }
+      >
         <input
           name="recurso"
           type="url"
@@ -504,6 +528,9 @@ export function EntregaEditForm({
   action,
   materias,
   defaultValues,
+  onSuccess,
+  onDelete,
+  compact = false,
 }: {
   action: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
   materias: { id: string; nombre: string }[];
@@ -518,12 +545,19 @@ export function EntregaEditForm({
     recurso: string | null;
     prioridad: string | null;
   };
+  onSuccess?: () => void;
+  onDelete?: () => void;
+  compact?: boolean;
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
   const [tipo, setTipo] = useState(defaultValues.tipo);
 
+  useEffect(() => {
+    if (state.success && state.message === "Entrega actualizada") onSuccess?.();
+  }, [state, onSuccess]);
+
   return (
-    <form action={formAction} className="grid gap-4 sm:grid-cols-2">
+    <form action={formAction} className={`grid gap-4 ${compact ? "" : "sm:grid-cols-2"}`}>
       <input type="hidden" name="id" value={defaultValues.id} />
       <Field label="Título" span>
         <input
@@ -615,7 +649,15 @@ export function EntregaEditForm({
           <option value="urgente">Urgente</option>
         </select>
       </Field>
-      <Field label="Recurso" span hint="Link al enunciado, consigna o repo (opcional)">
+      <Field
+        label={compact ? "Apuntes / enlace" : "Recurso"}
+        span
+        hint={
+          compact
+            ? "Notas, link al enunciado o repo (opcional)"
+            : "Link al enunciado, consigna o repo (opcional)"
+        }
+      >
         <input
           name="recurso"
           type="url"
@@ -625,6 +667,15 @@ export function EntregaEditForm({
         />
       </Field>
       <FormFeedback state={state} pending={pending} submitLabel="Guardar cambios" />
+      {onDelete && (
+        <button
+          type="button"
+          onClick={onDelete}
+          className="mt-2 w-full rounded-lg border border-danger/30 px-4 py-2 text-sm text-danger transition hover:bg-danger-ghost"
+        >
+          Eliminar entrega
+        </button>
+      )}
     </form>
   );
 }
