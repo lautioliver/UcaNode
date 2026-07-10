@@ -41,6 +41,7 @@ erDiagram
         TipoEntrega tipo
         DateTime fecha
         EstadoEntrega estado
+        Float nota
         String recurso
         String prioridad
         String materiaId FK
@@ -91,6 +92,8 @@ erDiagram
 | `EstadoMateria` | `CURSANDO`, `PARA_FINALIZAR`, `REGULAR`, `FINALIZADA` |
 | `TipoEntrega` | `TP`, `PARCIAL`, `FINAL` |
 | `EstadoEntrega` | `PENDIENTE`, `EN_CURSO`, `ENTREGADO` |
+
+> `Entrega.nota` es un campo opcional (`Float`, 0–10) que solo aplica a entregas de tipo `PARCIAL`. Se carga desde la edición de la entrega cuando el estudiante recibe la calificación; si el tipo deja de ser `PARCIAL`, la nota se descarta.
 | `CategoriaLink` | `GOOGLE_DRIVE`, `PLATAFORMA_UCASAL`, `GITHUB`, `OTRO` |
 | `Modalidad` | `PRESENCIAL`, `VIRTUAL` |
 | `DiaSemana` | `LUNES`, `MARTES`, `MIERCOLES`, `JUEVES`, `VIERNES` |

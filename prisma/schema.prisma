@@ -86,6 +86,7 @@ model Entrega {
   tipo          TipoEntrega
   fecha         DateTime
   estado        EstadoEntrega  @default(PENDIENTE)
+  nota          Float?
   recurso       String?
   prioridad     String?
   materiaId     String

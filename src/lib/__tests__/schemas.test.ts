@@ -43,6 +43,39 @@ describe("entregaSchema", () => {
     });
     expect(result.success).toBe(false);
   });
+
+  it("accepts a parcial with nota within range", () => {
+    const result = entregaSchema.safeParse({
+      titulo: "Parcial 1",
+      tipo: "PARCIAL",
+      fecha: "2026-08-01",
+      materiaId: "abc123",
+      nota: 8,
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("allows nota to be null", () => {
+    const result = entregaSchema.safeParse({
+      titulo: "Parcial 1",
+      tipo: "PARCIAL",
+      fecha: "2026-08-01",
+      materiaId: "abc123",
+      nota: null,
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects nota greater than 10", () => {
+    const result = entregaSchema.safeParse({
+      titulo: "Parcial 1",
+      tipo: "PARCIAL",
+      fecha: "2026-08-01",
+      materiaId: "abc123",
+      nota: 11,
+    });
+    expect(result.success).toBe(false);
+  });
 });
 
 describe("linkSchema", () => {

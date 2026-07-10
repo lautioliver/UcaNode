@@ -27,6 +27,7 @@ export type EntregaLite = {
   tipo: TipoEntrega;
   fecha: Date;
   estado: EstadoEntrega;
+  nota?: number | null;
   materia: { nombre: string; codigo?: string | null; profesor?: string | null };
 };
 
@@ -86,7 +87,14 @@ export function EntregaCard({ entrega }: { entrega: EntregaLite }) {
           />
           {estadoEntregaLabel[entrega.estado]}
         </span>
-        <span>{tipoEntregaLabel[entrega.tipo]}</span>
+        <span className="inline-flex items-center gap-2">
+          {entrega.tipo === "PARCIAL" && entrega.nota != null && (
+            <span className="rounded-full bg-accent-ghost px-2 py-0.5 font-semibold text-accent">
+              Nota: {entrega.nota}
+            </span>
+          )}
+          <span>{tipoEntregaLabel[entrega.tipo]}</span>
+        </span>
       </div>
     </article>
   );
