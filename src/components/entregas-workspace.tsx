@@ -64,6 +64,14 @@ const FILTROS = [
 
 const dayNames = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
 
+function fechaKey(fecha: string) {
+  return fecha.slice(0, 10);
+}
+
+function parseFechaLocal(fecha: string) {
+  return new Date(`${fechaKey(fecha)}T12:00:00`);
+}
+
 function dayKey(d: Date) {
   return format(d, "yyyy-MM-dd");
 }
@@ -135,23 +143,31 @@ export function EntregasWorkspace({
   const entregasByDay = useMemo(() => {
     const map: Record<string, EntregaData[]> = {};
     filtered.forEach((e) => {
-      const key = e.fecha.slice(0, 10);
+      const key = fechaKey(e.fecha);
       map[key] = map[key] ?? [];
       map[key].push(e);
     });
     return map;
   }, [filtered]);
 
-  const weekEntregas = filtered.filter((e) => {
-    const d = new Date(e.fecha + "T12:00:00");
-    return d >= weekStart && d <= weekEnd;
-  });
+  const listEntregas = useMemo(
+    () =>
+      [...filtered].sort(
+        (a, b) => parseFechaLocal(a.fecha).getTime() - parseFechaLocal(b.fecha).getTime(),
+      ),
+    [filtered],
+  );
 
-  const monthEntregas = selectedDate
-    ? (entregasByDay[selectedDate] ?? [])
-    : filtered.filter((e) => isSameMonth(new Date(e.fecha + "T12:00:00"), currentMonth));
-
-  const visibleCards = view === "semana" ? weekEntregas : monthEntregas;
+  const periodEntregas = useMemo(() => {
+    if (view === "semana") {
+      return filtered.filter((e) => {
+        const d = parseFechaLocal(e.fecha);
+        return d >= weekStart && d <= weekEnd;
+      });
+    }
+    if (selectedDate) return entregasByDay[selectedDate] ?? [];
+    return filtered.filter((e) => isSameMonth(parseFechaLocal(e.fecha), currentMonth));
+  }, [filtered, view, weekStart, weekEnd, selectedDate, entregasByDay, currentMonth]);
 
   const openCreate = (fecha?: string) => setDrawer({ mode: "create", fecha });
   const openEdit = (entrega: EntregaData) => setDrawer({ mode: "edit", entrega });
@@ -441,20 +457,29 @@ export function EntregasWorkspace({
           )}
         </section>
 
-        {/* Cards */}
+        {/* Listado completo — siempre visible, como antes */}
         <section className="space-y-4">
-          <h2 className="text-sm font-semibold text-primary">
-            {view === "semana"
-              ? "Entregas de la semana"
-              : selectedDate
-                ? "Entregas del día"
-                : `Entregas de ${format(currentMonth, "MMMM", { locale: es })}`}
-            {tipo ? ` · ${tipoEntregaLabel[tipo as TipoEntrega]}` : ""}
-          </h2>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-sm font-semibold text-primary">
+              {tipo
+                ? `${tipoEntregaLabel[tipo as TipoEntrega]}s`
+                : "Todas las entregas"}
+              <span className="ml-2 font-normal text-muted">({listEntregas.length})</span>
+            </h2>
+            {periodEntregas.length > 0 && periodEntregas.length !== listEntregas.length && (
+              <span className="text-xs text-muted">
+                {view === "semana"
+                  ? `${periodEntregas.length} en esta semana`
+                  : selectedDate
+                    ? `${periodEntregas.length} en el día seleccionado`
+                    : `${periodEntregas.length} en ${format(currentMonth, "MMMM", { locale: es })}`}
+              </span>
+            )}
+          </div>
 
-          {visibleCards.length > 0 ? (
+          {listEntregas.length > 0 ? (
             <div className="grid gap-4 md:grid-cols-2">
-              {visibleCards.map((e) => (
+              {listEntregas.map((e) => (
                 <EntregaCard
                   key={e.id}
                   entrega={{ ...e, fecha: e.fecha }}
@@ -470,23 +495,25 @@ export function EntregasWorkspace({
               message={
                 q
                   ? `Sin resultados para "${q}".`
-                  : "No hay entregas en este período."
+                  : "No hay entregas cargadas todavía."
               }
             />
           )}
         </section>
-
-        {/* FAB */}
-        <button
-          type="button"
-          onClick={() => openCreate(selectedDate ?? undefined)}
-          aria-label="Agregar entrega"
-          title="Agregar entrega"
-          className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-accent text-white shadow-[var(--shadow-md)] transition hover:scale-105 hover:bg-accent-hover active:scale-95"
-        >
-          <Plus className="h-6 w-6" />
-        </button>
       </main>
+
+      {/* FAB — fijo en viewport, visible en cualquier sección al scrollear */}
+      <button
+        type="button"
+        onClick={() => openCreate(selectedDate ?? undefined)}
+        aria-label="Agregar entrega"
+        className="group/fab fixed bottom-6 right-6 z-[100] flex h-14 w-14 items-center justify-center rounded-full bg-accent text-white shadow-[0_4px_20px_rgb(37_99_235_/_0.45)] transition hover:scale-105 hover:bg-accent-hover active:scale-95 sm:bottom-8 sm:right-8"
+      >
+        <Plus className="h-6 w-6" />
+        <span className="pointer-events-none absolute -top-10 right-0 whitespace-nowrap rounded-lg bg-primary px-2.5 py-1 text-xs font-medium text-surface opacity-0 shadow-[var(--shadow-md)] transition-opacity group-hover/fab:opacity-100">
+          Agregar entrega
+        </span>
+      </button>
 
       {/* Drawer crear */}
       <Drawer
