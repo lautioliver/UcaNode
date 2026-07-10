@@ -125,3 +125,31 @@ body {
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar) transparent;
 }
+
+@keyframes drawerSlideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes viewFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.drawer-panel {
+  animation: drawerSlideIn 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.entregas-view-enter {
+  animation: viewFadeIn 0.22s ease-out;
+}

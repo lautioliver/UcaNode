@@ -239,6 +239,29 @@ export async function updateEntrega(
   }
 }
 
+export async function toggleEntregaEstado(id: string): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+  if (!id) return fail("ID requerido");
+
+  try {
+    const entrega = await prisma.entrega.findUnique({ where: { id } });
+    if (!entrega) return fail("Entrega no encontrada");
+
+    const nuevoEstado = entrega.estado === "ENTREGADO" ? "PENDIENTE" : "ENTREGADO";
+    await prisma.entrega.update({
+      where: { id },
+      data: { estado: nuevoEstado },
+    });
+    revalidateEntrega(entrega.materiaId);
+    refresh();
+    return ok(nuevoEstado === "ENTREGADO" ? "Marcada como entregada" : "Marcada como pendiente");
+  } catch (e) {
+    console.error("toggleEntregaEstado", e);
+    return fail("Error al actualizar el estado");
+  }
+}
+
 export async function deleteEntrega(
   _prev: ActionResult,
   formData: FormData
