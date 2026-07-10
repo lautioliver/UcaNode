@@ -1,18 +1,13 @@
-import path from "node:path";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import "dotenv/config";
 import {
   CategoriaLink,
   DiaSemana,
   EstadoEntrega,
   EstadoMateria,
   Modalidad,
-  PrismaClient,
   TipoEntrega,
 } from "../src/generated/prisma/client";
-
-const dbPath = path.join(__dirname, "..", "dev.db");
-const adapter = new PrismaBetterSqlite3({ url: `file:${dbPath}` });
-const prisma = new PrismaClient({ adapter });
+import { prisma } from "../src/lib/prisma";
 
 async function main() {
   await prisma.entrega.deleteMany();
