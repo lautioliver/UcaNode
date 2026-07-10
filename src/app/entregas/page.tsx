@@ -147,6 +147,7 @@ export default async function EntregasPage({
                       tipo: e.tipo,
                       fecha: e.fecha.toISOString().slice(0, 10),
                       estado: e.estado,
+                      nota: e.nota,
                       materiaId: e.materiaId,
                       recurso: e.recurso,
                       prioridad: e.prioridad,

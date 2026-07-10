@@ -171,6 +171,7 @@ export async function createEntrega(
     tipo: formData.get("tipo"),
     fecha: safeStr(formData, "fecha"),
     estado: formData.get("estado") || "PENDIENTE",
+    nota: safeNum(formData, "nota"),
     materiaId: safeStr(formData, "materiaId"),
     recurso: safeStr(formData, "recurso"),
     prioridad: safeStr(formData, "prioridad"),
@@ -180,8 +181,14 @@ export async function createEntrega(
     return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
   }
 
+  // La nota solo aplica a parciales; en otros tipos se descarta.
+  const dataCreate = {
+    ...parsed.data,
+    nota: parsed.data.tipo === "PARCIAL" ? parsed.data.nota ?? null : null,
+  };
+
   try {
-    await prisma.entrega.create({ data: parsed.data });
+    await prisma.entrega.create({ data: dataCreate });
     revalidateEntrega(parsed.data.materiaId);
     refresh();
     return ok("Entrega creada");
@@ -205,6 +212,7 @@ export async function updateEntrega(
     tipo: formData.get("tipo"),
     fecha: safeStr(formData, "fecha"),
     estado: formData.get("estado"),
+    nota: safeNum(formData, "nota"),
     materiaId: safeStr(formData, "materiaId"),
     recurso: safeStr(formData, "recurso"),
     prioridad: safeStr(formData, "prioridad"),
@@ -214,8 +222,14 @@ export async function updateEntrega(
     return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
   }
 
+  // La nota solo aplica a parciales; en otros tipos se descarta.
+  const dataUpdate = {
+    ...parsed.data,
+    nota: parsed.data.tipo === "PARCIAL" ? parsed.data.nota ?? null : null,
+  };
+
   try {
-    await prisma.entrega.update({ where: { id }, data: parsed.data });
+    await prisma.entrega.update({ where: { id }, data: dataUpdate });
     revalidateEntrega(parsed.data.materiaId);
     refresh();
     return ok("Entrega actualizada");

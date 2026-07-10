@@ -513,12 +513,14 @@ export function EntregaEditForm({
     tipo: string;
     fecha: string;
     estado: string;
+    nota: number | null;
     materiaId: string;
     recurso: string | null;
     prioridad: string | null;
   };
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
+  const [tipo, setTipo] = useState(defaultValues.tipo);
 
   return (
     <form action={formAction} className="grid gap-4 sm:grid-cols-2">
@@ -553,7 +555,8 @@ export function EntregaEditForm({
         <select
           name="tipo"
           required
-          defaultValue={defaultValues.tipo}
+          value={tipo}
+          onChange={(e) => setTipo(e.target.value)}
           className={`${select} w-full`}
         >
           {Object.entries(tipoEntregaLabel).map(([value, label]) => (
@@ -585,6 +588,20 @@ export function EntregaEditForm({
           ))}
         </select>
       </Field>
+      {tipo === "PARCIAL" && (
+        <Field label="Nota" span hint="Calificación del parcial (0 a 10), cargala cuando te la den">
+          <input
+            name="nota"
+            type="number"
+            step="0.1"
+            min="0"
+            max="10"
+            defaultValue={defaultValues.nota ?? ""}
+            placeholder="Ej: 8"
+            className={`${input} w-full`}
+          />
+        </Field>
+      )}
       <Field label="Prioridad">
         <select
           name="prioridad"

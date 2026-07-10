@@ -49,6 +49,12 @@ export const entregaSchema = z.object({
   tipo: TipoEntrega,
   fecha: z.coerce.date(),
   estado: EstadoEntrega.default("PENDIENTE"),
+  nota: z.coerce
+    .number()
+    .min(0, "La nota mínima es 0")
+    .max(10, "La nota máxima es 10")
+    .nullable()
+    .optional(),
   materiaId: z.string().min(1, "La materia es requerida"),
   recurso: z.string().nullable().optional(),
   prioridad: z.string().nullable().optional(),
