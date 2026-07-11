@@ -1,0 +1,26 @@
+{
+  "carrera": "Nombre oficial de la carrera",
+  "plan": "2015",
+  "resolucion": "1234/20",
+  "modalidad": "Presencial",
+  "duracionAnios": 5,
+  "descripcion": "Breve descripción del plan (opcional, no se muestra en onboarding).",
+  "materias": [
+    {
+      "codigo": "00-0000",
+      "codigoOficial": "00 0000",
+      "nombre": "Nombre de la materia",
+      "abreviatura": "ABRV",
+      "aliases": ["alias comun", "otro alias"],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    }
+  ]
+}

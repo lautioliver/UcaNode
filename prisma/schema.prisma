@@ -46,16 +46,79 @@ enum DiaSemana {
   VIERNES
 }
 
-model Perfil {
-  id            String   @id @default(cuid())
+enum TipoCorrelativa {
+  REGULARIZADA
+  APROBADA
+  PARA_RENDIR
+}
+
+enum EstadoIngesta {
+  PENDIENTE
+  LISTO
+  ERROR
+}
+
+model Carrera {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  nombre          String
+  planAnio      String
+  resolucion    String?
+  modalidad     String?
+  duracionAnios Int?
+  estadoIngesta EstadoIngesta @default(LISTO)
+  materias      PlanEstudio[]
+  perfiles      Perfil[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model PlanEstudio {
+  id            String               @id @default(cuid())
+  codigo        String
+  codigoOficial String?
   nombre        String
-  emailUcasal   String   @unique
-  carrera       String   @default("Ingeniería Informática")
-  anioIngreso   Int
-  legajo        String?
-  password      String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  abreviatura   String?
+  aliases       Json                 @default("[]")
+  anio          Int
+  semestre      Int
+  tipoDictado   String?
+  creditos      Int?
+  carreraId     String
+  carrera       Carrera              @relation(fields: [carreraId], references: [id], onDelete: Cascade)
+  correlativas  CorrelatividadPlan[] @relation("MateriaCorrelativas")
+  requisitoDe   CorrelatividadPlan[] @relation("RequisitoDe")
+  materias      Materia[]
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+
+  @@unique([carreraId, codigo])
+  @@index([carreraId])
+  @@index([nombre])
+}
+
+model CorrelatividadPlan {
+  id          String           @id @default(cuid())
+  materiaId   String
+  requisitoId String
+  tipo        TipoCorrelativa
+  materia     PlanEstudio      @relation("MateriaCorrelativas", fields: [materiaId], references: [id], onDelete: Cascade)
+  requisito   PlanEstudio      @relation("RequisitoDe", fields: [requisitoId], references: [id], onDelete: Cascade)
+
+  @@unique([materiaId, requisitoId, tipo])
+}
+
+model Perfil {
+  id          String   @id @default(cuid())
+  nombre      String
+  emailUcasal String   @unique
+  anioIngreso Int
+  legajo      String?
+  password    String?
+  carreraId   String?
+  carrera     Carrera? @relation(fields: [carreraId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Materia {
@@ -71,6 +134,8 @@ model Materia {
   promocional   Boolean        @default(false)
   semestre      String?
   dia           DiaSemana?
+  planEstudioId String?
+  planEstudio   PlanEstudio?   @relation(fields: [planEstudioId], references: [id], onDelete: SetNull)
   entregas      Entrega[]
   horarios      Horario[]
   createdAt     DateTime       @default(now())

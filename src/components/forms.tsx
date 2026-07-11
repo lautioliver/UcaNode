@@ -11,7 +11,7 @@ import {
   modalidadLabel,
   categoriaLinkLabel,
 } from "@/lib/labels";
-import { autoInfoFromName, autoInfoFromCodigo, type MateriaAutoInfo } from "@/lib/correlatividades";
+import { createCorrelatividadesHelpers, type MateriaAutoInfo, type MateriaPlan } from "@/lib/correlatividades";
 
 function FormFeedback({
   state,
@@ -134,10 +134,12 @@ export function MateriaCreateForm({
   action,
   dia,
   onSuccess,
+  planMaterias,
 }: {
   action: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
   dia?: string;
   onSuccess?: () => void;
+  planMaterias?: MateriaPlan[];
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
 
@@ -149,8 +151,19 @@ export function MateriaCreateForm({
   const [correlativas, setCorrelativas] = useState("");
   const [autoFilled, setAutoFilled] = useState(false);
 
-  const detectedByCodigo = useMemo(() => autoInfoFromCodigo(codigo), [codigo]);
-  const detectedByNombre = useMemo(() => autoInfoFromName(nombre), [nombre]);
+  const planHelpers = useMemo(
+    () => createCorrelatividadesHelpers(planMaterias ?? []),
+    [planMaterias],
+  );
+
+  const detectedByCodigo = useMemo(
+    () => planHelpers.autoInfoFromCodigo(codigo),
+    [planHelpers, codigo],
+  );
+  const detectedByNombre = useMemo(
+    () => planHelpers.autoInfoFromName(nombre),
+    [planHelpers, nombre],
+  );
   const detected = detectedByCodigo ?? detectedByNombre;
 
   const hydrateFromPlan = (info: MateriaAutoInfo) => {
@@ -264,6 +277,7 @@ export function MateriaEditForm({
   defaultValues,
   onSuccess,
   onDelete,
+  planMaterias,
 }: {
   action: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
   defaultValues: {
@@ -282,6 +296,7 @@ export function MateriaEditForm({
   };
   onSuccess?: () => void;
   onDelete?: () => void;
+  planMaterias?: MateriaPlan[];
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
 
@@ -294,8 +309,19 @@ export function MateriaEditForm({
   const [semestre, setSemestre] = useState(defaultValues.semestre ?? "");
   const [correlativas, setCorrelativas] = useState(defaultValues.correlativas ?? "");
 
-  const detectedByCodigo = useMemo(() => autoInfoFromCodigo(codigo), [codigo]);
-  const detectedByNombre = useMemo(() => autoInfoFromName(nombre), [nombre]);
+  const planHelpers = useMemo(
+    () => createCorrelatividadesHelpers(planMaterias ?? []),
+    [planMaterias],
+  );
+
+  const detectedByCodigo = useMemo(
+    () => planHelpers.autoInfoFromCodigo(codigo),
+    [planHelpers, codigo],
+  );
+  const detectedByNombre = useMemo(
+    () => planHelpers.autoInfoFromName(nombre),
+    [planHelpers, nombre],
+  );
   const detected = detectedByCodigo ?? detectedByNombre;
   const showSuggestion =
     detected != null &&
@@ -1018,7 +1044,7 @@ export function PerfilForm({
   defaultValues: {
     nombre: string;
     emailUcasal: string;
-    carrera: string;
+    carreraNombre: string | null;
     anioIngreso: number;
     legajo: string | null;
     password: string | null;
@@ -1056,13 +1082,11 @@ export function PerfilForm({
           className={`${input} w-full`}
         />
       </Field>
-      <Field label="Carrera" span>
+      <Field label="Carrera" span hint="Se define en el onboarding inicial">
         <input
-          name="carrera"
-          required
-          defaultValue={defaultValues.carrera}
-          placeholder="Ej: Ingeniería Informática"
-          className={`${input} w-full`}
+          value={defaultValues.carreraNombre ?? "Sin carrera asignada"}
+          readOnly
+          className={`${input} w-full cursor-not-allowed opacity-80`}
         />
       </Field>
       <Field label="Año de ingreso">

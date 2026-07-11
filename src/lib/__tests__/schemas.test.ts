@@ -101,7 +101,6 @@ describe("perfilSchema", () => {
     const result = perfilSchema.safeParse({
       nombre: "Juan",
       emailUcasal: "juan@ucasal.edu.ar",
-      carrera: "Ingeniería Informática",
       anioIngreso: 2024,
     });
     expect(result.success).toBe(true);
@@ -111,7 +110,6 @@ describe("perfilSchema", () => {
     const result = perfilSchema.safeParse({
       nombre: "Juan",
       emailUcasal: "not-email",
-      carrera: "Ingeniería Informática",
       anioIngreso: 2024,
     });
     expect(result.success).toBe(false);

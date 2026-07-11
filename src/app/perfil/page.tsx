@@ -10,7 +10,9 @@ export const metadata: Metadata = {
 };
 
 export default async function PerfilPage() {
-  const perfil = await prisma.perfil.findFirst();
+  const perfil = await prisma.perfil.findFirst({
+    include: { carrera: true },
+  });
 
   return (
     <main className="mx-auto max-w-3xl space-y-8">
@@ -33,7 +35,7 @@ export default async function PerfilPage() {
               {perfil?.emailUcasal ?? "sin-correo@ucasal.edu.ar"}
             </p>
             {perfil?.carrera && (
-              <p className="mt-0.5 text-xs text-secondary">{perfil.carrera}</p>
+              <p className="mt-0.5 text-xs text-secondary">{perfil.carrera.nombre}</p>
             )}
           </div>
         </div>
@@ -43,7 +45,7 @@ export default async function PerfilPage() {
           defaultValues={{
             nombre: perfil?.nombre ?? "",
             emailUcasal: perfil?.emailUcasal ?? "",
-            carrera: perfil?.carrera ?? "Ingeniería Informática",
+            carreraNombre: perfil?.carrera?.nombre ?? null,
             anioIngreso: perfil?.anioIngreso ?? new Date().getFullYear(),
             legajo: perfil?.legajo ?? null,
             password: perfil?.password ?? null,
