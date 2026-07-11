@@ -1,0 +1,1547 @@
+{
+  "carrera": "Licenciatura en Psicología",
+  "plan": "1114",
+  "resolucion": "",
+  "modalidad": "Presencial",
+  "duracionAnios": 5,
+  "descripcion": "Plan de estudio y correlatividades para la carrera de Licenciatura en Psicología (UCASAL, plan 1114). El campo semestre usa 1 = primer cuatrimestre, 2 = segundo cuatrimestre, 0 = anual.",
+  "materias": [
+    {
+      "codigo": "05-0010",
+      "codigoOficial": "05 0010",
+      "nombre": "Filosofía I",
+      "abreviatura": "FILI",
+      "aliases": [
+        "fili",
+        "filosofia i"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "07-0260",
+      "codigoOficial": "07 0260",
+      "nombre": "Neuropsicología",
+      "abreviatura": "NEU",
+      "aliases": [
+        "neu",
+        "neuropsicologia"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0020"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "07-0020"
+      ]
+    },
+    {
+      "codigo": "09-2240",
+      "codigoOficial": "09 2240",
+      "nombre": "Metodología de la Investigación en Psicología I",
+      "abreviatura": "MIP",
+      "aliases": [
+        "met inv psico i",
+        "metodologia de la investigacion en psico i",
+        "metodologia de la investigacion en psicologia i",
+        "mip"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0020"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "07-0020"
+      ]
+    },
+    {
+      "codigo": "10-0700",
+      "codigoOficial": "10 0700",
+      "nombre": "Historia de la Psicología",
+      "abreviatura": "HISDEL",
+      "aliases": [
+        "hisdel",
+        "historia de la psico",
+        "historia de la psicologia"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0020"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "07-0020"
+      ]
+    },
+    {
+      "codigo": "07-0020",
+      "codigoOficial": "07 0020",
+      "nombre": "Psicología General",
+      "abreviatura": "PSIGEN",
+      "aliases": [
+        "psico general",
+        "psicologia general",
+        "psigen"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "10-1205",
+      "codigoOficial": "10 1205",
+      "nombre": "Historia del Pensamiento Sociopolítico",
+      "abreviatura": "HPS",
+      "aliases": [
+        "historia del pensamiento sociopolitico",
+        "hps"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "05-0500",
+      "codigoOficial": "05 0500",
+      "nombre": "Antropología Cultural",
+      "abreviatura": "ANTCUL",
+      "aliases": [
+        "antcul",
+        "antropologia cultural"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "10-1205"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "05-0010"
+      ]
+    },
+    {
+      "codigo": "05-0020",
+      "codigoOficial": "05 0020",
+      "nombre": "Filosofía II",
+      "abreviatura": "FILII",
+      "aliases": [
+        "filii",
+        "filosofia ii"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "05-0010"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "05-0010"
+      ]
+    },
+    {
+      "codigo": "07-0440",
+      "codigoOficial": "07 0440",
+      "nombre": "Psicolingüística",
+      "abreviatura": "PSIÍST",
+      "aliases": [
+        "psicolinguistica",
+        "psiist"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "15-0740"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "15-0740"
+      ]
+    },
+    {
+      "codigo": "20-0100",
+      "codigoOficial": "20 0100",
+      "nombre": "Sociología",
+      "abreviatura": "SOC",
+      "aliases": [
+        "soc",
+        "sociologia"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "10-0700"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "10-0700"
+      ]
+    },
+    {
+      "codigo": "05-0310",
+      "codigoOficial": "05 0310",
+      "nombre": "Antropología Filosófica",
+      "abreviatura": "ANTFIL",
+      "aliases": [
+        "antfil",
+        "antropologia filosofica"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "05-0020",
+          "05-0010"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "05-0010",
+        "05-0020"
+      ]
+    },
+    {
+      "codigo": "07-0040",
+      "codigoOficial": "07 0040",
+      "nombre": "Psicología Experimental",
+      "abreviatura": "PSIEXP",
+      "aliases": [
+        "psico experimental",
+        "psicologia experimental",
+        "psiexp"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0020",
+          "09-2240"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "09-2240",
+        "07-0020"
+      ]
+    },
+    {
+      "codigo": "07-0080",
+      "codigoOficial": "07 0080",
+      "nombre": "Psicología de la Personalidad",
+      "abreviatura": "PSIDEL",
+      "aliases": [
+        "psico de la personalidad",
+        "psicologia de la personalidad",
+        "psidel"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0020"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "07-0020"
+      ]
+    },
+    {
+      "codigo": "07-1300",
+      "codigoOficial": "07 1300",
+      "nombre": "Introducción al Psicodiagnóstico",
+      "abreviatura": "INTALP",
+      "aliases": [
+        "intalp",
+        "introduccion al psicodiagnostico",
+        "psicodiagnostico"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0020",
+          "07-0260"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "07-0260",
+        "07-0020"
+      ]
+    },
+    {
+      "codigo": "07-0590",
+      "codigoOficial": "07 0590",
+      "nombre": "Psicología Educacional",
+      "abreviatura": "PSIEDU",
+      "aliases": [
+        "psico educacional",
+        "psicologia educacional",
+        "psiedu"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0150"
+        ],
+        "aprobadas": [
+          "07-0260",
+          "10-0700",
+          "07-0020",
+          "09-2240"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0150"
+      ]
+    },
+    {
+      "codigo": "19-0180",
+      "codigoOficial": "19 0180",
+      "nombre": "Suficiencia Idiomática",
+      "abreviatura": "SUFIDI",
+      "aliases": [
+        "suficiencia idiomatica",
+        "sufidi"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 0,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "00-0020",
+      "codigoOficial": "00 0020",
+      "nombre": "Teología II",
+      "abreviatura": "TEOII",
+      "aliases": [
+        "teoii",
+        "teologia ii"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "00-0010"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "00-0010"
+      ]
+    },
+    {
+      "codigo": "07-0120",
+      "codigoOficial": "07 0120",
+      "nombre": "Psicometría",
+      "abreviatura": "PSI",
+      "aliases": [
+        "psi",
+        "psicometria"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-1300",
+          "47-0090",
+          "07-0040"
+        ],
+        "aprobadas": [
+          "09-2240"
+        ]
+      },
+      "correlativasRendir": [
+        "47-0090",
+        "07-0040",
+        "07-1300"
+      ]
+    },
+    {
+      "codigo": "07-0170",
+      "codigoOficial": "07 0170",
+      "nombre": "Psicología Social",
+      "abreviatura": "PSISOC",
+      "aliases": [
+        "psico social",
+        "psicologia social",
+        "psisoc"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0150",
+          "20-0100"
+        ],
+        "aprobadas": [
+          "10-0700",
+          "05-0500"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0150",
+        "20-0100"
+      ]
+    },
+    {
+      "codigo": "07-0270",
+      "codigoOficial": "07 0270",
+      "nombre": "Psicología Evolutiva y Cultura de Adultez y Senectud",
+      "abreviatura": "PECAS",
+      "aliases": [
+        "pecas",
+        "psico evolutiva y cultura de adultez y senectud",
+        "psicologia evolutiva y cultura de adultez y senectud"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0150"
+        ],
+        "aprobadas": [
+          "07-0020",
+          "05-0500"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0150"
+      ]
+    },
+    {
+      "codigo": "15-0740",
+      "codigoOficial": "15 0740",
+      "nombre": "Lingüística",
+      "abreviatura": "LINÍST",
+      "aliases": [
+        "linguistica",
+        "linist"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "00-0010",
+      "codigoOficial": "00 0010",
+      "nombre": "Teología I",
+      "abreviatura": "TEOI",
+      "aliases": [
+        "teoi",
+        "teologia i"
+      ],
+      "anio": 2,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "07-0150",
+      "codigoOficial": "07 0150",
+      "nombre": "Psicología Evolutiva y Cultura (Niño y Adolescente)",
+      "abreviatura": "PECNA",
+      "aliases": [
+        "pecna",
+        "psico evolutiva y cultura (nino y adolescente)",
+        "psicologia evolutiva y cultura (nino y adolescente)"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0020",
+          "07-0260"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "07-0020",
+        "07-0260"
+      ]
+    },
+    {
+      "codigo": "07-0330",
+      "codigoOficial": "07 0330",
+      "nombre": "Psicología Profunda",
+      "abreviatura": "PSIPRO",
+      "aliases": [
+        "psico profunda",
+        "psicologia profunda",
+        "psipro"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "05-0020",
+          "07-0440"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "05-0020",
+        "07-0440"
+      ]
+    },
+    {
+      "codigo": "47-0090",
+      "codigoOficial": "47 0090",
+      "nombre": "Estadística (Descriptiva y Muestral)",
+      "abreviatura": "EDM",
+      "aliases": [
+        "edm",
+        "estadistica (descriptiva y muestral)"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "07-0280",
+      "codigoOficial": "07 0280",
+      "nombre": "Psicología del Deporte",
+      "abreviatura": "PSIDEL",
+      "aliases": [
+        "psico del deporte",
+        "psicologia del deporte",
+        "psidel"
+      ],
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0150",
+          "20-0100"
+        ],
+        "aprobadas": [
+          "07-0020"
+        ]
+      },
+      "correlativasRendir": [
+        "20-0100"
+      ]
+    },
+    {
+      "codigo": "07-1310",
+      "codigoOficial": "07 1310",
+      "nombre": "Psicopatología Infanto Juvenil (General y Especial)",
+      "abreviatura": "PIJGE",
+      "aliases": [
+        "pijge",
+        "psicopatologia infanto juvenil",
+        "psicopatologia infanto juvenil (general y especial)"
+      ],
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0150",
+          "07-0080"
+        ],
+        "aprobadas": [
+          "07-0260",
+          "07-0020"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0150",
+        "07-0080"
+      ]
+    },
+    {
+      "codigo": "07-0390",
+      "codigoOficial": "07 0390",
+      "nombre": "Dinámica de Grupo",
+      "abreviatura": "DINDEG",
+      "aliases": [
+        "dinamica de grupo",
+        "dindeg"
+      ],
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0080",
+          "07-0170"
+        ],
+        "aprobadas": [
+          "10-0700"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0080",
+        "07-0170"
+      ]
+    },
+    {
+      "codigo": "07-0410",
+      "codigoOficial": "07 0410",
+      "nombre": "Técnicas Proyectivas I",
+      "abreviatura": "TÉCPRO",
+      "aliases": [
+        "tecnicas proyectivas i",
+        "tecpro"
+      ],
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0080",
+          "07-0120",
+          "07-0150",
+          "07-0270"
+        ],
+        "aprobadas": [
+          "07-0020"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0150",
+        "07-0080",
+        "07-0270",
+        "07-0120"
+      ]
+    },
+    {
+      "codigo": "07-1320",
+      "codigoOficial": "07 1320",
+      "nombre": "Psicopatología del Adulto (General y Especial)",
+      "abreviatura": "PAGE",
+      "aliases": [
+        "page",
+        "psicopatologia del adulto (general y especial)"
+      ],
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-1310"
+        ],
+        "aprobadas": [
+          "07-0260",
+          "07-0020"
+        ]
+      },
+      "correlativasRendir": [
+        "07-1310"
+      ]
+    },
+    {
+      "codigo": "09-0230",
+      "codigoOficial": "09 0230",
+      "nombre": "Seminario I",
+      "abreviatura": "SEMI",
+      "aliases": [
+        "semi",
+        "seminario i"
+      ],
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "07-0210",
+      "codigoOficial": "07 0210",
+      "nombre": "Psicología Laboral",
+      "abreviatura": "PSILAB",
+      "aliases": [
+        "psico laboral",
+        "psicologia laboral",
+        "psilab"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0390"
+        ],
+        "aprobadas": [
+          "07-0080",
+          "07-0170",
+          "07-0410",
+          "07-0120"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0120",
+        "07-0170",
+        "07-0390",
+        "07-0410"
+      ]
+    },
+    {
+      "codigo": "00-0080",
+      "codigoOficial": "00 0080",
+      "nombre": "Doctrina Social",
+      "abreviatura": "DOCSOC",
+      "aliases": [
+        "docsoc",
+        "doctrina social"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "00-0020"
+        ],
+        "aprobadas": [
+          "00-0010",
+          "05-0310"
+        ]
+      },
+      "correlativasRendir": [
+        "00-0020"
+      ]
+    },
+    {
+      "codigo": "07-0300",
+      "codigoOficial": "07 0300",
+      "nombre": "Orientación Vocacional y Profesional",
+      "abreviatura": "OVP",
+      "aliases": [
+        "orientacion vocacional y profesional",
+        "ovp"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0120"
+        ],
+        "aprobadas": [
+          "07-0040",
+          "07-0270",
+          "07-0410",
+          "07-0590"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0590",
+        "07-0270",
+        "07-0120",
+        "07-0410"
+      ]
+    },
+    {
+      "codigo": "07-0420",
+      "codigoOficial": "07 0420",
+      "nombre": "Técnicas Proyectivas II",
+      "abreviatura": "TÉCPRO",
+      "aliases": [
+        "tecnicas proyectivas ii",
+        "tecpro"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0410"
+        ],
+        "aprobadas": [
+          "07-0080"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0410"
+      ]
+    },
+    {
+      "codigo": "07-1260",
+      "codigoOficial": "07 1260",
+      "nombre": "Psicología Especial y de la Diversidad",
+      "abreviatura": "PED",
+      "aliases": [
+        "ped",
+        "psico especial y de la diversidad",
+        "psicologia especial y de la diversidad"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-1320"
+        ],
+        "aprobadas": [
+          "07-0150",
+          "07-0080"
+        ]
+      },
+      "correlativasRendir": [
+        "07-1320"
+      ]
+    },
+    {
+      "codigo": "09-0240",
+      "codigoOficial": "09 0240",
+      "nombre": "Seminario II",
+      "abreviatura": "SEMII",
+      "aliases": [
+        "semii",
+        "seminario ii"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "05-0250",
+      "codigoOficial": "05 0250",
+      "nombre": "Ética Profesional",
+      "abreviatura": "ÉTIPRO",
+      "aliases": [
+        "etica profesional",
+        "etipro"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "00-0080"
+        ],
+        "aprobadas": [
+          "05-0020",
+          "05-0310"
+        ]
+      },
+      "correlativasRendir": [
+        "00-0080"
+      ]
+    },
+    {
+      "codigo": "07-0250",
+      "codigoOficial": "07 0250",
+      "nombre": "Psicología de las Relaciones Humanas",
+      "abreviatura": "PLRH",
+      "aliases": [
+        "plrh",
+        "psico de las relaciones humanas",
+        "psicologia de las relaciones humanas"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0170"
+        ],
+        "aprobadas": [
+          "07-0080",
+          "07-1300"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0170"
+      ]
+    },
+    {
+      "codigo": "07-0290",
+      "codigoOficial": "07 0290",
+      "nombre": "Psicodiagnóstico",
+      "abreviatura": "PSI",
+      "aliases": [
+        "psi",
+        "psicodiagnostico"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0410",
+          "07-1320",
+          "07-0120",
+          "07-0270"
+        ],
+        "aprobadas": [
+          "07-0080",
+          "07-0330",
+          "07-0150",
+          "07-1300"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0270",
+        "07-0120",
+        "07-1320",
+        "07-0410",
+        "07-0420"
+      ]
+    },
+    {
+      "codigo": "07-1250",
+      "codigoOficial": "07 1250",
+      "nombre": "Psicología Comunitaria",
+      "abreviatura": "PSICOM",
+      "aliases": [
+        "psico comunitaria",
+        "psicologia comunitaria",
+        "psicom"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0170"
+        ],
+        "aprobadas": [
+          "07-0080",
+          "07-1300"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0170"
+      ]
+    },
+    {
+      "codigo": "07-1330",
+      "codigoOficial": "07 1330",
+      "nombre": "Psicología Clínica I (Psicoanálisis)",
+      "abreviatura": "PCP",
+      "aliases": [
+        "pcp",
+        "psico clinica i (psicoanalisis)",
+        "psicologia clinica i (psicoanalisis)"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-1320"
+        ],
+        "aprobadas": [
+          "07-0150",
+          "07-0080",
+          "07-0330"
+        ]
+      },
+      "correlativasRendir": [
+        "07-1320"
+      ]
+    },
+    {
+      "codigo": "75-2460",
+      "codigoOficial": "75 2460",
+      "nombre": "Drogodependencia y Abordajes Transdisciplinarios",
+      "abreviatura": "DAT",
+      "aliases": [
+        "dat",
+        "drogodependencia y abordajes transdisciplinarios"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-1320",
+          "07-0170",
+          "07-0590",
+          "07-0270"
+        ],
+        "aprobadas": [
+          "07-0080"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0590",
+        "07-1320",
+        "07-0270",
+        "07-0170"
+      ]
+    },
+    {
+      "codigo": "07-0240",
+      "codigoOficial": "07 0240",
+      "nombre": "Psicología Clínica II",
+      "abreviatura": "PSICLÍ",
+      "aliases": [
+        "psicli",
+        "psico clinica ii",
+        "psicologia clinica ii"
+      ],
+      "anio": 5,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-1330",
+          "07-0290"
+        ],
+        "aprobadas": [
+          "07-0270",
+          "07-1320"
+        ]
+      },
+      "correlativasRendir": [
+        "07-1330",
+        "07-0290"
+      ]
+    },
+    {
+      "codigo": "07-0490",
+      "codigoOficial": "07 0490",
+      "nombre": "Psicología de las Organizaciones",
+      "abreviatura": "PLO",
+      "aliases": [
+        "plo",
+        "psico de las organizaciones",
+        "psicologia de las organizaciones"
+      ],
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0210"
+        ],
+        "aprobadas": [
+          "07-0170",
+          "07-0390"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0210"
+      ]
+    },
+    {
+      "codigo": "07-0500",
+      "codigoOficial": "07 0500",
+      "nombre": "Psicoterapia de Grupo",
+      "abreviatura": "PSIDEG",
+      "aliases": [
+        "psicoterapia de grupo",
+        "psideg"
+      ],
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-1260",
+          "07-1330"
+        ],
+        "aprobadas": [
+          "07-0390",
+          "07-0590",
+          "07-0170",
+          "07-0270"
+        ]
+      },
+      "correlativasRendir": [
+        "07-1330",
+        "07-1260"
+      ]
+    },
+    {
+      "codigo": "07-0510",
+      "codigoOficial": "07 0510",
+      "nombre": "Psicología Forense",
+      "abreviatura": "PSIFOR",
+      "aliases": [
+        "psico forense",
+        "psicologia forense",
+        "psifor"
+      ],
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0390",
+          "07-0210"
+        ],
+        "aprobadas": [
+          "07-0270",
+          "07-1320"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0390",
+        "07-0210"
+      ]
+    },
+    {
+      "codigo": "09-2250",
+      "codigoOficial": "09 2250",
+      "nombre": "Metodología de la Investigación en Psicología II",
+      "abreviatura": "MIP",
+      "aliases": [
+        "met inv psico i",
+        "metodologia de la investigacion en psico ii",
+        "metodologia de la investigacion en psicologia ii",
+        "mip"
+      ],
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0420"
+        ],
+        "aprobadas": [
+          "07-0120",
+          "07-0410"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0420"
+      ]
+    },
+    {
+      "codigo": "75-2450",
+      "codigoOficial": "75 2450",
+      "nombre": "Salud Pública",
+      "abreviatura": "SALPÚB",
+      "aliases": [
+        "salpub",
+        "salud publica"
+      ],
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-1250"
+        ],
+        "aprobadas": [
+          "07-0170",
+          "07-0390",
+          "07-1320"
+        ]
+      },
+      "correlativasRendir": [
+        "07-1250"
+      ]
+    },
+    {
+      "codigo": "09-1520",
+      "codigoOficial": "09 1520",
+      "nombre": "Trabajo Integrador Final",
+      "abreviatura": "TIF",
+      "aliases": [
+        "tif",
+        "trabajo integrador final"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [
+          "09-0240",
+          "09-2250",
+          "05-0010",
+          "10-0700",
+          "07-0260",
+          "09-2240",
+          "07-0020",
+          "10-1205",
+          "05-0500",
+          "15-0740",
+          "00-0010",
+          "07-0150",
+          "07-0330",
+          "47-0090",
+          "05-0020",
+          "07-0440",
+          "20-0100",
+          "05-0310",
+          "07-0040",
+          "07-0080",
+          "07-1300",
+          "00-0020",
+          "07-0590",
+          "07-1310",
+          "07-0270",
+          "07-0120",
+          "07-0170",
+          "07-0280",
+          "07-1320",
+          "07-0390",
+          "07-0410",
+          "09-0230",
+          "07-0210",
+          "00-0080",
+          "07-0420",
+          "07-0300",
+          "07-1260",
+          "05-0250",
+          "07-1250",
+          "07-0250",
+          "75-2460",
+          "07-0290",
+          "07-1330"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "07-1330",
+        "05-0010",
+        "07-0260",
+        "09-2240",
+        "10-0700",
+        "07-0020",
+        "10-1205",
+        "05-0500",
+        "15-0740",
+        "00-0010",
+        "07-0150",
+        "07-0330",
+        "47-0090",
+        "05-0020",
+        "07-0440",
+        "20-0100",
+        "05-0310",
+        "07-0040",
+        "07-0080",
+        "07-1300",
+        "07-0590",
+        "00-0020",
+        "07-0120",
+        "07-0170",
+        "07-0270",
+        "07-0280",
+        "07-1310",
+        "07-0390",
+        "07-0410",
+        "07-1320",
+        "09-0230",
+        "07-0210",
+        "00-0080",
+        "07-0300",
+        "07-0420",
+        "07-1260",
+        "09-0240",
+        "05-0250",
+        "07-0250",
+        "07-0290",
+        "07-1250",
+        "75-2460",
+        "07-0240",
+        "07-0490",
+        "07-0500",
+        "07-0510",
+        "09-2250",
+        "75-2450",
+        "97-0240",
+        "97-0180",
+        "97-0190",
+        "97-0250",
+        "97-0260"
+      ]
+    },
+    {
+      "codigo": "97-0180",
+      "codigoOficial": "97 0180",
+      "nombre": "Práctica Pre Profesional Jurídico Forense",
+      "abreviatura": "PPPJF",
+      "aliases": [
+        "pppjf",
+        "practica pre profesional juridico forense"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0510",
+          "07-0290",
+          "05-0250"
+        ],
+        "aprobadas": [
+          "07-0120",
+          "07-0390"
+        ]
+      },
+      "correlativasRendir": [
+        "05-0250",
+        "07-0290",
+        "07-0510"
+      ]
+    },
+    {
+      "codigo": "97-0190",
+      "codigoOficial": "97 0190",
+      "nombre": "Práctica Pre Profesional Socio Comunitaria",
+      "abreviatura": "PPPSC",
+      "aliases": [
+        "pppsc",
+        "practica pre profesional socio comunitaria"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0250",
+          "75-2450",
+          "07-1250",
+          "07-0290",
+          "75-2460"
+        ],
+        "aprobadas": [
+          "07-0170",
+          "07-0280"
+        ]
+      },
+      "correlativasRendir": [
+        "07-1250",
+        "07-0250",
+        "75-2460",
+        "07-0290",
+        "75-2450"
+      ]
+    },
+    {
+      "codigo": "97-0240",
+      "codigoOficial": "97 0240",
+      "nombre": "Práctica Preprofesional Educacional",
+      "abreviatura": "PPE",
+      "aliases": [
+        "ppe",
+        "ppp educacional",
+        "practica preprofesional educacional"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0290",
+          "07-0300",
+          "07-0420"
+        ],
+        "aprobadas": [
+          "07-0590",
+          "07-0120",
+          "07-0270",
+          "07-0410"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0420",
+        "07-0300",
+        "07-0290"
+      ]
+    },
+    {
+      "codigo": "97-0250",
+      "codigoOficial": "97 0250",
+      "nombre": "Práctica Preprofesional Laboral",
+      "abreviatura": "PPL",
+      "aliases": [
+        "ppl",
+        "ppp laboral",
+        "practica preprofesional laboral"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "07-0290",
+          "07-0420",
+          "07-0210"
+        ],
+        "aprobadas": [
+          "07-0270",
+          "07-0390",
+          "07-0170",
+          "07-0590",
+          "07-0410",
+          "07-0120"
+        ]
+      },
+      "correlativasRendir": [
+        "07-0210",
+        "07-0420",
+        "07-0290"
+      ]
+    },
+    {
+      "codigo": "97-0260",
+      "codigoOficial": "97 0260",
+      "nombre": "Práctica Preprofesional Clínica",
+      "abreviatura": "PPC",
+      "aliases": [
+        "ppc",
+        "ppp clinica",
+        "practica preprofesional clinica"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "75-2460",
+          "07-0420",
+          "07-1330",
+          "07-0290"
+        ],
+        "aprobadas": [
+          "07-0390",
+          "07-0170",
+          "07-0120",
+          "07-0270",
+          "07-0410",
+          "07-0590"
+        ]
+      },
+      "correlativasRendir": [
+        "07-1330",
+        "07-0420",
+        "75-2460",
+        "07-0290"
+      ]
+    }
+  ]
+}
