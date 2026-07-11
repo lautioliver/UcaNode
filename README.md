@@ -72,3 +72,7 @@ La documentación técnica vive en la wiki del repo:
 ## Relación con Notion
 
 Notion fue la referencia de diseño inicial. Los datos de UcaNode viven en SQLite y no se sincronizan con Notion.
+
+## Licencia
+
+UcaNode se distribuye bajo la [Licencia MIT](LICENSE). Copyright (c) 2026 lautioliver.
