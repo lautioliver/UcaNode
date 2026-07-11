@@ -48,7 +48,7 @@ export default async function PerfilPage() {
             carreraNombre: perfil?.carrera?.nombre ?? null,
             anioIngreso: perfil?.anioIngreso ?? new Date().getFullYear(),
             legajo: perfil?.legajo ?? null,
-            password: perfil?.password ?? null,
+            passwordConfigured: Boolean(perfil?.password),
           }}
         />
       </Card>

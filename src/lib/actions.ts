@@ -14,6 +14,7 @@ import {
 } from "@/lib/schemas";
 import { getCarreraCatalogo } from "@/lib/planes-estudio/catalogo";
 import { hydrateCarrera } from "@/lib/planes-estudio/ingesta";
+import { hashPassword } from "@/lib/password";
 
 export type ActionResult = {
   success: boolean;
@@ -536,12 +537,23 @@ export async function updatePerfil(
     return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
   }
 
+  const { password, ...perfilData } = parsed.data;
+  const passwordInput = password?.trim();
+
   try {
     const existing = await prisma.perfil.findFirst();
+    const data: typeof perfilData & { password?: string | null } = { ...perfilData };
+
+    if (passwordInput) {
+      data.password = await hashPassword(passwordInput);
+    } else if (!existing) {
+      data.password = null;
+    }
+
     if (existing) {
-      await prisma.perfil.update({ where: { id: existing.id }, data: parsed.data });
+      await prisma.perfil.update({ where: { id: existing.id }, data });
     } else {
-      await prisma.perfil.create({ data: parsed.data });
+      await prisma.perfil.create({ data });
     }
     revalidatePerfil();
     refresh();
