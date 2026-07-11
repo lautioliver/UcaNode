@@ -19,6 +19,7 @@ import {
   SectionCard,
 } from "@/components/layout";
 import { categoriaLinkLabel, diaSemanaLabel } from "@/lib/labels";
+import { getOrCreatePerfil } from "@/lib/perfil";
 import { prisma } from "@/lib/prisma";
 import { daysUntil } from "@/lib/entrega-utils";
 
@@ -41,21 +42,25 @@ function currentDayEnum(): DiaSemana | null {
 }
 
 export default async function DashboardPage() {
+  const perfil = await getOrCreatePerfil();
+
   const [entregas, materiasCursando, horarios, favoritos] = await Promise.all([
     prisma.entrega.findMany({
+      where: { materia: { perfilId: perfil.id } },
       include: { materia: true },
       orderBy: { fecha: "asc" },
     }),
     prisma.materia.findMany({
-      where: { estado: EstadoMateria.CURSANDO },
+      where: { perfilId: perfil.id, estado: EstadoMateria.CURSANDO },
       orderBy: { nombre: "asc" },
     }),
     prisma.horario.findMany({
+      where: { materia: { perfilId: perfil.id } },
       include: { materia: true },
       orderBy: [{ dia: "asc" }, { horaInicio: "asc" }],
     }),
     prisma.linkExterno.findMany({
-      where: { favorito: true },
+      where: { perfilId: perfil.id, favorito: true },
       orderBy: { nombre: "asc" },
       take: 4,
     }),

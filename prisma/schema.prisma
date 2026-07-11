@@ -109,22 +109,24 @@ model CorrelatividadPlan {
 }
 
 model Perfil {
-  id          String   @id @default(cuid())
+  id          String        @id @default(cuid())
   nombre      String
-  emailUcasal String   @unique
+  emailUcasal String        @unique
   anioIngreso Int
   legajo      String?
   password    String?
   carreraId   String?
-  carrera     Carrera? @relation(fields: [carreraId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  carrera     Carrera?      @relation(fields: [carreraId], references: [id])
+  materias    Materia[]
+  links       LinkExterno[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 }
 
 model Materia {
   id            String         @id @default(cuid())
   nombre        String
-  codigo        String?        @unique
+  codigo        String?
   estado        EstadoMateria  @default(CURSANDO)
   cuatrimestre  Int?
   anio          Int?
@@ -135,14 +137,18 @@ model Materia {
   semestre      String?
   dia           DiaSemana?
   planEstudioId String?
+  perfilId      String
   planEstudio   PlanEstudio?   @relation(fields: [planEstudioId], references: [id], onDelete: SetNull)
+  perfil        Perfil         @relation(fields: [perfilId], references: [id], onDelete: Cascade)
   entregas      Entrega[]
   horarios      Horario[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 
+  @@unique([perfilId, codigo])
   @@index([estado])
   @@index([nombre])
+  @@index([perfilId])
 }
 
 model Entrega {
@@ -183,6 +189,10 @@ model LinkExterno {
   url           String
   categoria     CategoriaLink  @default(OTRO)
   favorito      Boolean        @default(false)
+  perfilId      String
+  perfil        Perfil         @relation(fields: [perfilId], references: [id], onDelete: Cascade)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+
+  @@index([perfilId])
 }
