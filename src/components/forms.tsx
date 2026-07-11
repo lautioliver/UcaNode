@@ -11,7 +11,7 @@ import {
   modalidadLabel,
   categoriaLinkLabel,
 } from "@/lib/labels";
-import { autoInfoFromName, type MateriaAutoInfo } from "@/lib/correlatividades";
+import { autoInfoFromName, autoInfoFromCodigo, type MateriaAutoInfo } from "@/lib/correlatividades";
 
 function FormFeedback({
   state,
@@ -109,6 +109,25 @@ function PlanSuggestion({
   );
 }
 
+function applyPlanInfo(
+  info: MateriaAutoInfo,
+  setters: {
+    setNombre: (v: string) => void;
+    setCodigo: (v: string) => void;
+    setAnio: (v: string) => void;
+    setCuatrimestre: (v: string) => void;
+    setSemestre: (v: string) => void;
+    setCorrelativas: (v: string) => void;
+  },
+) {
+  setters.setNombre(info.nombreOficial);
+  setters.setCodigo(info.codigo);
+  setters.setAnio(String(info.anio));
+  setters.setCuatrimestre(info.cuatrimestre != null ? String(info.cuatrimestre) : "");
+  setters.setSemestre(info.semestreLabel);
+  setters.setCorrelativas(info.correlativas);
+}
+
 // ── MATERIA ─────────────────────────────────────────────
 
 export function MateriaCreateForm({
@@ -128,17 +147,29 @@ export function MateriaCreateForm({
   const [cuatrimestre, setCuatrimestre] = useState("");
   const [semestre, setSemestre] = useState("");
   const [correlativas, setCorrelativas] = useState("");
+  const [autoFilled, setAutoFilled] = useState(false);
 
-  const detected = useMemo(() => autoInfoFromName(nombre), [nombre]);
+  const detectedByCodigo = useMemo(() => autoInfoFromCodigo(codigo), [codigo]);
+  const detectedByNombre = useMemo(() => autoInfoFromName(nombre), [nombre]);
+  const detected = detectedByCodigo ?? detectedByNombre;
 
-  const applyPlan = () => {
-    if (!detected) return;
-    setCodigo(detected.codigo);
-    setAnio(String(detected.anio));
-    setCuatrimestre(detected.cuatrimestre != null ? String(detected.cuatrimestre) : "");
-    setSemestre(detected.semestreLabel);
-    setCorrelativas(detected.correlativas);
+  const hydrateFromPlan = (info: MateriaAutoInfo) => {
+    applyPlanInfo(info, {
+      setNombre,
+      setCodigo,
+      setAnio,
+      setCuatrimestre,
+      setSemestre,
+      setCorrelativas,
+    });
+    setAutoFilled(true);
   };
+
+  useEffect(() => {
+    if (detectedByCodigo) {
+      hydrateFromPlan(detectedByCodigo);
+    }
+  }, [detectedByCodigo?.codigo]);
 
   useEffect(() => {
     if (state.success && state.message === "Materia creada") onSuccess?.();
@@ -146,35 +177,48 @@ export function MateriaCreateForm({
 
   return (
     <form action={formAction} className="grid gap-4 sm:grid-cols-2">
-      <Field label="Nombre" span>
+      <Field label="Código de materia" hint="Ingresá el código del plan o Moodle para autocompletar">
+        <input
+          name="codigo"
+          value={codigo}
+          onChange={(e) => {
+            setCodigo(e.target.value);
+            setAutoFilled(false);
+          }}
+          placeholder="Ej: 35-1050"
+          className={`${input} w-full`}
+          autoFocus
+        />
+      </Field>
+      <Field label="Nombre">
         <input
           name="nombre"
           required
           value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          placeholder="Ej: Algoritmos y Estructuras de Datos"
-          className={`${input} w-full`}
+          onChange={(e) => {
+            setNombre(e.target.value);
+            if (!detectedByCodigo) setAutoFilled(false);
+          }}
+          placeholder="Se completa desde el plan"
+          readOnly={autoFilled}
+          className={`${input} w-full ${autoFilled ? "cursor-not-allowed opacity-80" : ""}`}
         />
       </Field>
-      <PlanSuggestion info={detected} onApply={applyPlan} />
-      <Field label="Código" hint="Sirve como prefijo en las entregas">
-        <input
-          name="codigo"
-          value={codigo}
-          onChange={(e) => setCodigo(e.target.value)}
-          placeholder="Ej: 35-1050"
-          className={`${input} w-full`}
-        />
-      </Field>
-      <Field label="Estado">
-        <select name="estado" defaultValue="CURSANDO" className={`${select} w-full`}>
-          {Object.entries(estadoMateriaLabel).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </Field>
+      {detected && !autoFilled && (
+        <PlanSuggestion info={detected} onApply={() => hydrateFromPlan(detected)} />
+      )}
+      {autoFilled && (
+        <div className="sm:col-span-2 rounded-lg border border-border bg-surface px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
+          <span className="font-medium text-accent">Plan detectado:</span>{" "}
+          {detected?.nombreOficial} · {detected?.anio}° año — {detected?.semestreLabel}
+          {detected?.correlativas ? ` · ${detected.correlativas}` : ""}
+        </div>
+      )}
+      <input type="hidden" name="anio" value={anio} />
+      <input type="hidden" name="cuatrimestre" value={cuatrimestre} />
+      <input type="hidden" name="semestre" value={semestre} />
+      <input type="hidden" name="correlativas" value={correlativas} />
+      <input type="hidden" name="estado" value="CURSANDO" />
       <Field label="Día de cursado">
         {dia ? (
           <>
@@ -203,59 +247,13 @@ export function MateriaCreateForm({
           className={`${input} w-full`}
         />
       </Field>
-      <Field label="Cuatrimestre">
-        <input
-          name="cuatrimestre"
-          type="number"
-          min={1}
-          max={2}
-          value={cuatrimestre}
-          onChange={(e) => setCuatrimestre(e.target.value)}
-          placeholder="1 o 2"
-          className={`${input} w-full`}
-        />
-      </Field>
-      <Field label="Año">
-        <input
-          name="anio"
-          type="number"
-          min={1}
-          max={6}
-          value={anio}
-          onChange={(e) => setAnio(e.target.value)}
-          placeholder="1 a 6"
-          className={`${input} w-full`}
-        />
-      </Field>
-      <Field label="Semestre">
-        <input
-          name="semestre"
-          value={semestre}
-          onChange={(e) => setSemestre(e.target.value)}
-          placeholder="Ej: 1° Semestre o Anual"
-          className={`${input} w-full`}
-        />
-      </Field>
-      <Field label="Correlativas" span hint="Se completan automáticamente desde el plan al detectar la materia">
-        <input
-          name="correlativas"
-          value={correlativas}
-          onChange={(e) => setCorrelativas(e.target.value)}
-          placeholder="Ej: Reg: LENG 1 · Aprob: FI"
-          className={`${input} w-full`}
-        />
-      </Field>
       <Field label="Notas" span>
         <input
           name="notas"
-          placeholder="Observaciones libres"
+          placeholder="Observaciones personales"
           className={`${input} w-full`}
         />
       </Field>
-      <label className="flex items-center gap-2 text-sm text-secondary sm:col-span-2">
-        <input name="promocional" type="checkbox" className="rounded border-border" />
-        Promocional
-      </label>
       <FormFeedback state={state} pending={pending} submitLabel="Agregar materia" />
     </form>
   );
@@ -264,6 +262,8 @@ export function MateriaCreateForm({
 export function MateriaEditForm({
   action,
   defaultValues,
+  onSuccess,
+  onDelete,
 }: {
   action: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
   defaultValues: {
@@ -280,6 +280,8 @@ export function MateriaEditForm({
     promocional: boolean;
     dia: string | null;
   };
+  onSuccess?: () => void;
+  onDelete?: () => void;
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
 
@@ -292,7 +294,9 @@ export function MateriaEditForm({
   const [semestre, setSemestre] = useState(defaultValues.semestre ?? "");
   const [correlativas, setCorrelativas] = useState(defaultValues.correlativas ?? "");
 
-  const detected = useMemo(() => autoInfoFromName(nombre), [nombre]);
+  const detectedByCodigo = useMemo(() => autoInfoFromCodigo(codigo), [codigo]);
+  const detectedByNombre = useMemo(() => autoInfoFromName(nombre), [nombre]);
+  const detected = detectedByCodigo ?? detectedByNombre;
   const showSuggestion =
     detected != null &&
     (codigo !== detected.codigo ||
@@ -301,12 +305,19 @@ export function MateriaEditForm({
 
   const applyPlan = () => {
     if (!detected) return;
-    setCodigo(detected.codigo);
-    setAnio(String(detected.anio));
-    setCuatrimestre(detected.cuatrimestre != null ? String(detected.cuatrimestre) : "");
-    setSemestre(detected.semestreLabel);
-    setCorrelativas(detected.correlativas);
+    applyPlanInfo(detected, {
+      setNombre,
+      setCodigo,
+      setAnio,
+      setCuatrimestre,
+      setSemestre,
+      setCorrelativas,
+    });
   };
+
+  useEffect(() => {
+    if (state.success && state.message === "Materia actualizada") onSuccess?.();
+  }, [state.success, state.message, onSuccess]);
 
   return (
     <form action={formAction} className="grid gap-4 sm:grid-cols-2">
@@ -426,6 +437,15 @@ export function MateriaEditForm({
         Promocional
       </label>
       <FormFeedback state={state} pending={pending} submitLabel="Guardar cambios" />
+      {onDelete && (
+        <button
+          type="button"
+          onClick={onDelete}
+          className="mt-2 w-full rounded-lg border border-danger/30 px-4 py-2 text-sm text-danger transition hover:bg-danger-ghost sm:col-span-2"
+        >
+          Eliminar materia
+        </button>
+      )}
     </form>
   );
 }

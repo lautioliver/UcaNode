@@ -89,7 +89,7 @@ export function EntregaCard({
               )}
               <span className="truncate">{entrega.titulo}</span>
             </p>
-            <p className="truncate text-xs text-muted">
+            <p className="truncate text-xs font-medium text-slate-600 dark:text-slate-300">
               {entrega.materia.nombre}
               {entrega.materia.profesor ? ` · ${entrega.materia.profesor}` : ""}
             </p>
@@ -106,7 +106,7 @@ export function EntregaCard({
         label={entregado ? "Completada" : humanDays(days)}
       />
 
-      <div className="flex items-center justify-between text-[11px] text-muted">
+      <div className="flex items-center justify-between text-[11px] text-slate-600 dark:text-slate-300">
         <span className="inline-flex items-center gap-1.5">
           <span
             className={`inline-block h-1.5 w-1.5 rounded-full ${

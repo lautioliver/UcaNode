@@ -21,7 +21,9 @@ export function MateriaCard({ materia }: { materia: MateriaItem }) {
         <div>
           <p className="font-medium text-primary">{materia.nombre}</p>
           {materia.codigo && (
-            <p className="mt-0.5 text-xs text-muted">{materia.codigo}</p>
+            <p className="mt-0.5 text-xs font-medium text-slate-600 dark:text-slate-300">
+              {materia.codigo}
+            </p>
           )}
         </div>
         <span
@@ -31,7 +33,7 @@ export function MateriaCard({ materia }: { materia: MateriaItem }) {
         </span>
       </div>
       {(materia.profesor || materia.semestre) && (
-        <p className="mt-2 text-xs text-muted">
+        <p className="mt-2 text-xs font-medium text-slate-600 dark:text-slate-300">
           {[materia.semestre, materia.profesor].filter(Boolean).join(" · ")}
         </p>
       )}
