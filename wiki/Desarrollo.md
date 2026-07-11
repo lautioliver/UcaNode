@@ -4,7 +4,7 @@
 
 - Node.js 20.9 o superior.
 - npm.
-- SQLite local, usado a través de Prisma y `better-sqlite3`.
+- PostgreSQL (Neon recomendado; ver [Deploy](Deploy.md)).
 
 El proyecto incluye `.nvmrc` con Node 22.
 
@@ -12,9 +12,10 @@ El proyecto incluye `.nvmrc` con Node 22.
 
 ```bash
 nvm use
+cp .env.example .env
 npm install
 npx prisma generate
-npx prisma migrate dev
+npm run db:migrate
 npm run db:seed
 npm run dev
 ```
@@ -37,18 +38,19 @@ Next.js 16 y Prisma 7 requieren Node.js 20.9 o superior. Node 18 no alcanza para
 | Comando | Descripción |
 |---|---|
 | `npm run dev` | Servidor de desarrollo |
-| `npm run build` | Genera Prisma Client y compila producción |
+| `npm run build` | Genera Prisma Client, aplica migraciones y compila producción |
 | `npm run start` | Servidor de producción |
 | `npm run lint` | ESLint |
 | `npm run test` | Tests con Vitest |
 | `npm run validate:plan` | Valida estructura de un JSON de plan de estudios |
 | `npm run db:migrate` | `prisma migrate dev` |
-| `npm run db:seed` | Ejecuta `prisma/seed.ts` con `tsx` |
-| `npm run db:reset` | Reinicia migraciones y ejecuta seed configurado |
+| `npm run db:deploy` | `prisma migrate deploy` (producción / build Vercel) |
+| `npm run db:seed` | Ejecuta `prisma/seed.ts` con `tsx` (solo desarrollo) |
+| `npm run db:reset` | Reinicia migraciones y ejecuta seed (solo desarrollo) |
 
 ## Base de datos
 
-El datasource SQLite está configurado desde Prisma. El archivo local `dev.db` se usa para desarrollo.
+El datasource PostgreSQL se configura con `DATABASE_URL` en `.env` (ver `.env.example`).
 
 Tareas habituales:
 
@@ -77,6 +79,7 @@ Los tests actuales cubren validaciones y lógica de correlatividades en `src/lib
 
 | Variable | Uso |
 |---|---|
+| `DATABASE_URL` | Connection string de PostgreSQL (Neon en producción) |
 | `NEXT_PUBLIC_CARRERA_SOLICITUD_FORM_URL` | URL pública de un Google Form para solicitar carreras faltantes en onboarding |
 
 La configuración de Prisma vive en:
