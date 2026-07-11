@@ -1047,7 +1047,7 @@ export function PerfilForm({
     carreraNombre: string | null;
     anioIngreso: number;
     legajo: string | null;
-    password: string | null;
+    passwordConfigured: boolean;
   };
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
@@ -1063,12 +1063,19 @@ export function PerfilForm({
           className={`${input} w-full`}
         />
       </Field>
-      <Field label="Contraseña" hint="Se guarda local, sin cifrar (a mejorar)">
+      <Field
+        label="Contraseña"
+        hint={
+          defaultValues.passwordConfigured
+            ? "Dejá vacío para mantener la actual. Se guarda hasheada en la base."
+            : "Opcional. Se guarda hasheada en la base de datos."
+        }
+      >
         <input
           name="password"
           type="password"
-          defaultValue={defaultValues.password ?? ""}
-          placeholder="••••••••"
+          autoComplete="new-password"
+          placeholder={defaultValues.passwordConfigured ? "••••••••" : "Contraseña UCASAL (opcional)"}
           className={`${input} w-full`}
         />
       </Field>
