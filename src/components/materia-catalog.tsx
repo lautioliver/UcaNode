@@ -15,7 +15,7 @@ import type { ActionResult } from "@/lib/actions";
 import { Drawer } from "@/components/drawer";
 import { MateriaCreateForm, MateriaEditForm } from "@/components/forms";
 import { EmptyState, FilterPill } from "@/components/layout";
-import { findMateriaByName } from "@/lib/correlatividades";
+import { createCorrelatividadesHelpers, type MateriaPlan } from "@/lib/correlatividades";
 
 type Materia = {
   id: string;
@@ -73,7 +73,11 @@ function initialsFromNombre(nombre: string): string {
   return abbr || nombre.slice(0, 3).toUpperCase();
 }
 
-function materiaAbbr(nombre: string, codigo: string | null): string {
+function materiaAbbr(
+  nombre: string,
+  codigo: string | null,
+  findMateriaByName: (value: string) => MateriaPlan | null,
+): string {
   const plan = findMateriaByName(nombre);
   if (plan) return plan.abreviatura;
   if (codigo) {
@@ -83,7 +87,10 @@ function materiaAbbr(nombre: string, codigo: string | null): string {
   return initialsFromNombre(nombre);
 }
 
-function periodoTipo(m: Materia): PeriodoTipo {
+function periodoTipo(
+  m: Materia,
+  findMateriaByName: (value: string) => MateriaPlan | null,
+): PeriodoTipo {
   const sem = m.semestre?.toLowerCase() ?? "";
   if (sem.includes("anual")) return "anual";
   if (sem.includes("2") || sem.includes("segundo")) return "segundo";
@@ -110,11 +117,14 @@ function periodoLabel(m: Materia, tipo: PeriodoTipo): string {
   return "Sin período";
 }
 
-function periodBadges(m: Materia): {
+function periodBadges(
+  m: Materia,
+  findMateriaByName: (value: string) => MateriaPlan | null,
+): {
   year: { label: string; className: string } | null;
   period: { label: string; className: string };
 } {
-  const tipo = periodoTipo(m);
+  const tipo = periodoTipo(m, findMateriaByName);
   const period = periodoLabel(m, tipo);
 
   let periodClassName = "bg-surface-hover text-muted";
@@ -131,10 +141,13 @@ function periodBadges(m: Materia): {
   };
 }
 
-function sortMaterias(list: Materia[]): Materia[] {
+function sortMaterias(
+  list: Materia[],
+  findMateriaByName: (value: string) => MateriaPlan | null,
+): Materia[] {
   return [...list].sort((a, b) => {
-    const ta = periodoTipo(a);
-    const tb = periodoTipo(b);
+    const ta = periodoTipo(a, findMateriaByName);
+    const tb = periodoTipo(b, findMateriaByName);
     if (PERIODO_ORDEN[ta] !== PERIODO_ORDEN[tb]) {
       return PERIODO_ORDEN[ta] - PERIODO_ORDEN[tb];
     }
@@ -159,15 +172,23 @@ export function MateriaCatalog({
   createMateria,
   updateMateria,
   deleteMateria,
+  planMaterias = [],
 }: {
   materias: Materia[];
   createMateria: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
   updateMateria: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
   deleteMateria: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
+  planMaterias?: MateriaPlan[];
 }) {
   const [drawer, setDrawer] = useState<DrawerState>(null);
   const [filtroAnio, setFiltroAnio] = useState<string>("todos");
   const [filtroPeriodo, setFiltroPeriodo] = useState<PeriodoTipo | "todos">("todos");
+
+  const planHelpers = useMemo(
+    () => createCorrelatividadesHelpers(planMaterias),
+    [planMaterias],
+  );
+  const findMateriaByName = planHelpers.findMateriaByName;
 
   const aniosDisponibles = useMemo(() => {
     const set = new Set<number>();
@@ -180,11 +201,13 @@ export function MateriaCatalog({
   const materiasVisibles = useMemo(() => {
     const filtered = materias.filter((m) => {
       if (filtroAnio !== "todos" && m.anio !== Number(filtroAnio)) return false;
-      if (filtroPeriodo !== "todos" && periodoTipo(m) !== filtroPeriodo) return false;
+      if (filtroPeriodo !== "todos" && periodoTipo(m, findMateriaByName) !== filtroPeriodo) {
+        return false;
+      }
       return true;
     });
-    return sortMaterias(filtered);
-  }, [materias, filtroAnio, filtroPeriodo]);
+    return sortMaterias(filtered, findMateriaByName);
+  }, [materias, filtroAnio, filtroPeriodo, findMateriaByName]);
 
   const openCreate = () => setDrawer({ mode: "create" });
   const openEdit = (materia: Materia) => setDrawer({ mode: "edit", materia });
@@ -254,8 +277,8 @@ export function MateriaCatalog({
       ) : (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {materiasVisibles.map((m) => {
-            const abbr = materiaAbbr(m.nombre, m.codigo);
-            const badges = periodBadges(m);
+            const abbr = materiaAbbr(m.nombre, m.codigo, findMateriaByName);
+            const badges = periodBadges(m, findMateriaByName);
             const Icon = materiaIcon(m.nombre);
 
             return (
@@ -308,7 +331,11 @@ export function MateriaCatalog({
         subtitle="Nueva materia"
         title="Agregar al catálogo"
       >
-        <MateriaCreateForm action={createMateria} onSuccess={closeDrawer} />
+        <MateriaCreateForm
+          action={createMateria}
+          onSuccess={closeDrawer}
+          planMaterias={planMaterias}
+        />
       </Drawer>
 
       <Drawer
@@ -329,6 +356,7 @@ export function MateriaCatalog({
               action={updateMateria}
               onSuccess={closeDrawer}
               onDelete={() => handleDelete(drawer.materia)}
+              planMaterias={planMaterias}
               defaultValues={{
                 id: drawer.materia.id,
                 nombre: drawer.materia.nombre,

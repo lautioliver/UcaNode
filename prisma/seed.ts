@@ -29,7 +29,6 @@ async function main() {
     data: {
       nombre: "Estudiante Ucasal",
       emailUcasal: "estudiante@ucasal.edu.ar",
-      carrera: "Ingeniería Informática",
       anioIngreso: 2024,
       legajo: "INF-0001",
     },

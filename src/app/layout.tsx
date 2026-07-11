@@ -4,6 +4,10 @@ import { cookies } from "next/headers";
 import { Sidebar } from "@/components/sidebar";
 import { Footer } from "@/components/footer";
 import { EntregaFab } from "@/components/entrega-fab";
+import { OnboardingCarrera } from "@/components/onboarding-carrera";
+import { confirmarCarrera } from "@/lib/actions";
+import { listCarrerasDisponibles } from "@/lib/planes-estudio/catalogo";
+import { getOrCreatePerfil } from "@/lib/perfil";
 import { prisma } from "@/lib/prisma";
 import "./globals.css";
 
@@ -20,7 +24,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "UcaNode — Autogestión Ucasal",
   description:
-    "Sistema de autogestión para estudiantes de Ingeniería Informática de la Ucasal",
+    "Sistema de autogestión para estudiantes de la Ucasal",
 };
 
 export default async function RootLayout({
@@ -28,15 +32,32 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [perfil, materias, cookieStore] = await Promise.all([
-    prisma.perfil.findFirst(),
-    prisma.materia.findMany({ orderBy: { nombre: "asc" }, select: { id: true, nombre: true } }),
-    cookies(),
-  ]);
+  const [perfil, cookieStore] = await Promise.all([getOrCreatePerfil(), cookies()]);
 
   const collapsed = cookieStore.get("ucanode_sidebar_collapsed")?.value === "1";
   const themeCookie = cookieStore.get("ucanode_theme")?.value;
   const dark = themeCookie !== "light";
+
+  if (!perfil.carreraId) {
+    return (
+      <html lang="es" className={dark ? "dark" : ""}>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-surface text-primary antialiased`}
+        >
+          <OnboardingCarrera
+            action={confirmarCarrera}
+            perfilId={perfil.id}
+            carreras={listCarrerasDisponibles()}
+          />
+        </body>
+      </html>
+    );
+  }
+
+  const materias = await prisma.materia.findMany({
+    orderBy: { nombre: "asc" },
+    select: { id: true, nombre: true },
+  });
 
   return (
     <html lang="es" className={dark ? "dark" : ""}>
@@ -45,7 +66,7 @@ export default async function RootLayout({
       >
         <div className="flex min-h-screen">
           <Sidebar
-            perfilNombre={perfil?.nombre}
+            perfilNombre={perfil.nombre}
             initialCollapsed={collapsed}
             initialDark={dark}
           />
