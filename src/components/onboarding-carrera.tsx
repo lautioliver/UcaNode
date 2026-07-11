@@ -4,6 +4,7 @@ import { useActionState, useMemo, useState } from "react";
 import {
   Check,
   Cpu,
+  Factory,
   GraduationCap,
   Loader2,
   Search,
@@ -23,6 +24,7 @@ const input =
 
 const CARRERA_ICONS: Record<string, LucideIcon> = {
   "ingenieria-informatica-2015": Cpu,
+  "ingenieria-industrial-2005": Factory,
 };
 
 function carreraBadges(carrera: CarreraCatalogo) {

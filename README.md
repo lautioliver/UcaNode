@@ -1,11 +1,12 @@
 # UcaNode
 
-Sistema de autogestión para estudiantes de Ingeniería Informática de la Ucasal.
+Sistema de autogestión para estudiantes de la Ucasal.
 
 UcaNode toma como referencia un dashboard personal de Notion, pero funciona como una aplicación web independiente con base de datos local en SQLite. Permite organizar materias, entregas, horarios, links útiles y datos del perfil académico desde una interfaz hecha con Next.js.
 
 ## Funcionalidades
 
+- Onboarding inicial: selección de carrera y carga lazy del plan de estudios desde JSON.
 - Dashboard con próximas entregas, clases del día, materias en curso y links favoritos.
 - Gestión de materias en catálogo de tarjetas (año/semestre, estados y correlatividades).
 - Calendario/listado de entregas por materia, tipo, fecha, prioridad y estado.
@@ -54,6 +55,7 @@ Abrí [http://localhost:3000](http://localhost:3000).
 | `npm run start` | Inicia el servidor de producción |
 | `npm run lint` | Ejecuta ESLint |
 | `npm run test` | Ejecuta tests con Vitest |
+| `npm run validate:plan` | Valida un JSON de plan de estudios |
 | `npm run db:migrate` | Crea/aplica migraciones de desarrollo |
 | `npm run db:seed` | Carga datos de ejemplo |
 | `npm run db:reset` | Reinicia migraciones y seed |

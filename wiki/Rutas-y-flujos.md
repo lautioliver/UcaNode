@@ -2,10 +2,21 @@
 
 Esta página resume la navegación principal y cómo se leen/escriben datos en cada pantalla.
 
+## Gate de onboarding
+
+Antes de acceder a cualquier ruta, el layout raíz verifica si el perfil tiene `carreraId`:
+
+- **Sin carrera**: se muestra la pantalla de onboarding (`OnboardingCarrera`) a pantalla completa, sin sidebar.
+- **Con carrera**: se renderiza el layout habitual y las rutas de la app.
+
+La acción `confirmarCarrera` asigna la carrera, dispara la ingesta lazy del plan y revalida toda la aplicación.
+
 ## Navegación
 
 ```mermaid
 flowchart TD
+    Gate{"¿Perfil con carrera?"}
+    Onb["Onboarding<br/>selección de carrera"]
     Root["/ Dashboard"]
     Mat["/materias Materias"]
     MatId["/materias/[id] Detalle de materia"]
@@ -16,6 +27,8 @@ flowchart TD
     Err["error.tsx Error boundary"]
     Ld["loading.tsx Loading state"]
 
+    Gate -->|No| Onb
+    Gate -->|Sí| Root
     Root --> Mat
     Root --> Ent
     Root --> Hor
@@ -32,19 +45,20 @@ flowchart TD
     Root & Mat & MatId & Ent & Hor & Lnk & Per -.-> Ld
 ```
 
-La sidebar incluye accesos a dashboard, materias, entregas, horarios, links y perfil. También maneja el modo claro/oscuro y el colapso en pantallas grandes.
+La sidebar incluye accesos a dashboard, materias, entregas, horarios, links y perfil. Solo es visible después de completar el onboarding. También maneja el modo claro/oscuro y el colapso en pantallas grandes.
 
 ## Rutas
 
 | Ruta | Lecturas principales | Acciones disponibles |
 |---|---|---|
+| Onboarding (layout) | `getOrCreatePerfil`, `listCarrerasDisponibles` | `confirmarCarrera` |
 | `/` | Entregas, materias cursando, horarios y links favoritos | - |
-| `/materias` | `materia.findMany` (catálogo en tarjetas con año/semestre) | `createMateria`, `updateMateria`, `deleteMateria` |
+| `/materias` | `materia.findMany`, `getPlanMateriasByCarreraId` (autocompletado) | `createMateria`, `updateMateria`, `deleteMateria` |
 | `/materias/[id]` | `materia.findUnique` con entregas y horarios | Acciones sobre items relacionados según componentes reutilizados |
 | `/entregas` | `entrega.findMany`, `materia.findMany` | `createEntrega`, `updateEntrega`, `deleteEntrega` |
 | `/horarios` | `horario.findMany` y `materia.findMany` filtrados a estados activos (`CURSANDO`, `PARA_FINALIZAR`) | `createHorario`, `updateHorario`, `deleteHorario` |
 | `/links` | `linkExterno.findMany`, perfil | `createLink`, `updateLink`, `deleteLink` |
-| `/perfil` | `perfil.findFirst` | `updatePerfil` |
+| `/perfil` | `perfil.findFirst` con `carrera` | `updatePerfil` (carrera de solo lectura, definida en onboarding) |
 
 ## Flujo de lectura
 
@@ -106,6 +120,7 @@ sequenceDiagram
 
 ## Revalidación por dominio
 
+- Onboarding / carrera: toda la app (`revalidateApp`).
 - Materias: dashboard, listado y detalle cuando aplica.
 - Entregas: dashboard, entregas y detalle de materia.
 - Horarios: dashboard, horarios y detalle de materia.
