@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { cookies } from "next/headers";
 import { Sidebar } from "@/components/sidebar";
+import { Footer } from "@/components/footer";
 import { EntregaFab } from "@/components/entrega-fab";
 import { prisma } from "@/lib/prisma";
 import "./globals.css";
@@ -52,6 +53,7 @@ export default async function RootLayout({
             <div className="w-full flex-1 px-4 pb-10 pt-16 sm:px-6 lg:px-8 lg:pt-8">
               <div className="mx-auto w-full max-w-7xl">{children}</div>
             </div>
+            <Footer />
           </div>
           <EntregaFab materias={materias} />
         </div>
