@@ -39,10 +39,10 @@ La sidebar incluye accesos a dashboard, materias, entregas, horarios, links y pe
 | Ruta | Lecturas principales | Acciones disponibles |
 |---|---|---|
 | `/` | Entregas, materias cursando, horarios y links favoritos | - |
-| `/materias` | `materia.findMany` | `createMateria`, `updateMateria`, `deleteMateria` |
+| `/materias` | `materia.findMany` (catálogo en tarjetas con año/semestre) | `createMateria`, `updateMateria`, `deleteMateria` |
 | `/materias/[id]` | `materia.findUnique` con entregas y horarios | Acciones sobre items relacionados según componentes reutilizados |
 | `/entregas` | `entrega.findMany`, `materia.findMany` | `createEntrega`, `updateEntrega`, `deleteEntrega` |
-| `/horarios` | `horario.findMany`, `materia.findMany`, perfil | `createHorario`, `updateHorario`, `deleteHorario` |
+| `/horarios` | `horario.findMany` y `materia.findMany` filtrados a estados activos (`CURSANDO`, `PARA_FINALIZAR`) | `createHorario`, `updateHorario`, `deleteHorario` |
 | `/links` | `linkExterno.findMany`, perfil | `createLink`, `updateLink`, `deleteLink` |
 | `/perfil` | `perfil.findFirst` | `updatePerfil` |
 

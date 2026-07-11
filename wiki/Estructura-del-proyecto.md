@@ -29,10 +29,10 @@ UcaNode/
 |---|---|
 | `layout.tsx` | Layout raíz, fuentes, sidebar, tema inicial y perfil |
 | `page.tsx` | Dashboard principal |
-| `materias/page.tsx` | Listado y gestión de materias |
+| `materias/page.tsx` | Catálogo de materias en tarjetas (año/semestre destacados) |
 | `materias/[id]/page.tsx` | Detalle de materia |
 | `entregas/page.tsx` | Gestión de entregas |
-| `horarios/page.tsx` | Gestión de horarios |
+| `horarios/page.tsx` | Grilla semanal de horarios (solo materias activas) |
 | `links/page.tsx` | Gestión de links externos |
 | `perfil/page.tsx` | Datos del estudiante |
 | `loading.tsx` | Estado de carga global |
@@ -49,8 +49,8 @@ UcaNode/
 | `sidebar.tsx` | Navegación lateral, tema, colapso y menú móvil |
 | `forms.tsx` | Formularios client con `useActionState` |
 | `item-actions.tsx` | Acciones inline para editar y eliminar |
-| `materia-card.tsx` | Tarjetas/listados de materias |
-| `materia-grid.tsx` | Vista en grilla para materias |
+| `materia-card.tsx` | Tarjetas/listados de materias (dashboard) |
+| `materia-catalog.tsx` | Catálogo de tarjetas en `/materias` |
 | `entrega-card.tsx` | Tarjetas de entregas |
 | `calendario.tsx` | Vista de calendario/agrupación de entregas |
 | `logo.tsx` | Marca visual del proyecto |
