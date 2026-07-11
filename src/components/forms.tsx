@@ -876,10 +876,16 @@ export function HorarioEditForm({
 
 export function LinkCreateForm({
   action,
+  onSuccess,
 }: {
   action: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
+  onSuccess?: () => void;
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
+
+  useEffect(() => {
+    if (state.success && state.message === "Link creado") onSuccess?.();
+  }, [state.success, state.message, onSuccess]);
 
   return (
     <form action={formAction} className="grid gap-4 sm:grid-cols-2">

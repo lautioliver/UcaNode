@@ -33,7 +33,7 @@ UcaNode/
 | `materias/[id]/page.tsx` | Detalle de materia |
 | `entregas/page.tsx` | Gestión de entregas |
 | `horarios/page.tsx` | Grilla semanal de horarios (solo materias activas) |
-| `links/page.tsx` | Gestión de links externos |
+| `links/page.tsx` | Catálogo de links con filtros por categoría |
 | `perfil/page.tsx` | Datos del estudiante |
 | `loading.tsx` | Estado de carga global |
 | `error.tsx` | Error boundary |
@@ -53,6 +53,7 @@ UcaNode/
 | `materia-catalog.tsx` | Catálogo de tarjetas en `/materias` |
 | `entrega-card.tsx` | Tarjetas de entregas |
 | `calendario.tsx` | Vista de calendario/agrupación de entregas |
+| `links-catalog.tsx` | Catálogo de tarjetas en `/links` |
 | `logo.tsx` | Marca visual del proyecto |
 
 ## `src/lib/`
