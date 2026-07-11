@@ -80,7 +80,10 @@ export const linkSchema = z.object({
 
 export const perfilSchema = z.object({
   nombre: z.string().min(1, "El nombre es requerido"),
-  emailUcasal: z.string().email("Email inválido"),
+  emailUcasal: z.preprocess(
+    (value) => (value === "" || value === null || value === undefined ? null : value),
+    z.union([z.null(), z.string().email("Email inválido")]),
+  ),
   anioIngreso: z.coerce
     .number()
     .int()

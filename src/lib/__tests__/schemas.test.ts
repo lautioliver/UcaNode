@@ -106,6 +106,18 @@ describe("perfilSchema", () => {
     expect(result.success).toBe(true);
   });
 
+  it("accepts perfil without email", () => {
+    const result = perfilSchema.safeParse({
+      nombre: "Juan",
+      emailUcasal: "",
+      anioIngreso: 2024,
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.emailUcasal).toBeNull();
+    }
+  });
+
   it("rejects invalid email", () => {
     const result = perfilSchema.safeParse({
       nombre: "Juan",

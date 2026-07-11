@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { User } from "lucide-react";
-import { getPerfilConCarrera } from "@/lib/perfil";
+import { getPerfilConCarrera, displayEmailUcasal } from "@/lib/perfil";
 import { Card, PageHeader } from "@/components/layout";
 import { PerfilForm } from "@/components/forms";
 import { updatePerfil } from "@/lib/actions";
@@ -30,7 +30,7 @@ export default async function PerfilPage() {
               {perfil?.nombre ?? "Estudiante"}
             </p>
             <p className="truncate text-sm text-muted">
-              {perfil?.emailUcasal ?? "sin-correo@ucasal.edu.ar"}
+              {displayEmailUcasal(perfil?.emailUcasal) || "Agregá tu email UCASAL"}
             </p>
             {perfil?.carrera && (
               <p className="mt-0.5 text-xs text-secondary">{perfil.carrera.nombre}</p>
@@ -42,7 +42,7 @@ export default async function PerfilPage() {
           action={updatePerfil}
           defaultValues={{
             nombre: perfil?.nombre ?? "",
-            emailUcasal: perfil?.emailUcasal ?? "",
+            emailUcasal: displayEmailUcasal(perfil?.emailUcasal),
             carreraNombre: perfil?.carrera?.nombre ?? null,
             anioIngreso: perfil?.anioIngreso ?? new Date().getFullYear(),
             legajo: perfil?.legajo ?? null,

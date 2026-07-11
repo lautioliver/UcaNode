@@ -111,7 +111,7 @@ model CorrelatividadPlan {
 model Perfil {
   id          String        @id @default(cuid())
   nombre      String
-  emailUcasal String        @unique
+  emailUcasal String?       @unique
   anioIngreso Int
   legajo      String?
   password    String?
