@@ -9,12 +9,9 @@ import {
   endOfMonth,
   eachDayOfInterval,
   isSameMonth,
-  isSameDay,
   isToday,
   addWeeks,
-  subWeeks,
   addMonths,
-  subMonths,
   getDay,
 } from "date-fns";
 import { es } from "date-fns/locale";
@@ -124,8 +121,11 @@ function VistaSemana({ entregas }: { entregas: EntregaItem[] }) {
   const days = eachDayOfInterval({ start: weekStart, end: weekEnd });
 
   const entregasByDay = useMemo(() => {
+    const start = addWeeks(startOfWeek(new Date(), { weekStartsOn: 1 }), weekOffset);
+    const end = endOfWeek(start, { weekStartsOn: 1 });
+    const intervalDays = eachDayOfInterval({ start, end });
     const map: Record<string, EntregaItem[]> = {};
-    days.forEach((d) => {
+    intervalDays.forEach((d) => {
       map[format(d, "yyyy-MM-dd")] = [];
     });
     entregas.forEach((e) => {
@@ -133,7 +133,7 @@ function VistaSemana({ entregas }: { entregas: EntregaItem[] }) {
       if (map[key]) map[key].push(e);
     });
     return map;
-  }, [entregas, days]);
+  }, [entregas, weekOffset]);
 
   const hasAny = Object.values(entregasByDay).some((arr) => arr.length > 0);
 

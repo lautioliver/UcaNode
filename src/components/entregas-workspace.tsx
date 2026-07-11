@@ -163,14 +163,20 @@ export function EntregasWorkspace({
 
   const periodEntregas = useMemo(() => {
     if (view === "semana") {
+      const ws = addWeeks(startOfWeek(new Date(), { weekStartsOn: 1 }), weekOffset);
+      const we = endOfWeek(ws, { weekStartsOn: 1 });
       return filtered.filter((e) => {
         const d = parseFechaLocal(e.fecha);
-        return d >= weekStart && d <= weekEnd;
+        return d >= ws && d <= we;
       });
     }
     if (selectedDate) return entregasByDay[selectedDate] ?? [];
-    return filtered.filter((e) => isSameMonth(parseFechaLocal(e.fecha), currentMonth));
-  }, [filtered, view, weekStart, weekEnd, selectedDate, entregasByDay, currentMonth]);
+    const cm = addMonths(
+      new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+      monthOffset,
+    );
+    return filtered.filter((e) => isSameMonth(parseFechaLocal(e.fecha), cm));
+  }, [filtered, view, weekOffset, monthOffset, selectedDate, entregasByDay]);
 
   const openCreate = (fecha?: string) => setDrawer({ mode: "create", fecha });
   const openEdit = (entrega: EntregaData) => setDrawer({ mode: "edit", entrega });
