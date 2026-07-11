@@ -179,12 +179,6 @@ export function MateriaCreateForm({
   };
 
   useEffect(() => {
-    if (detectedByCodigo) {
-      hydrateFromPlan(detectedByCodigo);
-    }
-  }, [detectedByCodigo?.codigo]);
-
-  useEffect(() => {
     if (state.success && state.message === "Materia creada") onSuccess?.();
   }, [state.success, state.message, onSuccess]);
 
@@ -195,8 +189,14 @@ export function MateriaCreateForm({
           name="codigo"
           value={codigo}
           onChange={(e) => {
-            setCodigo(e.target.value);
-            setAutoFilled(false);
+            const value = e.target.value;
+            setCodigo(value);
+            const info = planHelpers.autoInfoFromCodigo(value);
+            if (info) {
+              hydrateFromPlan(info);
+            } else {
+              setAutoFilled(false);
+            }
           }}
           placeholder="Ej: 35-1050"
           className={`${input} w-full`}
