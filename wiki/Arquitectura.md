@@ -39,7 +39,7 @@ flowchart TB
 
     subgraph Data["Persistencia"]
         SchemaDef["prisma/schema.prisma"]
-        DB[("SQLite<br/>dev.db")]
+        DB[("PostgreSQL<br/>Neon")]
         Seed["prisma/seed.ts"]
         PlanJSON["src/data/correlatividades.json<br/>y src/data/planes/"]
     end

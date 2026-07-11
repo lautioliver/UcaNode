@@ -67,7 +67,7 @@ sequenceDiagram
     participant U as Usuario
     participant P as page.tsx
     participant Pr as prisma.ts
-    participant DB as SQLite
+    participant DB as PostgreSQL
 
     U->>P: Visita una ruta
     P->>Pr: Consulta Prisma
@@ -89,7 +89,7 @@ sequenceDiagram
     participant R as Rate limit
     participant S as Zod schema
     participant Pr as prisma.ts
-    participant DB as SQLite
+    participant DB as PostgreSQL
     participant C as Caché Next.js
 
     U->>F: Completa y envía formulario

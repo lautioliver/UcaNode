@@ -1,6 +1,6 @@
 # Modelo de datos
 
-El modelo está definido en `prisma/schema.prisma`. La base de datos local usa SQLite y Prisma genera el cliente en `src/generated/prisma/`.
+El modelo está definido en `prisma/schema.prisma`. La base usa PostgreSQL (Neon en producción) y Prisma genera el cliente en `src/generated/prisma/`.
 
 ## Diagrama
 
