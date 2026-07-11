@@ -237,6 +237,19 @@ export function autoInfoFromName(input: string | null | undefined): MateriaAutoI
   const normalized = normalize(input ?? "");
   const indexHit = searchIndex.get(normalized);
 
+  return materiaAutoInfo(materia, indexHit?.source ?? "fuzzy");
+}
+
+export function autoInfoFromCodigo(codigo: string | null | undefined): MateriaAutoInfo | null {
+  const materia = findMateriaByCodigo(codigo);
+  if (!materia) return null;
+  return materiaAutoInfo(materia, "codigo");
+}
+
+function materiaAutoInfo(
+  materia: MateriaPlan,
+  matchType: MateriaAutoInfo["matchType"],
+): MateriaAutoInfo {
   return {
     codigo: materia.codigo,
     nombreOficial: materia.nombre,
@@ -245,7 +258,7 @@ export function autoInfoFromName(input: string | null | undefined): MateriaAutoI
     semestreLabel: semestreLabel(materia.semestre, materia.tipoDictado),
     cuatrimestre: materia.semestre === 0 ? null : materia.semestre,
     correlativas: formatCorrelativas(materia),
-    matchType: indexHit?.source ?? "fuzzy",
+    matchType,
   };
 }
 

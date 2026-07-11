@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import Link from "next/link";
 import {
   Database,
   FileText,
@@ -8,12 +9,11 @@ import {
   Laptop,
   Network,
   Plus,
-  X,
   type LucideIcon,
 } from "lucide-react";
 import type { ActionResult } from "@/lib/actions";
+import { Drawer } from "@/components/drawer";
 import { MateriaCreateForm, MateriaEditForm } from "@/components/forms";
-import { ItemActions } from "@/components/item-actions";
 import { EmptyState, FilterPill } from "@/components/layout";
 import { findMateriaByName } from "@/lib/correlatividades";
 
@@ -33,6 +33,11 @@ type Materia = {
 };
 
 type PeriodoTipo = "anual" | "primer" | "segundo" | "otro";
+
+type DrawerState =
+  | { mode: "create" }
+  | { mode: "edit"; materia: Materia }
+  | null;
 
 const PERIODO_ORDEN: Record<PeriodoTipo, number> = {
   anual: 0,
@@ -149,58 +154,6 @@ function materiaIcon(nombre: string): LucideIcon {
   return FileText;
 }
 
-function CreateMateriaModal({
-  open,
-  onClose,
-  createMateria,
-}: {
-  open: boolean;
-  onClose: () => void;
-  createMateria: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
-}) {
-  useEffect(() => {
-    if (!open) return;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
-  if (!open) return null;
-
-  return (
-    <div
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 p-4 backdrop-blur-[2px]"
-      onClick={onClose}
-    >
-      <div
-        className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-border bg-surface-card p-6 shadow-[var(--shadow-card-lg)]"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="mb-4 flex items-start justify-between gap-3">
-          <div>
-            <p className="text-[11px] font-medium uppercase tracking-wider text-muted">
-              Nueva materia
-            </p>
-            <h3 className="text-base font-semibold text-primary">
-              Agregar al catálogo
-            </h3>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-lg p-1.5 text-secondary hover:bg-surface-hover"
-            aria-label="Cerrar"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-        <MateriaCreateForm action={createMateria} onSuccess={onClose} />
-      </div>
-    </div>
-  );
-}
-
 export function MateriaCatalog({
   materias,
   createMateria,
@@ -212,7 +165,7 @@ export function MateriaCatalog({
   updateMateria: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
   deleteMateria: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
 }) {
-  const [createOpen, setCreateOpen] = useState(false);
+  const [drawer, setDrawer] = useState<DrawerState>(null);
   const [filtroAnio, setFiltroAnio] = useState<string>("todos");
   const [filtroPeriodo, setFiltroPeriodo] = useState<PeriodoTipo | "todos">("todos");
 
@@ -232,6 +185,18 @@ export function MateriaCatalog({
     });
     return sortMaterias(filtered);
   }, [materias, filtroAnio, filtroPeriodo]);
+
+  const openCreate = () => setDrawer({ mode: "create" });
+  const openEdit = (materia: Materia) => setDrawer({ mode: "edit", materia });
+  const closeDrawer = () => setDrawer(null);
+
+  const handleDelete = async (materia: Materia) => {
+    if (!confirm(`¿Eliminar "${materia.nombre}"?`)) return;
+    const fd = new FormData();
+    fd.set("id", materia.id);
+    await deleteMateria({ success: true }, fd);
+    closeDrawer();
+  };
 
   return (
     <>
@@ -279,7 +244,7 @@ export function MateriaCatalog({
           />
           <button
             type="button"
-            onClick={() => setCreateOpen(true)}
+            onClick={openCreate}
             className="flex min-h-[108px] w-full max-w-sm flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-border bg-transparent text-sm text-muted transition hover:border-border-strong hover:bg-surface-hover hover:text-secondary"
           >
             <Plus className="h-4 w-4" />
@@ -294,67 +259,41 @@ export function MateriaCatalog({
             const Icon = materiaIcon(m.nombre);
 
             return (
-              <ItemActions
+              <button
                 key={m.id}
-                label={m.nombre}
-                modalTitle={m.nombre}
-                deleteAction={deleteMateria}
-                deleteId={m.id}
-                view={
-                  <a
-                    href={`/materias/${m.id}`}
-                    className="flex min-h-[108px] flex-col rounded-lg border border-border bg-surface-card p-3 pb-9 transition hover:border-border-strong hover:bg-surface-hover"
+                type="button"
+                onClick={() => openEdit(m)}
+                className="flex min-h-[108px] flex-col rounded-lg border border-border bg-surface-card p-3 text-left transition hover:border-border-strong hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                <div className="flex items-start gap-2">
+                  <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted" />
+                  <p className="min-w-0 text-sm leading-snug text-primary">
+                    <span className="font-medium">{abbr}</span>
+                    <span className="text-slate-600 dark:text-slate-300"> | </span>
+                    <span>{m.nombre}</span>
+                  </p>
+                </div>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {badges.year && (
+                    <span
+                      className={`inline-flex rounded px-1.5 py-0.5 text-[11px] font-medium ${badges.year.className}`}
+                    >
+                      {badges.year.label}
+                    </span>
+                  )}
+                  <span
+                    className={`inline-flex rounded px-1.5 py-0.5 text-[11px] font-medium ${badges.period.className}`}
                   >
-                    <div className="flex items-start gap-2">
-                      <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted" />
-                      <p className="min-w-0 text-sm leading-snug text-primary">
-                        <span className="font-medium">{abbr}</span>
-                        <span className="text-muted"> | </span>
-                        <span>{m.nombre}</span>
-                      </p>
-                    </div>
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {badges.year && (
-                        <span
-                          className={`inline-flex rounded px-1.5 py-0.5 text-[11px] font-medium ${badges.year.className}`}
-                        >
-                          {badges.year.label}
-                        </span>
-                      )}
-                      <span
-                        className={`inline-flex rounded px-1.5 py-0.5 text-[11px] font-medium ${badges.period.className}`}
-                      >
-                        {badges.period.label}
-                      </span>
-                    </div>
-                  </a>
-                }
-                editForm={
-                  <MateriaEditForm
-                    action={updateMateria}
-                    defaultValues={{
-                      id: m.id,
-                      nombre: m.nombre,
-                      codigo: m.codigo,
-                      estado: m.estado,
-                      profesor: m.profesor,
-                      cuatrimestre: m.cuatrimestre,
-                      anio: m.anio,
-                      semestre: m.semestre,
-                      correlativas: m.correlativas,
-                      notas: m.notas,
-                      promocional: m.promocional,
-                      dia: m.dia,
-                    }}
-                  />
-                }
-              />
+                    {badges.period.label}
+                  </span>
+                </div>
+              </button>
             );
           })}
 
           <button
             type="button"
-            onClick={() => setCreateOpen(true)}
+            onClick={openCreate}
             className="flex min-h-[108px] flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-border bg-transparent text-sm text-muted transition hover:border-border-strong hover:bg-surface-hover hover:text-secondary"
           >
             <Plus className="h-4 w-4" />
@@ -363,11 +302,51 @@ export function MateriaCatalog({
         </div>
       )}
 
-      <CreateMateriaModal
-        open={createOpen}
-        onClose={() => setCreateOpen(false)}
-        createMateria={createMateria}
-      />
+      <Drawer
+        open={drawer?.mode === "create"}
+        onClose={closeDrawer}
+        subtitle="Nueva materia"
+        title="Agregar al catálogo"
+      >
+        <MateriaCreateForm action={createMateria} onSuccess={closeDrawer} />
+      </Drawer>
+
+      <Drawer
+        open={drawer?.mode === "edit"}
+        onClose={closeDrawer}
+        subtitle="Editar materia"
+        title={drawer?.mode === "edit" ? drawer.materia.nombre : ""}
+      >
+        {drawer?.mode === "edit" && (
+          <>
+            <Link
+              href={`/materias/${drawer.materia.id}`}
+              className="mb-4 inline-flex text-xs font-medium text-accent transition hover:text-accent-hover"
+            >
+              Ver detalle completo →
+            </Link>
+            <MateriaEditForm
+              action={updateMateria}
+              onSuccess={closeDrawer}
+              onDelete={() => handleDelete(drawer.materia)}
+              defaultValues={{
+                id: drawer.materia.id,
+                nombre: drawer.materia.nombre,
+                codigo: drawer.materia.codigo,
+                estado: drawer.materia.estado,
+                profesor: drawer.materia.profesor,
+                cuatrimestre: drawer.materia.cuatrimestre,
+                anio: drawer.materia.anio,
+                semestre: drawer.materia.semestre,
+                correlativas: drawer.materia.correlativas,
+                notas: drawer.materia.notas,
+                promocional: drawer.materia.promocional,
+                dia: drawer.materia.dia,
+              }}
+            />
+          </>
+        )}
+      </Drawer>
     </>
   );
 }

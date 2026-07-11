@@ -9,7 +9,7 @@ import {
   Star,
 } from "lucide-react";
 import { DiaSemana, EstadoMateria } from "@/generated/prisma/client";
-import { CalendarioMes } from "@/components/calendario";
+import { AgendaResumida } from "@/components/agenda-resumida";
 import { EntregaCard } from "@/components/entrega-card";
 import {
   CounterChip,
@@ -228,12 +228,7 @@ export default async function DashboardPage() {
         </SectionCard>
       </div>
 
-      <SectionCard
-        title="Calendario"
-        action={<LinkButton href="/entregas">+ Entregas</LinkButton>}
-      >
-        <CalendarioMes entregas={entregas} />
-      </SectionCard>
+      <AgendaResumida entregas={entregas} limite={4} />
 
       <div className="grid gap-3 sm:grid-cols-3">
         <QuickAction
