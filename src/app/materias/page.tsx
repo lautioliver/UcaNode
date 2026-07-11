@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 import { EstadoMateria } from "@/generated/prisma/client";
 import { CounterChip, PageHeader } from "@/components/layout";
+import { MateriaCatalog } from "@/components/materia-catalog";
 import { prisma } from "@/lib/prisma";
 import { createMateria, updateMateria, deleteMateria } from "@/lib/actions";
-import { MateriaGrid } from "@/components/materia-grid";
 
 export const metadata: Metadata = {
   title: "Materias — UcaNode",
 };
 
 export default async function MateriasPage() {
-  const materias = await prisma.materia.findMany({ orderBy: { nombre: "asc" } });
+  const materias = await prisma.materia.findMany({
+    orderBy: { nombre: "asc" },
+  });
 
   const counts = {
     cursando: materias.filter((m) => m.estado === EstadoMateria.CURSANDO).length,
@@ -38,9 +40,9 @@ export default async function MateriasPage() {
   return (
     <main className="space-y-8">
       <PageHeader
-        pill="Tu semestre en curso"
-        title="¿Cómo va tu semestre?"
-        description="Organizá tus materias por día de la semana. Tocá una tarjeta para editar o entrar al detalle."
+        pill="Tu plan de materias"
+        title="¿Cómo van tus materias?"
+        description="Galería de materias con abreviatura, nombre y período. Tocá una tarjeta para ver el detalle."
       />
 
       <div className="flex flex-wrap items-center gap-2">
@@ -50,7 +52,7 @@ export default async function MateriasPage() {
         <CounterChip tone="success" count={counts.finalizada} label="Finalizadas" />
       </div>
 
-      <MateriaGrid
+      <MateriaCatalog
         materias={json}
         createMateria={createMateria}
         updateMateria={updateMateria}

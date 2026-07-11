@@ -7,9 +7,9 @@ UcaNode toma como referencia un dashboard personal de Notion, pero funciona como
 ## Funcionalidades
 
 - Dashboard con próximas entregas, clases del día, materias en curso y links favoritos.
-- Gestión de materias con estados académicos, datos de cursada y correlatividades.
+- Gestión de materias en catálogo de tarjetas (año/semestre, estados y correlatividades).
 - Calendario/listado de entregas por materia, tipo, fecha, prioridad y estado.
-- Grilla semanal de horarios.
+- Grilla semanal de horarios (materias en cursada / para finalizar).
 - Administración de links externos frecuentes.
 - Perfil del estudiante.
 - Tema claro/oscuro y sidebar colapsable.

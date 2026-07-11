@@ -114,9 +114,11 @@ function PlanSuggestion({
 export function MateriaCreateForm({
   action,
   dia,
+  onSuccess,
 }: {
   action: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
   dia?: string;
+  onSuccess?: () => void;
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
 
@@ -137,6 +139,10 @@ export function MateriaCreateForm({
     setSemestre(detected.semestreLabel);
     setCorrelativas(detected.correlativas);
   };
+
+  useEffect(() => {
+    if (state.success && state.message === "Materia creada") onSuccess?.();
+  }, [state.success, state.message, onSuccess]);
 
   return (
     <form action={formAction} className="grid gap-4 sm:grid-cols-2">
@@ -685,11 +691,19 @@ export function EntregaEditForm({
 export function HorarioCreateForm({
   action,
   materias,
+  dia,
+  onSuccess,
 }: {
   action: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
   materias: { id: string; nombre: string }[];
+  dia?: string;
+  onSuccess?: () => void;
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
+
+  useEffect(() => {
+    if (state.success && state.message === "Horario creado") onSuccess?.();
+  }, [state.success, state.message, onSuccess]);
 
   return (
     <form action={formAction} className="grid gap-4 sm:grid-cols-2">
@@ -706,16 +720,27 @@ export function HorarioCreateForm({
         </select>
       </Field>
       <Field label="Día">
-        <select name="dia" required defaultValue="" className={`${select} w-full`}>
-          <option value="" disabled>
-            Elegí un día
-          </option>
-          {Object.entries(diaSemanaLabel).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
+        {dia ? (
+          <>
+            <input type="hidden" name="dia" value={dia} />
+            <input
+              value={diaSemanaLabel[dia as keyof typeof diaSemanaLabel] ?? dia}
+              readOnly
+              className={`${input} w-full cursor-not-allowed opacity-70`}
+            />
+          </>
+        ) : (
+          <select name="dia" required defaultValue="" className={`${select} w-full`}>
+            <option value="" disabled>
+              Elegí un día
             </option>
-          ))}
-        </select>
+            {Object.entries(diaSemanaLabel).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
+        )}
       </Field>
       <Field label="Modalidad">
         <select name="modalidad" defaultValue="PRESENCIAL" className={`${select} w-full`}>
@@ -748,6 +773,7 @@ export function HorarioEditForm({
   action,
   materias,
   defaultValues,
+  onSuccess,
 }: {
   action: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
   materias: { id: string; nombre: string }[];
@@ -760,8 +786,13 @@ export function HorarioEditForm({
     aulaLink: string | null;
     materiaId: string;
   };
+  onSuccess?: () => void;
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
+
+  useEffect(() => {
+    if (state.success && state.message === "Horario actualizado") onSuccess?.();
+  }, [state.success, state.message, onSuccess]);
 
   return (
     <form action={formAction} className="grid gap-4 sm:grid-cols-2">
