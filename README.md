@@ -22,7 +22,7 @@ UcaNode toma como referencia un dashboard personal de Notion, pero funciona como
 | Framework | Next.js 16 App Router |
 | UI | React 19 + Tailwind CSS 4 |
 | ORM | Prisma 7 |
-| Base de datos | SQLite |
+| Base de datos | PostgreSQL (Neon en producción) |
 | Validación | Zod |
 | Tests | Vitest |
 
@@ -32,14 +32,16 @@ Requisitos:
 
 - Node.js 20.9 o superior.
 - npm.
+- PostgreSQL (Neon recomendado; ver [Deploy](wiki/Deploy.md)).
 
 El proyecto incluye `.nvmrc` con Node 22:
 
 ```bash
 nvm use
+cp .env.example .env   # configurar DATABASE_URL y variables públicas
 npm install
 npx prisma generate
-npx prisma migrate dev
+npm run db:migrate
 npm run db:seed
 npm run dev
 ```
@@ -51,14 +53,15 @@ Abrí [http://localhost:3000](http://localhost:3000).
 | Comando | Descripción |
 |---|---|
 | `npm run dev` | Levanta el servidor de desarrollo |
-| `npm run build` | Genera Prisma Client y compila producción |
+| `npm run build` | Genera Prisma Client, aplica migraciones y compila producción |
 | `npm run start` | Inicia el servidor de producción |
 | `npm run lint` | Ejecuta ESLint |
 | `npm run test` | Ejecuta tests con Vitest |
-| `npm run validate:plan` | Valida un JSON de plan de estudios |
+| `npm run validate:plan` | Valida un JSON de plan de estudio |
 | `npm run db:migrate` | Crea/aplica migraciones de desarrollo |
-| `npm run db:seed` | Carga datos de ejemplo |
-| `npm run db:reset` | Reinicia migraciones y seed |
+| `npm run db:deploy` | Aplica migraciones en producción (también en build de Vercel) |
+| `npm run db:seed` | Carga datos de ejemplo (solo desarrollo) |
+| `npm run db:reset` | Reinicia migraciones y seed (solo desarrollo) |
 
 ## Documentación
 
@@ -69,8 +72,13 @@ La documentación técnica vive en la wiki del repo:
 - [Modelo de datos](wiki/Modelo-de-datos.md)
 - [Rutas y flujos](wiki/Rutas-y-flujos.md)
 - [Guía de desarrollo](wiki/Desarrollo.md)
+- [Deploy en Vercel + Neon](wiki/Deploy.md)
 - [Estructura del proyecto](wiki/Estructura-del-proyecto.md)
 
 ## Relación con Notion
 
 Notion fue la referencia de diseño inicial. Los datos de UcaNode viven en SQLite y no se sincronizan con Notion.
+
+## Licencia
+
+UcaNode se distribuye bajo la [Licencia MIT](LICENSE). Copyright (c) 2026 lautioliver.

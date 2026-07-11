@@ -4,10 +4,11 @@ Esta wiki reúne la documentación técnica y funcional de UcaNode. El `README.m
 
 ## Páginas
 
-- [Arquitectura](Arquitectura.md): cómo se conectan App Router, Server Components, Server Actions, Prisma y SQLite.
+- [Arquitectura](Arquitectura.md): cómo se conectan App Router, Server Components, Server Actions, Prisma y PostgreSQL (Neon).
 - [Modelo de datos](Modelo-de-datos.md): entidades, relaciones, enums, plan de estudios e índices definidos en Prisma.
 - [Rutas y flujos](Rutas-y-flujos.md): navegación principal, consultas por pantalla y flujo de lectura/escritura.
 - [Guía de desarrollo](Desarrollo.md): requisitos, setup, scripts y tareas habituales.
+- [Deploy en Vercel + Neon](Deploy.md): variables, build y verificación en producción.
 - [Estructura del proyecto](Estructura-del-proyecto.md): carpetas principales y responsabilidad de cada archivo.
 
 ## Resumen funcional
@@ -26,6 +27,6 @@ UcaNode ayuda a centralizar la organización académica:
 
 - La aplicación usa Next.js App Router con Server Components para leer datos en servidor.
 - Las escrituras pasan por Server Actions validadas con Zod.
-- Prisma 7 administra el acceso a SQLite mediante `@prisma/adapter-better-sqlite3`.
+- Prisma 7 administra el acceso a PostgreSQL mediante `@prisma/adapter-pg`.
 - El cliente Prisma se genera dentro de `src/generated/prisma/`.
-- La base local (`dev.db`) es de desarrollo y puede regenerarse con migraciones y seed.
+- En producción la base vive en Neon; en local podés usar una branch de Neon o PostgreSQL local.

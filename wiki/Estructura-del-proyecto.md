@@ -19,7 +19,7 @@ UcaNode/
 │   └── lib/
 │       └── planes-estudio/
 ├── wiki/
-├── dev.db
+├── .env.example
 ├── package.json
 ├── prisma.config.ts
 ├── vitest.config.ts
