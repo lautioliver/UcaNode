@@ -1,0 +1,1961 @@
+{
+  "carrera": "Ingeniería Industrial",
+  "plan": "2005",
+  "resolucion": "542/06",
+  "modalidad": "Presencial",
+  "duracionAnios": 5,
+  "descripcion": "Plan de estudio y correlatividades para la carrera de Ingeniería Industrial (UCASAL). El campo semestre usa 1 = primer cuatrimestre, 2 = segundo cuatrimestre, 0 = anual.",
+  "materias": [
+    {
+      "codigo": "00-0050",
+      "codigoOficial": "00 0050",
+      "nombre": "Teología",
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": [
+          "05-0000"
+        ]
+      },
+      "correlativasRendir": [],
+      "abreviatura": "TEO",
+      "aliases": [
+        "teologia",
+        "teo"
+      ]
+    },
+    {
+      "codigo": "05-0000",
+      "codigoOficial": "05 0000",
+      "nombre": "Filosofía",
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "FILO",
+      "aliases": [
+        "filosofia",
+        "filo"
+      ]
+    },
+    {
+      "codigo": "40-0040",
+      "codigoOficial": "40 0040",
+      "nombre": "ESTABILIDAD Y RESISTENCIA DE MATERIALES",
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0170",
+          "25-0770"
+        ],
+        "aprobadas": [
+          "25-0760"
+        ]
+      },
+      "correlativasRendir": [
+        "25-0770",
+        "40-0170"
+      ],
+      "abreviatura": "ERM",
+      "aliases": [
+        "erm",
+        "estabilidad y resistencia de materiales"
+      ]
+    },
+    {
+      "codigo": "61-0010",
+      "codigoOficial": "61 0010",
+      "nombre": "MECÁNICA Y MECANISMOS",
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0170",
+          "40-0040"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-1020"
+      ],
+      "abreviatura": "MM",
+      "aliases": [
+        "mecanica y mecanismos",
+        "mm"
+      ]
+    },
+    {
+      "codigo": "00-0100",
+      "codigoOficial": "00 0100",
+      "nombre": "Doctrina Social de la Iglesia",
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": [
+          "05-0000",
+          "00-0050"
+        ]
+      },
+      "correlativasRendir": [],
+      "abreviatura": "DSI",
+      "aliases": [
+        "doctrina social de la iglesia",
+        "doc soc iglesia",
+        "doctrina social",
+        "dsi"
+      ]
+    },
+    {
+      "codigo": "25-0550",
+      "codigoOficial": "25 0550",
+      "nombre": "Álgebra Lineal I",
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "ALG1",
+      "aliases": [
+        "algebra lineal 1",
+        "algebra lineal i",
+        "algebra 1",
+        "algebra i",
+        "alg lineal 1",
+        "alg lineal i",
+        "alg 1",
+        "algebra"
+      ]
+    },
+    {
+      "codigo": "25-0760",
+      "codigoOficial": "25 0760",
+      "nombre": "Análisis Matemático I",
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "AM1",
+      "aliases": [
+        "analisis matematico 1",
+        "analisis matematico i",
+        "anal matemat 1",
+        "anal matemat i",
+        "analisis 1",
+        "analisis i",
+        "am 1",
+        "am i",
+        "matematica 1",
+        "matematica i",
+        "calculo 1",
+        "calculo i"
+      ]
+    },
+    {
+      "codigo": "25-1020",
+      "codigoOficial": "25 1020",
+      "nombre": "Análisis Matemático III",
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0770"
+        ],
+        "aprobadas": [
+          "25-0760"
+        ]
+      },
+      "correlativasRendir": [
+        "25-0770"
+      ],
+      "abreviatura": "AM3",
+      "aliases": [
+        "analisis matematico 3",
+        "analisis matematico iii",
+        "anal matemat 3",
+        "anal matemat iii",
+        "analisis 3",
+        "analisis iii",
+        "am 3",
+        "am iii",
+        "matematica 3",
+        "matematica iii",
+        "calculo 3",
+        "calculo iii"
+      ]
+    },
+    {
+      "codigo": "30-0220",
+      "codigoOficial": "30 0220",
+      "nombre": "Química para Ingenieros",
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "QUI",
+      "aliases": [
+        "quimica",
+        "quimica para ingenieros",
+        "quimica para ingen",
+        "qui",
+        "quimica ing"
+      ]
+    },
+    {
+      "codigo": "35-0430",
+      "codigoOficial": "35 0430",
+      "nombre": "PRUEBA DE SUFICIENCIA EN OFIMÁTICA",
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 0,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "PSO",
+      "aliases": [
+        "prueba de suficiencia en ofimatica",
+        "pso"
+      ]
+    },
+    {
+      "codigo": "35-0750",
+      "codigoOficial": "35 0750",
+      "nombre": "Fundamentos de Informática",
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "FI",
+      "aliases": [
+        "fundamentos de informatica",
+        "fundamentos informatica",
+        "fund de inform",
+        "fund inform",
+        "fundamentos",
+        "fi",
+        "fund info"
+      ]
+    },
+    {
+      "codigo": "40-0180",
+      "codigoOficial": "40 0180",
+      "nombre": "Física II",
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0170"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0170"
+      ],
+      "abreviatura": "FIS2",
+      "aliases": [
+        "fisica 2",
+        "fisica ii",
+        "fis 2",
+        "fis ii"
+      ]
+    },
+    {
+      "codigo": "45-0310",
+      "codigoOficial": "45 0310",
+      "nombre": "Economía de la Empresa",
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0560"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0560"
+      ],
+      "abreviatura": "ECO",
+      "aliases": [
+        "economia de la empresa",
+        "economia empresa",
+        "econ de la emp",
+        "econ empresa",
+        "economia",
+        "eco"
+      ]
+    },
+    {
+      "codigo": "47-0120",
+      "codigoOficial": "47 0120",
+      "nombre": "PROBABILIDAD Y ESTADÍSTICA",
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0560"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0560"
+      ],
+      "abreviatura": "PE",
+      "aliases": [
+        "pe",
+        "probabilidad y estadistica"
+      ]
+    },
+    {
+      "codigo": "50-0860",
+      "codigoOficial": "50 0860",
+      "nombre": "ORGANIZACIÓN Y ADMINISTRACIÓN",
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "OA",
+      "aliases": [
+        "oa",
+        "organizacion y administracion"
+      ]
+    },
+    {
+      "codigo": "95-1270",
+      "codigoOficial": "95 1270",
+      "nombre": "Prueba de Suficiencia en Comunicación Oral y Escrita",
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 0,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "PSCOE",
+      "aliases": [
+        "prueba de suficiencia comunicacion",
+        "comunicacion oral y escrita",
+        "prueba comunicacion",
+        "psco",
+        "pscoe"
+      ]
+    },
+    {
+      "codigo": "18-1090",
+      "codigoOficial": "18 1090",
+      "nombre": "Prueba de Suficiencia de Idioma Inglés",
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 0,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "PSII",
+      "aliases": [
+        "prueba de suficiencia ingles",
+        "ingles",
+        "idioma ingles",
+        "prueba ingles",
+        "psii"
+      ]
+    },
+    {
+      "codigo": "25-0560",
+      "codigoOficial": "25 0560",
+      "nombre": "Álgebra Lineal II",
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0550"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0550"
+      ],
+      "abreviatura": "ALG2",
+      "aliases": [
+        "algebra lineal 2",
+        "algebra lineal ii",
+        "algebra 2",
+        "algebra ii",
+        "alg lineal 2",
+        "alg lineal ii",
+        "alg 2"
+      ]
+    },
+    {
+      "codigo": "25-0770",
+      "codigoOficial": "25 0770",
+      "nombre": "Análisis Matemático II",
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0760"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0760"
+      ],
+      "abreviatura": "AM2",
+      "aliases": [
+        "analisis matematico 2",
+        "analisis matematico ii",
+        "anal matemat 2",
+        "anal matemat ii",
+        "analisis 2",
+        "analisis ii",
+        "am 2",
+        "am ii",
+        "matematica 2",
+        "matematica ii",
+        "calculo 2",
+        "calculo ii"
+      ]
+    },
+    {
+      "codigo": "25-0920",
+      "codigoOficial": "25 0920",
+      "nombre": "ANÁLISIS MATEMÁTICO IV",
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0770"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-1020"
+      ],
+      "abreviatura": "AM",
+      "aliases": [
+        "am",
+        "analisis matematico 1v",
+        "analisis matematico 4",
+        "analisis matematico iv"
+      ]
+    },
+    {
+      "codigo": "30-0190",
+      "codigoOficial": "30 0190",
+      "nombre": "QUÍMICA PARA INGENIEROS II",
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "30-0220"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "30-0220"
+      ],
+      "abreviatura": "QI",
+      "aliases": [
+        "qi",
+        "quimica para 1ngenieros 1i",
+        "quimica para ingenieros 2",
+        "quimica para ingenieros ii"
+      ]
+    },
+    {
+      "codigo": "40-0170",
+      "codigoOficial": "40 0170",
+      "nombre": "Física I",
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "FIS1",
+      "aliases": [
+        "fisica 1",
+        "fisica i",
+        "fis 1",
+        "fis i",
+        "fisica"
+      ]
+    },
+    {
+      "codigo": "40-0190",
+      "codigoOficial": "40 0190",
+      "nombre": "FÍSICA III",
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0170"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0180"
+      ],
+      "abreviatura": "FÍSI",
+      "aliases": [
+        "fisica 1ii",
+        "fisica 2i",
+        "fisica 3",
+        "fisica iii",
+        "físi"
+      ]
+    },
+    {
+      "codigo": "45-1270",
+      "codigoOficial": "45 1270",
+      "nombre": "Economía y Finanzas",
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "45-0310"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "45-0310"
+      ],
+      "abreviatura": "EYF",
+      "aliases": [
+        "economia y finanzas",
+        "economia finanzas",
+        "eco y fin",
+        "econ y fin",
+        "eyf",
+        "finanzas"
+      ]
+    },
+    {
+      "codigo": "47-0530",
+      "codigoOficial": "47 0530",
+      "nombre": "PROBABILIDAD Y ESTADISTICA II",
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "47-0120"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "47-0120"
+      ],
+      "abreviatura": "PE",
+      "aliases": [
+        "pe",
+        "probabilidad y estadistica 1i",
+        "probabilidad y estadistica 2",
+        "probabilidad y estadistica ii"
+      ]
+    },
+    {
+      "codigo": "70-0010",
+      "codigoOficial": "70 0010",
+      "nombre": "CONOCIMIENTO Y ESTUDIO DE MATERIALES",
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "30-0220"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "30-0220"
+      ],
+      "abreviatura": "CEM",
+      "aliases": [
+        "cem",
+        "conocimiento y estudio de materiales"
+      ]
+    },
+    {
+      "codigo": "90-0410",
+      "codigoOficial": "90 0410",
+      "nombre": "DIBUJO Y SISTEMAS DE REPRESENTACIÓN",
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "DSR",
+      "aliases": [
+        "dibujo y sistemas de representacion",
+        "dsr"
+      ]
+    },
+    {
+      "codigo": "70-0130",
+      "codigoOficial": "70 0130",
+      "nombre": "CONSTRUCCIONES INDUSTRIALES",
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0040",
+          "50-0250"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "50-0250"
+      ],
+      "abreviatura": "CI",
+      "aliases": [
+        "ci",
+        "construcciones 1ndustriales",
+        "construcciones industriales"
+      ]
+    },
+    {
+      "codigo": "25-0080",
+      "codigoOficial": "25 0080",
+      "nombre": "Análisis Numérico",
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0770"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0560"
+      ],
+      "abreviatura": "AN",
+      "aliases": [
+        "analisis numerico",
+        "anal numerico",
+        "an",
+        "numerico"
+      ]
+    },
+    {
+      "codigo": "40-0400",
+      "codigoOficial": "40 0400",
+      "nombre": "TERMODINÁMICA",
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "30-0190"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0190"
+      ],
+      "abreviatura": "TERM",
+      "aliases": [
+        "term",
+        "termodinamica"
+      ]
+    },
+    {
+      "codigo": "45-0440",
+      "codigoOficial": "45 0440",
+      "nombre": "COMERCIALIZACIÓN Y ANÁLISIS DE MERCADOS",
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "45-1270"
+      ],
+      "abreviatura": "CAM",
+      "aliases": [
+        "cam",
+        "comercializacion y analisis de mercados"
+      ]
+    },
+    {
+      "codigo": "47-0210",
+      "codigoOficial": "47 0210",
+      "nombre": "Investigación Operativa I",
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "47-0530"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "47-0530"
+      ],
+      "abreviatura": "IO1",
+      "aliases": [
+        "investigacion operativa 1",
+        "investigacion operativa i",
+        "inv operat 1",
+        "inv operat i",
+        "io 1",
+        "io i",
+        "investigacion 1"
+      ]
+    },
+    {
+      "codigo": "50-0250",
+      "codigoOficial": "50 0250",
+      "nombre": "ORGANIZACIÓN INDUSTRIAL",
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": [
+          "50-0860"
+        ]
+      },
+      "correlativasRendir": [],
+      "abreviatura": "OI",
+      "aliases": [
+        "oi",
+        "organizacion 1ndustrial",
+        "organizacion industrial"
+      ]
+    },
+    {
+      "codigo": "50-1620",
+      "codigoOficial": "50 1620",
+      "nombre": "PLANEAMIENTO Y CONTROL DE GESTIÓN",
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "50-0250"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "50-0250"
+      ],
+      "abreviatura": "PCG",
+      "aliases": [
+        "pcg",
+        "planeamiento y control de gestion"
+      ]
+    },
+    {
+      "codigo": "61-0160",
+      "codigoOficial": "61 0160",
+      "nombre": "INSTALACIONES TERMOMECÁNICAS",
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "61-0110"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "61-0070"
+      ],
+      "abreviatura": "IT",
+      "aliases": [
+        "instalaciones termomecanicas",
+        "it"
+      ]
+    },
+    {
+      "codigo": "65-0080",
+      "codigoOficial": "65 0080",
+      "nombre": "INSTALACIONES ELÉCTRICAS",
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "61-0080"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "61-0080"
+      ],
+      "abreviatura": "IE",
+      "aliases": [
+        "ie",
+        "instalaciones electricas"
+      ]
+    },
+    {
+      "codigo": "65-0170",
+      "codigoOficial": "65 0170",
+      "nombre": "ELECTROTECNIA",
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0180"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0190"
+      ],
+      "abreviatura": "ELEC",
+      "aliases": [
+        "elec",
+        "electrotecnia"
+      ]
+    },
+    {
+      "codigo": "75-0200",
+      "codigoOficial": "75 0200",
+      "nombre": "HIGIENE Y SEGURIDAD INDUSTRIAL",
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "30-0190",
+          "61-0070"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "61-0070",
+        "61-0110"
+      ],
+      "abreviatura": "HSI",
+      "aliases": [
+        "higiene y seguridad 1ndustrial",
+        "higiene y seguridad industrial",
+        "hsi"
+      ]
+    },
+    {
+      "codigo": "80-0220",
+      "codigoOficial": "80 0220",
+      "nombre": "OPERACIONES INDUSTRIALES I",
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "61-0110"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0400"
+      ],
+      "abreviatura": "OI",
+      "aliases": [
+        "oi",
+        "operaciones 1ndustriales 1",
+        "operaciones industriales i"
+      ]
+    },
+    {
+      "codigo": "97-0100",
+      "codigoOficial": "97 0100",
+      "nombre": "Práctica Profesional Supervisada Técnico",
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 0,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "PPST",
+      "aliases": [
+        "practica profesional supervisada tecnico",
+        "practica supervisada tecnico",
+        "pps tecnico",
+        "ppst",
+        "practica tecnico"
+      ]
+    },
+    {
+      "codigo": "05-0250",
+      "codigoOficial": "05 0250",
+      "nombre": "Ética Profesional",
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "00-0100"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "00-0100"
+      ],
+      "abreviatura": "ETI",
+      "aliases": [
+        "etica profesional",
+        "etica",
+        "eti"
+      ]
+    },
+    {
+      "codigo": "45-0600",
+      "codigoOficial": "45 0600",
+      "nombre": "COSTOS INDUSTRIALES",
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "45-1270"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "45-1270"
+      ],
+      "abreviatura": "CI",
+      "aliases": [
+        "ci",
+        "costos 1ndustriales",
+        "costos industriales"
+      ]
+    },
+    {
+      "codigo": "47-0220",
+      "codigoOficial": "47 0220",
+      "nombre": "Investigación Operativa II",
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "47-0210"
+        ],
+        "aprobadas": [
+          "47-0530",
+          "25-0080",
+          "47-0210"
+        ]
+      },
+      "correlativasRendir": [],
+      "abreviatura": "IO2",
+      "aliases": [
+        "investigacion operativa 2",
+        "investigacion operativa ii",
+        "inv operat 2",
+        "inv operat ii",
+        "io 2",
+        "io ii",
+        "investigacion 2"
+      ]
+    },
+    {
+      "codigo": "50-0370",
+      "codigoOficial": "50 0370",
+      "nombre": "FORMULACIÓN Y EVALUACIÓN DE PROYECTOS",
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "45-1270",
+          "45-0440",
+          "50-1620"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "45-0600",
+        "50-1620"
+      ],
+      "abreviatura": "FEP",
+      "aliases": [
+        "fep",
+        "formulacion y evaluacion de proyectos"
+      ]
+    },
+    {
+      "codigo": "50-1630",
+      "codigoOficial": "50 1630",
+      "nombre": "PLANEAMIENTO Y CONTROL DE LAS OPERACIONES",
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "50-0250",
+          "50-1620"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "47-0220"
+      ],
+      "abreviatura": "PCO",
+      "aliases": [
+        "pco",
+        "planeamiento y control de las operaciones"
+      ]
+    },
+    {
+      "codigo": "50-1640",
+      "codigoOficial": "50 1640",
+      "nombre": "LOGÍSTICA",
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "45-0600",
+          "47-0220"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "45-0600",
+        "45-0440"
+      ],
+      "abreviatura": "LOGÍ",
+      "aliases": [
+        "logistica",
+        "logí"
+      ]
+    },
+    {
+      "codigo": "61-0070",
+      "codigoOficial": "61 0070",
+      "nombre": "MÁQUINAS TÉRMICAS",
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0190"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0190"
+      ],
+      "abreviatura": "MT",
+      "aliases": [
+        "maquinas termicas",
+        "mt"
+      ]
+    },
+    {
+      "codigo": "61-0080",
+      "codigoOficial": "61 0080",
+      "nombre": "MÁQUINAS ELÉCTRICAS",
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "65-0170"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0180"
+      ],
+      "abreviatura": "ME",
+      "aliases": [
+        "maquinas electricas",
+        "me"
+      ]
+    },
+    {
+      "codigo": "61-0110",
+      "codigoOficial": "61 0110",
+      "nombre": "MECÁNICA DE FLUIDOS",
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0180"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0920"
+      ],
+      "abreviatura": "MF",
+      "aliases": [
+        "mecanica de fluidos",
+        "mf"
+      ]
+    },
+    {
+      "codigo": "75-1850",
+      "codigoOficial": "75 1850",
+      "nombre": "Higiene y Seguridad",
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": [
+          "30-0220",
+          "40-0190"
+        ]
+      },
+      "correlativasRendir": [
+        "40-0190"
+      ],
+      "abreviatura": "HYS",
+      "aliases": [
+        "higiene y seguridad",
+        "higiene seguridad",
+        "hig seg",
+        "hys"
+      ]
+    },
+    {
+      "codigo": "02-0180",
+      "codigoOficial": "02 0180",
+      "nombre": "PRODUCCIÓN AGROPECUARIA (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "PA",
+      "aliases": [
+        "pa",
+        "produccion agropecuaria",
+        "produccion agropecuaria (optativa)"
+      ]
+    },
+    {
+      "codigo": "09-1970",
+      "codigoOficial": "09 1970",
+      "nombre": "METODOLOGÍA DE LA INVESTIGACIÓN (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "MI",
+      "aliases": [
+        "metodologia de la 1nvestigacion",
+        "metodologia de la investigacion",
+        "metodologia de la investigacion (optativa)",
+        "mi"
+      ]
+    },
+    {
+      "codigo": "35-1480",
+      "codigoOficial": "35 1480",
+      "nombre": "DISEÑO ASISTIDO POR COMPUTADORA (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "DAPC",
+      "aliases": [
+        "dapc",
+        "diseno asistido por computadora",
+        "diseno asistido por computadora (optativa)"
+      ]
+    },
+    {
+      "codigo": "35-1490",
+      "codigoOficial": "35 1490",
+      "nombre": "SISTEMAS I (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "SIST",
+      "aliases": [
+        "sist",
+        "sistemas 1",
+        "sistemas i",
+        "sistemas i (optativa)"
+      ]
+    },
+    {
+      "codigo": "45-0660",
+      "codigoOficial": "45 0660",
+      "nombre": "ECONOMETRÍA (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "ECON",
+      "aliases": [
+        "econ",
+        "econometria",
+        "econometria (optativa)"
+      ]
+    },
+    {
+      "codigo": "45-1540",
+      "codigoOficial": "45 1540",
+      "nombre": "DESARROLLO PERSONAL (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "DP",
+      "aliases": [
+        "desarrollo personal",
+        "desarrollo personal (optativa)",
+        "dp"
+      ]
+    },
+    {
+      "codigo": "45-1550",
+      "codigoOficial": "45 1550",
+      "nombre": "COSTOS Y PRESUPUESTOS (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "CP",
+      "aliases": [
+        "costos y presupuestos",
+        "costos y presupuestos (optativa)",
+        "cp"
+      ]
+    },
+    {
+      "codigo": "45-1560",
+      "codigoOficial": "45 1560",
+      "nombre": "COMERCIALIZACIÓN INTERNACIONAL (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "CI",
+      "aliases": [
+        "ci",
+        "comercializacion 1nternacional",
+        "comercializacion internacional",
+        "comercializacion internacional (optativa)"
+      ]
+    },
+    {
+      "codigo": "45-1790",
+      "codigoOficial": "45 1790",
+      "nombre": "COSTOS PARA LA GESTIÓN (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "CG",
+      "aliases": [
+        "cg",
+        "costos para la gestion",
+        "costos para la gestion (optativa)"
+      ]
+    },
+    {
+      "codigo": "50-0400",
+      "codigoOficial": "50 0400",
+      "nombre": "AUDITORÍA (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "AUDI",
+      "aliases": [
+        "audi",
+        "auditoria",
+        "auditoria (optativa)"
+      ]
+    },
+    {
+      "codigo": "50-0710",
+      "codigoOficial": "50 0710",
+      "nombre": "Recursos Humanos",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "50-1620"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "50-1620"
+      ],
+      "abreviatura": "RRHH",
+      "aliases": [
+        "recursos humanos",
+        "rrhh",
+        "rh"
+      ]
+    },
+    {
+      "codigo": "50-1650",
+      "codigoOficial": "50 1650",
+      "nombre": "INSTRUMENTACIÓN, CONTROL Y AUTOMATIZACIÓN",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "65-0080",
+          "80-0240"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "61-0160",
+        "80-0240"
+      ],
+      "abreviatura": "ICA",
+      "aliases": [
+        "ica",
+        "instrumentacion, control y automatizacion"
+      ]
+    },
+    {
+      "codigo": "50-1660",
+      "codigoOficial": "50 1660",
+      "nombre": "GESTIÓN DE CALIDAD",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "47-0530"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "50-1630"
+      ],
+      "abreviatura": "GC",
+      "aliases": [
+        "gc",
+        "gestion de calidad"
+      ]
+    },
+    {
+      "codigo": "50-2080",
+      "codigoOficial": "50 2080",
+      "nombre": "DIRECCIÓN DE PROYECTOS (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "DP",
+      "aliases": [
+        "direccion de proyectos",
+        "direccion de proyectos (optativa)",
+        "dp"
+      ]
+    },
+    {
+      "codigo": "50-2090",
+      "codigoOficial": "50 2090",
+      "nombre": "FORMACIÓN DE EMPRENDEDORES (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "FE",
+      "aliases": [
+        "fe",
+        "formacion de emprendedores",
+        "formacion de emprendedores (optativa)"
+      ]
+    },
+    {
+      "codigo": "50-2150",
+      "codigoOficial": "50 2150",
+      "nombre": "ADMINISTRACIÓN DE REMUNERACIÓN Y BENEFICIOS (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "ARB",
+      "aliases": [
+        "administracion de remuneracion y beneficios",
+        "administracion de remuneracion y beneficios (optativa)",
+        "arb"
+      ]
+    },
+    {
+      "codigo": "50-2190",
+      "codigoOficial": "50 2190",
+      "nombre": "ESTRATEGIAS DE NEGOCIACIÓN Y RESOLUCIÓN DE CONFLICTOS (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "ENRC",
+      "aliases": [
+        "enrc",
+        "estrategias de negociacion y resolucion de conflictos",
+        "estrategias de negociacion y resolucion de conflictos (optativa)"
+      ]
+    },
+    {
+      "codigo": "50-2280",
+      "codigoOficial": "50 2280",
+      "nombre": "ADMINISTRACIÓN FINANCIERA (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "AF",
+      "aliases": [
+        "administracion financiera",
+        "administracion financiera (optativa)",
+        "af"
+      ]
+    },
+    {
+      "codigo": "50-2290",
+      "codigoOficial": "50 2290",
+      "nombre": "DESARROLLO DE LOS RECURSOS HUMANOS (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "DRH",
+      "aliases": [
+        "desarrollo de los recursos humanos",
+        "desarrollo de los recursos humanos (optativa)",
+        "drh"
+      ]
+    },
+    {
+      "codigo": "50-2300",
+      "codigoOficial": "50 2300",
+      "nombre": "MARKETING AGROPECUARIO (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "MA",
+      "aliases": [
+        "ma",
+        "marketing agropecuario",
+        "marketing agropecuario (optativa)"
+      ]
+    },
+    {
+      "codigo": "50-2310",
+      "codigoOficial": "50 2310",
+      "nombre": "SIMULACIÓN DE NEGOCIOS (Optativa)",
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "SN",
+      "aliases": [
+        "simulacion de negocios",
+        "simulacion de negocios (optativa)",
+        "sn"
+      ]
+    },
+    {
+      "codigo": "50-5020",
+      "codigoOficial": "50 5020",
+      "nombre": "GESTIÓN DE ACTIVOS",
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "GA",
+      "aliases": [
+        "ga",
+        "gestion de activos"
+      ]
+    },
+    {
+      "codigo": "80-0230",
+      "codigoOficial": "80 0230",
+      "nombre": "OPERACIONES INDUSTRIALES II",
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "70-0010"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "80-0220"
+      ],
+      "abreviatura": "OI",
+      "aliases": [
+        "oi",
+        "operaciones 1ndustriales 1i",
+        "operaciones industriales 2",
+        "operaciones industriales ii"
+      ]
+    },
+    {
+      "codigo": "80-0240",
+      "codigoOficial": "80 0240",
+      "nombre": "INSTALACIONES AUXILIARES",
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "61-0110"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "61-0070"
+      ],
+      "abreviatura": "IA",
+      "aliases": [
+        "ia",
+        "instalaciones auxiliares"
+      ]
+    },
+    {
+      "codigo": "50-2320",
+      "codigoOficial": "50 2320",
+      "nombre": "ESCENARIOS DE NEGOCIOS (Optativa)",
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "EN",
+      "aliases": [
+        "en",
+        "escenarios de negocios",
+        "escenarios de negocios (optativa)"
+      ]
+    },
+    {
+      "codigo": "50-2330",
+      "codigoOficial": "50 2330",
+      "nombre": "ADMINISTRACIÓN DE PYMES (Optativa)",
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "AP",
+      "aliases": [
+        "administracion de pymes",
+        "administracion de pymes (optativa)",
+        "ap"
+      ]
+    },
+    {
+      "codigo": "60-0110",
+      "codigoOficial": "60 0110",
+      "nombre": "Ingeniería Legal",
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "IL",
+      "aliases": [
+        "ingenieria legal",
+        "ing legal",
+        "il"
+      ]
+    },
+    {
+      "codigo": "60-3890",
+      "codigoOficial": "60 3890",
+      "nombre": "DERECHO DEL TRABAJO (Optativa)",
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "DT",
+      "aliases": [
+        "derecho del trabajo",
+        "derecho del trabajo (optativa)",
+        "dt"
+      ]
+    },
+    {
+      "codigo": "60-3900",
+      "codigoOficial": "60 3900",
+      "nombre": "DERECHO COLECTIVO DEL TRABAJO Y DE LA SEGURIDAD SOCIAL (Optativa)",
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "DCTS",
+      "aliases": [
+        "dcts",
+        "derecho colectivo del trabajo y de la seguridad social",
+        "derecho colectivo del trabajo y de la seguridad social (optativa)"
+      ]
+    },
+    {
+      "codigo": "80-0100",
+      "codigoOficial": "80 0100",
+      "nombre": "Ingeniería Ambiental",
+      "abreviatura": "IA",
+      "aliases": [
+        "ia",
+        "ingenieria ambiental"
+      ],
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "75-0200"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "75-0200"
+      ]
+    },
+    {
+      "codigo": "80-0250",
+      "codigoOficial": "80 0250",
+      "nombre": "Tecnologías y Procesos de Producción",
+      "abreviatura": "TPP",
+      "aliases": [
+        "tecnologias y procesos de produccion",
+        "tpp"
+      ],
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "80-0230"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "80-0230"
+      ]
+    },
+    {
+      "codigo": "97-0200",
+      "codigoOficial": "97 0200",
+      "nombre": "Práctica Profesional Supervisada Ingeniero",
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 0,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "PPSI",
+      "aliases": [
+        "practica profesional supervisada ingeniero",
+        "practica supervisada ingeniero",
+        "pps ingeniero",
+        "ppsi",
+        "practica ingeniero"
+      ]
+    },
+    {
+      "codigo": "09-1390",
+      "codigoOficial": "09 1390",
+      "nombre": "Proyecto de Grado",
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "PG",
+      "aliases": [
+        "proyecto de grado",
+        "proyecto grado",
+        "pg",
+        "tesis"
+      ]
+    },
+    {
+      "codigo": "50-5030",
+      "codigoOficial": "50 5030",
+      "nombre": "EMPRENDEDURISMO Y PLANES DE NEGOCIOS (Optativa)",
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [],
+      "abreviatura": "EPN",
+      "aliases": [
+        "emprendedurismo y planes de negocios",
+        "emprendedurismo y planes de negocios (optativa)",
+        "epn"
+      ]
+    },
+    {
+      "codigo": "60-1120",
+      "codigoOficial": "60 1120",
+      "nombre": "LEGISLACIÓN INDUSTRIAL",
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "50-0370"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "50-0370"
+      ],
+      "abreviatura": "LI",
+      "aliases": [
+        "legislacion 1ndustrial",
+        "legislacion industrial",
+        "li"
+      ]
+    }
+  ]
+}

@@ -8,6 +8,8 @@ UcaNode/
 │   ├── schema.prisma
 │   ├── seed.ts
 │   └── migrations/
+├── scripts/
+│   └── validate-plan-estudio.ts
 ├── public/
 ├── src/
 │   ├── app/
@@ -15,6 +17,7 @@ UcaNode/
 │   ├── data/
 │   ├── generated/prisma/
 │   └── lib/
+│       └── planes-estudio/
 ├── wiki/
 ├── dev.db
 ├── package.json
@@ -27,7 +30,7 @@ UcaNode/
 
 | Archivo/carpeta | Rol |
 |---|---|
-| `layout.tsx` | Layout raíz, fuentes, sidebar, tema inicial y perfil |
+| `layout.tsx` | Layout raíz, gate de onboarding, fuentes, sidebar, tema inicial y perfil |
 | `page.tsx` | Dashboard principal |
 | `materias/page.tsx` | Catálogo de materias en tarjetas (año/semestre destacados) |
 | `materias/[id]/page.tsx` | Detalle de materia |
@@ -50,6 +53,7 @@ UcaNode/
 | `forms.tsx` | Formularios client con `useActionState` |
 | `item-actions.tsx` | Acciones inline para editar y eliminar |
 | `materia-card.tsx` | Tarjetas/listados de materias (dashboard) |
+| `onboarding-carrera.tsx` | Pantalla de selección de carrera (onboarding inicial) |
 | `materia-catalog.tsx` | Catálogo de tarjetas en `/materias` |
 | `entrega-card.tsx` | Tarjetas de entregas |
 | `calendario.tsx` | Vista de calendario/agrupación de entregas |
@@ -61,6 +65,8 @@ UcaNode/
 | Archivo | Rol |
 |---|---|
 | `actions.ts` | Server Actions y revalidación de rutas |
+| `perfil.ts` | Obtiene o crea el perfil del estudiante |
+| `planes-estudio/` | Catálogo, fuente JSON, ingesta lazy, consultas y tipos del plan |
 | `schemas.ts` | Schemas Zod para validar formularios |
 | `prisma.ts` | Cliente Prisma singleton |
 | `labels.ts` | Etiquetas legibles y clases asociadas a enums |
@@ -73,7 +79,8 @@ UcaNode/
 
 | Ruta | Uso |
 |---|---|
-| `src/data/correlatividades.json` | Plan de estudio y correlatividades |
+| `src/data/correlatividades.json` | Plan de estudio de referencia (Informática 2015) |
+| `src/data/planes/` | JSONs de planes adicionales (nuevas carreras) |
 | `src/generated/prisma/` | Cliente Prisma generado |
 | `prisma/schema.prisma` | Modelo de datos |
 | `prisma/seed.ts` | Datos de ejemplo |
@@ -86,3 +93,4 @@ UcaNode/
 | `README.md` | Introducción rápida, setup y enlaces |
 | `wiki/` | Documentación técnica y funcional detallada |
 | `AGENTS.md` | Reglas para agentes de IA en este repo |
+| `.cursor/agents/plan-estudio-ingesta.md` | Flujo para agregar carreras y planes de estudio |
