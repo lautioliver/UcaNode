@@ -6,6 +6,14 @@ import { PERFIL_COOKIE, perfilCookieOptions } from "@/lib/session";
 
 export { PERFIL_COOKIE } from "@/lib/session";
 
+const PLACEHOLDER_EMAIL_RE =
+  /^estudiante-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}@ucasal\.edu\.ar$/i;
+
+export function displayEmailUcasal(email: string | null | undefined): string {
+  if (!email || PLACEHOLDER_EMAIL_RE.test(email)) return "";
+  return email;
+}
+
 export async function getPerfilCookieId(): Promise<string | undefined> {
   const cookieStore = await cookies();
   return cookieStore.get(PERFIL_COOKIE)?.value;
@@ -16,15 +24,10 @@ export async function setPerfilCookie(perfilId: string) {
   cookieStore.set(PERFIL_COOKIE, perfilId, perfilCookieOptions());
 }
 
-function placeholderEmail() {
-  return `estudiante-${crypto.randomUUID()}@ucasal.edu.ar`;
-}
-
 export async function createPerfilSession() {
   return prisma.perfil.create({
     data: {
       nombre: "Estudiante",
-      emailUcasal: placeholderEmail(),
       anioIngreso: new Date().getFullYear(),
     },
   });

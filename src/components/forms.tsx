@@ -1083,7 +1083,6 @@ export function PerfilForm({
         <input
           name="emailUcasal"
           type="email"
-          required
           defaultValue={defaultValues.emailUcasal}
           placeholder="nombre.apellido@ucasal.edu.ar"
           className={`${input} w-full`}
