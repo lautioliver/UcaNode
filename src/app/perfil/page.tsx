@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { User } from "lucide-react";
 import { prisma } from "@/lib/prisma";
-import { SectionCard } from "@/components/layout";
+import { Card, PageHeader } from "@/components/layout";
 import { PerfilForm } from "@/components/forms";
 import { updatePerfil } from "@/lib/actions";
 
@@ -9,32 +10,48 @@ export const metadata: Metadata = {
 };
 
 export default async function PerfilPage() {
-  const perfil = await prisma.perfil.findFirst();
+  const perfil = await prisma.perfil.findFirst({
+    include: { carrera: true },
+  });
 
   return (
-    <main className="space-y-6">
-      <header className="flex items-center justify-between gap-4 rounded-xl border border-border bg-surface-card px-5 py-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-primary">Usuario Ucasal</h1>
-          <p className="text-sm text-muted">
-            Tu perfil de estudiante de Ingeniería Informática.
-          </p>
-        </div>
-      </header>
+    <main className="mx-auto max-w-3xl space-y-8">
+      <PageHeader
+        pill="Datos personales"
+        title="¿Quién sos en Ucasal?"
+        description="Estos datos se usan para saludarte y prellenar formularios cuando corresponda."
+      />
 
-      <SectionCard title="Datos personales">
+      <Card className="space-y-6">
+        <div className="flex items-center gap-4 border-b border-border pb-6">
+          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-accent-ghost text-accent">
+            <User className="h-7 w-7" />
+          </div>
+          <div className="min-w-0">
+            <p className="truncate text-lg font-semibold text-primary">
+              {perfil?.nombre ?? "Estudiante"}
+            </p>
+            <p className="truncate text-sm text-muted">
+              {perfil?.emailUcasal ?? "sin-correo@ucasal.edu.ar"}
+            </p>
+            {perfil?.carrera && (
+              <p className="mt-0.5 text-xs text-secondary">{perfil.carrera.nombre}</p>
+            )}
+          </div>
+        </div>
+
         <PerfilForm
           action={updatePerfil}
           defaultValues={{
             nombre: perfil?.nombre ?? "",
             emailUcasal: perfil?.emailUcasal ?? "",
-            carrera: perfil?.carrera ?? "Ingeniería Informática",
+            carreraNombre: perfil?.carrera?.nombre ?? null,
             anioIngreso: perfil?.anioIngreso ?? new Date().getFullYear(),
             legajo: perfil?.legajo ?? null,
             password: perfil?.password ?? null,
           }}
         />
-      </SectionCard>
+      </Card>
     </main>
   );
 }

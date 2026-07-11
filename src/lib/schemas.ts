@@ -49,6 +49,12 @@ export const entregaSchema = z.object({
   tipo: TipoEntrega,
   fecha: z.coerce.date(),
   estado: EstadoEntrega.default("PENDIENTE"),
+  nota: z.coerce
+    .number()
+    .min(0, "La nota mínima es 0")
+    .max(10, "La nota máxima es 10")
+    .nullable()
+    .optional(),
   materiaId: z.string().min(1, "La materia es requerida"),
   recurso: z.string().nullable().optional(),
   prioridad: z.string().nullable().optional(),
@@ -75,7 +81,6 @@ export const linkSchema = z.object({
 export const perfilSchema = z.object({
   nombre: z.string().min(1, "El nombre es requerido"),
   emailUcasal: z.string().email("Email inválido"),
-  carrera: z.string().min(1, "La carrera es requerida"),
   anioIngreso: z.coerce
     .number()
     .int()
@@ -83,4 +88,9 @@ export const perfilSchema = z.object({
     .max(2100, "Año inválido"),
   legajo: z.string().nullable().optional(),
   password: z.string().nullable().optional(),
+});
+
+export const onboardingCarreraSchema = z.object({
+  perfilId: z.string().min(1, "Perfil requerido"),
+  carreraSlug: z.string().min(1, "Seleccioná una carrera"),
 });

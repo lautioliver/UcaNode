@@ -10,7 +10,10 @@ import {
   horarioSchema,
   linkSchema,
   perfilSchema,
+  onboardingCarreraSchema,
 } from "@/lib/schemas";
+import { getCarreraCatalogo } from "@/lib/planes-estudio/catalogo";
+import { hydrateCarrera } from "@/lib/planes-estudio/ingesta";
 
 export type ActionResult = {
   success: boolean;
@@ -171,6 +174,7 @@ export async function createEntrega(
     tipo: formData.get("tipo"),
     fecha: safeStr(formData, "fecha"),
     estado: formData.get("estado") || "PENDIENTE",
+    nota: safeNum(formData, "nota"),
     materiaId: safeStr(formData, "materiaId"),
     recurso: safeStr(formData, "recurso"),
     prioridad: safeStr(formData, "prioridad"),
@@ -180,8 +184,14 @@ export async function createEntrega(
     return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
   }
 
+  // La nota solo aplica a parciales; en otros tipos se descarta.
+  const dataCreate = {
+    ...parsed.data,
+    nota: parsed.data.tipo === "PARCIAL" ? parsed.data.nota ?? null : null,
+  };
+
   try {
-    await prisma.entrega.create({ data: parsed.data });
+    await prisma.entrega.create({ data: dataCreate });
     revalidateEntrega(parsed.data.materiaId);
     refresh();
     return ok("Entrega creada");
@@ -205,6 +215,7 @@ export async function updateEntrega(
     tipo: formData.get("tipo"),
     fecha: safeStr(formData, "fecha"),
     estado: formData.get("estado"),
+    nota: safeNum(formData, "nota"),
     materiaId: safeStr(formData, "materiaId"),
     recurso: safeStr(formData, "recurso"),
     prioridad: safeStr(formData, "prioridad"),
@@ -214,14 +225,43 @@ export async function updateEntrega(
     return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
   }
 
+  // La nota solo aplica a parciales; en otros tipos se descarta.
+  const dataUpdate = {
+    ...parsed.data,
+    nota: parsed.data.tipo === "PARCIAL" ? parsed.data.nota ?? null : null,
+  };
+
   try {
-    await prisma.entrega.update({ where: { id }, data: parsed.data });
+    await prisma.entrega.update({ where: { id }, data: dataUpdate });
     revalidateEntrega(parsed.data.materiaId);
     refresh();
     return ok("Entrega actualizada");
   } catch (e) {
     console.error("updateEntrega", e);
     return fail("Error al actualizar la entrega");
+  }
+}
+
+export async function toggleEntregaEstado(id: string): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+  if (!id) return fail("ID requerido");
+
+  try {
+    const entrega = await prisma.entrega.findUnique({ where: { id } });
+    if (!entrega) return fail("Entrega no encontrada");
+
+    const nuevoEstado = entrega.estado === "ENTREGADO" ? "PENDIENTE" : "ENTREGADO";
+    await prisma.entrega.update({
+      where: { id },
+      data: { estado: nuevoEstado },
+    });
+    revalidateEntrega(entrega.materiaId);
+    refresh();
+    return ok(nuevoEstado === "ENTREGADO" ? "Marcada como entregada" : "Marcada como pendiente");
+  } catch (e) {
+    console.error("toggleEntregaEstado", e);
+    return fail("Error al actualizar el estado");
   }
 }
 
@@ -425,9 +465,56 @@ export async function deleteLink(
 
 // ── PERFIL ────────────────────────────────────────────────
 
+function revalidateApp() {
+  revalidatePath("/", "layout");
+}
+
 function revalidatePerfil() {
   revalidatePath("/");
   revalidatePath("/perfil");
+  revalidateApp();
+}
+
+export async function confirmarCarrera(
+  _prev: ActionResult,
+  formData: FormData,
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+
+  const parsed = onboardingCarreraSchema.safeParse({
+    perfilId: safeStr(formData, "perfilId"),
+    carreraSlug: safeStr(formData, "carreraSlug"),
+  });
+
+  if (!parsed.success) {
+    return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
+  }
+
+  const { perfilId, carreraSlug } = parsed.data;
+
+  if (!getCarreraCatalogo(carreraSlug)) {
+    return fail("La carrera seleccionada no está disponible todavía.");
+  }
+
+  try {
+    const perfil = await prisma.perfil.findUnique({ where: { id: perfilId } });
+    if (!perfil) return fail("No se encontró el perfil del estudiante.");
+
+    const carrera = await hydrateCarrera(carreraSlug);
+
+    await prisma.perfil.update({
+      where: { id: perfilId },
+      data: { carreraId: carrera.id },
+    });
+
+    revalidateApp();
+    refresh();
+    return ok("Plan de estudios listo");
+  } catch (e) {
+    console.error("confirmarCarrera", e);
+    return fail("No se pudo inicializar el plan de estudios para esta carrera.");
+  }
 }
 
 export async function updatePerfil(
@@ -440,7 +527,6 @@ export async function updatePerfil(
   const parsed = perfilSchema.safeParse({
     nombre: safeStr(formData, "nombre"),
     emailUcasal: safeStr(formData, "emailUcasal"),
-    carrera: safeStr(formData, "carrera"),
     anioIngreso: safeStr(formData, "anioIngreso"),
     legajo: safeStr(formData, "legajo"),
     password: safeStr(formData, "password"),

@@ -6,14 +6,50 @@ El modelo está definido en `prisma/schema.prisma`. La base de datos local usa S
 
 ```mermaid
 erDiagram
+    Carrera {
+        String id PK
+        String slug UK
+        String nombre
+        String planAnio
+        String resolucion
+        String modalidad
+        Int duracionAnios
+        EstadoIngesta estadoIngesta
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    PlanEstudio {
+        String id PK
+        String codigo
+        String codigoOficial
+        String nombre
+        String abreviatura
+        Json aliases
+        Int anio
+        Int semestre
+        String tipoDictado
+        Int creditos
+        String carreraId FK
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    CorrelatividadPlan {
+        String id PK
+        String materiaId FK
+        String requisitoId FK
+        TipoCorrelativa tipo
+    }
+
     Perfil {
         String id PK
         String nombre
         String emailUcasal UK
-        String carrera
         Int anioIngreso
         String legajo
         String password
+        String carreraId FK
         DateTime createdAt
         DateTime updatedAt
     }
@@ -31,6 +67,7 @@ erDiagram
         Boolean promocional
         String semestre
         DiaSemana dia
+        String planEstudioId FK
         DateTime createdAt
         DateTime updatedAt
     }
@@ -41,6 +78,7 @@ erDiagram
         TipoEntrega tipo
         DateTime fecha
         EstadoEntrega estado
+        Float nota
         String recurso
         String prioridad
         String materiaId FK
@@ -70,6 +108,11 @@ erDiagram
         DateTime updatedAt
     }
 
+    Carrera ||--o{ PlanEstudio : "tiene"
+    Carrera ||--o{ Perfil : "asignada a"
+    PlanEstudio ||--o{ CorrelatividadPlan : "requiere"
+    PlanEstudio ||--o{ CorrelatividadPlan : "es requisito de"
+    PlanEstudio ||--o{ Materia : "vincula"
     Materia ||--o{ Entrega : "tiene"
     Materia ||--o{ Horario : "tiene"
 ```
@@ -78,8 +121,11 @@ erDiagram
 
 | Entidad | Uso |
 |---|---|
-| `Perfil` | Datos del estudiante. Actualmente se consulta el primer perfil disponible. |
-| `Materia` | Materias del usuario, estado académico y metadatos de cursada. |
+| `Carrera` | Carrera UCASAL disponible en onboarding. Se identifica por `slug` y guarda metadatos del plan. |
+| `PlanEstudio` | Materias del plan oficial de una carrera (código, año, semestre, aliases). |
+| `CorrelatividadPlan` | Requisitos entre materias del plan (`REGULARIZADA`, `APROBADA`, `PARA_RENDIR`). |
+| `Perfil` | Datos del estudiante. Se consulta el primer perfil disponible. La carrera se asigna en onboarding vía `carreraId`. |
+| `Materia` | Materias del usuario, estado académico y metadatos de cursada. Puede vincularse opcionalmente a `PlanEstudio`. |
 | `Entrega` | TP, parciales y finales asociados a una materia. |
 | `Horario` | Bloques semanales asociados a una materia. |
 | `LinkExterno` | Accesos frecuentes, con categoría y marca de favorito. |
@@ -94,26 +140,54 @@ erDiagram
 | `CategoriaLink` | `GOOGLE_DRIVE`, `PLATAFORMA_UCASAL`, `GITHUB`, `OTRO` |
 | `Modalidad` | `PRESENCIAL`, `VIRTUAL` |
 | `DiaSemana` | `LUNES`, `MARTES`, `MIERCOLES`, `JUEVES`, `VIERNES` |
+| `TipoCorrelativa` | `REGULARIZADA`, `APROBADA`, `PARA_RENDIR` |
+| `EstadoIngesta` | `PENDIENTE`, `LISTO`, `ERROR` |
+
+> `Entrega.nota` es un campo opcional (`Float`, 0–10) que solo aplica a entregas de tipo `PARCIAL`. Se carga desde la edición de la entrega cuando el estudiante recibe la calificación; si el tipo deja de ser `PARCIAL`, la nota se descarta.
 
 ## Relaciones
 
-- `Materia` tiene muchas `Entrega`.
-- `Materia` tiene muchos `Horario`.
+- `Carrera` tiene muchas `PlanEstudio` y muchos `Perfil`.
+- `PlanEstudio` tiene correlatividades bidireccionales vía `CorrelatividadPlan`.
+- `Materia` puede vincularse opcionalmente a una fila de `PlanEstudio` (`planEstudioId`).
+- `Materia` tiene muchas `Entrega` y muchos `Horario`.
 - Si se elimina una `Materia`, sus entregas y horarios se eliminan en cascada.
+- Si se elimina una `Carrera`, sus filas de `PlanEstudio` se eliminan en cascada.
 
 ## Índices y constraints
 
+- `Carrera.slug` es único.
 - `Perfil.emailUcasal` es único.
+- `PlanEstudio` tiene `@@unique([carreraId, codigo])`.
+- `CorrelatividadPlan` tiene `@@unique([materiaId, requisitoId, tipo])`.
 - `Materia.codigo` es único cuando existe.
 - `Materia` tiene índices por `estado` y `nombre`.
 - `Entrega` tiene índices por `fecha`, `materiaId` y `estado`.
 
-## Correlatividades
+## Plan de estudios y correlatividades
 
-La información del plan de estudio vive separada del modelo Prisma:
+El plan oficial vive en JSON versionado y se ingesta a la base de datos de forma lazy al confirmar la carrera en onboarding.
 
-- Datos base: `src/data/correlatividades.json`.
-- Helpers de búsqueda y formateo: `src/lib/correlatividades.ts`.
-- Tests: `src/lib/__tests__/correlatividades.test.ts`.
+| Capa | Ubicación | Rol |
+|---|---|---|
+| Fuente JSON | `src/data/correlatividades.json` (Informática 2015); futuras carreras en `src/data/planes/{slug}.json` | Datos canónicos del plan |
+| Catálogo | `src/lib/planes-estudio/catalogo.ts` | Carreras visibles en onboarding |
+| Fuente | `src/lib/planes-estudio/fuente.ts` | Mapa `slug` → JSON |
+| Ingesta | `src/lib/planes-estudio/ingesta.ts` | Carga lazy a `Carrera`, `PlanEstudio` y `CorrelatividadPlan` |
+| Consultas | `src/lib/planes-estudio/queries.ts` | Lee el plan desde DB para autocompletado en runtime |
+| Helpers | `src/lib/correlatividades.ts` | Búsqueda y formateo (tests y compatibilidad con JSON) |
 
-Esta separación permite usar correlatividades para autocompletar o mostrar contexto sin convertir todo el plan de estudio en tablas de la base de datos.
+Flujo resumido:
+
+1. El usuario elige una carrera en onboarding (`confirmarCarrera`).
+2. `hydrateCarrera` ingesta el JSON si la carrera aún no está en DB.
+3. Se asigna `Perfil.carreraId`.
+4. Pantallas como `/materias` consultan el plan desde DB vía `getPlanMateriasByCarreraId`.
+
+Para validar un JSON de plan antes de incorporarlo:
+
+```bash
+npm run validate:plan -- src/data/correlatividades.json
+```
+
+Para agregar carreras nuevas, usar el agente `.cursor/agents/plan-estudio-ingesta.md`.

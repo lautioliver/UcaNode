@@ -41,6 +41,7 @@ Next.js 16 y Prisma 7 requieren Node.js 20.9 o superior. Node 18 no alcanza para
 | `npm run start` | Servidor de producción |
 | `npm run lint` | ESLint |
 | `npm run test` | Tests con Vitest |
+| `npm run validate:plan` | Valida estructura de un JSON de plan de estudios |
 | `npm run db:migrate` | `prisma migrate dev` |
 | `npm run db:seed` | Ejecuta `prisma/seed.ts` con `tsx` |
 | `npm run db:reset` | Reinicia migraciones y ejecuta seed configurado |
@@ -74,6 +75,10 @@ Los tests actuales cubren validaciones y lógica de correlatividades en `src/lib
 
 ## Variables y configuración
 
+| Variable | Uso |
+|---|---|
+| `NEXT_PUBLIC_CARRERA_SOLICITUD_FORM_URL` | URL pública de un Google Form para solicitar carreras faltantes en onboarding |
+
 La configuración de Prisma vive en:
 
 - `prisma.config.ts`.
@@ -83,4 +88,14 @@ El cliente Prisma se genera en `src/generated/prisma/`, por lo que no conviene e
 
 ## Datos de ejemplo
 
-`prisma/seed.ts` carga datos iniciales para trabajar localmente. Si cambiás el modelo o necesitás regenerar datos, actualizá el seed junto con las migraciones.
+`prisma/seed.ts` carga datos iniciales para trabajar localmente. El perfil se crea **sin** `carreraId` para que el onboarding aparezca en una instalación fresca. Si cambiás el modelo o necesitás regenerar datos, actualizá el seed junto con las migraciones.
+
+## Planes de estudio
+
+Para validar un JSON antes de sumarlo al catálogo:
+
+```bash
+npm run validate:plan -- src/data/correlatividades.json
+```
+
+Para incorporar una carrera nueva al onboarding, seguí el flujo del agente `.cursor/agents/plan-estudio-ingesta.md`.

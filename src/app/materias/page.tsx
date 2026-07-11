@@ -1,14 +1,34 @@
 import type { Metadata } from "next";
+import { EstadoMateria } from "@/generated/prisma/client";
+import { CounterChip, PageHeader } from "@/components/layout";
+import { MateriaCatalog } from "@/components/materia-catalog";
 import { prisma } from "@/lib/prisma";
 import { createMateria, updateMateria, deleteMateria } from "@/lib/actions";
-import { MateriaGrid } from "@/components/materia-grid";
+import { getPlanMateriasByCarreraId } from "@/lib/planes-estudio/queries";
 
 export const metadata: Metadata = {
   title: "Materias — UcaNode",
 };
 
 export default async function MateriasPage() {
-  const materias = await prisma.materia.findMany({ orderBy: { nombre: "asc" } });
+  const perfil = await prisma.perfil.findFirst({
+    select: { carreraId: true },
+  });
+
+  const [materias, planMaterias] = await Promise.all([
+    prisma.materia.findMany({
+      orderBy: { nombre: "asc" },
+    }),
+    perfil?.carreraId ? getPlanMateriasByCarreraId(perfil.carreraId) : Promise.resolve([]),
+  ]);
+
+  const counts = {
+    cursando: materias.filter((m) => m.estado === EstadoMateria.CURSANDO).length,
+    porFinalizar: materias.filter((m) => m.estado === EstadoMateria.PARA_FINALIZAR)
+      .length,
+    regular: materias.filter((m) => m.estado === EstadoMateria.REGULAR).length,
+    finalizada: materias.filter((m) => m.estado === EstadoMateria.FINALIZADA).length,
+  };
 
   const json = materias.map((m) => ({
     id: m.id,
@@ -26,16 +46,23 @@ export default async function MateriasPage() {
   }));
 
   return (
-    <main className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-primary">Materias</h1>
-        <p className="text-sm text-muted">
-          Vista semanal de tus materias.
-        </p>
+    <main className="space-y-8">
+      <PageHeader
+        pill="Tu plan de materias"
+        title="¿Cómo van tus materias?"
+        description="Galería de materias con abreviatura, nombre y período. Tocá una tarjeta para ver el detalle."
+      />
+
+      <div className="flex flex-wrap items-center gap-2">
+        <CounterChip tone="accent" count={counts.cursando} label="Cursando" />
+        <CounterChip tone="warning" count={counts.porFinalizar} label="Para finalizar" />
+        <CounterChip tone="accent" count={counts.regular} label="Regular" />
+        <CounterChip tone="success" count={counts.finalizada} label="Finalizadas" />
       </div>
 
-      <MateriaGrid
+      <MateriaCatalog
         materias={json}
+        planMaterias={planMaterias}
         createMateria={createMateria}
         updateMateria={updateMateria}
         deleteMateria={deleteMateria}

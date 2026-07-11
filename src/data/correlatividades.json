@@ -1,0 +1,1368 @@
+{
+  "carrera": "Ingeniería en Informática",
+  "plan": "2015",
+  "resolucion": "1353/14",
+  "modalidad": "Presencial",
+  "duracionAnios": 5,
+  "descripcion": "Plan de estudio y correlatividades para la carrera de Ingeniería en Informática (UCASAL). El campo semestre usa 1 = primer cuatrimestre, 2 = segundo cuatrimestre, 0 = anual.",
+  "materias": [
+    {
+      "codigo": "05-0000",
+      "codigoOficial": "05 0000",
+      "nombre": "Filosofía",
+      "abreviatura": "FILO",
+      "aliases": ["filosofia", "filo"],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": { "regularizadas": [], "aprobadas": [] },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "25-0550",
+      "codigoOficial": "25 0550",
+      "nombre": "Álgebra Lineal I",
+      "abreviatura": "ALG1",
+      "aliases": [
+        "algebra lineal 1",
+        "algebra lineal i",
+        "algebra 1",
+        "algebra i",
+        "alg lineal 1",
+        "alg lineal i",
+        "alg 1",
+        "algebra"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": { "regularizadas": [], "aprobadas": [] },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "25-0760",
+      "codigoOficial": "25 0760",
+      "nombre": "Análisis Matemático I",
+      "abreviatura": "AM1",
+      "aliases": [
+        "analisis matematico 1",
+        "analisis matematico i",
+        "anal matemat 1",
+        "anal matemat i",
+        "analisis 1",
+        "analisis i",
+        "am 1",
+        "am i",
+        "matematica 1",
+        "matematica i",
+        "calculo 1",
+        "calculo i"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": { "regularizadas": [], "aprobadas": [] },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "30-0220",
+      "codigoOficial": "30 0220",
+      "nombre": "Química para Ingenieros",
+      "abreviatura": "QUI",
+      "aliases": [
+        "quimica",
+        "quimica para ingenieros",
+        "quimica para ingen",
+        "qui",
+        "quimica ing"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": { "regularizadas": [], "aprobadas": [] },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "35-0750",
+      "codigoOficial": "35 0750",
+      "nombre": "Fundamentos de Informática",
+      "abreviatura": "FI",
+      "aliases": [
+        "fundamentos de informatica",
+        "fundamentos informatica",
+        "fund de inform",
+        "fund inform",
+        "fundamentos",
+        "fi",
+        "fund info"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": { "regularizadas": [], "aprobadas": [] },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "95-1270",
+      "codigoOficial": "95 1270",
+      "nombre": "Prueba de Suficiencia en Comunicación Oral y Escrita",
+      "abreviatura": "PSCOE",
+      "aliases": [
+        "prueba de suficiencia comunicacion",
+        "comunicacion oral y escrita",
+        "prueba comunicacion",
+        "psco",
+        "pscoe"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 0,
+      "correlativasCursar": { "regularizadas": [], "aprobadas": [] },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "18-1090",
+      "codigoOficial": "18 1090",
+      "nombre": "Prueba de Suficiencia de Idioma Inglés",
+      "abreviatura": "PSII",
+      "aliases": [
+        "prueba de suficiencia ingles",
+        "ingles",
+        "idioma ingles",
+        "prueba ingles",
+        "psii"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 0,
+      "correlativasCursar": { "regularizadas": [], "aprobadas": [] },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "25-0560",
+      "codigoOficial": "25 0560",
+      "nombre": "Álgebra Lineal II",
+      "abreviatura": "ALG2",
+      "aliases": [
+        "algebra lineal 2",
+        "algebra lineal ii",
+        "algebra 2",
+        "algebra ii",
+        "alg lineal 2",
+        "alg lineal ii",
+        "alg 2"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": ["25-0550"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["25-0550"]
+    },
+    {
+      "codigo": "25-0770",
+      "codigoOficial": "25 0770",
+      "nombre": "Análisis Matemático II",
+      "abreviatura": "AM2",
+      "aliases": [
+        "analisis matematico 2",
+        "analisis matematico ii",
+        "anal matemat 2",
+        "anal matemat ii",
+        "analisis 2",
+        "analisis ii",
+        "am 2",
+        "am ii",
+        "matematica 2",
+        "matematica ii",
+        "calculo 2",
+        "calculo ii"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": ["25-0760"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["25-0760"]
+    },
+    {
+      "codigo": "35-1050",
+      "codigoOficial": "35 1050",
+      "nombre": "Introducción a la Informática",
+      "abreviatura": "II",
+      "aliases": [
+        "introduccion a la informatica",
+        "introduccion informatica",
+        "intro informatica",
+        "intro info",
+        "introducc inform",
+        "introduccion",
+        "intro",
+        "informatica"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": ["35-0750"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["35-0750"]
+    },
+    {
+      "codigo": "40-0170",
+      "codigoOficial": "40 0170",
+      "nombre": "Física I",
+      "abreviatura": "FIS1",
+      "aliases": [
+        "fisica 1",
+        "fisica i",
+        "fis 1",
+        "fis i",
+        "fisica"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": { "regularizadas": [], "aprobadas": [] },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "00-0050",
+      "codigoOficial": "00 0050",
+      "nombre": "Teología",
+      "abreviatura": "TEO",
+      "aliases": [
+        "teologia",
+        "teo"
+      ],
+      "anio": 2,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": { "regularizadas": [], "aprobadas": [] },
+      "correlativasRendir": ["05-0000"]
+    },
+    {
+      "codigo": "35-1060",
+      "codigoOficial": "35 1060",
+      "nombre": "Estructura de Datos y Algoritmos",
+      "abreviatura": "EDA",
+      "aliases": [
+        "estructura de datos y algoritmos",
+        "estructuras de datos y algoritmos",
+        "estructura de datos",
+        "estructuras de datos",
+        "est dat algo",
+        "eda",
+        "algoritmos y estructuras de datos",
+        "algoritmos"
+      ],
+      "anio": 2,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-1050"],
+        "aprobadas": ["35-0750"]
+      },
+      "correlativasRendir": ["35-1050"]
+    },
+    {
+      "codigo": "35-1070",
+      "codigoOficial": "35 1070",
+      "nombre": "Arquitectura de Computadores",
+      "abreviatura": "ARQ",
+      "aliases": [
+        "arquitectura de computadores",
+        "arquitectura de computadoras",
+        "arquitectura de computadora",
+        "arq comp",
+        "arq de comp",
+        "arquitectura",
+        "arq"
+      ],
+      "anio": 2,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": ["35-1050"],
+        "aprobadas": ["35-0750"]
+      },
+      "correlativasRendir": ["35-1050"]
+    },
+    {
+      "codigo": "25-1020",
+      "codigoOficial": "25 1020",
+      "nombre": "Análisis Matemático III",
+      "abreviatura": "AM3",
+      "aliases": [
+        "analisis matematico 3",
+        "analisis matematico iii",
+        "anal matemat 3",
+        "anal matemat iii",
+        "analisis 3",
+        "analisis iii",
+        "am 3",
+        "am iii",
+        "matematica 3",
+        "matematica iii",
+        "calculo 3",
+        "calculo iii"
+      ],
+      "anio": 2,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": ["25-0770"],
+        "aprobadas": ["25-0760"]
+      },
+      "correlativasRendir": ["25-0770"]
+    },
+    {
+      "codigo": "35-1080",
+      "codigoOficial": "35 1080",
+      "nombre": "Lenguajes I",
+      "abreviatura": "LENG1",
+      "aliases": [
+        "lenguajes 1",
+        "lenguajes i",
+        "leng 1",
+        "leng i",
+        "lenguaje 1",
+        "lenguaje i"
+      ],
+      "anio": 2,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-1050"],
+        "aprobadas": ["35-0750"]
+      },
+      "correlativasRendir": ["35-1050"]
+    },
+    {
+      "codigo": "40-0180",
+      "codigoOficial": "40 0180",
+      "nombre": "Física II",
+      "abreviatura": "FIS2",
+      "aliases": [
+        "fisica 2",
+        "fisica ii",
+        "fis 2",
+        "fis ii"
+      ],
+      "anio": 2,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": ["40-0170"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["40-0170"]
+    },
+    {
+      "codigo": "45-0310",
+      "codigoOficial": "45 0310",
+      "nombre": "Economía de la Empresa",
+      "abreviatura": "ECO",
+      "aliases": [
+        "economia de la empresa",
+        "economia empresa",
+        "econ de la emp",
+        "econ empresa",
+        "economia",
+        "eco"
+      ],
+      "anio": 2,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": ["25-0560"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["25-0560"]
+    },
+    {
+      "codigo": "47-0500",
+      "codigoOficial": "47 0500",
+      "nombre": "Probabilidad y Estadística I",
+      "abreviatura": "PYE1",
+      "aliases": [
+        "probabilidad y estadistica 1",
+        "probabilidad y estadistica i",
+        "prob est 1",
+        "prob est i",
+        "prob y est 1",
+        "prob y est i",
+        "estadistica 1",
+        "estadistica i",
+        "probabilidad 1",
+        "probabilidad i",
+        "pye 1",
+        "pye i"
+      ],
+      "anio": 2,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": ["25-0560"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["25-0560"]
+    },
+    {
+      "codigo": "25-0881",
+      "codigoOficial": "25 0881",
+      "nombre": "Cálculo Avanzado",
+      "abreviatura": "CA",
+      "aliases": [
+        "calculo avanzado",
+        "calc avan",
+        "calc avanzado",
+        "ca"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["25-1020"],
+        "aprobadas": ["25-0770"]
+      },
+      "correlativasRendir": ["25-1020"]
+    },
+    {
+      "codigo": "35-1090",
+      "codigoOficial": "35 1090",
+      "nombre": "Lenguajes II",
+      "abreviatura": "LENG2",
+      "aliases": [
+        "lenguajes 2",
+        "lenguajes ii",
+        "leng 2",
+        "leng ii",
+        "lenguaje 2",
+        "lenguaje ii"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-1080"],
+        "aprobadas": ["35-1050"]
+      },
+      "correlativasRendir": ["35-1080"]
+    },
+    {
+      "codigo": "35-1120",
+      "codigoOficial": "35 1120",
+      "nombre": "Sistemas I",
+      "abreviatura": "SIST1",
+      "aliases": [
+        "sistemas 1",
+        "sistemas i",
+        "sist 1",
+        "sist i"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-1080"],
+        "aprobadas": ["35-1050"]
+      },
+      "correlativasRendir": ["35-1080"]
+    },
+    {
+      "codigo": "35-1740",
+      "codigoOficial": "35 1740",
+      "nombre": "Introducción a los Sistemas Operativos",
+      "abreviatura": "ISO",
+      "aliases": [
+        "introduccion a los sistemas operativos",
+        "intro sistemas operativos",
+        "int sist op",
+        "int sistemas operativos",
+        "iso",
+        "intro so",
+        "introduccion so"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": ["35-1050", "25-0770"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["25-0770", "35-1050"]
+    },
+    {
+      "codigo": "40-1100",
+      "codigoOficial": "40 1100",
+      "nombre": "Física Aplicada",
+      "abreviatura": "FISAP",
+      "aliases": [
+        "fisica aplicada",
+        "fis aplicada",
+        "fis ap",
+        "fisap"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": ["40-0180"],
+        "aprobadas": ["40-0170"]
+      },
+      "correlativasRendir": ["40-0180"]
+    },
+    {
+      "codigo": "45-1270",
+      "codigoOficial": "45 1270",
+      "nombre": "Economía y Finanzas",
+      "abreviatura": "EYF",
+      "aliases": [
+        "economia y finanzas",
+        "economia finanzas",
+        "eco y fin",
+        "econ y fin",
+        "eyf",
+        "finanzas"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": ["45-0310"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["45-0310"]
+    },
+    {
+      "codigo": "47-0510",
+      "codigoOficial": "47 0510",
+      "nombre": "Probabilidad y Estadística II",
+      "abreviatura": "PYE2",
+      "aliases": [
+        "probabilidad y estadistica 2",
+        "probabilidad y estadistica ii",
+        "prob est 2",
+        "prob est ii",
+        "prob y est 2",
+        "prob y est ii",
+        "estadistica 2",
+        "estadistica ii",
+        "probabilidad 2",
+        "probabilidad ii",
+        "pye 2",
+        "pye ii"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": ["47-0500"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["47-0500"]
+    },
+    {
+      "codigo": "35-0900",
+      "codigoOficial": "35 0900",
+      "nombre": "Sistemas Operativos",
+      "abreviatura": "SO",
+      "aliases": [
+        "sistemas operativos",
+        "so",
+        "sist operativos",
+        "sist op",
+        "sistemas op"
+      ],
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": ["35-1740", "35-1060", "35-1070"],
+        "aprobadas": ["35-1050"]
+      },
+      "correlativasRendir": ["35-1060", "35-1070", "35-1740"]
+    },
+    {
+      "codigo": "35-1130",
+      "codigoOficial": "35 1130",
+      "nombre": "Sistemas II",
+      "abreviatura": "SIST2",
+      "aliases": [
+        "sistemas 2",
+        "sistemas ii",
+        "sist 2",
+        "sist ii"
+      ],
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-1090", "35-1120"],
+        "aprobadas": ["35-1080"]
+      },
+      "correlativasRendir": ["35-1120", "35-1090"]
+    },
+    {
+      "codigo": "35-1150",
+      "codigoOficial": "35 1150",
+      "nombre": "Redes I",
+      "abreviatura": "RED1",
+      "aliases": [
+        "redes 1",
+        "redes i",
+        "red 1",
+        "red i"
+      ],
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-1070"],
+        "aprobadas": ["40-0180", "35-1050"]
+      },
+      "correlativasRendir": ["35-1070"]
+    },
+    {
+      "codigo": "00-0100",
+      "codigoOficial": "00 0100",
+      "nombre": "Doctrina Social de la Iglesia",
+      "abreviatura": "DSI",
+      "aliases": [
+        "doctrina social de la iglesia",
+        "doc soc iglesia",
+        "doctrina social",
+        "dsi"
+      ],
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": { "regularizadas": [], "aprobadas": [] },
+      "correlativasRendir": ["00-0050"]
+    },
+    {
+      "codigo": "25-0080",
+      "codigoOficial": "25 0080",
+      "nombre": "Análisis Numérico",
+      "abreviatura": "AN",
+      "aliases": [
+        "analisis numerico",
+        "anal numerico",
+        "an",
+        "numerico"
+      ],
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["25-0560", "25-0770"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["25-0560", "25-0770"]
+    },
+    {
+      "codigo": "35-1100",
+      "codigoOficial": "35 1100",
+      "nombre": "Lenguajes III",
+      "abreviatura": "LENG3",
+      "aliases": [
+        "lenguajes 3",
+        "lenguajes iii",
+        "leng 3",
+        "leng iii",
+        "lenguaje 3",
+        "lenguaje iii"
+      ],
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-1090"],
+        "aprobadas": ["35-1080"]
+      },
+      "correlativasRendir": ["35-1090"]
+    },
+    {
+      "codigo": "35-1170",
+      "codigoOficial": "35 1170",
+      "nombre": "Bases de Datos I",
+      "abreviatura": "BD1",
+      "aliases": [
+        "bases de datos 1",
+        "bases de datos i",
+        "base de datos 1",
+        "base de datos i",
+        "bas dat 1",
+        "bas dat i",
+        "bd 1",
+        "bd i",
+        "bbdd 1",
+        "bbdd i",
+        "bases 1"
+      ],
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-1060"],
+        "aprobadas": ["35-1050"]
+      },
+      "correlativasRendir": ["35-1060"]
+    },
+    {
+      "codigo": "50-1480",
+      "codigoOficial": "50 1480",
+      "nombre": "Proyectos Informáticos I",
+      "abreviatura": "PI1",
+      "aliases": [
+        "proyectos informaticos 1",
+        "proyectos informaticos i",
+        "proyecto informatico 1",
+        "proyecto informatico i",
+        "pro inf 1",
+        "pro inf i",
+        "proy inf 1",
+        "proy inf i",
+        "pi 1",
+        "pi i"
+      ],
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-1120"],
+        "aprobadas": ["35-1080"]
+      },
+      "correlativasRendir": ["35-1120"]
+    },
+    {
+      "codigo": "97-0100",
+      "codigoOficial": "97 0100",
+      "nombre": "Práctica Profesional Supervisada Técnico",
+      "abreviatura": "PPST",
+      "aliases": [
+        "practica profesional supervisada tecnico",
+        "practica supervisada tecnico",
+        "pps tecnico",
+        "ppst",
+        "practica tecnico"
+      ],
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 0,
+      "correlativasCursar": { "regularizadas": [], "aprobadas": [] },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "05-0250",
+      "codigoOficial": "05 0250",
+      "nombre": "Ética Profesional",
+      "abreviatura": "ETI",
+      "aliases": [
+        "etica profesional",
+        "etica",
+        "eti"
+      ],
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": ["00-0100"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["00-0100"]
+    },
+    {
+      "codigo": "35-1110",
+      "codigoOficial": "35 1110",
+      "nombre": "Lenguajes IV",
+      "abreviatura": "LENG4",
+      "aliases": [
+        "lenguajes 4",
+        "lenguajes iv",
+        "leng 4",
+        "leng iv",
+        "lenguaje 4",
+        "lenguaje iv"
+      ],
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-1100", "35-1170"],
+        "aprobadas": ["35-1090"]
+      },
+      "correlativasRendir": ["35-1100", "35-1170"]
+    },
+    {
+      "codigo": "35-1180",
+      "codigoOficial": "35 1180",
+      "nombre": "Bases de Datos II",
+      "abreviatura": "BD2",
+      "aliases": [
+        "bases de datos 2",
+        "bases de datos ii",
+        "base de datos 2",
+        "base de datos ii",
+        "bas dat 2",
+        "bas dat ii",
+        "bd 2",
+        "bd ii",
+        "bbdd 2",
+        "bbdd ii",
+        "bases 2"
+      ],
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["25-0560", "35-1170"],
+        "aprobadas": ["35-1060"]
+      },
+      "correlativasRendir": ["35-1170", "25-0560"]
+    },
+    {
+      "codigo": "50-1490",
+      "codigoOficial": "50 1490",
+      "nombre": "Proyectos Informáticos II",
+      "abreviatura": "PI2",
+      "aliases": [
+        "proyectos informaticos 2",
+        "proyectos informaticos ii",
+        "proyecto informatico 2",
+        "proyecto informatico ii",
+        "pro inf 2",
+        "pro inf ii",
+        "proy inf 2",
+        "proy inf ii",
+        "pi 2",
+        "pi ii"
+      ],
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["50-1480", "45-0310"],
+        "aprobadas": ["35-1120"]
+      },
+      "correlativasRendir": ["50-1480", "45-0310"]
+    },
+    {
+      "codigo": "75-1850",
+      "codigoOficial": "75 1850",
+      "nombre": "Higiene y Seguridad",
+      "abreviatura": "HYS",
+      "aliases": [
+        "higiene y seguridad",
+        "higiene seguridad",
+        "hig seg",
+        "hys"
+      ],
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": ["30-0220"]
+      },
+      "correlativasRendir": ["30-0220"]
+    },
+    {
+      "codigo": "35-0930",
+      "codigoOficial": "35 0930",
+      "nombre": "Ingeniería de Software",
+      "abreviatura": "IS",
+      "aliases": [
+        "ingenieria de software",
+        "ing de software",
+        "ing software",
+        "is",
+        "ingsoft"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": ["50-1490", "35-1130"],
+        "aprobadas": ["35-1120"]
+      },
+      "correlativasRendir": ["35-1130", "50-1490"]
+    },
+    {
+      "codigo": "35-1140",
+      "codigoOficial": "35 1140",
+      "nombre": "Sistemas III",
+      "abreviatura": "SIST3",
+      "aliases": [
+        "sistemas 3",
+        "sistemas iii",
+        "sist 3",
+        "sist iii"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["50-1490", "35-1130"],
+        "aprobadas": ["35-1120", "45-1270"]
+      },
+      "correlativasRendir": ["35-1130", "50-1490"]
+    },
+    {
+      "codigo": "35-1160",
+      "codigoOficial": "35 1160",
+      "nombre": "Redes II",
+      "abreviatura": "RED2",
+      "aliases": [
+        "redes 2",
+        "redes ii",
+        "red 2",
+        "red ii"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["25-0881", "35-1150"],
+        "aprobadas": ["35-1070"]
+      },
+      "correlativasRendir": ["35-1150", "25-0881"]
+    },
+    {
+      "codigo": "35-1190",
+      "codigoOficial": "35 1190",
+      "nombre": "Bases de Datos III",
+      "abreviatura": "BD3",
+      "aliases": [
+        "bases de datos 3",
+        "bases de datos iii",
+        "base de datos 3",
+        "base de datos iii",
+        "bas dat 3",
+        "bas dat iii",
+        "bd 3",
+        "bd iii",
+        "bbdd 3",
+        "bbdd iii",
+        "bases 3"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-1180"],
+        "aprobadas": ["35-1170"]
+      },
+      "correlativasRendir": ["35-1180"]
+    },
+    {
+      "codigo": "47-0210",
+      "codigoOficial": "47 0210",
+      "nombre": "Investigación Operativa I",
+      "abreviatura": "IO1",
+      "aliases": [
+        "investigacion operativa 1",
+        "investigacion operativa i",
+        "inv operat 1",
+        "inv operat i",
+        "io 1",
+        "io i",
+        "investigacion 1"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["25-0080", "47-0510"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["47-0510", "25-0080"]
+    },
+    {
+      "codigo": "50-3000",
+      "codigoOficial": "50 3000",
+      "nombre": "Dirección de Proyectos",
+      "abreviatura": "DP",
+      "aliases": [
+        "direccion de proyectos",
+        "dir de proy",
+        "dir proyectos",
+        "direccion proyectos",
+        "dp"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["50-1490", "35-1130"],
+        "aprobadas": ["35-1120", "45-1270"]
+      },
+      "correlativasRendir": ["35-1130", "50-1490"]
+    },
+    {
+      "codigo": "35-0950",
+      "codigoOficial": "35 0950",
+      "nombre": "Compiladores",
+      "abreviatura": "COMP",
+      "aliases": [
+        "compiladores",
+        "comp",
+        "compilador"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-1110"],
+        "aprobadas": ["35-1100", "35-1060"]
+      },
+      "correlativasRendir": ["35-1110"]
+    },
+    {
+      "codigo": "35-1750",
+      "codigoOficial": "35 1750",
+      "nombre": "Análisis de Datos",
+      "abreviatura": "AD",
+      "aliases": [
+        "analisis de datos",
+        "anal de datos",
+        "ad",
+        "data analysis"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": ["35-1190", "47-0510"],
+        "aprobadas": ["35-1180"]
+      },
+      "correlativasRendir": ["35-1190", "47-0510"]
+    },
+    {
+      "codigo": "47-0220",
+      "codigoOficial": "47 0220",
+      "nombre": "Investigación Operativa II",
+      "abreviatura": "IO2",
+      "aliases": [
+        "investigacion operativa 2",
+        "investigacion operativa ii",
+        "inv operat 2",
+        "inv operat ii",
+        "io 2",
+        "io ii",
+        "investigacion 2"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["47-0210"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["47-0210"]
+    },
+    {
+      "codigo": "35-0540",
+      "codigoOficial": "35 0540",
+      "nombre": "Modelos y Simulación",
+      "abreviatura": "MYS",
+      "aliases": [
+        "modelos y simulacion",
+        "modelos simulacion",
+        "simulacion",
+        "mys"
+      ],
+      "anio": 5,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": ["47-0220", "25-0080"],
+        "aprobadas": ["47-0210"]
+      },
+      "correlativasRendir": ["47-0220", "25-0080"]
+    },
+    {
+      "codigo": "35-1211",
+      "codigoOficial": "35 1211",
+      "nombre": "Sistemas Inteligentes",
+      "abreviatura": "SI",
+      "aliases": [
+        "sistemas inteligentes",
+        "sist inteligentes",
+        "si",
+        "ia",
+        "inteligencia artificial"
+      ],
+      "anio": 5,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": ["35-1750"],
+        "aprobadas": ["35-1110"]
+      },
+      "correlativasRendir": ["35-1750"]
+    },
+    {
+      "codigo": "35-1220",
+      "codigoOficial": "35 1220",
+      "nombre": "Auditoría de Sistemas",
+      "abreviatura": "AUD",
+      "aliases": [
+        "auditoria de sistemas",
+        "auditoria sistemas",
+        "audit sist",
+        "auditoria",
+        "aud"
+      ],
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-0930"],
+        "aprobadas": ["35-1130"]
+      },
+      "correlativasRendir": ["35-0930"]
+    },
+    {
+      "codigo": "35-1760",
+      "codigoOficial": "35 1760",
+      "nombre": "Técnicas Avanzadas de Análisis de Datos",
+      "abreviatura": "TAAD",
+      "aliases": [
+        "tecnicas avanzadas de analisis de datos",
+        "tecnicas avanzadas",
+        "tec av analisis datos",
+        "taad"
+      ],
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": ["35-1750"],
+        "aprobadas": ["35-1110"]
+      },
+      "correlativasRendir": ["35-1750"]
+    },
+    {
+      "codigo": "50-0710",
+      "codigoOficial": "50 0710",
+      "nombre": "Recursos Humanos",
+      "abreviatura": "RRHH",
+      "aliases": [
+        "recursos humanos",
+        "rrhh",
+        "rh"
+      ],
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["50-3000"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["50-3000"]
+    },
+    {
+      "codigo": "60-0110",
+      "codigoOficial": "60 0110",
+      "nombre": "Ingeniería Legal",
+      "abreviatura": "IL",
+      "aliases": [
+        "ingenieria legal",
+        "ing legal",
+        "il"
+      ],
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": ["50-3000"],
+        "aprobadas": ["05-0250"]
+      },
+      "correlativasRendir": ["50-3000"]
+    },
+    {
+      "codigo": "97-0200",
+      "codigoOficial": "97 0200",
+      "nombre": "Práctica Profesional Supervisada Ingeniero",
+      "abreviatura": "PPSI",
+      "aliases": [
+        "practica profesional supervisada ingeniero",
+        "practica supervisada ingeniero",
+        "pps ingeniero",
+        "ppsi",
+        "practica ingeniero"
+      ],
+      "anio": 5,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 0,
+      "correlativasCursar": { "regularizadas": [], "aprobadas": [] },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "09-1390",
+      "codigoOficial": "09 1390",
+      "nombre": "Proyecto de Grado",
+      "abreviatura": "PG",
+      "aliases": [
+        "proyecto de grado",
+        "proyecto grado",
+        "pg",
+        "tesis"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": ["35-0930", "50-3000"],
+        "aprobadas": ["50-1490"]
+      },
+      "correlativasRendir": ["35-0930"]
+    },
+    {
+      "codigo": "35-0290",
+      "codigoOficial": "35 0290",
+      "nombre": "Seguridad Informática",
+      "abreviatura": "SEG",
+      "aliases": [
+        "seguridad informatica",
+        "seguridad",
+        "seg"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-1220"],
+        "aprobadas": ["75-1850", "35-0900"]
+      },
+      "correlativasRendir": ["35-1220"]
+    },
+    {
+      "codigo": "35-1240",
+      "codigoOficial": "35 1240",
+      "nombre": "Estrategia e Informática",
+      "abreviatura": "EI",
+      "aliases": [
+        "estrategia e informatica",
+        "estrategia informatica",
+        "estrategia",
+        "ei"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": ["35-1750", "35-0930"],
+        "aprobadas": ["35-1130"]
+      },
+      "correlativasRendir": ["35-0930", "35-1750"]
+    },
+    {
+      "codigo": "35-1680",
+      "codigoOficial": "35 1680",
+      "nombre": "Redes III",
+      "abreviatura": "RED3",
+      "aliases": [
+        "redes 3",
+        "redes iii",
+        "red 3",
+        "red iii"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": ["35-1160"],
+        "aprobadas": ["35-1150"]
+      },
+      "correlativasRendir": ["35-1160"]
+    },
+    {
+      "codigo": "60-3700",
+      "codigoOficial": "60 3700",
+      "nombre": "Legislación Informática",
+      "abreviatura": "LI",
+      "aliases": [
+        "legislacion informatica",
+        "legislacion",
+        "li"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": ["60-0110"],
+        "aprobadas": []
+      },
+      "correlativasRendir": ["60-0110"]
+    }
+  ]
+}
