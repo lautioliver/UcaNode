@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
+import { getMigrationDatabaseUrl } from "../src/lib/database-url";
 import {
   CategoriaLink,
   DiaSemana,
@@ -11,12 +12,7 @@ import {
   TipoEntrega,
 } from "../src/generated/prisma/client";
 
-const connectionString = process.env.DATABASE_URL;
-if (!connectionString) {
-  throw new Error("DATABASE_URL no está definida");
-}
-
-const pool = new Pool({ connectionString });
+const pool = new Pool({ connectionString: getMigrationDatabaseUrl() });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
