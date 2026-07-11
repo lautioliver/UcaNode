@@ -1,4 +1,5 @@
 import type { PlanEstudio, CorrelatividadPlan } from "@/generated/prisma/client";
+import { getPerfilConCarrera } from "@/lib/perfil";
 import { prisma } from "@/lib/prisma";
 import type {
   CorrelativasCursar,
@@ -69,9 +70,7 @@ export async function getPlanMateriasByCarreraId(
 }
 
 export async function getPlanEstudioForPerfil(): Promise<PlanEstudioFuente | null> {
-  const perfil = await prisma.perfil.findFirst({
-    include: { carrera: true },
-  });
+  const perfil = await getPerfilConCarrera();
 
   if (!perfil?.carreraId || !perfil.carrera) return null;
 

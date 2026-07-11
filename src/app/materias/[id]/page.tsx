@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import { getOrCreatePerfil } from "@/lib/perfil";
 import { prisma } from "@/lib/prisma";
 import {
   Card,
@@ -28,8 +29,9 @@ export default async function MateriaDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const materia = await prisma.materia.findUnique({
-    where: { id },
+  const perfil = await getOrCreatePerfil();
+  const materia = await prisma.materia.findFirst({
+    where: { id, perfilId: perfil.id },
     include: {
       entregas: { orderBy: { fecha: "asc" } },
       horarios: true,

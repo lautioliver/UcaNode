@@ -4,6 +4,7 @@ import { CounterChip, PageHeader } from "@/components/layout";
 import { MateriaCatalog } from "@/components/materia-catalog";
 import { prisma } from "@/lib/prisma";
 import { createMateria, updateMateria, deleteMateria } from "@/lib/actions";
+import { getPerfilConCarrera } from "@/lib/perfil";
 import { getPlanMateriasByCarreraId } from "@/lib/planes-estudio/queries";
 
 export const metadata: Metadata = {
@@ -11,12 +12,12 @@ export const metadata: Metadata = {
 };
 
 export default async function MateriasPage() {
-  const perfil = await prisma.perfil.findFirst({
-    select: { carreraId: true },
-  });
+  const perfil = await getPerfilConCarrera();
+  if (!perfil) return null;
 
   const [materias, planMaterias] = await Promise.all([
     prisma.materia.findMany({
+      where: { perfilId: perfil.id },
       orderBy: { nombre: "asc" },
     }),
     perfil?.carreraId ? getPlanMateriasByCarreraId(perfil.carreraId) : Promise.resolve([]),

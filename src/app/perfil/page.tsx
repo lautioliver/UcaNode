@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { User } from "lucide-react";
-import { prisma } from "@/lib/prisma";
+import { getPerfilConCarrera } from "@/lib/perfil";
 import { Card, PageHeader } from "@/components/layout";
 import { PerfilForm } from "@/components/forms";
 import { updatePerfil } from "@/lib/actions";
@@ -10,9 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function PerfilPage() {
-  const perfil = await prisma.perfil.findFirst({
-    include: { carrera: true },
-  });
+  const perfil = await getPerfilConCarrera();
 
   return (
     <main className="mx-auto max-w-3xl space-y-8">

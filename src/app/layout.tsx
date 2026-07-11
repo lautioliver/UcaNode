@@ -55,6 +55,7 @@ export default async function RootLayout({
   }
 
   const materias = await prisma.materia.findMany({
+    where: { perfilId: perfil.id },
     orderBy: { nombre: "asc" },
     select: { id: true, nombre: true },
   });
