@@ -192,7 +192,7 @@ export function EntregasWorkspace({
 
   return (
     <>
-      <main className="relative space-y-8 pb-24">
+      <main className="relative min-w-0 space-y-8 overflow-x-clip pb-24">
         <PageHeader
           pill="Todas tus entregas"
           title="¿Qué tenés que entregar?"
@@ -447,7 +447,7 @@ export function EntregasWorkspace({
                 </button>
               </div>
 
-              <div className="-mx-4 overflow-x-auto px-4 md:mx-0 md:overflow-visible md:px-0">
+              <div className="overflow-x-auto overscroll-x-contain">
                 <div className="grid min-w-[560px] grid-cols-7 gap-px overflow-hidden rounded-xl border border-border bg-border">
                 {dayNames.map((name) => (
                   <div
@@ -561,7 +561,7 @@ export function EntregasWorkspace({
           </div>
 
           {listEntregas.length > 0 ? (
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid min-w-0 gap-4 md:grid-cols-2">
               {listEntregas.map((e) => (
                 <EntregaCard
                   key={e.id}

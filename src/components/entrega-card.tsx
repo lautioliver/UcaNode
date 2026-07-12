@@ -67,7 +67,7 @@ export function EntregaCard({
             }
           : undefined
       }
-      className={`flex flex-col gap-4 rounded-2xl border border-border bg-surface-card p-5 shadow-[var(--shadow-card)] transition ${
+      className={`flex min-w-0 w-full flex-col gap-4 overflow-hidden rounded-2xl border border-border bg-surface-card p-4 shadow-[var(--shadow-card)] transition sm:p-5 ${
         entregado ? "opacity-55 saturate-75" : ""
       } ${
         interactive
@@ -75,19 +75,19 @@ export function EntregaCard({
           : "hover:border-border-strong"
       }`}
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex min-w-0 items-start gap-3">
+      <div className="flex min-w-0 items-start justify-between gap-2 sm:gap-3">
+        <div className="flex min-w-0 flex-1 items-start gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-ghost text-accent">
             <Icon className="h-5 w-5" />
           </span>
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <p className="flex min-w-0 items-center gap-1.5 text-sm font-semibold text-primary">
               {entrega.materia.codigo && (
-                <span className="shrink-0 rounded border border-border-strong bg-surface-hover px-1.5 py-0.5 font-mono text-[10px] font-semibold text-secondary">
+                <span className="max-w-[5.5rem] shrink-0 truncate rounded border border-border-strong bg-surface-hover px-1.5 py-0.5 font-mono text-[10px] font-semibold text-secondary">
                   {entrega.materia.codigo}
                 </span>
               )}
-              <span className="truncate">{entrega.titulo}</span>
+              <span className="min-w-0 truncate">{entrega.titulo}</span>
             </p>
             <p className="truncate text-xs font-medium text-slate-600 dark:text-slate-300">
               {entrega.materia.nombre}
@@ -95,7 +95,7 @@ export function EntregaCard({
             </p>
           </div>
         </div>
-        <StatusBadge tone={entregado ? "success" : tone}>
+        <StatusBadge tone={entregado ? "success" : tone} className="shrink-0">
           {entregado ? "Entregado" : urgenciaLabel[urgencia]}
         </StatusBadge>
       </div>
@@ -106,8 +106,8 @@ export function EntregaCard({
         label={entregado ? "Completada" : humanDays(days)}
       />
 
-      <div className="flex items-center justify-between text-[11px] text-slate-600 dark:text-slate-300">
-        <span className="inline-flex items-center gap-1.5">
+      <div className="flex min-w-0 flex-wrap items-center justify-between gap-x-3 gap-y-1 text-[11px] text-slate-600 dark:text-slate-300">
+        <span className="inline-flex min-w-0 items-center gap-1.5">
           <span
             className={`inline-block h-1.5 w-1.5 rounded-full ${
               entrega.estado === "ENTREGADO"
@@ -119,7 +119,7 @@ export function EntregaCard({
           />
           {estadoEntregaLabel[entrega.estado]}
         </span>
-        <span className="inline-flex items-center gap-2">
+        <span className="inline-flex shrink-0 flex-wrap items-center justify-end gap-2">
           {entrega.tipo === "PARCIAL" && entrega.nota != null && (
             <span className="rounded-full bg-accent-ghost px-2 py-0.5 font-semibold text-accent">
               Nota: {entrega.nota}

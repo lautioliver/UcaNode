@@ -29,7 +29,7 @@ export function PageHeader({
           <p className="max-w-2xl text-sm text-secondary">{description}</p>
         )}
       </div>
-      {action && <div className="shrink-0">{action}</div>}
+      {action && <div className="shrink-0 self-start">{action}</div>}
     </header>
   );
 }
@@ -73,7 +73,7 @@ export function FilterPill({
   onClick?: () => void;
   type?: "button" | "submit";
 }) {
-  const className = `inline-flex items-center rounded-full px-4 py-1.5 text-xs font-medium transition ${
+  const className = `inline-flex w-fit shrink-0 items-center whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium transition sm:px-4 sm:py-1.5 ${
     active
       ? "bg-accent text-white shadow-[var(--shadow-card)]"
       : "border border-border bg-surface-card text-secondary hover:border-border-strong hover:text-primary"
@@ -109,13 +109,15 @@ const badgeToneClass: Record<Tone, string> = {
 export function StatusBadge({
   tone = "neutral",
   children,
+  className = "",
 }: {
   tone?: Tone;
   children: React.ReactNode;
+  className?: string;
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] font-medium ${badgeToneClass[tone]}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] font-medium ${badgeToneClass[tone]} ${className}`}
     >
       <span className={`h-1.5 w-1.5 rounded-full ${dotClass[tone]}`} />
       {children}
@@ -153,10 +155,10 @@ export function ProgressBar({
   const clamped = Math.max(0, Math.min(100, value));
   const rounded = Math.round(clamped);
   return (
-    <div className="space-y-1.5">
+    <div className="min-w-0 space-y-1.5">
       {(label || showValue) && (
-        <div className="flex items-center justify-between text-xs">
-          {label && <span className="text-secondary">{label}</span>}
+        <div className="flex min-w-0 items-center justify-between gap-2 text-xs">
+          {label && <span className="min-w-0 truncate text-secondary">{label}</span>}
           {showValue && (
             <span className={`font-semibold ${textToneClass[tone]}`}>
               {rounded}%
@@ -203,13 +205,13 @@ export function SectionCard({
 }) {
   return (
     <section
-      className={`flex flex-col rounded-2xl border border-border bg-surface-card p-5 shadow-[var(--shadow-card)] ${className}`}
+      className={`flex min-w-0 flex-col rounded-2xl border border-border bg-surface-card p-5 shadow-[var(--shadow-card)] ${className}`}
     >
-      <div className="mb-4 flex items-center justify-between gap-2">
-        <h2 className="text-sm font-semibold text-primary">{title}</h2>
-        {action}
+      <div className="mb-4 flex min-w-0 items-center justify-between gap-2">
+        <h2 className="min-w-0 truncate text-sm font-semibold text-primary">{title}</h2>
+        {action && <div className="shrink-0">{action}</div>}
       </div>
-      <div className="flex-1 overflow-auto">{children}</div>
+      <div className="min-w-0 flex-1 overflow-auto">{children}</div>
     </section>
   );
 }
@@ -232,7 +234,7 @@ export function LinkButton({
   return (
     <Link
       href={href}
-      className="inline-flex items-center gap-1 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-secondary transition hover:border-border-strong hover:text-primary"
+      className="inline-flex w-fit max-w-full items-center gap-1 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-secondary transition hover:border-border-strong hover:text-primary"
     >
       {children}
       <ArrowUpRight className="h-3 w-3" />
