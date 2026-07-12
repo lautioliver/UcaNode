@@ -892,12 +892,34 @@
       "creditos": 2,
       "correlativasCursar": {
         "regularizadas": [
-          "85-0690",
+          "85-0690"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0690"
+      ]
+    },
+    {
+      "codigo": "97-0300",
+      "codigoOficial": "97 0300",
+      "nombre": "Práctica Profesional Supervisada",
+      "abreviatura": "PPS",
+      "aliases": [
+        "pps",
+        "practica profesional supervisada",
+        "practicaprofesionalsupervisada"
+      ],
+      "anio": 5,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 0,
+      "correlativasCursar": {
+        "regularizadas": [
           "50-0240",
           "85-0690"
         ],
         "aprobadas": [
-          "85-0690",
           "70-0090",
           "85-0680",
           "85-0660",

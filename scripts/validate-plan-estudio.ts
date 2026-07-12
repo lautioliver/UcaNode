@@ -86,11 +86,23 @@ function validatePlan(plan: PlanEstudio, label: string) {
 
   for (const m of plan.materias) {
     const refs = [
-      ...m.correlativasCursar.regularizadas,
-      ...m.correlativasCursar.aprobadas,
-      ...m.correlativasRendir,
+      ...m.correlativasCursar.regularizadas.map((ref) => ({
+        ref,
+        tipo: "REGULARIZADA",
+      })),
+      ...m.correlativasCursar.aprobadas.map((ref) => ({
+        ref,
+        tipo: "APROBADA",
+      })),
+      ...m.correlativasRendir.map((ref) => ({ ref, tipo: "PARA_RENDIR" })),
     ];
-    for (const ref of refs) {
+    const seen = new Set<string>();
+    for (const { ref, tipo } of refs) {
+      const key = `${m.codigo}|${ref}|${tipo}`;
+      if (seen.has(key)) {
+        errors.push(`Materia ${m.codigo}: correlativa duplicada ${ref} (${tipo})`);
+      }
+      seen.add(key);
       if (!codigos.has(ref)) {
         errors.push(`Materia ${m.codigo}: correlativa inexistente ${ref}`);
       }
