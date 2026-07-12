@@ -205,7 +205,7 @@ export function EntregasWorkspace({
           <CounterChip tone="success" count={aTiempo.length} label="A tiempo" />
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="filter-scroll-row">
           {FILTROS.map((f) => (
             <FilterPill
               key={f.value}
@@ -218,8 +218,8 @@ export function EntregasWorkspace({
           ))}
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs text-muted">Orden:</span>
+        <div className="filter-scroll-row items-center">
+          <span className="shrink-0 text-xs text-muted">Orden:</span>
           {ORDEN_ESTADO.map((o) => (
             <FilterPill
               key={o.value}
@@ -232,7 +232,7 @@ export function EntregasWorkspace({
           ))}
         </div>
 
-        <div className="relative w-full max-w-xs">
+        <div className="relative w-full sm:max-w-xs">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
           <input
             type="search"
@@ -292,7 +292,70 @@ export function EntregasWorkspace({
                 </button>
               </div>
 
-              <div className="grid grid-cols-7 gap-1.5">
+              <div className="space-y-2 md:hidden">
+                {weekDays.map((day) => {
+                  const key = dayKey(day);
+                  const dayEntregas = entregasByDay[key] ?? [];
+                  const today = isToday(day);
+                  const dayIndex = getDay(day) === 0 ? 6 : getDay(day) - 1;
+
+                  return (
+                    <div
+                      key={key}
+                      className={`rounded-xl border p-3 ${
+                        today
+                          ? "border-accent bg-accent-ghost"
+                          : "border-border bg-surface-card"
+                      }`}
+                    >
+                      <div className="mb-2 flex items-center justify-between gap-2">
+                        <div>
+                          <p className="text-xs font-semibold uppercase text-secondary">
+                            {dayNames[dayIndex]}
+                          </p>
+                          <p
+                            className={`text-sm font-bold ${
+                              today ? "text-accent" : "text-primary"
+                            }`}
+                          >
+                            {format(day, "d MMM", { locale: es })}
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => openCreate(key)}
+                          aria-label={`Agregar entrega el ${format(day, "d MMM", { locale: es })}`}
+                          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-white transition hover:bg-accent-hover"
+                        >
+                          <Plus className="h-4 w-4" />
+                        </button>
+                      </div>
+                      {dayEntregas.length > 0 ? (
+                        <div className="space-y-1">
+                          {dayEntregas.map((e) => (
+                            <button
+                              key={e.id}
+                              type="button"
+                              onClick={() => openEdit(e)}
+                              className={`block w-full rounded-lg px-2 py-2 text-left text-sm transition hover:bg-surface-hover ${
+                                e.estado === "ENTREGADO"
+                                  ? "text-muted line-through"
+                                  : "text-primary"
+                              }`}
+                            >
+                              {e.titulo}
+                            </button>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-xs text-muted">Sin entregas</p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="hidden grid-cols-7 gap-1.5 md:grid">
                 {weekDays.map((day) => {
                   const key = dayKey(day);
                   const dayEntregas = entregasByDay[key] ?? [];
@@ -316,7 +379,7 @@ export function EntregasWorkspace({
                           onClick={() => openCreate(key)}
                           title="Agregar entrega"
                           aria-label={`Agregar entrega el ${format(day, "d MMM", { locale: es })}`}
-                          className="flex h-5 w-5 items-center justify-center rounded-full bg-accent text-white opacity-0 transition hover:bg-accent-hover group-hover/day:opacity-100"
+                          className="flex h-5 w-5 items-center justify-center rounded-full bg-accent text-white opacity-100 transition hover:bg-accent-hover sm:opacity-0 sm:group-hover/day:opacity-100"
                         >
                           <Plus className="h-3 w-3" />
                         </button>
@@ -384,7 +447,8 @@ export function EntregasWorkspace({
                 </button>
               </div>
 
-              <div className="grid grid-cols-7 gap-px overflow-hidden rounded-xl border border-border bg-border">
+              <div className="-mx-4 overflow-x-auto px-4 md:mx-0 md:overflow-visible md:px-0">
+                <div className="grid min-w-[560px] grid-cols-7 gap-px overflow-hidden rounded-xl border border-border bg-border">
                 {dayNames.map((name) => (
                   <div
                     key={name}
@@ -431,7 +495,7 @@ export function EntregasWorkspace({
                             onClick={() => openCreate(key)}
                             title="Agregar entrega"
                             aria-label={`Agregar entrega el ${format(day, "d MMM", { locale: es })}`}
-                            className="flex h-5 w-5 items-center justify-center rounded-full bg-accent text-white opacity-0 transition hover:bg-accent-hover group-hover/day:opacity-100"
+                            className="flex h-5 w-5 items-center justify-center rounded-full bg-accent text-white opacity-100 transition hover:bg-accent-hover sm:opacity-0 sm:group-hover/day:opacity-100"
                           >
                             <Plus className="h-3 w-3" />
                           </button>
@@ -462,6 +526,7 @@ export function EntregasWorkspace({
                     </div>
                   );
                 })}
+              </div>
               </div>
 
               {selectedDate && (

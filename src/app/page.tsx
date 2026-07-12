@@ -97,7 +97,7 @@ export default async function DashboardPage() {
       </div>
 
       <section className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-sm font-semibold text-primary">
             Próximas entregas
           </h2>
@@ -150,7 +150,12 @@ export default async function DashboardPage() {
                   </div>
                   <p className="mt-1 text-xs text-muted">
                     {h.horaInicio} – {h.horaFin}
-                    {h.aulaLink ? ` · ${h.aulaLink}` : ""}
+                    {h.aulaLink ? (
+                      <>
+                        {" · "}
+                        <span className="break-all">{h.aulaLink}</span>
+                      </>
+                    ) : null}
                   </p>
                 </li>
               ))}

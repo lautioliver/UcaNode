@@ -119,6 +119,27 @@ body {
   background: var(--surface);
   color: var(--primary);
   font-family: var(--font-sans), system-ui, sans-serif;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.filter-scroll-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-inline: -1rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  padding-inline: 1rem;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 640px) {
+  .filter-scroll-row {
+    flex-wrap: wrap;
+    margin-inline: 0;
+    overflow-x: visible;
+    padding-inline: 0;
+  }
 }
 
 * {
