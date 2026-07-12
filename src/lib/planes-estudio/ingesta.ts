@@ -15,28 +15,27 @@ function buildCorrelativas(
   materias: NonNullable<ReturnType<typeof obtenerPlanDesdeFuente>>["materias"],
 ): CorrelativaInsert[] {
   const rows: CorrelativaInsert[] = [];
+  const seen = new Set<string>();
 
   for (const materia of materias) {
+    const push = (
+      requisitoCodigo: string,
+      tipo: CorrelativaInsert["tipo"],
+    ) => {
+      const key = `${materia.codigo}|${requisitoCodigo}|${tipo}`;
+      if (seen.has(key)) return;
+      seen.add(key);
+      rows.push({ materiaCodigo: materia.codigo, requisitoCodigo, tipo });
+    };
+
     for (const codigo of materia.correlativasCursar.regularizadas) {
-      rows.push({
-        materiaCodigo: materia.codigo,
-        requisitoCodigo: codigo,
-        tipo: "REGULARIZADA",
-      });
+      push(codigo, "REGULARIZADA");
     }
     for (const codigo of materia.correlativasCursar.aprobadas) {
-      rows.push({
-        materiaCodigo: materia.codigo,
-        requisitoCodigo: codigo,
-        tipo: "APROBADA",
-      });
+      push(codigo, "APROBADA");
     }
     for (const codigo of materia.correlativasRendir) {
-      rows.push({
-        materiaCodigo: materia.codigo,
-        requisitoCodigo: codigo,
-        tipo: "PARA_RENDIR",
-      });
+      push(codigo, "PARA_RENDIR");
     }
   }
 
