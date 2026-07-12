@@ -106,9 +106,11 @@ export function Sidebar({
 
       <aside
         data-collapsed={collapsed}
-        className={`fixed inset-y-0 left-0 z-50 flex w-[260px] flex-col border-r border-border bg-surface-card transition-[transform,width] duration-200 ease-out ${
-          mobileOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex w-[min(260px,85vw)] flex-col border-r border-border bg-surface-card transition-[transform,width] duration-200 ease-out max-lg:will-change-transform ${
+          mobileOpen
+            ? "translate-x-0 max-lg:pointer-events-auto"
+            : "-translate-x-full max-lg:pointer-events-none"
+        } lg:sticky lg:top-0 lg:z-auto lg:h-screen lg:shrink-0 lg:translate-x-0 lg:will-change-auto ${
           collapsed ? "lg:w-[76px]" : "lg:w-[240px]"
         }`}
       >

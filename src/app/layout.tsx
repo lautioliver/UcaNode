@@ -86,15 +86,15 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-surface text-primary antialiased`}
       >
-        <div className="flex min-h-screen">
+        <div className="min-h-screen w-full lg:flex">
           <Sidebar
             perfilNombre={perfil.nombre}
             cuentaRegistrada={cuentaRegistrada}
             initialCollapsed={collapsed}
             initialDark={dark}
           />
-          <div className="flex min-h-screen min-w-0 flex-1 flex-col">
-            <div className="w-full flex-1 px-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] pt-16 max-lg:pl-14 sm:px-6 lg:px-8 lg:pb-10 lg:pl-8 lg:pt-8">
+          <div className="flex min-h-screen w-full min-w-0 flex-1 flex-col">
+            <div className="w-full flex-1 px-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] pt-16 sm:px-6 lg:px-8 lg:pb-10 lg:pt-8">
               <div className="mx-auto w-full max-w-7xl">{children}</div>
             </div>
             <Footer />
