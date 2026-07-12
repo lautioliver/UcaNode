@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Plus } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import Link from "next/link";
+import { BookOpen, Plus } from "lucide-react";
 import { Drawer } from "@/components/drawer";
 import { EntregaCreateForm } from "@/components/forms";
 import { createEntrega } from "@/lib/actions";
@@ -12,10 +14,13 @@ export function EntregaFab({
   materias: { id: string; nombre: string }[];
 }) {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  if (materias.length === 0) return null;
+  useEffect(() => setMounted(true), []);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <>
       <button
         type="button"
@@ -35,13 +40,32 @@ export function EntregaFab({
         subtitle="Nueva entrega"
         title="Agregar entrega"
       >
-        <EntregaCreateForm
-          action={createEntrega}
-          materias={materias}
-          onSuccess={() => setOpen(false)}
-          compact
-        />
+        {materias.length === 0 ? (
+          <div className="flex flex-col items-center gap-4 py-6 text-center">
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-ghost text-accent">
+              <BookOpen className="h-6 w-6" />
+            </span>
+            <p className="max-w-xs text-sm text-secondary">
+              Agregá al menos una materia a tu perfil para poder registrar entregas.
+            </p>
+            <Link
+              href="/materias"
+              onClick={() => setOpen(false)}
+              className="inline-flex items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white transition hover:bg-accent-hover"
+            >
+              Ir a materias
+            </Link>
+          </div>
+        ) : (
+          <EntregaCreateForm
+            action={createEntrega}
+            materias={materias}
+            onSuccess={() => setOpen(false)}
+            compact
+          />
+        )}
       </Drawer>
-    </>
+    </>,
+    document.body,
   );
 }
