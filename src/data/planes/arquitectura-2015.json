@@ -1,0 +1,1603 @@
+{
+  "carrera": "Arquitectura",
+  "plan": "2015",
+  "resolucion": "",
+  "modalidad": "Presencial",
+  "duracionAnios": 5,
+  "descripcion": "Plan de estudio y correlatividades para la carrera de Arquitectura (UCASAL, plan 2015). El campo semestre usa 1 = primer cuatrimestre, 2 = segundo cuatrimestre, 0 = anual.",
+  "materias": [
+    {
+      "codigo": "00-0050",
+      "codigoOficial": "00 0050",
+      "nombre": "Teología",
+      "abreviatura": "TEOL",
+      "aliases": [
+        "teol",
+        "teologia"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "05-0000"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "05-0000"
+      ]
+    },
+    {
+      "codigo": "05-0000",
+      "codigoOficial": "05 0000",
+      "nombre": "Filosofía",
+      "abreviatura": "FILO",
+      "aliases": [
+        "filo",
+        "filosofia"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "10-0600",
+      "codigoOficial": "10 0600",
+      "nombre": "Historia de la Arquitectura I",
+      "abreviatura": "HA",
+      "aliases": [
+        "ha",
+        "historia de la arquitectura i",
+        "historiadelaarquitecturai"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "10-0800"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "10-0800"
+      ]
+    },
+    {
+      "codigo": "10-0610",
+      "codigoOficial": "10 0610",
+      "nombre": "Historia de la Arquitectura Ii",
+      "abreviatura": "HA2",
+      "aliases": [
+        "ha2",
+        "historia de la arquitectura ii",
+        "historiadelaarquitecturaii"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "10-0600"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "10-0600"
+      ]
+    },
+    {
+      "codigo": "25-0000",
+      "codigoOficial": "25 0000",
+      "nombre": "Matemática",
+      "abreviatura": "MATE",
+      "aliases": [
+        "mate",
+        "matematica"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "50-1700",
+      "codigoOficial": "50 1700",
+      "nombre": "Planeamiento I",
+      "abreviatura": "PLAN",
+      "aliases": [
+        "plan",
+        "planeamiento i",
+        "planeamientoi"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0000"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0000"
+      ]
+    },
+    {
+      "codigo": "70-0090",
+      "codigoOficial": "70 0090",
+      "nombre": "Construcciones Iii",
+      "abreviatura": "CONS",
+      "aliases": [
+        "cons",
+        "construcciones iii",
+        "construccionesiii"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "70-0110"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "70-0110"
+      ]
+    },
+    {
+      "codigo": "70-0100",
+      "codigoOficial": "70 0100",
+      "nombre": "Construcciones I",
+      "abreviatura": "CONS2",
+      "aliases": [
+        "cons2",
+        "construcciones i",
+        "construccionesi"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "70-0110",
+      "codigoOficial": "70 0110",
+      "nombre": "Construcciones Ii",
+      "abreviatura": "CONS3",
+      "aliases": [
+        "cons3",
+        "construcciones ii",
+        "construccionesii"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0050",
+          "70-0100"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0050",
+        "70-0100"
+      ]
+    },
+    {
+      "codigo": "85-0040",
+      "codigoOficial": "85 0040",
+      "nombre": "Medios de Expresión I",
+      "abreviatura": "ME",
+      "aliases": [
+        "me",
+        "medios de expresion i",
+        "mediosdeexpresioni"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0100",
+      "codigoOficial": "85 0100",
+      "nombre": "Medios de Expresión Ii",
+      "abreviatura": "ME2",
+      "aliases": [
+        "me2",
+        "medios de expresion ii",
+        "mediosdeexpresionii"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0040"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0040"
+      ]
+    },
+    {
+      "codigo": "85-0180",
+      "codigoOficial": "85 0180",
+      "nombre": "Medios de Expresión Iii",
+      "abreviatura": "ME3",
+      "aliases": [
+        "me3",
+        "medios de expresion iii",
+        "mediosdeexpresioniii"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0100"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0100"
+      ]
+    },
+    {
+      "codigo": "85-0580",
+      "codigoOficial": "85 0580",
+      "nombre": "Diseño I",
+      "abreviatura": "DISE",
+      "aliases": [
+        "dise",
+        "diseno i",
+        "disenoi"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 9,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0590",
+      "codigoOficial": "85 0590",
+      "nombre": "Diseño Ii",
+      "abreviatura": "DISE2",
+      "aliases": [
+        "dise2",
+        "diseno ii",
+        "disenoii"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 9,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0040",
+          "85-0630"
+        ],
+        "aprobadas": [
+          "85-0580"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0600",
+      "codigoOficial": "85 0600",
+      "nombre": "Diseño Iii",
+      "abreviatura": "DISE3",
+      "aliases": [
+        "dise3",
+        "diseno iii",
+        "disenoiii"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 9,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": [
+          "85-0640",
+          "85-0630",
+          "85-0040",
+          "85-0590"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0630",
+      "codigoOficial": "85 0630",
+      "nombre": "Sistemas de Representación",
+      "abreviatura": "SR",
+      "aliases": [
+        "sistemas de representacion",
+        "sistemasderepresentacion",
+        "sr"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0640",
+      "codigoOficial": "85 0640",
+      "nombre": "Teoría de la Arquitectura",
+      "abreviatura": "TA",
+      "aliases": [
+        "ta",
+        "teoria de la arquitectura",
+        "teoriadelaarquitectura"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0650",
+      "codigoOficial": "85 0650",
+      "nombre": "Instalaciones I",
+      "abreviatura": "INST",
+      "aliases": [
+        "inst",
+        "instalaciones i",
+        "instalacionesi"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0050",
+          "25-0000"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0000",
+        "40-0050"
+      ]
+    },
+    {
+      "codigo": "85-0660",
+      "codigoOficial": "85 0660",
+      "nombre": "Instalaciones Ii",
+      "abreviatura": "INST2",
+      "aliases": [
+        "inst2",
+        "instalaciones ii",
+        "instalacionesii"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0650"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0650"
+      ]
+    },
+    {
+      "codigo": "85-0670",
+      "codigoOficial": "85 0670",
+      "nombre": "Estructuras I",
+      "abreviatura": "ESTR",
+      "aliases": [
+        "estr",
+        "estructuras i",
+        "estructurasi"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0050",
+          "25-0000"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0050",
+        "25-0000"
+      ]
+    },
+    {
+      "codigo": "90-0420",
+      "codigoOficial": "90 0420",
+      "nombre": "Dibujo Asistido por Computadora I",
+      "abreviatura": "DAC",
+      "aliases": [
+        "dac",
+        "dibujo asistido por computadora i",
+        "dibujoasistidoporcomputadorai"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0630"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0630"
+      ]
+    },
+    {
+      "codigo": "10-0800",
+      "codigoOficial": "10 0800",
+      "nombre": "Introducción a la Cultura",
+      "abreviatura": "IC",
+      "aliases": [
+        "ic",
+        "introduccion a la cultura",
+        "introduccionalacultura"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0000",
+      "codigoOficial": "85 0000",
+      "nombre": "Crítica de la Arquitectura",
+      "abreviatura": "CA",
+      "aliases": [
+        "ca",
+        "critica de la arquitectura",
+        "criticadelaarquitectura"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0640"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0640"
+      ]
+    },
+    {
+      "codigo": "00-0100",
+      "codigoOficial": "00 0100",
+      "nombre": "Doctrina Social de la Iglesia",
+      "abreviatura": "DSI",
+      "aliases": [
+        "doctrina social de la iglesia",
+        "doctrinasocialdelaiglesia",
+        "dsi"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "05-0000"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "05-0000"
+      ]
+    },
+    {
+      "codigo": "40-0050",
+      "codigoOficial": "40 0050",
+      "nombre": "Física",
+      "abreviatura": "FISI",
+      "aliases": [
+        "fisi",
+        "fisica"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "10-0660",
+      "codigoOficial": "10 0660",
+      "nombre": "Historia de la Arquitectura Iii",
+      "abreviatura": "HA3",
+      "aliases": [
+        "ha3",
+        "historia de la arquitectura iii",
+        "historiadelaarquitecturaiii"
+      ],
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "10-0610"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "10-0610"
+      ]
+    },
+    {
+      "codigo": "50-0240",
+      "codigoOficial": "50 0240",
+      "nombre": "Organización de Obras",
+      "abreviatura": "OO",
+      "aliases": [
+        "oo",
+        "organizacion de obras",
+        "organizaciondeobras"
+      ],
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "70-0090"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "70-0090"
+      ]
+    },
+    {
+      "codigo": "50-1710",
+      "codigoOficial": "50 1710",
+      "nombre": "Planeamiento Ii",
+      "abreviatura": "PLAN2",
+      "aliases": [
+        "plan2",
+        "planeamiento ii",
+        "planeamientoii"
+      ],
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "50-1700"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "50-1700"
+      ]
+    },
+    {
+      "codigo": "85-0250",
+      "codigoOficial": "85 0250",
+      "nombre": "Ambiente y Arquitectura",
+      "abreviatura": "AA",
+      "aliases": [
+        "aa",
+        "ambiente y arquitectura",
+        "ambienteyarquitectura"
+      ],
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "50-1700"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "50-1700"
+      ]
+    },
+    {
+      "codigo": "85-0680",
+      "codigoOficial": "85 0680",
+      "nombre": "Estructuras Ii",
+      "abreviatura": "ESTR2",
+      "aliases": [
+        "estr2",
+        "estructuras ii",
+        "estructurasii"
+      ],
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0670"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0670"
+      ]
+    },
+    {
+      "codigo": "90-0430",
+      "codigoOficial": "90 0430",
+      "nombre": "Dibujo Asistido por Computadora Ii",
+      "abreviatura": "DAC2",
+      "aliases": [
+        "dac2",
+        "dibujo asistido por computadora ii",
+        "dibujoasistidoporcomputadoraii"
+      ],
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "90-0420"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "90-0420"
+      ]
+    },
+    {
+      "codigo": "09-0670",
+      "codigoOficial": "09 0670",
+      "nombre": "Trabajo Final Integrador",
+      "abreviatura": "TFI",
+      "aliases": [
+        "tfi",
+        "trabajo final integrador",
+        "trabajofinalintegrador"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0660",
+          "10-0610",
+          "50-1710",
+          "85-0250"
+        ],
+        "aprobadas": [
+          "50-1700"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "60-0850",
+      "codigoOficial": "60 0850",
+      "nombre": "Legal",
+      "abreviatura": "LEGA",
+      "aliases": [
+        "lega",
+        "legal"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "50-0240"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "50-0240"
+      ]
+    },
+    {
+      "codigo": "70-0340",
+      "codigoOficial": "70 0340",
+      "nombre": "Seguridad en la Construcción",
+      "abreviatura": "SC",
+      "aliases": [
+        "sc",
+        "seguridad en la construccion",
+        "seguridadenlaconstruccion"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "50-0240"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "50-0240"
+      ]
+    },
+    {
+      "codigo": "85-0610",
+      "codigoOficial": "85 0610",
+      "nombre": "Diseño Iv",
+      "abreviatura": "DISE4",
+      "aliases": [
+        "dise4",
+        "diseno iv",
+        "disenoiv"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 9,
+      "correlativasCursar": {
+        "regularizadas": [
+          "50-1700",
+          "85-0680",
+          "10-0600"
+        ],
+        "aprobadas": [
+          "85-0650",
+          "85-0670",
+          "70-0110",
+          "85-0100",
+          "85-0600"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0620",
+      "codigoOficial": "85 0620",
+      "nombre": "Diseño V",
+      "abreviatura": "DISE5",
+      "aliases": [
+        "dise5",
+        "diseno v",
+        "disenov"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 9,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0660",
+          "10-0610",
+          "85-0250",
+          "50-1710"
+        ],
+        "aprobadas": [
+          "85-0610",
+          "50-1700",
+          "10-0600",
+          "85-0680"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0690",
+      "codigoOficial": "85 0690",
+      "nombre": "Estructuras Iii",
+      "abreviatura": "ESTR3",
+      "aliases": [
+        "estr3",
+        "estructuras iii",
+        "estructurasiii"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0680"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0680"
+      ]
+    },
+    {
+      "codigo": "85-0700",
+      "codigoOficial": "85 0700",
+      "nombre": "Estructuras Iv",
+      "abreviatura": "ESTR4",
+      "aliases": [
+        "estr4",
+        "estructuras iv",
+        "estructurasiv"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0690",
+          "50-0240",
+          "85-0690"
+        ],
+        "aprobadas": [
+          "85-0690",
+          "70-0090",
+          "85-0680",
+          "85-0660",
+          "85-0610"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "05-0340",
+      "codigoOficial": "05 0340",
+      "nombre": "Ética",
+      "abreviatura": "ETIC",
+      "aliases": [
+        "etic",
+        "etica"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "00-0100",
+          "50-0240"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "50-0240",
+        "00-0100"
+      ]
+    },
+    {
+      "codigo": "07-0810",
+      "codigoOficial": "07 0810",
+      "nombre": "Psicología (electiva)",
+      "abreviatura": "PE",
+      "aliases": [
+        "pe",
+        "psicologia (electiva)",
+        "psicologia(electiva)"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "12-0770",
+      "codigoOficial": "12 0770",
+      "nombre": "Energias Renovables Aplicadas a la Arquitectura (optativa)",
+      "abreviatura": "ERAA",
+      "aliases": [
+        "energias renovables aplicadas a la arquitectura (optativa)",
+        "energiasrenovablesaplicadasalaarquitectura(optativa)",
+        "eraa"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0660"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0660"
+      ]
+    },
+    {
+      "codigo": "35-1500",
+      "codigoOficial": "35 1500",
+      "nombre": "Tecnología de la Información (electiva)",
+      "abreviatura": "TIE",
+      "aliases": [
+        "tecnologia de la informacion (electiva)",
+        "tecnologiadelainformacion(electiva)",
+        "tie"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "90-0430"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "90-0430"
+      ]
+    },
+    {
+      "codigo": "70-0350",
+      "codigoOficial": "70 0350",
+      "nombre": "Patologías de la Construcción (electiva)",
+      "abreviatura": "PCE",
+      "aliases": [
+        "patologias de la construccion (electiva)",
+        "patologiasdelaconstruccion(electiva)",
+        "pce"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "70-0090"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "70-0090"
+      ]
+    },
+    {
+      "codigo": "85-0130",
+      "codigoOficial": "85 0130",
+      "nombre": "Preservación Urbana (electiva)",
+      "abreviatura": "PUE",
+      "aliases": [
+        "preservacion urbana (electiva)",
+        "preservacionurbana(electiva)",
+        "pue"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0000"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0000"
+      ]
+    },
+    {
+      "codigo": "85-0220",
+      "codigoOficial": "85 0220",
+      "nombre": "Croquis y Perspectiva (electiva)",
+      "abreviatura": "CPE",
+      "aliases": [
+        "cpe",
+        "croquis y perspectiva (electiva)",
+        "croquisyperspectiva(electiva)"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0180"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0290",
+      "codigoOficial": "85 0290",
+      "nombre": "Topografía (electiva )",
+      "abreviatura": "TE",
+      "aliases": [
+        "te",
+        "topografia (electiva )",
+        "topografia(electiva)"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "70-0090"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "70-0090"
+      ]
+    },
+    {
+      "codigo": "85-0300",
+      "codigoOficial": "85 0300",
+      "nombre": "Arquitectura Solar (electiva)",
+      "abreviatura": "ASE",
+      "aliases": [
+        "arquitectura solar (electiva)",
+        "arquitecturasolar(electiva)",
+        "ase"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0690"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0690"
+      ]
+    },
+    {
+      "codigo": "85-0320",
+      "codigoOficial": "85 0320",
+      "nombre": "Materiales y Técnicas Regionales (electiva)",
+      "abreviatura": "MTRE",
+      "aliases": [
+        "materiales y tecnicas regionales (electiva)",
+        "materialesytecnicasregionales(electiva)",
+        "mtre"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "70-0110"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "70-0110"
+      ]
+    },
+    {
+      "codigo": "85-0360",
+      "codigoOficial": "85 0360",
+      "nombre": "Paisaje I (electiva)",
+      "abreviatura": "PE2",
+      "aliases": [
+        "paisaje i (electiva)",
+        "paisajei(electiva)",
+        "pe2"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0600"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0420",
+      "codigoOficial": "85 0420",
+      "nombre": "Arquitectura del Turismo (electiva)",
+      "abreviatura": "ATE",
+      "aliases": [
+        "arquitectura del turismo (electiva)",
+        "arquitecturadelturismo(electiva)",
+        "ate"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": [
+          "85-0600"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0430",
+      "codigoOficial": "85 0430",
+      "nombre": "Paisaje Ii (electiva)",
+      "abreviatura": "PE3",
+      "aliases": [
+        "paisaje ii (electiva)",
+        "paisajeii(electiva)",
+        "pe3"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": [
+          "85-0600"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0440",
+      "codigoOficial": "85 0440",
+      "nombre": "Arquitectura Latinoamericana del Siglo Xxi (electiva)",
+      "abreviatura": "ALSX",
+      "aliases": [
+        "alsx",
+        "arquitectura latinoamericana del siglo xxi (electiva)",
+        "arquitecturalatinoamericanadelsigloxxi(electiva)"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "10-0610"
+        ],
+        "aprobadas": [
+          "85-0600",
+          "10-0610"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0450",
+      "codigoOficial": "85 0450",
+      "nombre": "Proceso de Diseño Digital (electiva)",
+      "abreviatura": "PDDE",
+      "aliases": [
+        "pdde",
+        "proceso de diseno digital (electiva)",
+        "procesodedisenodigital(electiva)"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "90-0430"
+        ],
+        "aprobadas": [
+          "85-0600",
+          "90-0430"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0570",
+      "codigoOficial": "85 0570",
+      "nombre": "Plantas y Jardines (electiva)",
+      "abreviatura": "PJE",
+      "aliases": [
+        "pje",
+        "plantas y jardines (electiva)",
+        "plantasyjardines(electiva)"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0740",
+      "codigoOficial": "85 0740",
+      "nombre": "Planificación del Territorio: Medición y Catastro (electiva)",
+      "abreviatura": "PTMC",
+      "aliases": [
+        "planificacion del territorio: medicion y catastro (electiva)",
+        "planificaciondelterritorio:medicionycatastro(electiva)",
+        "ptmc"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": [
+          "50-1700"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0750",
+      "codigoOficial": "85 0750",
+      "nombre": "Arquitectura Sustentable y Edificios Inteligentes Domótica (electiva)",
+      "abreviatura": "ASEI",
+      "aliases": [
+        "arquitectura sustentable y edificios inteligentes domotica (electiva)",
+        "arquitecturasustentableyedificiosinteligentesdomotica(electiva)",
+        "asei"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0660"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0970",
+      "codigoOficial": "85 0970",
+      "nombre": "Resoluciones Constructivas No Convencionales (electiva)",
+      "abreviatura": "RCNC",
+      "aliases": [
+        "rcnc",
+        "resoluciones constructivas no convencionales (electiva)",
+        "resolucionesconstructivasnoconvencionales(electiva)"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "70-0110"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "70-0110"
+      ]
+    },
+    {
+      "codigo": "19-0290",
+      "codigoOficial": "19 0290",
+      "nombre": "Prueba de Nivelación de Idiomas",
+      "abreviatura": "PNI",
+      "aliases": [
+        "pni",
+        "prueba de nivelacion de idiomas",
+        "pruebadenivelaciondeidiomas"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 0,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "50-5240",
+      "codigoOficial": "50 5240",
+      "nombre": "Planificación y Gestión de Proyectos",
+      "abreviatura": "PGP",
+      "aliases": [
+        "pgp",
+        "planificacion y gestion de proyectos",
+        "planificacionygestiondeproyectos"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0600"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0600"
+      ]
+    },
+    {
+      "codigo": "85-0340",
+      "codigoOficial": "85 0340",
+      "nombre": "Accesibilidad al Medio Físico (electiva)",
+      "abreviatura": "AMFE",
+      "aliases": [
+        "accesibilidad al medio fisico (electiva)",
+        "accesibilidadalmediofisico(electiva)",
+        "amfe"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0600"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0390",
+      "codigoOficial": "85 0390",
+      "nombre": "Paisajismo (electiva )",
+      "abreviatura": "PE4",
+      "aliases": [
+        "paisajismo (electiva )",
+        "paisajismo(electiva)",
+        "pe4"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0600",
+          "85-0180"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0180",
+        "85-0600"
+      ]
+    },
+    {
+      "codigo": "85-0710",
+      "codigoOficial": "85 0710",
+      "nombre": "Construcciones de Madera (electiva)",
+      "abreviatura": "CME",
+      "aliases": [
+        "cme",
+        "construcciones de madera (electiva)",
+        "construccionesdemadera(electiva)"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "70-0110"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "70-0110"
+      ]
+    },
+    {
+      "codigo": "85-0940",
+      "codigoOficial": "85 0940",
+      "nombre": "Diseño Arquitectonico Para Una Modernidad Apropiada (electiva)",
+      "abreviatura": "DAPU",
+      "aliases": [
+        "dapu",
+        "diseno arquitectonico para una modernidad apropiada (electiva)",
+        "disenoarquitectonicoparaunamodernidadapropiada(electiva)"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": [
+          "85-0590"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-1020",
+      "codigoOficial": "85 1020",
+      "nombre": "Diseño y Gestión de la Ciudad Sustentable (electiva)",
+      "abreviatura": "DGCS",
+      "aliases": [
+        "dgcs",
+        "diseno y gestion de la ciudad sustentable (electiva)",
+        "disenoygestiondelaciudadsustentable(electiva)"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "50-1700"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "50-1700"
+      ]
+    },
+    {
+      "codigo": "90-0150",
+      "codigoOficial": "90 0150",
+      "nombre": "Taller de Composición Plástica (electiva)",
+      "abreviatura": "TCPE",
+      "aliases": [
+        "taller de composicion plastica (electiva)",
+        "tallerdecomposicionplastica(electiva)",
+        "tcpe"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "85-0180"
+        ],
+        "aprobadas": [
+          "85-0600",
+          "85-0180"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "96-0180",
+      "codigoOficial": "96 0180",
+      "nombre": "Turismo Accesible Parques Accesibilidades (electiva)",
+      "abreviatura": "TAPA",
+      "aliases": [
+        "tapa",
+        "turismo accesible parques accesibilidades (electiva)",
+        "turismoaccesibleparquesaccesibilidades(electiva)"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": [
+          "85-0600"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "99-0030",
+      "codigoOficial": "99 0030",
+      "nombre": "Electiva I",
+      "abreviatura": "ELEC",
+      "aliases": [
+        "elec",
+        "electiva i",
+        "electivai"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": [
+          "10-0600",
+          "85-0680",
+          "85-0610",
+          "85-0620"
+        ]
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "99-0040",
+      "codigoOficial": "99 0040",
+      "nombre": "Electiva Ii",
+      "abreviatura": "ELEC2",
+      "aliases": [
+        "elec2",
+        "electiva ii",
+        "electivaii"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    }
+  ]
+}

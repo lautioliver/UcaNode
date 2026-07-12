@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState, useMemo, useState } from "react";
 import {
   Brain,
+  Building2,
   Check,
   Cpu,
   Factory,
@@ -28,6 +29,7 @@ const CARRERA_ICONS: Record<string, LucideIcon> = {
   "ingenieria-informatica-2015": Cpu,
   "ingenieria-industrial-2005": Factory,
   "licenciatura-en-psicologia-1114": Brain,
+  "arquitectura-2015": Building2,
 };
 
 function carreraBadges(carrera: CarreraCatalogo) {
