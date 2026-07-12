@@ -1,20 +1,13 @@
-"use client";
-
 import Link from "next/link";
-import { useActionState } from "react";
-import type { ActionResult } from "@/lib/actions";
-import { login, registro } from "@/lib/auth-actions";
 
 const input =
   "w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-sm text-primary outline-none transition placeholder:text-muted focus:border-border-accent focus:ring-2 focus:ring-accent/40";
 
 function Field({
   label,
-  error,
   children,
 }: {
   label: string;
-  error?: string[];
   children: React.ReactNode;
 }) {
   return (
@@ -23,33 +16,7 @@ function Field({
         {label}
       </span>
       {children}
-      {error?.[0] && <p className="text-xs text-danger">{error[0]}</p>}
     </label>
-  );
-}
-
-function AuthFeedback({
-  state,
-  pending,
-  submitLabel,
-}: {
-  state: ActionResult;
-  pending: boolean;
-  submitLabel: string;
-}) {
-  return (
-    <>
-      <button
-        type="submit"
-        disabled={pending}
-        className="flex w-full items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white transition hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        {pending ? "Procesando..." : submitLabel}
-      </button>
-      {state.message && !state.success && (
-        <p className="text-center text-sm text-danger">{state.message}</p>
-      )}
-    </>
   );
 }
 
@@ -57,13 +24,17 @@ function guestHref(next?: string) {
   return next ? `/api/session?next=${encodeURIComponent(next)}` : "/api/session?next=/";
 }
 
-export function LoginForm({ next }: { next?: string }) {
-  const [state, formAction, pending] = useActionState(login, { success: true });
-
+export function LoginForm({
+  next,
+  error,
+}: {
+  next?: string;
+  error?: string;
+}) {
   return (
-    <form action={formAction} className="space-y-4">
+    <form action="/api/auth/login" method="POST" className="space-y-4">
       {next ? <input type="hidden" name="next" value={next} /> : null}
-      <Field label="Email" error={state.errors?.email}>
+      <Field label="Email">
         <input
           name="email"
           type="email"
@@ -73,7 +44,7 @@ export function LoginForm({ next }: { next?: string }) {
           className={input}
         />
       </Field>
-      <Field label="Contraseña" error={state.errors?.password}>
+      <Field label="Contraseña">
         <input
           name="password"
           type="password"
@@ -83,7 +54,13 @@ export function LoginForm({ next }: { next?: string }) {
           className={input}
         />
       </Field>
-      <AuthFeedback state={state} pending={pending} submitLabel="Iniciar sesión" />
+      <button
+        type="submit"
+        className="flex w-full items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white transition hover:bg-accent-hover"
+      >
+        Iniciar sesión
+      </button>
+      {error ? <p className="text-center text-sm text-danger">{error}</p> : null}
       <p className="text-center text-xs text-muted">
         ¿No tenés cuenta?{" "}
         <Link
@@ -97,13 +74,17 @@ export function LoginForm({ next }: { next?: string }) {
   );
 }
 
-export function RegistroForm({ next }: { next?: string }) {
-  const [state, formAction, pending] = useActionState(registro, { success: true });
-
+export function RegistroForm({
+  next,
+  error,
+}: {
+  next?: string;
+  error?: string;
+}) {
   return (
-    <form action={formAction} className="space-y-4">
+    <form action="/api/auth/registro" method="POST" className="space-y-4">
       {next ? <input type="hidden" name="next" value={next} /> : null}
-      <Field label="Nombre" error={state.errors?.nombre}>
+      <Field label="Nombre">
         <input
           name="nombre"
           required
@@ -112,7 +93,7 @@ export function RegistroForm({ next }: { next?: string }) {
           className={input}
         />
       </Field>
-      <Field label="Email" error={state.errors?.email}>
+      <Field label="Email">
         <input
           name="email"
           type="email"
@@ -122,7 +103,7 @@ export function RegistroForm({ next }: { next?: string }) {
           className={input}
         />
       </Field>
-      <Field label="Contraseña" error={state.errors?.password}>
+      <Field label="Contraseña">
         <input
           name="password"
           type="password"
@@ -132,7 +113,7 @@ export function RegistroForm({ next }: { next?: string }) {
           className={input}
         />
       </Field>
-      <Field label="Confirmar contraseña" error={state.errors?.confirmPassword}>
+      <Field label="Confirmar contraseña">
         <input
           name="confirmPassword"
           type="password"
@@ -142,7 +123,13 @@ export function RegistroForm({ next }: { next?: string }) {
           className={input}
         />
       </Field>
-      <AuthFeedback state={state} pending={pending} submitLabel="Crear cuenta" />
+      <button
+        type="submit"
+        className="flex w-full items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white transition hover:bg-accent-hover"
+      >
+        Crear cuenta
+      </button>
+      {error ? <p className="text-center text-sm text-danger">{error}</p> : null}
       <p className="text-center text-xs text-muted">
         ¿Ya tenés cuenta?{" "}
         <Link

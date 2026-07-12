@@ -105,7 +105,7 @@ export const loginSchema = z.object({
     .email("Email inválido")
     .transform((value) => value.toLowerCase()),
   password: z.string().min(1, "La contraseña es requerida"),
-  next: z.string().optional(),
+  next: z.string().nullish(),
 });
 
 export const registroSchema = z
@@ -118,7 +118,7 @@ export const registroSchema = z
       .transform((value) => value.toLowerCase()),
     password: z.string().min(8, "Mínimo 8 caracteres"),
     confirmPassword: z.string().min(1, "Confirmá la contraseña"),
-    next: z.string().optional(),
+    next: z.string().nullish(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Las contraseñas no coinciden",

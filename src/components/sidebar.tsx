@@ -3,7 +3,6 @@
 import type { ComponentType } from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { logout } from "@/lib/auth-actions";
 import { usePathname } from "next/navigation";
 import {
   BookOpen,
@@ -187,7 +186,7 @@ export function Sidebar({
 
         <div className="border-t border-border p-3">
           {cuentaRegistrada && (
-            <form action={logout} className="mb-2">
+            <form action="/api/auth/logout" method="POST" className="mb-2">
               <button
                 type="submit"
                 className={`flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm text-secondary transition hover:bg-surface-hover hover:text-primary ${
