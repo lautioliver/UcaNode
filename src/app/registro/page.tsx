@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 export default async function RegistroPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string }>;
+  searchParams: Promise<{ next?: string; error?: string }>;
 }) {
-  const { next } = await searchParams;
+  const { next, error } = await searchParams;
   const safeNext = next ? safeAuthRedirect(next) : undefined;
 
   return (
@@ -22,7 +22,7 @@ export default async function RegistroPage({
       guestCta="Probar primero sin cuenta"
       guestHref={guestHref(safeNext)}
     >
-      <RegistroForm next={safeNext} />
+      <RegistroForm next={safeNext} error={error} />
     </AuthPageShell>
   );
 }
