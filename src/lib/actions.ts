@@ -16,6 +16,7 @@ import { getCarreraCatalogo } from "@/lib/planes-estudio/catalogo";
 import { hydrateCarrera } from "@/lib/planes-estudio/ingesta";
 import { hashPassword } from "@/lib/password";
 import { getOrCreatePerfil, setPerfilCookie } from "@/lib/perfil";
+import { applyEstadoTimestamps, notaForTipo } from "@/lib/entrega-tracking";
 
 async function sessionPerfil() {
   return getOrCreatePerfil();
@@ -193,6 +194,7 @@ export async function deleteMateria(
 function revalidateEntrega(materiaId?: string) {
   revalidatePath("/");
   revalidatePath("/entregas");
+  revalidatePath("/analytics");
   if (materiaId) revalidatePath(`/materias/${materiaId}`);
 }
 
@@ -218,10 +220,15 @@ export async function createEntrega(
     return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
   }
 
-  // La nota solo aplica a parciales; en otros tipos se descarta.
+  const timestamps = applyEstadoTimestamps(null, parsed.data.estado, {
+    fechaInicio: null,
+    fechaCompletada: null,
+  });
+
   const dataCreate = {
     ...parsed.data,
-    nota: parsed.data.tipo === "PARCIAL" ? parsed.data.nota ?? null : null,
+    ...timestamps,
+    nota: notaForTipo(parsed.data.tipo, parsed.data.nota),
   };
 
   try {
@@ -263,17 +270,29 @@ export async function updateEntrega(
     return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
   }
 
-  // La nota solo aplica a parciales; en otros tipos se descarta.
-  const dataUpdate = {
-    ...parsed.data,
-    nota: parsed.data.tipo === "PARCIAL" ? parsed.data.nota ?? null : null,
-  };
-
   try {
     const perfil = await sessionPerfil();
+    const existing = await ownedEntrega(id, perfil.id);
+    if (!existing) return fail("Entrega no encontrada");
     if (!(await ownedMateria(parsed.data.materiaId, perfil.id))) {
       return fail("Materia no encontrada");
     }
+
+    const timestamps = applyEstadoTimestamps(
+      existing.estado,
+      parsed.data.estado,
+      {
+        fechaInicio: existing.fechaInicio,
+        fechaCompletada: existing.fechaCompletada,
+      },
+    );
+
+    const dataUpdate = {
+      ...parsed.data,
+      ...timestamps,
+      nota: notaForTipo(parsed.data.tipo, parsed.data.nota),
+    };
+
     const updated = await prisma.entrega.updateMany({
       where: { id, materia: { perfilId: perfil.id } },
       data: dataUpdate,
@@ -299,9 +318,17 @@ export async function toggleEntregaEstado(id: string): Promise<ActionResult> {
     if (!entrega) return fail("Entrega no encontrada");
 
     const nuevoEstado = entrega.estado === "ENTREGADO" ? "PENDIENTE" : "ENTREGADO";
+    const timestamps = applyEstadoTimestamps(
+      entrega.estado,
+      nuevoEstado,
+      {
+        fechaInicio: entrega.fechaInicio,
+        fechaCompletada: entrega.fechaCompletada,
+      },
+    );
     await prisma.entrega.update({
       where: { id: entrega.id },
-      data: { estado: nuevoEstado },
+      data: { estado: nuevoEstado, ...timestamps },
     });
     revalidateEntrega(entrega.materiaId);
     refresh();

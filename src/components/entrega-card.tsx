@@ -120,7 +120,7 @@ export function EntregaCard({
           {estadoEntregaLabel[entrega.estado]}
         </span>
         <span className="inline-flex shrink-0 flex-wrap items-center justify-end gap-2">
-          {entrega.tipo === "PARCIAL" && entrega.nota != null && (
+          {entrega.tipo !== "TP" && entrega.nota != null && (
             <span className="rounded-full bg-accent-ghost px-2 py-0.5 font-semibold text-accent">
               Nota: {entrega.nota}
             </span>

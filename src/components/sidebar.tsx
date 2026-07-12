@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  BarChart3,
   BookOpen,
   CalendarDays,
   ChevronLeft,
@@ -31,6 +32,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/", label: "Dashboard", Icon: LayoutDashboard },
   { href: "/materias", label: "Materias", Icon: BookOpen },
   { href: "/entregas", label: "Entregas", Icon: ClipboardCheck },
+  { href: "/analytics", label: "Analíticas", Icon: BarChart3 },
   { href: "/horarios", label: "Horarios", Icon: CalendarDays },
   { href: "/links", label: "Links", Icon: Link2 },
 ];
