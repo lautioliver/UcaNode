@@ -24,6 +24,11 @@ export async function setPerfilCookie(perfilId: string) {
   cookieStore.set(PERFIL_COOKIE, perfilId, perfilCookieOptions());
 }
 
+export async function clearPerfilCookie() {
+  const cookieStore = await cookies();
+  cookieStore.delete(PERFIL_COOKIE);
+}
+
 export async function createPerfilSession() {
   return prisma.perfil.create({
     data: {

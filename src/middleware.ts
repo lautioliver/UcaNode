@@ -5,6 +5,8 @@ import { PERFIL_COOKIE } from "@/lib/session";
 function shouldSkipSession(pathname: string) {
   return (
     pathname.startsWith("/api/session") ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/registro") ||
     pathname.startsWith("/_next") ||
     pathname.startsWith("/favicon") ||
     pathname === "/robots.txt" ||

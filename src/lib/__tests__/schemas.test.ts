@@ -5,6 +5,8 @@ import {
   horarioSchema,
   linkSchema,
   perfilSchema,
+  loginSchema,
+  registroSchema,
 } from "../schemas";
 
 describe("materiaSchema", () => {
@@ -123,6 +125,41 @@ describe("perfilSchema", () => {
       nombre: "Juan",
       emailUcasal: "not-email",
       anioIngreso: 2024,
+    });
+    expect(result.success).toBe(false);
+  });
+});
+
+describe("loginSchema", () => {
+  it("accepts valid login", () => {
+    const result = loginSchema.safeParse({
+      email: "Juan@Mail.COM",
+      password: "secret123",
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.email).toBe("juan@mail.com");
+    }
+  });
+});
+
+describe("registroSchema", () => {
+  it("accepts matching passwords", () => {
+    const result = registroSchema.safeParse({
+      nombre: "Juan",
+      email: "juan@mail.com",
+      password: "secret123",
+      confirmPassword: "secret123",
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects mismatched passwords", () => {
+    const result = registroSchema.safeParse({
+      nombre: "Juan",
+      email: "juan@mail.com",
+      password: "secret123",
+      confirmPassword: "other",
     });
     expect(result.success).toBe(false);
   });

@@ -1079,7 +1079,7 @@ export function PerfilForm({
           className={`${input} w-full`}
         />
       </Field>
-      <Field label="Email Ucasal" span>
+      <Field label="Email" span>
         <input
           name="emailUcasal"
           type="email"
