@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { Sidebar } from "@/components/sidebar";
 import { Footer } from "@/components/footer";
 import { EntregaFab } from "@/components/entrega-fab";
 import { OnboardingCarrera } from "@/components/onboarding-carrera";
 import { confirmarCarrera } from "@/lib/actions";
+import { isPerfilRegistrado } from "@/lib/auth";
 import { listCarrerasDisponibles } from "@/lib/planes-estudio/catalogo";
 import { getOrCreatePerfil } from "@/lib/perfil";
 import { prisma } from "@/lib/prisma";
@@ -27,16 +28,35 @@ export const metadata: Metadata = {
     "Sistema de autogestión para estudiantes de la Ucasal",
 };
 
+function isAuthRoute(pathname: string) {
+  return pathname.startsWith("/login") || pathname.startsWith("/registro");
+}
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [perfil, cookieStore] = await Promise.all([getOrCreatePerfil(), cookies()]);
-
-  const collapsed = cookieStore.get("ucanode_sidebar_collapsed")?.value === "1";
+  const [cookieStore, hdrs] = await Promise.all([cookies(), headers()]);
+  const pathname = hdrs.get("x-pathname") ?? "";
   const themeCookie = cookieStore.get("ucanode_theme")?.value;
   const dark = themeCookie !== "light";
+
+  if (isAuthRoute(pathname)) {
+    return (
+      <html lang="es" className={dark ? "dark" : ""}>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-surface text-primary antialiased`}
+        >
+          {children}
+        </body>
+      </html>
+    );
+  }
+
+  const perfil = await getOrCreatePerfil();
+  const collapsed = cookieStore.get("ucanode_sidebar_collapsed")?.value === "1";
+  const cuentaRegistrada = isPerfilRegistrado(perfil);
 
   if (!perfil.carreraId) {
     return (
@@ -48,6 +68,7 @@ export default async function RootLayout({
             action={confirmarCarrera}
             perfilId={perfil.id}
             carreras={listCarrerasDisponibles()}
+            cuentaRegistrada={cuentaRegistrada}
           />
         </body>
       </html>
@@ -68,6 +89,7 @@ export default async function RootLayout({
         <div className="flex min-h-screen">
           <Sidebar
             perfilNombre={perfil.nombre}
+            cuentaRegistrada={cuentaRegistrada}
             initialCollapsed={collapsed}
             initialDark={dark}
           />

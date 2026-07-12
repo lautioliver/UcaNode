@@ -3,6 +3,7 @@
 import type { ComponentType } from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { logout } from "@/lib/auth-actions";
 import { usePathname } from "next/navigation";
 import {
   BookOpen,
@@ -14,6 +15,7 @@ import {
   Link2,
   Menu,
   Moon,
+  LogOut,
   Sun,
   User,
   X,
@@ -44,10 +46,12 @@ function setCookie(name: string, value: string) {
 
 export function Sidebar({
   perfilNombre,
+  cuentaRegistrada,
   initialCollapsed,
   initialDark,
 }: {
   perfilNombre?: string | null;
+  cuentaRegistrada: boolean;
   initialCollapsed: boolean;
   initialDark: boolean;
 }) {
@@ -182,6 +186,23 @@ export function Sidebar({
         </nav>
 
         <div className="border-t border-border p-3">
+          {cuentaRegistrada && (
+            <form action={logout} className="mb-2">
+              <button
+                type="submit"
+                className={`flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm text-secondary transition hover:bg-surface-hover hover:text-primary ${
+                  collapsed ? "lg:justify-center lg:px-0" : ""
+                }`}
+                title="Cerrar sesión"
+              >
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-hover text-muted">
+                  <LogOut className="h-4 w-4" />
+                </span>
+                {showLabels && <span>Cerrar sesión</span>}
+              </button>
+            </form>
+          )}
+
           <Link
             href="/perfil"
             onClick={() => setMobileOpen(false)}
