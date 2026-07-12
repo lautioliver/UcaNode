@@ -166,7 +166,7 @@ export function OnboardingCarrera({
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4 py-10">
       <div className="w-full max-w-2xl space-y-6">
-        <div className="rounded-2xl border border-border bg-surface-card p-8 shadow-[var(--shadow-card)]">
+        <div className="rounded-2xl border border-border bg-surface-card p-5 shadow-[var(--shadow-card)] sm:p-8">
           <div className="mb-8 flex flex-col items-center text-center">
             <LogoMark className="mb-4 h-14 w-14" />
             <h1 className="text-2xl font-semibold tracking-tight text-primary sm:text-3xl">

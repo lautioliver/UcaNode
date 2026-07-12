@@ -223,7 +223,7 @@ export function MateriaCatalog({
 
   return (
     <>
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="filter-scroll-row">
         <FilterPill
           active={filtroAnio === "todos"}
           onClick={() => setFiltroAnio("todos")}
@@ -243,7 +243,7 @@ export function MateriaCatalog({
         ))}
       </div>
 
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="filter-scroll-row">
         {PERIODO_FILTROS.map(({ value, label }) => (
           <FilterPill
             key={value}
@@ -293,7 +293,7 @@ export function MateriaCatalog({
                   <p className="min-w-0 text-sm leading-snug text-primary">
                     <span className="font-medium">{abbr}</span>
                     <span className="text-slate-600 dark:text-slate-300"> | </span>
-                    <span>{m.nombre}</span>
+                    <span className="line-clamp-2">{m.nombre}</span>
                   </p>
                 </div>
                 <div className="mt-3 flex flex-wrap gap-1.5">
