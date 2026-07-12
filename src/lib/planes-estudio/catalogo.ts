@@ -1,5 +1,6 @@
 import type { CarreraCatalogo } from "@/lib/planes-estudio/types";
 import planInformatica from "@/data/correlatividades.json";
+import planArquitectura from "@/data/planes/arquitectura-2015.json";
 import planIndustrial from "@/data/planes/ingenieria-industrial-2005.json";
 import planPsicologia from "@/data/planes/licenciatura-en-psicologia-1114.json";
 
@@ -30,6 +31,15 @@ export const CARRERAS_DISPONIBLES: CarreraCatalogo[] = [
     modalidad: planPsicologia.modalidad,
     duracionAnios: planPsicologia.duracionAnios,
     descripcion: planPsicologia.descripcion,
+  },
+  {
+    slug: "arquitectura-2015",
+    nombre: planArquitectura.carrera,
+    planAnio: planArquitectura.plan,
+    resolucion: planArquitectura.resolucion,
+    modalidad: planArquitectura.modalidad,
+    duracionAnios: planArquitectura.duracionAnios,
+    descripcion: planArquitectura.descripcion,
   },
 ];
 
