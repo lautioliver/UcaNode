@@ -5,6 +5,7 @@ const NAV_LINKS = [
   { href: "/", label: "Dashboard" },
   { href: "/materias", label: "Materias" },
   { href: "/entregas", label: "Entregas" },
+  { href: "/analytics", label: "Analíticas" },
   { href: "/horarios", label: "Horarios" },
   { href: "/links", label: "Links" },
   { href: "/perfil", label: "Perfil" },

@@ -152,18 +152,20 @@ model Materia {
 }
 
 model Entrega {
-  id            String         @id @default(cuid())
-  titulo        String
-  tipo          TipoEntrega
-  fecha         DateTime
-  estado        EstadoEntrega  @default(PENDIENTE)
-  nota          Float?
-  recurso       String?
-  prioridad     String?
-  materiaId     String
-  materia       Materia        @relation(fields: [materiaId], references: [id], onDelete: Cascade)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  id                String         @id @default(cuid())
+  titulo            String
+  tipo              TipoEntrega
+  fecha             DateTime
+  estado            EstadoEntrega  @default(PENDIENTE)
+  nota              Float?
+  fechaInicio       DateTime?
+  fechaCompletada   DateTime?
+  recurso           String?
+  prioridad         String?
+  materiaId         String
+  materia           Materia        @relation(fields: [materiaId], references: [id], onDelete: Cascade)
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
 
   @@index([fecha])
   @@index([materiaId])

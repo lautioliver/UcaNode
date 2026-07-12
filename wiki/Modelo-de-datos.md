@@ -79,6 +79,8 @@ erDiagram
         DateTime fecha
         EstadoEntrega estado
         Float nota
+        DateTime fechaInicio
+        DateTime fechaCompletada
         String recurso
         String prioridad
         String materiaId FK
@@ -143,7 +145,9 @@ erDiagram
 | `TipoCorrelativa` | `REGULARIZADA`, `APROBADA`, `PARA_RENDIR` |
 | `EstadoIngesta` | `PENDIENTE`, `LISTO`, `ERROR` |
 
-> `Entrega.nota` es un campo opcional (`Float`, 0–10) que solo aplica a entregas de tipo `PARCIAL`. Se carga desde la edición de la entrega cuando el estudiante recibe la calificación; si el tipo deja de ser `PARCIAL`, la nota se descarta.
+> `Entrega.nota` es un campo opcional (`Float`, 0–10) que aplica a entregas de tipo `PARCIAL` y `FINAL`. Se carga desde la creación o edición de la entrega cuando el estudiante recibe la calificación; si el tipo deja de ser evaluable (`TP`), la nota se descarta.
+
+> `Entrega.fechaInicio` se registra la primera vez que la entrega pasa a `EN_CURSO`. `Entrega.fechaCompletada` se registra al marcar `ENTREGADO`. Si se revierte el estado, esos timestamps se limpian según las reglas de transición.
 
 ## Relaciones
 

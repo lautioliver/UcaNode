@@ -492,6 +492,7 @@ export function EntregaCreateForm({
   compact?: boolean;
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
+  const [tipo, setTipo] = useState("TP");
 
   useEffect(() => {
     if (state.success && state.message === "Entrega creada") onSuccess?.();
@@ -520,7 +521,13 @@ export function EntregaCreateForm({
         </select>
       </Field>
       <Field label="Tipo">
-        <select name="tipo" required className={`${select} w-full`}>
+        <select
+          name="tipo"
+          required
+          value={tipo}
+          onChange={(e) => setTipo(e.target.value)}
+          className={`${select} w-full`}
+        >
           {Object.entries(tipoEntregaLabel).map(([value, label]) => (
             <option key={value} value={value}>
               {label}
@@ -546,6 +553,27 @@ export function EntregaCreateForm({
           ))}
         </select>
       </Field>
+      {(tipo === "PARCIAL" || tipo === "FINAL") && (
+        <Field
+          label="Nota"
+          span
+          hint={
+            tipo === "PARCIAL"
+              ? "Calificación del parcial (0 a 10), cargala cuando te la den"
+              : "Calificación del final (0 a 10), cargala cuando te la den"
+          }
+        >
+          <input
+            name="nota"
+            type="number"
+            step="0.1"
+            min="0"
+            max="10"
+            placeholder="Ej: 8"
+            className={`${input} w-full`}
+          />
+        </Field>
+      )}
       <Field label="Prioridad">
         <select name="prioridad" defaultValue="" className={`${select} w-full`}>
           <option value="">Sin prioridad</option>
@@ -674,8 +702,16 @@ export function EntregaEditForm({
           ))}
         </select>
       </Field>
-      {tipo === "PARCIAL" && (
-        <Field label="Nota" span hint="Calificación del parcial (0 a 10), cargala cuando te la den">
+      {(tipo === "PARCIAL" || tipo === "FINAL") && (
+        <Field
+          label="Nota"
+          span
+          hint={
+            tipo === "PARCIAL"
+              ? "Calificación del parcial (0 a 10), cargala cuando te la den"
+              : "Calificación del final (0 a 10), cargala cuando te la den"
+          }
+        >
           <input
             name="nota"
             type="number"

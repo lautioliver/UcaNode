@@ -68,6 +68,17 @@ describe("entregaSchema", () => {
     expect(result.success).toBe(true);
   });
 
+  it("accepts a final with nota within range", () => {
+    const result = entregaSchema.safeParse({
+      titulo: "Final",
+      tipo: "FINAL",
+      fecha: "2026-08-01",
+      materiaId: "abc123",
+      nota: 7,
+    });
+    expect(result.success).toBe(true);
+  });
+
   it("rejects nota greater than 10", () => {
     const result = entregaSchema.safeParse({
       titulo: "Parcial 1",
