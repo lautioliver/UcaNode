@@ -82,7 +82,7 @@ export default async function DashboardPage() {
   const clasesHoy = hoy ? horarios.filter((h) => h.dia === hoy) : [];
 
   return (
-    <main className="space-y-8">
+    <main className="min-w-0 space-y-8">
       <PageHeader
         pill="Actualizado desde tus datos"
         title="¿Qué necesitás hacer esta semana?"
@@ -97,14 +97,14 @@ export default async function DashboardPage() {
       </div>
 
       <section className="space-y-4">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-sm font-semibold text-primary">
             Próximas entregas
           </h2>
           <LinkButton href="/entregas">Gestionar</LinkButton>
         </div>
         {proximas.length > 0 ? (
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid min-w-0 gap-4 md:grid-cols-2">
             {proximas.map((e) => (
               <EntregaCard key={e.id} entrega={e} />
             ))}

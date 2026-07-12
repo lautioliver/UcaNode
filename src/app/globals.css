@@ -124,21 +124,23 @@ body {
 
 .filter-scroll-row {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
-  margin-inline: -1rem;
+  max-width: 100%;
   overflow-x: auto;
   padding-bottom: 0.25rem;
-  padding-inline: 1rem;
   scroll-snap-type: x proximity;
   -webkit-overflow-scrolling: touch;
+}
+
+.filter-scroll-row > * {
+  flex-shrink: 0;
 }
 
 @media (min-width: 640px) {
   .filter-scroll-row {
     flex-wrap: wrap;
-    margin-inline: 0;
     overflow-x: visible;
-    padding-inline: 0;
   }
 }
 

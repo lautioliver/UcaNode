@@ -47,7 +47,7 @@ export default async function MateriasPage() {
   }));
 
   return (
-    <main className="space-y-8">
+    <main className="min-w-0 space-y-8 overflow-x-clip">
       <PageHeader
         pill="Tu plan de materias"
         title="¿Cómo van tus materias?"
