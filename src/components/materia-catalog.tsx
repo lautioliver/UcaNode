@@ -223,37 +223,41 @@ export function MateriaCatalog({
 
   return (
     <>
-      <div className="flex flex-wrap items-center gap-2">
-        <FilterPill
-          active={filtroAnio === "todos"}
-          onClick={() => setFiltroAnio("todos")}
-          type="button"
-        >
-          Todos los años
-        </FilterPill>
-        {aniosDisponibles.map((anio) => (
+      <div className="min-w-0 space-y-2">
+        <div className="filter-scroll-row">
+          <span className="shrink-0 text-xs text-muted">Año:</span>
           <FilterPill
-            key={anio}
-            active={filtroAnio === String(anio)}
-            onClick={() => setFiltroAnio(String(anio))}
+            active={filtroAnio === "todos"}
+            onClick={() => setFiltroAnio("todos")}
             type="button"
           >
-            {anio}° año
+            Todos
           </FilterPill>
-        ))}
-      </div>
+          {aniosDisponibles.map((anio) => (
+            <FilterPill
+              key={anio}
+              active={filtroAnio === String(anio)}
+              onClick={() => setFiltroAnio(String(anio))}
+              type="button"
+            >
+              {anio}° año
+            </FilterPill>
+          ))}
+        </div>
 
-      <div className="flex flex-wrap items-center gap-2">
-        {PERIODO_FILTROS.map(({ value, label }) => (
-          <FilterPill
-            key={value}
-            active={filtroPeriodo === value}
-            onClick={() => setFiltroPeriodo(value)}
-            type="button"
-          >
-            {label}
-          </FilterPill>
-        ))}
+        <div className="filter-scroll-row">
+          <span className="shrink-0 text-xs text-muted">Período:</span>
+          {PERIODO_FILTROS.map(({ value, label }) => (
+            <FilterPill
+              key={value}
+              active={filtroPeriodo === value}
+              onClick={() => setFiltroPeriodo(value)}
+              type="button"
+            >
+              {value === "todos" ? "Todos" : label}
+            </FilterPill>
+          ))}
+        </div>
       </div>
 
       {materiasVisibles.length === 0 ? (
@@ -275,7 +279,7 @@ export function MateriaCatalog({
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {materiasVisibles.map((m) => {
             const abbr = materiaAbbr(m.nombre, m.codigo, findMateriaByName);
             const badges = periodBadges(m, findMateriaByName);
@@ -293,7 +297,7 @@ export function MateriaCatalog({
                   <p className="min-w-0 text-sm leading-snug text-primary">
                     <span className="font-medium">{abbr}</span>
                     <span className="text-slate-600 dark:text-slate-300"> | </span>
-                    <span>{m.nombre}</span>
+                    <span className="line-clamp-2">{m.nombre}</span>
                   </p>
                 </div>
                 <div className="mt-3 flex flex-wrap gap-1.5">

@@ -179,12 +179,6 @@ export function MateriaCreateForm({
   };
 
   useEffect(() => {
-    if (detectedByCodigo) {
-      hydrateFromPlan(detectedByCodigo);
-    }
-  }, [detectedByCodigo?.codigo]);
-
-  useEffect(() => {
     if (state.success && state.message === "Materia creada") onSuccess?.();
   }, [state.success, state.message, onSuccess]);
 
@@ -195,8 +189,14 @@ export function MateriaCreateForm({
           name="codigo"
           value={codigo}
           onChange={(e) => {
-            setCodigo(e.target.value);
-            setAutoFilled(false);
+            const value = e.target.value;
+            setCodigo(value);
+            const info = planHelpers.autoInfoFromCodigo(value);
+            if (info) {
+              hydrateFromPlan(info);
+            } else {
+              setAutoFilled(false);
+            }
           }}
           placeholder="Ej: 35-1050"
           className={`${input} w-full`}
@@ -492,6 +492,7 @@ export function EntregaCreateForm({
   compact?: boolean;
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
+  const [tipo, setTipo] = useState("TP");
 
   useEffect(() => {
     if (state.success && state.message === "Entrega creada") onSuccess?.();
@@ -520,7 +521,13 @@ export function EntregaCreateForm({
         </select>
       </Field>
       <Field label="Tipo">
-        <select name="tipo" required className={`${select} w-full`}>
+        <select
+          name="tipo"
+          required
+          value={tipo}
+          onChange={(e) => setTipo(e.target.value)}
+          className={`${select} w-full`}
+        >
           {Object.entries(tipoEntregaLabel).map(([value, label]) => (
             <option key={value} value={value}>
               {label}
@@ -546,6 +553,27 @@ export function EntregaCreateForm({
           ))}
         </select>
       </Field>
+      {(tipo === "PARCIAL" || tipo === "FINAL") && (
+        <Field
+          label="Nota"
+          span
+          hint={
+            tipo === "PARCIAL"
+              ? "Calificación del parcial (0 a 10), cargala cuando te la den"
+              : "Calificación del final (0 a 10), cargala cuando te la den"
+          }
+        >
+          <input
+            name="nota"
+            type="number"
+            step="0.1"
+            min="0"
+            max="10"
+            placeholder="Ej: 8"
+            className={`${input} w-full`}
+          />
+        </Field>
+      )}
       <Field label="Prioridad">
         <select name="prioridad" defaultValue="" className={`${select} w-full`}>
           <option value="">Sin prioridad</option>
@@ -674,8 +702,16 @@ export function EntregaEditForm({
           ))}
         </select>
       </Field>
-      {tipo === "PARCIAL" && (
-        <Field label="Nota" span hint="Calificación del parcial (0 a 10), cargala cuando te la den">
+      {(tipo === "PARCIAL" || tipo === "FINAL") && (
+        <Field
+          label="Nota"
+          span
+          hint={
+            tipo === "PARCIAL"
+              ? "Calificación del parcial (0 a 10), cargala cuando te la den"
+              : "Calificación del final (0 a 10), cargala cuando te la den"
+          }
+        >
           <input
             name="nota"
             type="number"
@@ -1047,7 +1083,7 @@ export function PerfilForm({
     carreraNombre: string | null;
     anioIngreso: number;
     legajo: string | null;
-    password: string | null;
+    passwordConfigured: boolean;
   };
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
@@ -1063,20 +1099,26 @@ export function PerfilForm({
           className={`${input} w-full`}
         />
       </Field>
-      <Field label="Contraseña" hint="Se guarda local, sin cifrar (a mejorar)">
+      <Field
+        label="Contraseña"
+        hint={
+          defaultValues.passwordConfigured
+            ? "Dejá vacío para mantener la actual. Se guarda hasheada en la base."
+            : "Opcional. Se guarda hasheada en la base de datos."
+        }
+      >
         <input
           name="password"
           type="password"
-          defaultValue={defaultValues.password ?? ""}
-          placeholder="••••••••"
+          autoComplete="new-password"
+          placeholder={defaultValues.passwordConfigured ? "••••••••" : "Contraseña UCASAL (opcional)"}
           className={`${input} w-full`}
         />
       </Field>
-      <Field label="Email Ucasal" span>
+      <Field label="Email" span>
         <input
           name="emailUcasal"
           type="email"
-          required
           defaultValue={defaultValues.emailUcasal}
           placeholder="nombre.apellido@ucasal.edu.ar"
           className={`${input} w-full`}

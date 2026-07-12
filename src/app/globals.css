@@ -119,6 +119,29 @@ body {
   background: var(--surface);
   color: var(--primary);
   font-family: var(--font-sans), system-ui, sans-serif;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.filter-scroll-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 100%;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+
+.filter-scroll-row > * {
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .filter-scroll-row {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
 }
 
 * {

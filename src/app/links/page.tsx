@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getOrCreatePerfil } from "@/lib/perfil";
 import { prisma } from "@/lib/prisma";
 import {
   CounterChip,
@@ -27,7 +28,9 @@ export default async function LinksPage({
   searchParams: Promise<{ cat?: string }>;
 }) {
   const { cat } = await searchParams;
+  const perfil = await getOrCreatePerfil();
   const allLinks = await prisma.linkExterno.findMany({
+    where: { perfilId: perfil.id },
     orderBy: [{ favorito: "desc" }, { nombre: "asc" }],
   });
 

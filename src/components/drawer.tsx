@@ -66,7 +66,7 @@ export function Drawer({ open, onClose, title, subtitle, children }: DrawerProps
             <X className="h-4 w-4" />
           </button>
         </header>
-        <div className="flex-1 overflow-y-auto px-5 py-4">{children}</div>
+        <div className="flex-1 overflow-y-auto px-5 py-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">{children}</div>
       </div>
     </div>
   );

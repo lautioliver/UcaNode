@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getOrCreatePerfil } from "@/lib/perfil";
 import { prisma } from "@/lib/prisma";
 import { CounterChip, PageHeader } from "@/components/layout";
 import { HorariosWorkspace } from "@/components/horarios-workspace";
@@ -25,14 +26,18 @@ const currentDia = (): DiaSemana | null => {
 };
 
 export default async function HorariosPage() {
+  const perfil = await getOrCreatePerfil();
+
   const [horarios, materias] = await Promise.all([
     prisma.horario.findMany({
-      where: { materia: { estado: { in: [...ESTADOS_ACTIVOS] } } },
+      where: {
+        materia: { perfilId: perfil.id, estado: { in: [...ESTADOS_ACTIVOS] } },
+      },
       include: { materia: true },
       orderBy: [{ dia: "asc" }, { horaInicio: "asc" }],
     }),
     prisma.materia.findMany({
-      where: { estado: { in: [...ESTADOS_ACTIVOS] } },
+      where: { perfilId: perfil.id, estado: { in: [...ESTADOS_ACTIVOS] } },
       orderBy: { nombre: "asc" },
     }),
   ]);

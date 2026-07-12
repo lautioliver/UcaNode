@@ -14,6 +14,31 @@ import {
 } from "@/lib/schemas";
 import { getCarreraCatalogo } from "@/lib/planes-estudio/catalogo";
 import { hydrateCarrera } from "@/lib/planes-estudio/ingesta";
+import { hashPassword } from "@/lib/password";
+import { getOrCreatePerfil, setPerfilCookie } from "@/lib/perfil";
+import { applyEstadoTimestamps, notaForTipo } from "@/lib/entrega-tracking";
+
+async function sessionPerfil() {
+  return getOrCreatePerfil();
+}
+
+async function ownedMateria(materiaId: string, perfilId: string) {
+  return prisma.materia.findFirst({ where: { id: materiaId, perfilId } });
+}
+
+async function ownedEntrega(entregaId: string, perfilId: string) {
+  return prisma.entrega.findFirst({
+    where: { id: entregaId, materia: { perfilId } },
+    include: { materia: true },
+  });
+}
+
+async function ownedHorario(horarioId: string, perfilId: string) {
+  return prisma.horario.findFirst({
+    where: { id: horarioId, materia: { perfilId } },
+    include: { materia: true },
+  });
+}
 
 export type ActionResult = {
   success: boolean;
@@ -86,7 +111,8 @@ export async function createMateria(
   }
 
   try {
-    await prisma.materia.create({ data: parsed.data });
+    const perfil = await sessionPerfil();
+    await prisma.materia.create({ data: { ...parsed.data, perfilId: perfil.id } });
     revalidateMateria();
     refresh();
     return ok("Materia creada");
@@ -124,7 +150,12 @@ export async function updateMateria(
   }
 
   try {
-    await prisma.materia.update({ where: { id }, data: parsed.data });
+    const perfil = await sessionPerfil();
+    const updated = await prisma.materia.updateMany({
+      where: { id, perfilId: perfil.id },
+      data: parsed.data,
+    });
+    if (updated.count === 0) return fail("Materia no encontrada");
     revalidateMateria(id);
     refresh();
     return ok("Materia actualizada");
@@ -144,7 +175,11 @@ export async function deleteMateria(
   if (!id) return fail("ID requerido");
 
   try {
-    await prisma.materia.delete({ where: { id } });
+    const perfil = await sessionPerfil();
+    const deleted = await prisma.materia.deleteMany({
+      where: { id, perfilId: perfil.id },
+    });
+    if (deleted.count === 0) return fail("Materia no encontrada");
     revalidateMateria();
     refresh();
     return ok("Materia eliminada");
@@ -159,6 +194,7 @@ export async function deleteMateria(
 function revalidateEntrega(materiaId?: string) {
   revalidatePath("/");
   revalidatePath("/entregas");
+  revalidatePath("/analytics");
   if (materiaId) revalidatePath(`/materias/${materiaId}`);
 }
 
@@ -184,13 +220,22 @@ export async function createEntrega(
     return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
   }
 
-  // La nota solo aplica a parciales; en otros tipos se descarta.
+  const timestamps = applyEstadoTimestamps(null, parsed.data.estado, {
+    fechaInicio: null,
+    fechaCompletada: null,
+  });
+
   const dataCreate = {
     ...parsed.data,
-    nota: parsed.data.tipo === "PARCIAL" ? parsed.data.nota ?? null : null,
+    ...timestamps,
+    nota: notaForTipo(parsed.data.tipo, parsed.data.nota),
   };
 
   try {
+    const perfil = await sessionPerfil();
+    if (!(await ownedMateria(parsed.data.materiaId, perfil.id))) {
+      return fail("Materia no encontrada");
+    }
     await prisma.entrega.create({ data: dataCreate });
     revalidateEntrega(parsed.data.materiaId);
     refresh();
@@ -225,14 +270,34 @@ export async function updateEntrega(
     return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
   }
 
-  // La nota solo aplica a parciales; en otros tipos se descarta.
-  const dataUpdate = {
-    ...parsed.data,
-    nota: parsed.data.tipo === "PARCIAL" ? parsed.data.nota ?? null : null,
-  };
-
   try {
-    await prisma.entrega.update({ where: { id }, data: dataUpdate });
+    const perfil = await sessionPerfil();
+    const existing = await ownedEntrega(id, perfil.id);
+    if (!existing) return fail("Entrega no encontrada");
+    if (!(await ownedMateria(parsed.data.materiaId, perfil.id))) {
+      return fail("Materia no encontrada");
+    }
+
+    const timestamps = applyEstadoTimestamps(
+      existing.estado,
+      parsed.data.estado,
+      {
+        fechaInicio: existing.fechaInicio,
+        fechaCompletada: existing.fechaCompletada,
+      },
+    );
+
+    const dataUpdate = {
+      ...parsed.data,
+      ...timestamps,
+      nota: notaForTipo(parsed.data.tipo, parsed.data.nota),
+    };
+
+    const updated = await prisma.entrega.updateMany({
+      where: { id, materia: { perfilId: perfil.id } },
+      data: dataUpdate,
+    });
+    if (updated.count === 0) return fail("Entrega no encontrada");
     revalidateEntrega(parsed.data.materiaId);
     refresh();
     return ok("Entrega actualizada");
@@ -248,13 +313,22 @@ export async function toggleEntregaEstado(id: string): Promise<ActionResult> {
   if (!id) return fail("ID requerido");
 
   try {
-    const entrega = await prisma.entrega.findUnique({ where: { id } });
+    const perfil = await sessionPerfil();
+    const entrega = await ownedEntrega(id, perfil.id);
     if (!entrega) return fail("Entrega no encontrada");
 
     const nuevoEstado = entrega.estado === "ENTREGADO" ? "PENDIENTE" : "ENTREGADO";
+    const timestamps = applyEstadoTimestamps(
+      entrega.estado,
+      nuevoEstado,
+      {
+        fechaInicio: entrega.fechaInicio,
+        fechaCompletada: entrega.fechaCompletada,
+      },
+    );
     await prisma.entrega.update({
-      where: { id },
-      data: { estado: nuevoEstado },
+      where: { id: entrega.id },
+      data: { estado: nuevoEstado, ...timestamps },
     });
     revalidateEntrega(entrega.materiaId);
     refresh();
@@ -275,7 +349,11 @@ export async function deleteEntrega(
   if (!id) return fail("ID requerido");
 
   try {
-    await prisma.entrega.delete({ where: { id } });
+    const perfil = await sessionPerfil();
+    const deleted = await prisma.entrega.deleteMany({
+      where: { id, materia: { perfilId: perfil.id } },
+    });
+    if (deleted.count === 0) return fail("Entrega no encontrada");
     revalidateEntrega();
     refresh();
     return ok("Entrega eliminada");
@@ -313,6 +391,10 @@ export async function createHorario(
   }
 
   try {
+    const perfil = await sessionPerfil();
+    if (!(await ownedMateria(parsed.data.materiaId, perfil.id))) {
+      return fail("Materia no encontrada");
+    }
     await prisma.horario.create({ data: parsed.data });
     revalidateHorario();
     refresh();
@@ -346,7 +428,15 @@ export async function updateHorario(
   }
 
   try {
-    await prisma.horario.update({ where: { id }, data: parsed.data });
+    const perfil = await sessionPerfil();
+    if (!(await ownedMateria(parsed.data.materiaId, perfil.id))) {
+      return fail("Materia no encontrada");
+    }
+    const updated = await prisma.horario.updateMany({
+      where: { id, materia: { perfilId: perfil.id } },
+      data: parsed.data,
+    });
+    if (updated.count === 0) return fail("Horario no encontrado");
     revalidateHorario();
     refresh();
     return ok("Horario actualizado");
@@ -366,7 +456,11 @@ export async function deleteHorario(
   if (!id) return fail("ID requerido");
 
   try {
-    await prisma.horario.delete({ where: { id } });
+    const perfil = await sessionPerfil();
+    const deleted = await prisma.horario.deleteMany({
+      where: { id, materia: { perfilId: perfil.id } },
+    });
+    if (deleted.count === 0) return fail("Horario no encontrado");
     revalidateHorario();
     refresh();
     return ok("Horario eliminado");
@@ -402,7 +496,8 @@ export async function createLink(
   }
 
   try {
-    await prisma.linkExterno.create({ data: parsed.data });
+    const perfil = await sessionPerfil();
+    await prisma.linkExterno.create({ data: { ...parsed.data, perfilId: perfil.id } });
     revalidateLink();
     refresh();
     return ok("Link creado");
@@ -433,7 +528,12 @@ export async function updateLink(
   }
 
   try {
-    await prisma.linkExterno.update({ where: { id }, data: parsed.data });
+    const perfil = await sessionPerfil();
+    const updated = await prisma.linkExterno.updateMany({
+      where: { id, perfilId: perfil.id },
+      data: parsed.data,
+    });
+    if (updated.count === 0) return fail("Link no encontrado");
     revalidateLink();
     refresh();
     return ok("Link actualizado");
@@ -453,7 +553,11 @@ export async function deleteLink(
   if (!id) return fail("ID requerido");
 
   try {
-    await prisma.linkExterno.delete({ where: { id } });
+    const perfil = await sessionPerfil();
+    const deleted = await prisma.linkExterno.deleteMany({
+      where: { id, perfilId: perfil.id },
+    });
+    if (deleted.count === 0) return fail("Link no encontrado");
     revalidateLink();
     refresh();
     return ok("Link eliminado");
@@ -508,6 +612,8 @@ export async function confirmarCarrera(
       data: { carreraId: carrera.id },
     });
 
+    await setPerfilCookie(perfilId);
+
     revalidateApp();
     refresh();
     return ok("Plan de estudios listo");
@@ -536,13 +642,18 @@ export async function updatePerfil(
     return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
   }
 
+  const { password, ...perfilData } = parsed.data;
+  const passwordInput = password?.trim();
+
   try {
-    const existing = await prisma.perfil.findFirst();
-    if (existing) {
-      await prisma.perfil.update({ where: { id: existing.id }, data: parsed.data });
-    } else {
-      await prisma.perfil.create({ data: parsed.data });
+    const existing = await sessionPerfil();
+    const data: typeof perfilData & { password?: string | null } = { ...perfilData };
+
+    if (passwordInput) {
+      data.password = await hashPassword(passwordInput);
     }
+
+    await prisma.perfil.update({ where: { id: existing.id }, data });
     revalidatePerfil();
     refresh();
     return ok("Perfil guardado");

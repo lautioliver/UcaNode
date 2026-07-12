@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState, useMemo, useState } from "react";
 import {
+  Brain,
   Check,
   Cpu,
   Factory,
@@ -25,6 +27,7 @@ const input =
 const CARRERA_ICONS: Record<string, LucideIcon> = {
   "ingenieria-informatica-2015": Cpu,
   "ingenieria-industrial-2005": Factory,
+  "licenciatura-en-psicologia-1114": Brain,
 };
 
 function carreraBadges(carrera: CarreraCatalogo) {
@@ -136,10 +139,12 @@ export function OnboardingCarrera({
   action,
   perfilId,
   carreras,
+  cuentaRegistrada = false,
 }: {
   action: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
   perfilId: string;
   carreras: CarreraCatalogo[];
+  cuentaRegistrada?: boolean;
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
   const [query, setQuery] = useState("");
@@ -162,14 +167,42 @@ export function OnboardingCarrera({
   const puedeConfirmar = selectedSlug != null && !pending;
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-4 py-10">
-      <div className="w-full max-w-2xl space-y-6">
-        <div className="rounded-2xl border border-border bg-surface-card p-8 shadow-[var(--shadow-card)]">
-          <div className="mb-8 flex flex-col items-center text-center">
-            <LogoMark className="mb-4 h-14 w-14" />
-            <h1 className="text-2xl font-semibold tracking-tight text-primary sm:text-3xl">
+    <div className="flex min-h-screen flex-col px-4 py-8 sm:py-10">
+      <div className="mx-auto w-full max-w-2xl space-y-6">
+        <header className="flex items-center justify-between gap-4">
+          <div className="flex min-w-0 items-center gap-3">
+            <LogoMark className="h-9 w-9 shrink-0" />
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold text-primary">UcaNode</p>
+              <p className="truncate text-xs text-muted">Autogestión universitaria</p>
+            </div>
+          </div>
+          {!cuentaRegistrada ? (
+            <p className="shrink-0 text-right text-xs text-muted">
+              ¿Ya tenés cuenta?{" "}
+              <Link
+                href="/login"
+                className="text-secondary underline-offset-2 transition hover:text-primary hover:underline"
+              >
+                Ingresar
+              </Link>
+            </p>
+          ) : (
+            <p className="shrink-0 text-xs text-muted">Sesión iniciada</p>
+          )}
+        </header>
+
+        <div className="rounded-2xl border border-border bg-surface-card p-5 shadow-[var(--shadow-card)] sm:p-8">
+          <div className="mb-6 sm:mb-8">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent">
+              Primer paso
+            </p>
+            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-primary sm:text-3xl">
               Elegí tu carrera
             </h1>
+            <p className="mt-2 max-w-lg text-sm leading-relaxed text-secondary">
+              Seleccioná tu plan de estudios para organizar materias, entregas, horarios y links en un solo lugar.
+            </p>
           </div>
 
           <form action={formAction} className="space-y-5">

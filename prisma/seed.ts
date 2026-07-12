@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
+import { getMigrationDatabaseUrl } from "../src/lib/database-url";
 import {
   CategoriaLink,
   DiaSemana,
@@ -11,12 +12,7 @@ import {
   TipoEntrega,
 } from "../src/generated/prisma/client";
 
-const connectionString = process.env.DATABASE_URL;
-if (!connectionString) {
-  throw new Error("DATABASE_URL no está definida");
-}
-
-const pool = new Pool({ connectionString });
+const pool = new Pool({ connectionString: getMigrationDatabaseUrl() });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
@@ -31,7 +27,7 @@ async function main() {
   await prisma.linkExterno.deleteMany();
   await prisma.perfil.deleteMany();
 
-  await prisma.perfil.create({
+  const perfil = await prisma.perfil.create({
     data: {
       nombre: "Estudiante Ucasal",
       emailUcasal: "estudiante@ucasal.edu.ar",
@@ -40,8 +36,11 @@ async function main() {
     },
   });
 
+  const perfilId = perfil.id;
+
   const intro = await prisma.materia.create({
     data: {
+      perfilId,
       nombre: "Introducción a la Programación",
       codigo: "INF-101",
       estado: EstadoMateria.CURSANDO,
@@ -56,6 +55,7 @@ async function main() {
 
   const algoritmos = await prisma.materia.create({
     data: {
+      perfilId,
       nombre: "Algoritmos y Estructuras de Datos",
       codigo: "INF-201",
       estado: EstadoMateria.CURSANDO,
@@ -69,6 +69,7 @@ async function main() {
 
   const paradigmas = await prisma.materia.create({
     data: {
+      perfilId,
       nombre: "Paradigmas de Programación",
       codigo: "INF-210",
       estado: EstadoMateria.CURSANDO,
@@ -83,6 +84,7 @@ async function main() {
 
   const bd = await prisma.materia.create({
     data: {
+      perfilId,
       nombre: "Bases de Datos I",
       codigo: "INF-301",
       estado: EstadoMateria.PARA_FINALIZAR,
@@ -97,6 +99,7 @@ async function main() {
 
   const redes = await prisma.materia.create({
     data: {
+      perfilId,
       nombre: "Redes de Computadoras",
       codigo: "INF-401",
       estado: EstadoMateria.REGULAR,
@@ -109,6 +112,7 @@ async function main() {
 
   const sistemasOp = await prisma.materia.create({
     data: {
+      perfilId,
       nombre: "Sistemas Operativos",
       codigo: "INF-402",
       estado: EstadoMateria.REGULAR,
@@ -120,6 +124,7 @@ async function main() {
 
   await prisma.materia.create({
     data: {
+      perfilId,
       nombre: "Ingeniería de Software",
       codigo: "INF-501",
       estado: EstadoMateria.FINALIZADA,
@@ -131,6 +136,7 @@ async function main() {
 
   await prisma.materia.create({
     data: {
+      perfilId,
       nombre: "Matemática I",
       codigo: "MAT-101",
       estado: EstadoMateria.FINALIZADA,
@@ -330,36 +336,42 @@ async function main() {
   await prisma.linkExterno.createMany({
     data: [
       {
+        perfilId,
         nombre: "Campus Ucasal",
         url: "https://campus.ucasal.edu.ar",
         categoria: CategoriaLink.PLATAFORMA_UCASAL,
         favorito: true,
       },
       {
+        perfilId,
         nombre: "Google Drive - Materias",
         url: "https://drive.google.com",
         categoria: CategoriaLink.GOOGLE_DRIVE,
         favorito: true,
       },
       {
+        perfilId,
         nombre: "GitHub Personal",
         url: "https://github.com",
         categoria: CategoriaLink.GITHUB,
         favorito: false,
       },
       {
+        perfilId,
         nombre: "GitHub Ucasal (grupo)",
         url: "https://github.com/ucasal",
         categoria: CategoriaLink.GITHUB,
         favorito: false,
       },
       {
+        perfilId,
         nombre: "Biblioteca Digital Ucasal",
         url: "https://biblioteca.ucasal.edu.ar",
         categoria: CategoriaLink.PLATAFORMA_UCASAL,
         favorito: false,
       },
       {
+        perfilId,
         nombre: "Apuntes compartidos (Drive)",
         url: "https://drive.google.com/drive/folders/apuntes",
         categoria: CategoriaLink.GOOGLE_DRIVE,

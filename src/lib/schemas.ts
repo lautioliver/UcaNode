@@ -80,7 +80,10 @@ export const linkSchema = z.object({
 
 export const perfilSchema = z.object({
   nombre: z.string().min(1, "El nombre es requerido"),
-  emailUcasal: z.string().email("Email inválido"),
+  emailUcasal: z.preprocess(
+    (value) => (value === "" || value === null || value === undefined ? null : value),
+    z.union([z.null(), z.string().email("Email inválido")]),
+  ),
   anioIngreso: z.coerce
     .number()
     .int()
@@ -94,3 +97,30 @@ export const onboardingCarreraSchema = z.object({
   perfilId: z.string().min(1, "Perfil requerido"),
   carreraSlug: z.string().min(1, "Seleccioná una carrera"),
 });
+
+export const loginSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .email("Email inválido")
+    .transform((value) => value.toLowerCase()),
+  password: z.string().min(1, "La contraseña es requerida"),
+  next: z.string().nullish(),
+});
+
+export const registroSchema = z
+  .object({
+    nombre: z.string().min(1, "El nombre es requerido"),
+    email: z
+      .string()
+      .trim()
+      .email("Email inválido")
+      .transform((value) => value.toLowerCase()),
+    password: z.string().min(8, "Mínimo 8 caracteres"),
+    confirmPassword: z.string().min(1, "Confirmá la contraseña"),
+    next: z.string().nullish(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Las contraseñas no coinciden",
+    path: ["confirmPassword"],
+  });

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getOrCreatePerfil } from "@/lib/perfil";
 import { prisma } from "@/lib/prisma";
 import { EntregasWorkspace } from "@/components/entregas-workspace";
 
@@ -12,13 +13,18 @@ export default async function EntregasPage({
   searchParams: Promise<{ q?: string; tipo?: string }>;
 }) {
   const { q, tipo } = await searchParams;
+  const perfil = await getOrCreatePerfil();
 
   const [entregas, materias] = await Promise.all([
     prisma.entrega.findMany({
+      where: { materia: { perfilId: perfil.id } },
       include: { materia: true },
       orderBy: { fecha: "asc" },
     }),
-    prisma.materia.findMany({ orderBy: { nombre: "asc" } }),
+    prisma.materia.findMany({
+      where: { perfilId: perfil.id },
+      orderBy: { nombre: "asc" },
+    }),
   ]);
 
   const entregasData = entregas.map((e) => ({

@@ -24,14 +24,21 @@ postgresql://user:password@ep-xxx.region.aws.neon.tech/neondb?sslmode=require
 
 Opcional: una branch `dev` para local y `main` para producción.
 
-## 2. Variables de entorno
+## 2. Variables de entorno en Vercel
 
-Configuralas en Vercel (**Settings → Environment Variables**) y en tu `.env` local (copiá desde `.env.example`):
+**Opción recomendada:** conectá Neon desde [Vercel Marketplace → Neon](https://vercel.com/integrations/neon). Eso inyecta automáticamente `DATABASE_URL` y `DATABASE_URL_UNPOOLED`.
+
+Si cargás la URL a mano, agregá las variables en **Vercel → Project → Settings → Environment Variables** y marcá **Production**, **Preview** y **Development** (el build necesita verlas):
 
 | Variable | Requerida | Uso |
 |---|---|---|
-| `DATABASE_URL` | Sí | Connection string de Neon |
+| `DATABASE_URL` | Sí | Connection string pooled de Neon (runtime de la app) |
+| `DATABASE_URL_UNPOOLED` | Recomendada | Connection string directa (migraciones en build) |
 | `NEXT_PUBLIC_CARRERA_SOLICITUD_FORM_URL` | Sí (onboarding) | Google Form para pedir carreras faltantes |
+
+Si solo definís `DATABASE_URL`, el build también funciona (se usa como fallback para migraciones). Con la integración Neon→Vercel, `DATABASE_URL_UNPOOLED` se setea sola.
+
+Copiá el mismo esquema en tu `.env` local desde `.env.example`.
 
 ## 3. Deploy en Vercel
 
@@ -88,7 +95,7 @@ En una instalación fresca, el seed crea un perfil **sin** `carreraId` para que 
 
 | Síntoma | Causa probable | Solución |
 |---|---|---|
-| Build falla en `migrate deploy` | `DATABASE_URL` ausente o inválida en Vercel | Revisar variable y `?sslmode=require` |
+| Build falla: `datasource.url property is required` | `DATABASE_URL` no está en Vercel o no aplica al entorno de build | Agregar variable en los 3 entornos o conectar Neon desde Marketplace |
 | `DATABASE_URL no está definida` en runtime | Falta env en Vercel | Agregar en Production + Preview |
 | Onboarding no muestra formulario de carrera | Falta `NEXT_PUBLIC_CARRERA_SOLICITUD_FORM_URL` | Agregar variable pública |
 | Error de conexión a DB | IP/firewall o string mal copiada | Regenerar string en Neon y actualizar Vercel |
