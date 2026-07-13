@@ -48,7 +48,7 @@ function getBaseUrl(): string {
 async function request<T>(path: string): Promise<T> {
   const response = await fetch(`${getBaseUrl()}${path}`, {
     headers: { Accept: "application/json" },
-    next: { revalidate: 60 },
+    next: { revalidate: 10 },
   });
 
   const body = await response.json().catch(() => ({}));
