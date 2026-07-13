@@ -22,6 +22,7 @@ flowchart TD
     MatId["/materias/[id] Detalle de materia"]
     Ent["/entregas Entregas"]
     Hor["/horarios Horarios"]
+    Con["/concurrencia Concurrencia"]
     Lnk["/links Links"]
     Per["/perfil Perfil"]
     Err["error.tsx Error boundary"]
@@ -32,6 +33,7 @@ flowchart TD
     Root --> Mat
     Root --> Ent
     Root --> Hor
+    Root --> Con
     Root --> Lnk
     Mat --> MatId
     MatId --> Mat
@@ -39,13 +41,14 @@ flowchart TD
     Mat --> Per
     Ent --> Per
     Hor --> Per
+    Con --> Per
     Lnk --> Per
 
-    Root & Mat & MatId & Ent & Hor & Lnk & Per -.-> Err
-    Root & Mat & MatId & Ent & Hor & Lnk & Per -.-> Ld
+    Root & Mat & MatId & Ent & Hor & Con & Lnk & Per -.-> Err
+    Root & Mat & MatId & Ent & Hor & Con & Lnk & Per -.-> Ld
 ```
 
-La sidebar incluye accesos a dashboard, materias, entregas, horarios, links y perfil. Solo es visible después de completar el onboarding. También maneja el modo claro/oscuro y el colapso en pantallas grandes.
+La sidebar incluye accesos a dashboard, materias, entregas, horarios, concurrencia, links y perfil. Solo es visible después de completar el onboarding. También maneja el modo claro/oscuro y el colapso en pantallas grandes.
 
 ## Rutas
 
@@ -57,6 +60,7 @@ La sidebar incluye accesos a dashboard, materias, entregas, horarios, links y pe
 | `/materias/[id]` | `materia.findUnique` con entregas y horarios | Acciones sobre items relacionados según componentes reutilizados |
 | `/entregas` | `entrega.findMany`, `materia.findMany` | `createEntrega`, `updateEntrega`, `deleteEntrega` |
 | `/horarios` | `horario.findMany` y `materia.findMany` filtrados a estados activos (`CURSANDO`, `PARA_FINALIZAR`) | `createHorario`, `updateHorario`, `deleteHorario` |
+| `/concurrencia` | `fetchZones` desde CampuStatus (`GET /api/zones`, cache 60 s) | - |
 | `/links` | `linkExterno.findMany`, perfil | `createLink`, `updateLink`, `deleteLink` |
 | `/perfil` | `perfil.findFirst` con `carrera` | `updatePerfil` (carrera de solo lectura, definida en onboarding) |
 
@@ -78,6 +82,25 @@ sequenceDiagram
 ```
 
 Las consultas viven en las páginas de `src/app/`. Los componentes de `src/components/` renderizan datos ya cargados.
+
+### Lectura externa (CampuStatus)
+
+`/concurrencia` no usa Prisma: la página llama a `fetchZones()` en `src/lib/campustatus/client.ts`, que consulta la API pública de CampuStatus desde el servidor (sin CORS en el browser). La respuesta se valida con Zod y se cachea 60 segundos con `next.revalidate`. El botón **Actualizar** fuerza un nuevo fetch vía `router.refresh()`.
+
+```mermaid
+sequenceDiagram
+    participant U as Usuario
+    participant P as concurrencia/page.tsx
+    participant S as campustatus/client.ts
+    participant API as CampuStatus API
+
+    U->>P: Visita /concurrencia
+    P->>S: fetchZones()
+    S->>API: GET /api/zones
+    API-->>S: JSON zonas
+    S-->>P: Zone[] validadas
+    P-->>U: Tarjetas de ocupación
+```
 
 ## Flujo de escritura
 

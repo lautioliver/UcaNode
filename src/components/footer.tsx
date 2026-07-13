@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 
 const NAV_LINKS = [
-  { href: "/", label: "Dashboard" },
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/materias", label: "Materias" },
   { href: "/entregas", label: "Entregas" },
   { href: "/analytics", label: "Analíticas" },
@@ -30,7 +30,7 @@ export function Footer() {
       <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div className="space-y-4 sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="inline-block">
+            <Link href="/dashboard" className="inline-block">
               <span className="block text-[15px] font-semibold leading-tight text-primary">
                 UcaNode
               </span>
