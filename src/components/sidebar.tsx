@@ -29,7 +29,7 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { href: "/", label: "Dashboard", Icon: LayoutDashboard },
+  { href: "/dashboard", label: "Dashboard", Icon: LayoutDashboard },
   { href: "/materias", label: "Materias", Icon: BookOpen },
   { href: "/entregas", label: "Entregas", Icon: ClipboardCheck },
   { href: "/analytics", label: "Analíticas", Icon: BarChart3 },
@@ -82,7 +82,9 @@ export function Sidebar({
   }
 
   const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+    href === "/dashboard"
+      ? pathname === "/dashboard" || pathname === "/"
+      : pathname === href || pathname.startsWith(`${href}/`);
 
   const showLabels = !collapsed || mobileOpen;
 
@@ -122,7 +124,7 @@ export function Sidebar({
           }`}
         >
           <Link
-            href="/"
+            href="/dashboard"
             onClick={() => setMobileOpen(false)}
             className="flex min-w-0 items-center gap-3"
             title="UcaNode"
