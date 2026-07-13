@@ -34,7 +34,7 @@ describe("fetchZones", () => {
       "https://campu-status.vercel.app/api/zones",
       expect.objectContaining({
         headers: { Accept: "application/json" },
-        next: { revalidate: 60 },
+        next: { revalidate: 10 },
       }),
     );
   });

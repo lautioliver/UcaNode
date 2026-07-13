@@ -3,9 +3,10 @@ import {
   ProgressBar,
   StatusBadge,
 } from "@/components/layout";
-import type { Zone } from "@/lib/campustatus/client";
+import type { ZoneWithReflection } from "@/lib/campustatus/reflection";
 import {
   capacityLabel,
+  formatReflectedTime,
   maxTrendValue,
   statusToTone,
 } from "@/lib/campustatus/utils";
@@ -40,17 +41,7 @@ function TrendSparkline({ trend }: { trend: number[] }) {
   );
 }
 
-function formatLastUpdate(lastUpdate: string): string {
-  const match = lastUpdate.match(/^(\d{1,2}):(\d{2})$/);
-  if (!match) return lastUpdate;
-  const hours = parseInt(match[1], 10);
-  const minutes = parseInt(match[2], 10);
-  const totalMs = (hours * 60 + minutes) * 60 * 1000;
-  const date = new Date(Date.now() - totalMs);
-  return date.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
-}
-
-export function CampusStatusZoneCard({ zone }: { zone: Zone }) {
+export function CampusStatusZoneCard({ zone }: { zone: ZoneWithReflection }) {
   const tone = statusToTone(zone.status);
 
   return (
@@ -83,7 +74,7 @@ export function CampusStatusZoneCard({ zone }: { zone: Zone }) {
       </div>
 
       <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-secondary">
-        <span>Actualizado {formatLastUpdate(zone.lastUpdate)}</span>
+        <span>Actualizado {formatReflectedTime(zone.reflectedAt)}</span>
         <span className="text-muted">·</span>
         <span>
           {zone.voteCount} reporte{zone.voteCount === 1 ? "" : "s"}

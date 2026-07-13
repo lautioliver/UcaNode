@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { RefreshCw } from "lucide-react";
 import { CampusStatusZoneCard } from "@/components/campustatus-zone-card";
@@ -9,12 +10,32 @@ import {
   PageHeader,
 } from "@/components/layout";
 import type { Zone } from "@/lib/campustatus/client";
+import {
+  syncZoneReflections,
+  type ZoneWithReflection,
+} from "@/lib/campustatus/reflection";
 import { countZonesByStatus } from "@/lib/campustatus/utils";
+
+const REFLECTION_STORAGE_KEY = "ucanode_campustatus_reflections";
 
 type CampusStatusWorkspaceProps = {
   zones: Zone[];
+  fetchedAt: string;
   error?: string;
 };
+
+function readReflectionStore(): Record<string, { snapshot: string; reflectedAt: string }> {
+  try {
+    const raw = localStorage.getItem(REFLECTION_STORAGE_KEY);
+    if (!raw) return {};
+    const parsed: unknown = JSON.parse(raw);
+    return typeof parsed === "object" && parsed !== null
+      ? (parsed as Record<string, { snapshot: string; reflectedAt: string }>)
+      : {};
+  } catch {
+    return {};
+  }
+}
 
 function RefreshButton() {
   const router = useRouter();
@@ -33,10 +54,27 @@ function RefreshButton() {
 
 export function CampusStatusWorkspace({
   zones,
+  fetchedAt,
   error,
 }: CampusStatusWorkspaceProps) {
-  const rojas = countZonesByStatus(zones, "Rojo");
-  const amarillas = countZonesByStatus(zones, "Amarillo");
+  const [displayZones, setDisplayZones] = useState<ZoneWithReflection[]>(() =>
+    zones.map((zone) => ({ ...zone, reflectedAt: fetchedAt })),
+  );
+
+  useEffect(() => {
+    const stored = readReflectionStore();
+    const { zones: synced, stored: nextStored } = syncZoneReflections(
+      zones,
+      fetchedAt,
+      stored,
+    );
+
+    localStorage.setItem(REFLECTION_STORAGE_KEY, JSON.stringify(nextStored));
+    setDisplayZones(synced);
+  }, [zones, fetchedAt]);
+
+  const rojas = countZonesByStatus(displayZones, "Rojo");
+  const amarillas = countZonesByStatus(displayZones, "Amarillo");
 
   return (
     <main className="space-y-8">
@@ -55,14 +93,14 @@ export function CampusStatusWorkspace({
       ) : (
         <>
           <div className="flex flex-wrap items-center gap-2">
-            <CounterChip count={zones.length} label="zonas" tone="accent" />
+            <CounterChip count={displayZones.length} label="zonas" tone="accent" />
             <CounterChip count={rojas} label="en rojo" tone="danger" />
             <CounterChip count={amarillas} label="en amarillo" tone="warning" />
           </div>
 
-          {zones.length > 0 ? (
+          {displayZones.length > 0 ? (
             <div className="grid min-w-0 gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {zones.map((zone) => (
+              {displayZones.map((zone) => (
                 <CampusStatusZoneCard key={zone.id} zone={zone} />
               ))}
             </div>
