@@ -617,9 +617,9 @@ export async function confirmarCarrera(
     revalidateApp();
     refresh();
     return ok("Plan de estudios listo");
-  } catch (e) {
+  } catch (e: any) {
     console.error("confirmarCarrera", e);
-    return fail("No se pudo inicializar el plan de estudios para esta carrera.");
+    return fail(`Error: ${e?.message ?? e}`);
   }
 }
 
