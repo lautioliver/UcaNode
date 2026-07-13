@@ -24,3 +24,13 @@ export function maxTrendValue(trend: number[]): number {
   if (trend.length === 0) return 100;
   return Math.max(...trend, 1);
 }
+
+export function formatReflectedTime(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "—";
+
+  return date.toLocaleTimeString("es-AR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
