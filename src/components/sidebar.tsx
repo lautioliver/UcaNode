@@ -13,6 +13,7 @@ import {
   ClipboardCheck,
   LayoutDashboard,
   Link2,
+  Users,
   Menu,
   Moon,
   LogOut,
@@ -34,6 +35,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/entregas", label: "Entregas", Icon: ClipboardCheck },
   { href: "/analytics", label: "Analíticas", Icon: BarChart3 },
   { href: "/horarios", label: "Horarios", Icon: CalendarDays },
+  { href: "/concurrencia", label: "Concurrencia", Icon: Users },
   { href: "/links", label: "Links", Icon: Link2 },
 ];
 
