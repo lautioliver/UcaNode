@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/entregas`, lastModified: new Date() },
     { url: `${base}/analytics`, lastModified: new Date() },
     { url: `${base}/horarios`, lastModified: new Date() },
+    { url: `${base}/concurrencia`, lastModified: new Date() },
     { url: `${base}/links`, lastModified: new Date() },
     { url: `${base}/perfil`, lastModified: new Date() },
   ];
