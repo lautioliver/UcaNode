@@ -8,10 +8,12 @@ export const metadata: Metadata = {
 
 export default async function ConcurrenciaPage() {
   const result = await fetchZones();
+  const fetchedAt = new Date().toISOString();
 
   return (
     <CampusStatusWorkspace
       zones={result.ok ? result.zones : []}
+      fetchedAt={fetchedAt}
       error={result.ok ? undefined : result.message}
     />
   );
