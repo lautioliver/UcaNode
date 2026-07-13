@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { RefreshCw } from "lucide-react";
 import { CampusStatusZoneCard } from "@/components/campustatus-zone-card";
@@ -24,19 +24,6 @@ type CampusStatusWorkspaceProps = {
   error?: string;
 };
 
-function readReflectionStore(): Record<string, { snapshot: string; reflectedAt: string }> {
-  try {
-    const raw = localStorage.getItem(REFLECTION_STORAGE_KEY);
-    if (!raw) return {};
-    const parsed: unknown = JSON.parse(raw);
-    return typeof parsed === "object" && parsed !== null
-      ? (parsed as Record<string, { snapshot: string; reflectedAt: string }>)
-      : {};
-  } catch {
-    return {};
-  }
-}
-
 function RefreshButton() {
   const router = useRouter();
 
@@ -57,12 +44,34 @@ export function CampusStatusWorkspace({
   fetchedAt,
   error,
 }: CampusStatusWorkspaceProps) {
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   const [displayZones, setDisplayZones] = useState<ZoneWithReflection[]>(() =>
     zones.map((zone) => ({ ...zone, reflectedAt: fetchedAt })),
   );
 
   useEffect(() => {
-    const stored = readReflectionStore();
+    if (!mounted) return;
+
+    let stored: Record<string, { snapshot: string; reflectedAt: string }> = {};
+    try {
+      const raw = localStorage.getItem(REFLECTION_STORAGE_KEY);
+      if (raw) {
+        const parsed: unknown = JSON.parse(raw);
+        if (typeof parsed === "object" && parsed !== null) {
+          stored = parsed as Record<
+            string,
+            { snapshot: string; reflectedAt: string }
+          >;
+        }
+      }
+    } catch {
+      stored = {};
+    }
+
     const { zones: synced, stored: nextStored } = syncZoneReflections(
       zones,
       fetchedAt,
@@ -71,7 +80,7 @@ export function CampusStatusWorkspace({
 
     localStorage.setItem(REFLECTION_STORAGE_KEY, JSON.stringify(nextStored));
     setDisplayZones(synced);
-  }, [zones, fetchedAt]);
+  }, [zones, fetchedAt, mounted]);
 
   const rojas = countZonesByStatus(displayZones, "Rojo");
   const amarillas = countZonesByStatus(displayZones, "Amarillo");

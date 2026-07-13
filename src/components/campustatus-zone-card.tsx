@@ -3,10 +3,10 @@ import {
   ProgressBar,
   StatusBadge,
 } from "@/components/layout";
+import { ReflectedTimeLabel } from "@/components/reflected-time-label";
 import type { ZoneWithReflection } from "@/lib/campustatus/reflection";
 import {
   capacityLabel,
-  formatReflectedTime,
   maxTrendValue,
   statusToTone,
 } from "@/lib/campustatus/utils";
@@ -74,7 +74,9 @@ export function CampusStatusZoneCard({ zone }: { zone: ZoneWithReflection }) {
       </div>
 
       <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-secondary">
-        <span>Actualizado {formatReflectedTime(zone.reflectedAt)}</span>
+        <span>
+          Actualizado <ReflectedTimeLabel iso={zone.reflectedAt} />
+        </span>
         <span className="text-muted">·</span>
         <span>
           {zone.voteCount} reporte{zone.voteCount === 1 ? "" : "s"}

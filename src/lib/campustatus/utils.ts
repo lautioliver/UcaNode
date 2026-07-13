@@ -32,5 +32,6 @@ export function formatReflectedTime(iso: string): string {
   return date.toLocaleTimeString("es-AR", {
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "America/Argentina/Buenos_Aires",
   });
 }
