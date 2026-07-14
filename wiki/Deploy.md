@@ -87,7 +87,7 @@ En una instalación fresca, el seed crea un perfil **sin** `carreraId` para que 
 
 1. Abrí la URL de Vercel.
 2. Debería aparecer el onboarding si no hay perfil con carrera.
-3. Elegí una carrera (Informática o Industrial).
+3. Elegí una carrera del catálogo (Informática, Industrial, Psicología, Arquitectura o Ingeniería Civil).
 4. Confirmá que la ingesta lazy carga el plan sin errores.
 5. Revisá `/materias`, `/entregas` y `/perfil`.
 
