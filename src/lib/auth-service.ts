@@ -1,12 +1,22 @@
 import { prisma } from "@/lib/prisma";
 import { isPerfilRegistrado } from "@/lib/auth";
+import {
+  resendVerificationForEmail,
+  sendVerificationForPerfil,
+} from "@/lib/email-verification";
 import { hashPassword, verifyPassword } from "@/lib/password";
 import { getPerfilCookieId } from "@/lib/perfil";
 import { loginSchema, registroSchema } from "@/lib/schemas";
 
 export type AuthServiceResult =
-  | { ok: true; perfilId: string }
-  | { ok: false; message: string; errors?: Record<string, string[]> };
+  | { ok: true; perfilId: string; pendingVerification?: boolean }
+  | {
+      ok: false;
+      message: string;
+      errors?: Record<string, string[]>;
+      pendingVerification?: boolean;
+      email?: string;
+    };
 
 type AuthFormInput = {
   nombre?: string | null;
@@ -16,8 +26,12 @@ type AuthFormInput = {
   next?: string | null;
 };
 
-function fail(message: string, errors?: Record<string, string[]>): AuthServiceResult {
-  return { ok: false, message, errors };
+function fail(
+  message: string,
+  errors?: Record<string, string[]>,
+  meta?: { pendingVerification?: boolean; email?: string },
+): AuthServiceResult {
+  return { ok: false, message, errors, ...meta };
 }
 
 function field(formData: FormData, key: string): string | null {
@@ -67,6 +81,19 @@ export async function loginWithCredentials(
     return fail("Email o contraseña incorrectos");
   }
 
+  if (!perfil.emailVerifiedAt) {
+    try {
+      await resendVerificationForEmail(email);
+    } catch (e) {
+      console.error("resendVerificationForEmail", e);
+    }
+
+    return fail("Verificá tu email antes de iniciar sesión", undefined, {
+      pendingVerification: true,
+      email,
+    });
+  }
+
   return { ok: true, perfilId: perfil.id };
 }
 
@@ -88,6 +115,7 @@ export async function registerAccount(
   }
 
   const adoptId = await guestPerfilId();
+  let perfilId: string;
 
   if (adoptId) {
     if (existing && existing.id !== adoptId) {
@@ -96,27 +124,45 @@ export async function registerAccount(
 
     await prisma.perfil.update({
       where: { id: adoptId },
-      data: { nombre, emailUcasal: email, password: passwordHash },
+      data: {
+        nombre,
+        emailUcasal: email,
+        password: passwordHash,
+        emailVerifiedAt: null,
+      },
     });
-    return { ok: true, perfilId: adoptId };
-  }
-
-  if (existing) {
+    perfilId = adoptId;
+  } else if (existing) {
     await prisma.perfil.update({
       where: { id: existing.id },
-      data: { nombre, password: passwordHash },
+      data: {
+        nombre,
+        password: passwordHash,
+        emailVerifiedAt: null,
+      },
     });
-    return { ok: true, perfilId: existing.id };
+    perfilId = existing.id;
+  } else {
+    const perfil = await prisma.perfil.create({
+      data: {
+        nombre,
+        emailUcasal: email,
+        password: passwordHash,
+        emailVerifiedAt: null,
+        anioIngreso: new Date().getFullYear(),
+      },
+    });
+    perfilId = perfil.id;
   }
 
-  const perfil = await prisma.perfil.create({
-    data: {
-      nombre,
-      emailUcasal: email,
-      password: passwordHash,
-      anioIngreso: new Date().getFullYear(),
-    },
-  });
+  try {
+    await sendVerificationForPerfil(perfilId);
+  } catch (e) {
+    console.error("sendVerificationForPerfil", e);
+    return fail(
+      "No pudimos enviar el email de verificación. Intentá de nuevo más tarde.",
+    );
+  }
 
-  return { ok: true, perfilId: perfil.id };
+  return { ok: true, perfilId, pendingVerification: true };
 }

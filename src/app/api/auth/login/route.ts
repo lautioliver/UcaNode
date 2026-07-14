@@ -9,6 +9,13 @@ export async function POST(request: NextRequest) {
   const result = await loginWithCredentials(input);
 
   if (!result.ok) {
+    if (result.pendingVerification && input.email) {
+      const url = new URL("/verificar-email", request.url);
+      url.searchParams.set("email", input.email);
+      if (input.next) url.searchParams.set("next", safeAuthRedirect(input.next));
+      return NextResponse.redirect(url);
+    }
+
     const url = new URL("/login", request.url);
     if (input.next) url.searchParams.set("next", safeAuthRedirect(input.next));
     url.searchParams.set("error", result.message);
