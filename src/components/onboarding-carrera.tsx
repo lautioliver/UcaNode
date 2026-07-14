@@ -8,6 +8,7 @@ import {
   Check,
   Cpu,
   Factory,
+  HardHat,
   GraduationCap,
   Loader2,
   Search,
@@ -30,6 +31,7 @@ const CARRERA_ICONS: Record<string, LucideIcon> = {
   "ingenieria-industrial-2005": Factory,
   "licenciatura-en-psicologia-1114": Brain,
   "arquitectura-2015": Building2,
+  "ingenieria-civil-2012": HardHat,
 };
 
 function carreraBadges(carrera: CarreraCatalogo) {
