@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { safeAuthRedirect } from "@/lib/auth";
 import { parseAuthForm, registerAccount } from "@/lib/auth-service";
-import { PERFIL_COOKIE, perfilCookieOptions } from "@/lib/session";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -15,9 +14,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  const response = NextResponse.redirect(
-    new URL(safeAuthRedirect(input.next), request.url),
-  );
-  response.cookies.set(PERFIL_COOKIE, result.perfilId, perfilCookieOptions());
-  return response;
+  const url = new URL("/verificar-email", request.url);
+  if (input.email) url.searchParams.set("email", input.email);
+  if (input.next) url.searchParams.set("next", safeAuthRedirect(input.next));
+  url.searchParams.set("sent", "1");
+  return NextResponse.redirect(url);
 }

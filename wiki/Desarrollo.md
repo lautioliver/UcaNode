@@ -81,6 +81,9 @@ Los tests actuales cubren validaciones y lógica de correlatividades en `src/lib
 |---|---|
 | `DATABASE_URL` | Connection string de PostgreSQL (Neon en producción) |
 | `NEXT_PUBLIC_CARRERA_SOLICITUD_FORM_URL` | URL pública de un Google Form para solicitar carreras faltantes en onboarding |
+| `RESEND_API_KEY` | API key de Resend para enviar emails de verificación |
+| `EMAIL_FROM` | Remitente del mail (dominio verificado en Resend) |
+| `APP_URL` | URL base de la app para armar links de verificación |
 
 La configuración de Prisma vive en:
 

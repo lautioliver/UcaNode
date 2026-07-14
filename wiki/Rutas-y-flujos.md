@@ -64,6 +64,28 @@ La sidebar incluye accesos a dashboard, materias, entregas, horarios, concurrenc
 | `/links` | `linkExterno.findMany`, perfil | `createLink`, `updateLink`, `deleteLink` |
 | `/perfil` | `perfil.findFirst` con `carrera` | `updatePerfil` (carrera de solo lectura, definida en onboarding) |
 
+## Auth y verificación de email
+
+Rutas públicas (sin gate de carrera ni cookie obligatoria para la pantalla):
+
+| Ruta / API | Rol |
+|---|---|
+| `/login`, `/registro` | Formularios de acceso |
+| `/verificar-email` | Pantalla post-registro y reenvío de mail |
+| `POST /api/auth/login` | Valida credenciales; bloquea si el email no está verificado |
+| `POST /api/auth/registro` | Crea cuenta pendiente y envía mail (no inicia sesión) |
+| `GET /api/auth/verificar?token=...` | Confirma el email, setea cookie y redirige a la app |
+| `POST /api/auth/reenviar-verificacion` | Reenvía el mail (cooldown 1 min) |
+
+Flujo resumido:
+
+1. Registro → email con link → `/verificar-email`.
+2. Click en el link → `emailVerifiedAt` + cookie de sesión.
+3. Login solo permitido con email verificado.
+4. Cambio de email en `/perfil` invalida la verificación y dispara un nuevo mail.
+
+En desarrollo, si `RESEND_API_KEY` no está configurada, el link de verificación se imprime en la consola del servidor.
+
 ## Flujo de lectura
 
 ```mermaid
