@@ -1,0 +1,1339 @@
+{
+  "carrera": "Ingeniería Civil",
+  "plan": "2012",
+  "resolucion": "395/10",
+  "modalidad": "Presencial",
+  "duracionAnios": 5,
+  "descripcion": "Plan de estudio y correlatividades para la carrera de Ingeniería Civil (UCASAL, plan 2012, RM 395/10). El campo semestre usa 1 = primer cuatrimestre, 2 = segundo cuatrimestre, 0 = anual.",
+  "materias": [
+    {
+      "codigo": "05-0000",
+      "codigoOficial": "05 0000",
+      "nombre": "Filosofía",
+      "abreviatura": "FILO",
+      "aliases": [
+        "filosofia",
+        "filo"
+      ],
+      "anio": 1,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "25-0550",
+      "codigoOficial": "25 0550",
+      "nombre": "Álgebra Lineal I",
+      "abreviatura": "ALG1",
+      "aliases": [
+        "algebra lineal 1",
+        "algebra lineal i",
+        "alg 1",
+        "algebra"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "25-0760",
+      "codigoOficial": "25 0760",
+      "nombre": "Análisis Matemático I",
+      "abreviatura": "AM1",
+      "aliases": [
+        "analisis matematico 1",
+        "analisis matematico i",
+        "am 1",
+        "calculo 1"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "30-0220",
+      "codigoOficial": "30 0220",
+      "nombre": "Química para Ingenieros",
+      "abreviatura": "QI",
+      "aliases": [
+        "quimica para ingenieros",
+        "quimica ingenieros",
+        "qi"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "35-0750",
+      "codigoOficial": "35 0750",
+      "nombre": "Fundamentos de Informática",
+      "abreviatura": "FI",
+      "aliases": [
+        "fundamentos de informatica",
+        "fund informatica",
+        "fi"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "95-1270",
+      "codigoOficial": "95 1270",
+      "nombre": "Prueba de Suficiencia en Comunicación Oral y Escrita",
+      "abreviatura": "PSCOE",
+      "aliases": [
+        "prueba suficiencia comunicacion",
+        "pscoe",
+        "comunicacion oral escrita"
+      ],
+      "anio": 1,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 0,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "04-0350",
+      "codigoOficial": "04 0350",
+      "nombre": "Geología y Mineralogía",
+      "abreviatura": "GM",
+      "aliases": [
+        "geologia y mineralogia",
+        "geologia mineralogia",
+        "gm"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "18-1090",
+      "codigoOficial": "18 1090",
+      "nombre": "Prueba de Suficiencia de Idioma Inglés",
+      "abreviatura": "PSII",
+      "aliases": [
+        "prueba suficiencia ingles",
+        "psii",
+        "ingles"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 0,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "25-0560",
+      "codigoOficial": "25 0560",
+      "nombre": "Álgebra Lineal II",
+      "abreviatura": "ALG2",
+      "aliases": [
+        "algebra lineal 2",
+        "algebra lineal ii",
+        "alg 2"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0550"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0550"
+      ]
+    },
+    {
+      "codigo": "25-0770",
+      "codigoOficial": "25 0770",
+      "nombre": "Análisis Matemático II",
+      "abreviatura": "AM2",
+      "aliases": [
+        "analisis matematico 2",
+        "analisis matematico ii",
+        "am 2",
+        "calculo 2"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0760"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0760"
+      ]
+    },
+    {
+      "codigo": "40-0170",
+      "codigoOficial": "40 0170",
+      "nombre": "Física I",
+      "abreviatura": "FIS1",
+      "aliases": [
+        "fisica 1",
+        "fisica i",
+        "fis 1"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "90-0410",
+      "codigoOficial": "90 0410",
+      "nombre": "Dibujo y Sistemas de Representación",
+      "abreviatura": "DSR",
+      "aliases": [
+        "dibujo y sistemas de representacion",
+        "dibujo sistemas representacion",
+        "dsr"
+      ],
+      "anio": 1,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "35-0750"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "35-0750"
+      ]
+    },
+    {
+      "codigo": "00-0050",
+      "codigoOficial": "00 0050",
+      "nombre": "Teología",
+      "abreviatura": "TEOL",
+      "aliases": [
+        "teologia",
+        "teol"
+      ],
+      "anio": 2,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "05-0000"
+      ]
+    },
+    {
+      "codigo": "40-0040",
+      "codigoOficial": "40 0040",
+      "nombre": "Estabilidad y Resistencia de Materiales",
+      "abreviatura": "ERM",
+      "aliases": [
+        "estabilidad y resistencia de materiales",
+        "estab resistencia materiales",
+        "erm"
+      ],
+      "anio": 2,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0770",
+          "40-0170",
+          "25-0760"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0770",
+        "40-0170",
+        "25-0760"
+      ]
+    },
+    {
+      "codigo": "25-1020",
+      "codigoOficial": "25 1020",
+      "nombre": "Análisis Matemático III",
+      "abreviatura": "AM3",
+      "aliases": [
+        "analisis matematico 3",
+        "analisis matematico iii",
+        "am 3",
+        "calculo 3"
+      ],
+      "anio": 2,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0760",
+          "25-0770"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0770",
+        "25-0760"
+      ]
+    },
+    {
+      "codigo": "40-0180",
+      "codigoOficial": "40 0180",
+      "nombre": "Física II",
+      "abreviatura": "FIS2",
+      "aliases": [
+        "fisica 2",
+        "fisica ii",
+        "fis 2"
+      ],
+      "anio": 2,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0170"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0170"
+      ]
+    },
+    {
+      "codigo": "45-0310",
+      "codigoOficial": "45 0310",
+      "nombre": "Economía de la Empresa",
+      "abreviatura": "EE",
+      "aliases": [
+        "economia de la empresa",
+        "economia empresa",
+        "ee"
+      ],
+      "anio": 2,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0550"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0550",
+        "25-0560"
+      ]
+    },
+    {
+      "codigo": "47-0120",
+      "codigoOficial": "47 0120",
+      "nombre": "Probabilidad y Estadística",
+      "abreviatura": "PE",
+      "aliases": [
+        "probabilidad y estadistica",
+        "prob estadistica",
+        "pe"
+      ],
+      "anio": 2,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0550"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0560",
+        "25-0550"
+      ]
+    },
+    {
+      "codigo": "90-0390",
+      "codigoOficial": "90 0390",
+      "nombre": "Dibujo Asistido por Computadora",
+      "abreviatura": "DAC",
+      "aliases": [
+        "dibujo asistido por computadora",
+        "dibujo asistido computadora",
+        "dac"
+      ],
+      "anio": 2,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "90-0410"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "90-0410",
+        "25-0560"
+      ]
+    },
+    {
+      "codigo": "25-0920",
+      "codigoOficial": "25 0920",
+      "nombre": "Análisis Matemático IV",
+      "abreviatura": "AM4",
+      "aliases": [
+        "analisis matematico 4",
+        "analisis matematico iv",
+        "am 4",
+        "calculo 4"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0770",
+          "25-1020"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0770",
+        "25-1020"
+      ]
+    },
+    {
+      "codigo": "40-0190",
+      "codigoOficial": "40 0190",
+      "nombre": "Física III",
+      "abreviatura": "FIS3",
+      "aliases": [
+        "fisica 3",
+        "fisica iii",
+        "fis 3"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0170",
+          "40-0180"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0180",
+        "40-0170"
+      ]
+    },
+    {
+      "codigo": "45-1270",
+      "codigoOficial": "45 1270",
+      "nombre": "Economía y Finanzas",
+      "abreviatura": "EF",
+      "aliases": [
+        "economia y finanzas",
+        "economia finanzas",
+        "ef"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "45-0310"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "45-0310"
+      ]
+    },
+    {
+      "codigo": "70-0010",
+      "codigoOficial": "70 0010",
+      "nombre": "Conocimiento y Estudio de Materiales",
+      "abreviatura": "CEM",
+      "aliases": [
+        "conocimiento y estudio de materiales",
+        "conocimiento estudio materiales",
+        "cem"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "30-0220"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "04-0350"
+      ]
+    },
+    {
+      "codigo": "80-0190",
+      "codigoOficial": "80 0190",
+      "nombre": "Instalaciones en Edificios",
+      "abreviatura": "IE",
+      "aliases": [
+        "instalaciones en edificios",
+        "instalaciones edificios",
+        "ie"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0410",
+      "codigoOficial": "85 0410",
+      "nombre": "Planeamiento y Urbanismo",
+      "abreviatura": "PU",
+      "aliases": [
+        "planeamiento y urbanismo",
+        "planeamiento urbanismo",
+        "pu"
+      ],
+      "anio": 2,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "90-0410"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "90-0390"
+      ]
+    },
+    {
+      "codigo": "40-0020",
+      "codigoOficial": "40 0020",
+      "nombre": "Estabilidad II",
+      "abreviatura": "EST2",
+      "aliases": [
+        "estabilidad 2",
+        "estabilidad ii",
+        "est2"
+      ],
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0180",
+          "25-0770"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0040",
+        "25-0560"
+      ]
+    },
+    {
+      "codigo": "70-0020",
+      "codigoOficial": "70 0020",
+      "nombre": "Topografía",
+      "abreviatura": "TOPO",
+      "aliases": [
+        "topografia",
+        "topo"
+      ],
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0760",
+          "40-0170"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0190",
+        "25-0770"
+      ]
+    },
+    {
+      "codigo": "70-0060",
+      "codigoOficial": "70 0060",
+      "nombre": "Construcción de Edificios",
+      "abreviatura": "CE",
+      "aliases": [
+        "construccion de edificios",
+        "construccion edificios",
+        "ce"
+      ],
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0170"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "70-0010"
+      ]
+    },
+    {
+      "codigo": "70-0270",
+      "codigoOficial": "70 0270",
+      "nombre": "Hidráulica General",
+      "abreviatura": "HG",
+      "aliases": [
+        "hidraulica general",
+        "hidraulica gral",
+        "hg"
+      ],
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0180",
+          "25-0770"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0180",
+        "25-0920"
+      ]
+    },
+    {
+      "codigo": "85-0010",
+      "codigoOficial": "85 0010",
+      "nombre": "Elementos de Arquitectura",
+      "abreviatura": "EA",
+      "aliases": [
+        "elementos de arquitectura",
+        "elementos arquitectura",
+        "ea"
+      ],
+      "anio": 3,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "90-0390"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "80-0190"
+      ]
+    },
+    {
+      "codigo": "00-0100",
+      "codigoOficial": "00 0100",
+      "nombre": "Doctrina Social de la Iglesia",
+      "abreviatura": "DSI",
+      "aliases": [
+        "doctrina social de la iglesia",
+        "doctrina social iglesia",
+        "dsi"
+      ],
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "05-0000"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "00-0050",
+        "05-0000"
+      ]
+    },
+    {
+      "codigo": "25-0080",
+      "codigoOficial": "25 0080",
+      "nombre": "Análisis Numérico",
+      "abreviatura": "AN",
+      "aliases": [
+        "analisis numerico",
+        "an"
+      ],
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-1020"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0560",
+        "25-0770"
+      ]
+    },
+    {
+      "codigo": "50-1040",
+      "codigoOficial": "50 1040",
+      "nombre": "Administración de Obras",
+      "abreviatura": "AO",
+      "aliases": [
+        "administracion de obras",
+        "admin obras",
+        "ao"
+      ],
+      "anio": 3,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "05-0250",
+      "codigoOficial": "05 0250",
+      "nombre": "Ética Profesional",
+      "abreviatura": "ETI",
+      "aliases": [
+        "etica profesional",
+        "etica",
+        "eti"
+      ],
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "00-0050"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "00-0100",
+        "00-0050"
+      ]
+    },
+    {
+      "codigo": "75-1850",
+      "codigoOficial": "75 1850",
+      "nombre": "Higiene y Seguridad",
+      "abreviatura": "HYS",
+      "aliases": [
+        "higiene y seguridad",
+        "higiene seguridad",
+        "hys"
+      ],
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "97-0100",
+      "codigoOficial": "97 0100",
+      "nombre": "Práctica Profesional Supervisada Técnico",
+      "abreviatura": "PPST",
+      "aliases": [
+        "practica profesional supervisada tecnico",
+        "pps tecnico",
+        "ppst"
+      ],
+      "anio": 3,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 0,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "40-0030",
+      "codigoOficial": "40 0030",
+      "nombre": "Estabilidad III",
+      "abreviatura": "EST3",
+      "aliases": [
+        "estabilidad 3",
+        "estabilidad iii",
+        "est3"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 6,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0920",
+          "40-0040"
+        ],
+        "aprobadas": [
+          "25-0080"
+        ]
+      },
+      "correlativasRendir": [
+        "40-0020",
+        "25-0920",
+        "40-0040",
+        "25-0080"
+      ]
+    },
+    {
+      "codigo": "70-0050",
+      "codigoOficial": "70 0050",
+      "nombre": "Hormigón Armado",
+      "abreviatura": "HA",
+      "aliases": [
+        "hormigon armado",
+        "ha"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0020",
+          "40-0040"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "70-0060",
+        "85-0010",
+        "40-0020",
+        "40-0040",
+        "47-0120"
+      ]
+    },
+    {
+      "codigo": "50-0710",
+      "codigoOficial": "50 0710",
+      "nombre": "Recursos Humanos",
+      "abreviatura": "RH",
+      "aliases": [
+        "recursos humanos",
+        "rrhh",
+        "rh"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": [
+          "50-1040"
+        ]
+      },
+      "correlativasRendir": [
+        "50-1040"
+      ]
+    },
+    {
+      "codigo": "61-0100",
+      "codigoOficial": "61 0100",
+      "nombre": "Mecánica de Suelos",
+      "abreviatura": "MS",
+      "aliases": [
+        "mecanica de suelos",
+        "mec suelos",
+        "ms"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "70-0270"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "70-0270",
+        "40-0040"
+      ]
+    },
+    {
+      "codigo": "61-0120",
+      "codigoOficial": "61 0120",
+      "nombre": "Dinámica Estructural",
+      "abreviatura": "DE",
+      "aliases": [
+        "dinamica estructural",
+        "din estructural",
+        "de"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0920"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0020",
+        "25-0920"
+      ]
+    },
+    {
+      "codigo": "70-0210",
+      "codigoOficial": "70 0210",
+      "nombre": "Fundaciones",
+      "abreviatura": "FUND",
+      "aliases": [
+        "fundaciones",
+        "fund"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "61-0100"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "61-0100"
+      ]
+    },
+    {
+      "codigo": "70-0260",
+      "codigoOficial": "70 0260",
+      "nombre": "Hidrología",
+      "abreviatura": "HIDRO",
+      "aliases": [
+        "hidrologia",
+        "hidro"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 2,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0190",
+          "25-1020"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "85-0540",
+      "codigoOficial": "85 0540",
+      "nombre": "Instalaciones Complementarias",
+      "abreviatura": "IC",
+      "aliases": [
+        "instalaciones complementarias",
+        "inst complementarias",
+        "ic"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "80-0190"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "80-0190"
+      ]
+    },
+    {
+      "codigo": "95-0370",
+      "codigoOficial": "95 0370",
+      "nombre": "Vías de Comunicación",
+      "abreviatura": "VC",
+      "aliases": [
+        "vias de comunicacion",
+        "vias comunicacion",
+        "vc"
+      ],
+      "anio": 4,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "70-0020"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "70-0020"
+      ]
+    },
+    {
+      "codigo": "70-0120",
+      "codigoOficial": "70 0120",
+      "nombre": "Construcciones Metálicas y de Madera",
+      "abreviatura": "CMM",
+      "aliases": [
+        "construcciones metalicas y de madera",
+        "construcciones metalicas madera",
+        "cmm"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "40-0030",
+          "85-0010"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0030",
+        "61-0120",
+        "85-0010"
+      ]
+    },
+    {
+      "codigo": "70-0140",
+      "codigoOficial": "70 0140",
+      "nombre": "Construcción de Carreteras",
+      "abreviatura": "CC",
+      "aliases": [
+        "construccion de carreteras",
+        "construccion carreteras",
+        "cc"
+      ],
+      "anio": 4,
+      "semestre": 0,
+      "tipoDictado": "Anual",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "95-0370"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "95-0370",
+        "70-0210",
+        "70-0020"
+      ]
+    },
+    {
+      "codigo": "35-1220",
+      "codigoOficial": "35 1220",
+      "nombre": "Auditoría de Sistemas",
+      "abreviatura": "AS",
+      "aliases": [
+        "auditoria de sistemas",
+        "auditoria sistemas",
+        "as"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 4,
+      "correlativasCursar": {
+        "regularizadas": [
+          "25-0560"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "25-0560"
+      ]
+    },
+    {
+      "codigo": "60-0110",
+      "codigoOficial": "60 0110",
+      "nombre": "Ingeniería Legal",
+      "abreviatura": "IL",
+      "aliases": [
+        "ingenieria legal",
+        "ing legal",
+        "il"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "05-0250"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "70-0150",
+      "codigoOficial": "70 0150",
+      "nombre": "Construcciones de Hormigón Armado",
+      "abreviatura": "CHA",
+      "aliases": [
+        "construcciones de hormigon armado",
+        "construcciones hormigon armado",
+        "cha"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "70-0050",
+          "40-0030"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "40-0030",
+        "61-0120",
+        "70-0050"
+      ]
+    },
+    {
+      "codigo": "70-0250",
+      "codigoOficial": "70 0250",
+      "nombre": "Hidráulica Aplicada",
+      "abreviatura": "HAP",
+      "aliases": [
+        "hidraulica aplicada",
+        "hidraulica apl",
+        "hap"
+      ],
+      "anio": 4,
+      "semestre": 1,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "70-0270",
+          "70-0260"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "70-0210",
+        "70-0260",
+        "40-0030",
+        "70-0270"
+      ]
+    },
+    {
+      "codigo": "09-1490",
+      "codigoOficial": "09 1490",
+      "nombre": "Proyecto Final",
+      "abreviatura": "PF",
+      "aliases": [
+        "proyecto final",
+        "pf"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    },
+    {
+      "codigo": "50-1570",
+      "codigoOficial": "50 1570",
+      "nombre": "Contratación de Obras",
+      "abreviatura": "CO",
+      "aliases": [
+        "contratacion de obras",
+        "contratacion obras",
+        "co"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "60-0110",
+          "50-1040"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "60-0110",
+        "50-1040"
+      ]
+    },
+    {
+      "codigo": "70-0200",
+      "codigoOficial": "70 0200",
+      "nombre": "Puentes",
+      "abreviatura": "PUENT",
+      "aliases": [
+        "puentes",
+        "puent"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 5,
+      "correlativasCursar": {
+        "regularizadas": [
+          "70-0210",
+          "70-0050"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "70-0150",
+        "70-0210"
+      ]
+    },
+    {
+      "codigo": "70-0300",
+      "codigoOficial": "70 0300",
+      "nombre": "Ingeniería Sanitaria",
+      "abreviatura": "IS",
+      "aliases": [
+        "ingenieria sanitaria",
+        "ing sanitaria",
+        "is"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 3,
+      "correlativasCursar": {
+        "regularizadas": [
+          "70-0270",
+          "85-0540"
+        ],
+        "aprobadas": []
+      },
+      "correlativasRendir": [
+        "85-0540",
+        "70-0150",
+        "70-0270"
+      ]
+    },
+    {
+      "codigo": "97-0200",
+      "codigoOficial": "97 0200",
+      "nombre": "Práctica Profesional Supervisada Ingeniero",
+      "abreviatura": "PPSI",
+      "aliases": [
+        "practica profesional supervisada ingeniero",
+        "pps ingeniero",
+        "ppsi"
+      ],
+      "anio": 5,
+      "semestre": 2,
+      "tipoDictado": "Semestral",
+      "creditos": 0,
+      "correlativasCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+      },
+      "correlativasRendir": []
+    }
+  ]
+}

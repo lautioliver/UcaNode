@@ -185,7 +185,7 @@ El plan oficial vive en JSON versionado y se ingesta a la base de datos de forma
 
 | Capa | Ubicación | Rol |
 |---|---|---|
-| Fuente JSON | `src/data/correlatividades.json` (Informática 2015); futuras carreras en `src/data/planes/{slug}.json` | Datos canónicos del plan |
+| Fuente JSON | `src/data/correlatividades.json` (Informática 2015); otras carreras en `src/data/planes/{slug}.json` (p. ej. `ingenieria-civil-2012.json`) | Datos canónicos del plan |
 | Catálogo | `src/lib/planes-estudio/catalogo.ts` | Carreras visibles en onboarding |
 | Fuente | `src/lib/planes-estudio/fuente.ts` | Mapa `slug` → JSON |
 | Ingesta | `src/lib/planes-estudio/ingesta.ts` | Carga lazy a `Carrera`, `PlanEstudio` y `CorrelatividadPlan` |
