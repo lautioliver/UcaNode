@@ -46,12 +46,21 @@ erDiagram
         String id PK
         String nombre
         String emailUcasal UK
+        DateTime emailVerifiedAt
         Int anioIngreso
         String legajo
         String password
         String carreraId FK
         DateTime createdAt
         DateTime updatedAt
+    }
+
+    EmailVerificationToken {
+        String id PK
+        String tokenHash UK
+        String perfilId FK
+        DateTime expiresAt
+        DateTime createdAt
     }
 
     Materia {
@@ -126,7 +135,8 @@ erDiagram
 | `Carrera` | Carrera UCASAL disponible en onboarding. Se identifica por `slug` y guarda metadatos del plan. |
 | `PlanEstudio` | Materias del plan oficial de una carrera (código, año, semestre, aliases). |
 | `CorrelatividadPlan` | Requisitos entre materias del plan (`REGULARIZADA`, `APROBADA`, `PARA_RENDIR`). |
-| `Perfil` | Datos del estudiante. Se consulta el primer perfil disponible. La carrera se asigna en onboarding vía `carreraId`. |
+| `Perfil` | Datos del estudiante. Puede ser invitado (sin email/contraseña) o cuenta registrada con email verificado (`emailVerifiedAt`). La carrera se asigna en onboarding vía `carreraId`. |
+| `EmailVerificationToken` | Token de un solo uso (hash en DB) para confirmar el email tras registro o cambio de dirección. Expira a las 24 h. |
 | `Materia` | Materias del usuario, estado académico y metadatos de cursada. Puede vincularse opcionalmente a `PlanEstudio`. |
 | `Entrega` | TP, parciales y finales asociados a una materia. |
 | `Horario` | Bloques semanales asociados a una materia. |
@@ -162,6 +172,7 @@ erDiagram
 
 - `Carrera.slug` es único.
 - `Perfil.emailUcasal` es único.
+- `EmailVerificationToken.tokenHash` es único.
 - `PlanEstudio` tiene `@@unique([carreraId, codigo])`.
 - `CorrelatividadPlan` tiene `@@unique([materiaId, requisitoId, tipo])`.
 - `Materia.codigo` es único cuando existe.

@@ -109,18 +109,31 @@ model CorrelatividadPlan {
 }
 
 model Perfil {
-  id          String        @id @default(cuid())
-  nombre      String
-  emailUcasal String?       @unique
-  anioIngreso Int
-  legajo      String?
-  password    String?
-  carreraId   String?
-  carrera     Carrera?      @relation(fields: [carreraId], references: [id])
-  materias    Materia[]
-  links       LinkExterno[]
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  id                      String                   @id @default(cuid())
+  nombre                  String
+  emailUcasal             String?                  @unique
+  emailVerifiedAt         DateTime?
+  anioIngreso             Int
+  legajo                  String?
+  password                String?
+  carreraId               String?
+  carrera                 Carrera?                 @relation(fields: [carreraId], references: [id])
+  materias                Materia[]
+  links                   LinkExterno[]
+  emailVerificationTokens EmailVerificationToken[]
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+}
+
+model EmailVerificationToken {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  perfilId  String
+  perfil    Perfil   @relation(fields: [perfilId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([perfilId])
 }
 
 model Materia {

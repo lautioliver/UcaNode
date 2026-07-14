@@ -15,6 +15,7 @@ import {
 import { getCarreraCatalogo } from "@/lib/planes-estudio/catalogo";
 import { hydrateCarrera } from "@/lib/planes-estudio/ingesta";
 import { hashPassword } from "@/lib/password";
+import { sendVerificationForPerfil } from "@/lib/email-verification";
 import { getOrCreatePerfil, setPerfilCookie } from "@/lib/perfil";
 import { applyEstadoTimestamps, notaForTipo } from "@/lib/entrega-tracking";
 
@@ -647,15 +648,36 @@ export async function updatePerfil(
 
   try {
     const existing = await sessionPerfil();
-    const data: typeof perfilData & { password?: string | null } = { ...perfilData };
+    const emailChanged = perfilData.emailUcasal !== existing.emailUcasal;
+    const data: typeof perfilData & {
+      password?: string | null;
+      emailVerifiedAt?: Date | null;
+    } = { ...perfilData };
 
     if (passwordInput) {
       data.password = await hashPassword(passwordInput);
     }
 
+    if (emailChanged) {
+      data.emailVerifiedAt = null;
+    }
+
     await prisma.perfil.update({ where: { id: existing.id }, data });
     revalidatePerfil();
     refresh();
+
+    if (emailChanged && perfilData.emailUcasal) {
+      try {
+        await sendVerificationForPerfil(existing.id);
+        return ok("Perfil guardado. Te enviamos un email para verificar la nueva dirección.");
+      } catch (e) {
+        console.error("sendVerificationForPerfil", e);
+        return ok(
+          "Perfil guardado, pero no pudimos enviar el email de verificación. Reenvialo desde la pantalla de verificación.",
+        );
+      }
+    }
+
     return ok("Perfil guardado");
   } catch (e) {
     console.error("updatePerfil", e);
