@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Mail } from "lucide-react";
+import { VerificarEmailContinuar } from "@/components/verificar-email-continuar";
+import { safeAuthRedirect } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Verificá tu email — UcaNode",
@@ -13,6 +15,8 @@ const messages: Record<string, string> = {
   send_failed: "No pudimos enviar el email. Intentá de nuevo más tarde.",
   rate_limit: "Demasiadas solicitudes. Esperá un momento e intentá de nuevo.",
   invalid_email: "Ingresá un email válido.",
+  not_verified:
+    "Todavía no verificaste tu email. Revisá tu bandeja de entrada.",
 };
 
 export default async function VerificarEmailPage({
@@ -25,8 +29,9 @@ export default async function VerificarEmailPage({
     next?: string;
   }>;
 }) {
-  const { email, error, sent } = await searchParams;
-  const errorMessage = error ? messages[error] ?? "Ocurrió un error." : null;
+  const { email, error, sent, next } = await searchParams;
+  const errorMessage = error ? (messages[error] ?? "Ocurrió un error.") : null;
+  const safeNext = next ? safeAuthRedirect(next) : undefined;
 
   return (
     <div className="flex min-h-screen flex-col px-4 py-8 sm:py-10">
@@ -84,21 +89,13 @@ export default async function VerificarEmailPage({
               </label>
               <button
                 type="submit"
-                className="flex w-full items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white transition hover:bg-accent-hover"
+                className="flex w-full items-center justify-center rounded-lg border border-border bg-surface px-4 py-2.5 text-sm font-medium text-primary transition hover:bg-surface-hover"
               >
                 Reenviar email
               </button>
             </form>
 
-            <p className="mt-4 text-center text-xs text-muted">
-              ¿Ya verificaste?{" "}
-              <Link
-                href="/login"
-                className="text-secondary underline-offset-2 transition hover:text-primary hover:underline"
-              >
-                Iniciar sesión
-              </Link>
-            </p>
+            <VerificarEmailContinuar email={email} next={safeNext} />
           </div>
         </div>
       </div>

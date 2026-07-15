@@ -94,7 +94,15 @@ export async function loginWithCredentials(
     });
   }
 
+  await clearFantasma(perfil.id);
   return { ok: true, perfilId: perfil.id };
+}
+
+async function clearFantasma(perfilId: string) {
+  await prisma.perfil.update({
+    where: { id: perfilId },
+    data: { fantasma: false },
+  });
 }
 
 export async function registerAccount(
@@ -129,6 +137,7 @@ export async function registerAccount(
         emailUcasal: email,
         password: passwordHash,
         emailVerifiedAt: null,
+        fantasma: false,
       },
     });
     perfilId = adoptId;
@@ -139,6 +148,7 @@ export async function registerAccount(
         nombre,
         password: passwordHash,
         emailVerifiedAt: null,
+        fantasma: false,
       },
     });
     perfilId = existing.id;
@@ -149,6 +159,7 @@ export async function registerAccount(
         emailUcasal: email,
         password: passwordHash,
         emailVerifiedAt: null,
+        fantasma: false,
         anioIngreso: new Date().getFullYear(),
       },
     });

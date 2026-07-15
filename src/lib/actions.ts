@@ -17,6 +17,7 @@ import { hydrateCarrera } from "@/lib/planes-estudio/ingesta";
 import { hashPassword } from "@/lib/password";
 import { sendVerificationForPerfil } from "@/lib/email-verification";
 import { getOrCreatePerfil, setPerfilCookie } from "@/lib/perfil";
+import { isPerfilRegistrado } from "@/lib/auth";
 import { applyEstadoTimestamps, notaForTipo } from "@/lib/entrega-tracking";
 
 async function sessionPerfil() {
@@ -605,6 +606,9 @@ export async function confirmarCarrera(
   try {
     const perfil = await prisma.perfil.findUnique({ where: { id: perfilId } });
     if (!perfil) return fail("No se encontró el perfil del estudiante.");
+    if (!isPerfilRegistrado(perfil)) {
+      return fail("Tenés que verificar tu email antes de elegir una carrera.");
+    }
 
     const carrera = await hydrateCarrera(carreraSlug);
 

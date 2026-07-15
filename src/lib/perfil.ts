@@ -14,6 +14,14 @@ export function displayEmailUcasal(email: string | null | undefined): string {
   return email;
 }
 
+export function isAuthPath(pathname: string): boolean {
+  return (
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/registro") ||
+    pathname.startsWith("/verificar-email")
+  );
+}
+
 export async function getPerfilCookieId(): Promise<string | undefined> {
   const cookieStore = await cookies();
   return cookieStore.get(PERFIL_COOKIE)?.value;
@@ -29,29 +37,34 @@ export async function clearPerfilCookie() {
   cookieStore.delete(PERFIL_COOKIE);
 }
 
-export async function createPerfilSession() {
-  return prisma.perfil.create({
-    data: {
-      nombre: "Estudiante",
-      anioIngreso: new Date().getFullYear(),
-    },
-  });
+export async function getPerfil(): Promise<Perfil | null> {
+  const cookieId = await getPerfilCookieId();
+  if (!cookieId) return null;
+
+  return prisma.perfil.findUnique({ where: { id: cookieId } });
 }
 
-export async function getOrCreatePerfil(): Promise<Perfil> {
-  const cookieId = await getPerfilCookieId();
-  if (cookieId) {
-    const perfil = await prisma.perfil.findUnique({ where: { id: cookieId } });
-    if (perfil) return perfil;
-  }
-
+async function loginRedirectPath(): Promise<string> {
   const hdrs = await headers();
   const pathname = hdrs.get("x-pathname") ?? "/";
-  redirect(`/api/session?next=${encodeURIComponent(pathname)}`);
+  if (isAuthPath(pathname)) return "/login";
+  return `/login?next=${encodeURIComponent(pathname)}`;
+}
+
+export async function requirePerfil(): Promise<Perfil> {
+  const perfil = await getPerfil();
+  if (perfil) return perfil;
+
+  redirect(await loginRedirectPath());
+}
+
+/** @deprecated Use requirePerfil() — kept for page imports */
+export async function getOrCreatePerfil(): Promise<Perfil> {
+  return requirePerfil();
 }
 
 export async function getPerfilConCarrera() {
-  const perfil = await getOrCreatePerfil();
+  const perfil = await requirePerfil();
   return prisma.perfil.findUnique({
     where: { id: perfil.id },
     include: { carrera: true },

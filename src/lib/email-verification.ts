@@ -48,7 +48,7 @@ export async function verifyToken(rawToken: string): Promise<VerifyTokenResult> 
   await prisma.$transaction([
     prisma.perfil.update({
       where: { id: record.perfilId },
-      data: { emailVerifiedAt: new Date() },
+      data: { emailVerifiedAt: new Date(), fantasma: false },
     }),
     prisma.emailVerificationToken.deleteMany({ where: { perfilId: record.perfilId } }),
   ]);
