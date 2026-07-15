@@ -9,7 +9,8 @@ Producción: [https://ucanode.app](https://ucanode.app)
 ## Funcionalidades
 
 - Registro y login con verificación de email (Resend, dominio `mail.ucanode.app`).
-- Onboarding inicial: selección de carrera y carga lazy del plan de estudios desde JSON.
+- Onboarding inicial (tras login y verificación de email): selección de carrera y carga lazy del plan de estudios desde JSON.
+- Login como punto de entrada; listado de carreras disponibles en la pantalla de acceso.
 - Dashboard con próximas entregas, clases del día, materias en curso y links favoritos.
 - Gestión de materias en catálogo de tarjetas (año/semestre, estados y correlatividades).
 - Calendario/listado de entregas por materia, tipo, fecha, prioridad y estado.

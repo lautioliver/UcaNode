@@ -26,7 +26,7 @@ export function middleware(request: NextRequest) {
 
   if (!request.cookies.get(PERFIL_COOKIE)?.value) {
     const url = request.nextUrl.clone();
-    url.pathname = "/api/session";
+    url.pathname = "/login";
     url.searchParams.set("next", `${pathname}${search}`);
     return NextResponse.redirect(url);
   }
