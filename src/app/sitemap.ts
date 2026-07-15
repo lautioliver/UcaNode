@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
+import { getSiteUrl } from "@/lib/app-url";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://ucanode.vercel.app";
+  const base = getSiteUrl();
 
   return [
     { url: base, lastModified: new Date() },

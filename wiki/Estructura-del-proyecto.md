@@ -36,8 +36,12 @@ UcaNode/
 | `materias/[id]/page.tsx` | Detalle de materia |
 | `entregas/page.tsx` | Gestión de entregas |
 | `horarios/page.tsx` | Grilla semanal de horarios (solo materias activas) |
+| `concurrencia/page.tsx` | Concurrencia del campus vía CampuStatus |
 | `links/page.tsx` | Catálogo de links con filtros por categoría |
 | `perfil/page.tsx` | Datos del estudiante |
+| `login/page.tsx`, `registro/page.tsx` | Acceso y alta de cuenta |
+| `verificar-email/page.tsx` | Pantalla post-registro y reenvío de verificación |
+| `api/auth/` | Login, registro, verificación, logout y reenvío de mail |
 | `loading.tsx` | Estado de carga global |
 | `error.tsx` | Error boundary |
 | `not-found.tsx` | Página 404 general |
@@ -58,6 +62,8 @@ UcaNode/
 | `entrega-card.tsx` | Tarjetas de entregas |
 | `calendario.tsx` | Vista de calendario/agrupación de entregas |
 | `links-catalog.tsx` | Catálogo de tarjetas en `/links` |
+| `campustatus-workspace.tsx` | Vista de concurrencia del campus |
+| `auth-forms.tsx`, `auth-shell.tsx` | Formularios y layout de auth |
 | `logo.tsx` | Marca visual del proyecto |
 
 ## `src/lib/`
@@ -65,6 +71,10 @@ UcaNode/
 | Archivo | Rol |
 |---|---|
 | `actions.ts` | Server Actions y revalidación de rutas |
+| `app-url.ts` | URL pública del sitio (`https://ucanode.app`) y base para mails |
+| `auth-service.ts`, `auth.ts` | Registro, login y gate de cuenta verificada |
+| `email.ts`, `email-verification.ts` | Envío de mails con Resend y tokens de verificación |
+| `campustatus/` | Cliente y utilidades de CampuStatus |
 | `perfil.ts` | Obtiene o crea el perfil del estudiante |
 | `planes-estudio/` | Catálogo, fuente JSON, ingesta lazy, consultas y tipos del plan |
 | `schemas.ts` | Schemas Zod para validar formularios |

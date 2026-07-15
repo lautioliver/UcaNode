@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { getSiteUrl } from "@/lib/app-url";
 import { LayoutClient } from "@/components/layout-client";
 import { confirmarCarrera } from "@/lib/actions";
-import { isPerfilRegistrado } from "@/lib/auth";
+import { isPerfilPendienteVerificacion, isPerfilRegistrado } from "@/lib/auth";
 import { listCarrerasDisponibles } from "@/lib/planes-estudio/catalogo";
-import { getOrCreatePerfil } from "@/lib/perfil";
+import { getPerfil, isAuthPath, requirePerfil } from "@/lib/perfil";
 import { prisma } from "@/lib/prisma";
 import "./globals.css";
 
@@ -20,6 +22,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: "UcaNode — Autogestión Ucasal",
   description:
     "Sistema de autogestión para estudiantes de la Ucasal",
@@ -34,17 +37,35 @@ export default async function RootLayout({
   const themeCookie = cookieStore.get("ucanode_theme")?.value;
   const dark = themeCookie !== "light";
 
-  const perfil = await getOrCreatePerfil();
-  const collapsed = cookieStore.get("ucanode_sidebar_collapsed")?.value === "1";
-  const cuentaRegistrada = isPerfilRegistrado(perfil);
+  const hdrs = await headers();
+  const pathnameWithSearch = hdrs.get("x-pathname") ?? "/";
+  const pathname = pathnameWithSearch.split("?")[0] ?? "/";
+  const onAuthRoute = isAuthPath(pathname);
 
-  const materias = perfil.carreraId
-    ? await prisma.materia.findMany({
-        where: { perfilId: perfil.id },
-        orderBy: { nombre: "asc" },
-        select: { id: true, nombre: true },
-      })
-    : [];
+  let perfil = onAuthRoute ? await getPerfil() : await requirePerfil();
+
+  if (!onAuthRoute && perfil) {
+    if (perfil.fantasma) {
+      // FantasmaGate rendered in LayoutClient
+    } else if (isPerfilPendienteVerificacion(perfil)) {
+      const url = `/verificar-email?email=${encodeURIComponent(perfil.emailUcasal!)}&next=${encodeURIComponent(pathnameWithSearch)}`;
+      redirect(url);
+    } else if (!isPerfilRegistrado(perfil)) {
+      redirect(`/login?next=${encodeURIComponent(pathnameWithSearch)}`);
+    }
+  }
+
+  const collapsed = cookieStore.get("ucanode_sidebar_collapsed")?.value === "1";
+  const cuentaRegistrada = perfil ? isPerfilRegistrado(perfil) : false;
+
+  const materias =
+    perfil?.carreraId
+      ? await prisma.materia.findMany({
+          where: { perfilId: perfil.id },
+          orderBy: { nombre: "asc" },
+          select: { id: true, nombre: true },
+        })
+      : [];
 
   return (
     <html lang="es" className={dark ? "dark" : ""}>
@@ -53,12 +74,22 @@ export default async function RootLayout({
       >
         <LayoutClient
           dark={dark}
-          perfil={{ id: perfil.id, nombre: perfil.nombre, carreraId: perfil.carreraId }}
+          perfil={
+            perfil
+              ? {
+                  id: perfil.id,
+                  nombre: perfil.nombre,
+                  carreraId: perfil.carreraId,
+                  fantasma: perfil.fantasma,
+                }
+              : null
+          }
           collapsed={collapsed}
           cuentaRegistrada={cuentaRegistrada}
           carreras={listCarrerasDisponibles()}
           materias={materias}
           confirmarCarreraAction={confirmarCarrera}
+          nextPath={pathnameWithSearch}
         >
           {children}
         </LayoutClient>

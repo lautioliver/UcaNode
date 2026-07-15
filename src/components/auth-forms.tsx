@@ -20,9 +20,6 @@ function Field({
   );
 }
 
-function guestHref(next?: string) {
-  return next ? `/api/session?next=${encodeURIComponent(next)}` : "/api/session?next=/";
-}
 
 export function LoginForm({
   next,
@@ -129,9 +126,6 @@ export function RegistroForm({
       >
         Crear cuenta
       </button>
-      <p className="text-center text-xs text-muted">
-        Te vamos a enviar un email para verificar tu cuenta antes de iniciar sesión.
-      </p>
       {error ? <p className="text-center text-sm text-danger">{error}</p> : null}
       <p className="text-center text-xs text-muted">
         ¿Ya tenés cuenta?{" "}
@@ -146,4 +140,3 @@ export function RegistroForm({
   );
 }
 
-export { guestHref };

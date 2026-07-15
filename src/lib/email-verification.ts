@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import { getAppUrl, sendVerificationEmail } from "@/lib/email";
+import { getAppUrl } from "@/lib/app-url";
+import { sendVerificationEmail } from "@/lib/email";
 import {
   RESEND_COOLDOWN_MS,
   TOKEN_TTL_MS,
@@ -47,7 +48,7 @@ export async function verifyToken(rawToken: string): Promise<VerifyTokenResult> 
   await prisma.$transaction([
     prisma.perfil.update({
       where: { id: record.perfilId },
-      data: { emailVerifiedAt: new Date() },
+      data: { emailVerifiedAt: new Date(), fantasma: false },
     }),
     prisma.emailVerificationToken.deleteMany({ where: { perfilId: record.perfilId } }),
   ]);
