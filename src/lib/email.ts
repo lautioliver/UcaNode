@@ -1,4 +1,6 @@
+import { createElement } from "react";
 import { Resend } from "resend";
+import { ConfirmarEmail } from "@/emails/ConfirmarEmail";
 
 function getResendClient() {
   const apiKey = process.env.RESEND_API_KEY;
@@ -22,12 +24,6 @@ export async function sendVerificationEmail({
   verifyUrl,
 }: SendVerificationEmailInput): Promise<void> {
   const subject = "Verificá tu email — UcaNode";
-  const html = `
-    <p>Hola ${escapeHtml(nombre)},</p>
-    <p>Gracias por registrarte en UcaNode. Hacé clic en el enlace para verificar tu email:</p>
-    <p><a href="${verifyUrl}">Verificar email</a></p>
-    <p>Este enlace expira en 24 horas. Si no creaste una cuenta, podés ignorar este mensaje.</p>
-  `;
 
   const resend = getResendClient();
   if (!resend) {
@@ -39,19 +35,10 @@ export async function sendVerificationEmail({
     from: getEmailFrom(),
     to,
     subject,
-    html,
+    react: createElement(ConfirmarEmail, { nombre, verifyUrl }),
   });
 
   if (error) {
     throw new Error(error.message);
   }
-}
-
-function escapeHtml(value: string) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
 }
