@@ -117,6 +117,7 @@ model Perfil {
   legajo                  String?
   password                String?
   carreraId               String?
+  fantasma                Boolean                  @default(false)
   carrera                 Carrera?                 @relation(fields: [carreraId], references: [id])
   materias                Materia[]
   links                   LinkExterno[]

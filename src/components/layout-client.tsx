@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
 import { Footer } from "@/components/footer";
 import { EntregaFab } from "@/components/entrega-fab";
+import { FantasmaGate } from "@/components/fantasma-gate";
 import { OnboardingCarrera } from "@/components/onboarding-carrera";
 import type { CarreraCatalogo } from "@/lib/planes-estudio/types";
 import type { ActionResult } from "@/lib/actions";
@@ -25,20 +26,35 @@ export function LayoutClient({
   carreras,
   materias,
   confirmarCarreraAction,
+  nextPath,
 }: {
   children: React.ReactNode;
   dark: boolean;
-  perfil: { id: string; nombre: string | null; carreraId: string | null };
+  perfil: {
+    id: string;
+    nombre: string | null;
+    carreraId: string | null;
+    fantasma: boolean;
+  } | null;
   collapsed: boolean;
   cuentaRegistrada: boolean;
   carreras: CarreraCatalogo[];
   materias: { id: string; nombre: string }[];
   confirmarCarreraAction: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
+  nextPath?: string;
 }) {
   const pathname = usePathname();
 
   if (isAuthRoute(pathname)) {
     return <>{children}</>;
+  }
+
+  if (!perfil) {
+    return <>{children}</>;
+  }
+
+  if (perfil.fantasma) {
+    return <FantasmaGate next={nextPath} />;
   }
 
   if (!perfil.carreraId) {
@@ -47,7 +63,6 @@ export function LayoutClient({
         action={confirmarCarreraAction}
         perfilId={perfil.id}
         carreras={carreras}
-        cuentaRegistrada={cuentaRegistrada}
       />
     );
   }

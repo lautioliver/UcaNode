@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useActionState, useMemo, useState } from "react";
 import {
   Brain,
@@ -143,12 +142,10 @@ export function OnboardingCarrera({
   action,
   perfilId,
   carreras,
-  cuentaRegistrada = false,
 }: {
   action: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
   perfilId: string;
   carreras: CarreraCatalogo[];
-  cuentaRegistrada?: boolean;
 }) {
   const [state, formAction, pending] = useActionState(action, { success: true });
   const [query, setQuery] = useState("");
@@ -181,19 +178,7 @@ export function OnboardingCarrera({
               <p className="truncate text-xs text-muted">Autogestión universitaria</p>
             </div>
           </div>
-          {!cuentaRegistrada ? (
-            <p className="shrink-0 text-right text-xs text-muted">
-              ¿Ya tenés cuenta?{" "}
-              <Link
-                href="/login"
-                className="text-secondary underline-offset-2 transition hover:text-primary hover:underline"
-              >
-                Ingresar
-              </Link>
-            </p>
-          ) : (
-            <p className="shrink-0 text-xs text-muted">Sesión iniciada</p>
-          )}
+          <p className="shrink-0 text-xs text-muted">Sesión iniciada</p>
         </header>
 
         <div className="rounded-2xl border border-border bg-surface-card p-5 shadow-[var(--shadow-card)] sm:p-8">

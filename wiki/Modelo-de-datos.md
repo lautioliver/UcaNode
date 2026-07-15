@@ -135,7 +135,7 @@ erDiagram
 | `Carrera` | Carrera UCASAL disponible en onboarding. Se identifica por `slug` y guarda metadatos del plan. |
 | `PlanEstudio` | Materias del plan oficial de una carrera (código, año, semestre, aliases). |
 | `CorrelatividadPlan` | Requisitos entre materias del plan (`REGULARIZADA`, `APROBADA`, `PARA_RENDIR`). |
-| `Perfil` | Datos del estudiante. Puede ser invitado (sin email/contraseña) o cuenta registrada con email verificado (`emailVerifiedAt`). La carrera se asigna en onboarding vía `carreraId`. |
+| `Perfil` | Datos del estudiante. Cuenta registrada con email verificado (`emailVerifiedAt`). Campo temporal `fantasma` marca perfiles invitados legacy pendientes de migración. La carrera se asigna en onboarding vía `carreraId`. |
 | `EmailVerificationToken` | Token de un solo uso (hash en DB) para confirmar el email tras registro o cambio de dirección. Expira a las 24 h. |
 | `Materia` | Materias del usuario, estado académico y metadatos de cursada. Puede vincularse opcionalmente a `PlanEstudio`. |
 | `Entrega` | TP, parciales y finales asociados a una materia. |
