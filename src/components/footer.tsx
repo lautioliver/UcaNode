@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { href: "/entregas", label: "Entregas" },
   { href: "/analytics", label: "Analíticas" },
   { href: "/horarios", label: "Horarios" },
+  { href: "/concurrencia", label: "Concurrencia" },
   { href: "/links", label: "Links" },
   { href: "/perfil", label: "Perfil" },
 ] as const;
@@ -97,7 +98,7 @@ export function Footer() {
               Proyecto
             </p>
             <ul className="space-y-2 text-sm text-secondary">
-              <li>SQLite local · sin sincronización externa</li>
+              <li>PostgreSQL (Neon) · sin sincronización con Notion</li>
               <li>
                 <span className="inline-flex items-center gap-2">
                   <span className="h-1.5 w-1.5 rounded-full bg-success" />

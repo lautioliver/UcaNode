@@ -6,10 +6,6 @@ function getResendClient() {
   return new Resend(apiKey);
 }
 
-export function getAppUrl() {
-  return process.env.APP_URL?.replace(/\/$/, "") ?? "http://localhost:3000";
-}
-
 function getEmailFrom() {
   return process.env.EMAIL_FROM ?? "UcaNode <onboarding@resend.dev>";
 }

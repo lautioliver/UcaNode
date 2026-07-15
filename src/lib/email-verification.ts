@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import { getAppUrl, sendVerificationEmail } from "@/lib/email";
+import { getAppUrl } from "@/lib/app-url";
+import { sendVerificationEmail } from "@/lib/email";
 import {
   RESEND_COOLDOWN_MS,
   TOKEN_TTL_MS,

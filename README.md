@@ -2,10 +2,13 @@
 
 Sistema de autogestión para estudiantes de la Ucasal.
 
-UcaNode toma como referencia un dashboard personal de Notion, pero funciona como una aplicación web independiente con base de datos local en SQLite. Permite organizar materias, entregas, horarios, links útiles y datos del perfil académico desde una interfaz hecha con Next.js.
+UcaNode toma como referencia un dashboard personal de Notion, pero funciona como una aplicación web independiente con PostgreSQL (Neon en producción). Permite organizar materias, entregas, horarios, links útiles y datos del perfil académico desde una interfaz hecha con Next.js.
+
+Producción: [https://ucanode.app](https://ucanode.app)
 
 ## Funcionalidades
 
+- Registro y login con verificación de email (Resend, dominio `mail.ucanode.app`).
 - Onboarding inicial: selección de carrera y carga lazy del plan de estudios desde JSON.
 - Dashboard con próximas entregas, clases del día, materias en curso y links favoritos.
 - Gestión de materias en catálogo de tarjetas (año/semestre, estados y correlatividades).
@@ -25,6 +28,7 @@ UcaNode toma como referencia un dashboard personal de Notion, pero funciona como
 | ORM | Prisma 7 |
 | Base de datos | PostgreSQL (Neon en producción) |
 | Validación | Zod |
+| Email | Resend (`mail.ucanode.app`) |
 | Tests | Vitest |
 
 ## Instalación rápida
@@ -39,7 +43,7 @@ El proyecto incluye `.nvmrc` con Node 22:
 
 ```bash
 nvm use
-cp .env.example .env   # configurar DATABASE_URL y variables públicas
+cp .env.example .env   # DATABASE_URL, Resend (RESEND_API_KEY, EMAIL_FROM) y APP_URL
 npm install
 npx prisma generate
 npm run db:migrate
@@ -78,7 +82,7 @@ La documentación técnica vive en la wiki del repo:
 
 ## Relación con Notion
 
-Notion fue la referencia de diseño inicial. Los datos de UcaNode viven en SQLite y no se sincronizan con Notion.
+Notion fue la referencia de diseño inicial. Los datos de UcaNode viven en PostgreSQL y no se sincronizan con Notion.
 
 ## Licencia
 

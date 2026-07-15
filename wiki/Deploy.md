@@ -35,8 +35,18 @@ Si cargás la URL a mano, agregá las variables en **Vercel → Project → Sett
 | `DATABASE_URL` | Sí | Connection string pooled de Neon (runtime de la app) |
 | `DATABASE_URL_UNPOOLED` | Recomendada | Connection string directa (migraciones en build) |
 | `NEXT_PUBLIC_CARRERA_SOLICITUD_FORM_URL` | Sí (onboarding) | Google Form para pedir carreras faltantes |
+| `RESEND_API_KEY` | Sí (auth) | API key de Resend para emails de verificación |
+| `EMAIL_FROM` | Sí (auth) | Remitente verificado, p. ej. `UcaNode <noreply@mail.ucanode.app>` |
+| `APP_URL` | Sí (auth) | URL pública de la app, p. ej. `https://ucanode.app` (links en mails) |
+| `CAMPUSSTATUS_URL` | Opcional | URL de CampuStatus; default producción en `.env.example` |
 
 Si solo definís `DATABASE_URL`, el build también funciona (se usa como fallback para migraciones). Con la integración Neon→Vercel, `DATABASE_URL_UNPOOLED` se setea sola.
+
+### Dominio y email (Resend)
+
+- App en producción: **https://ucanode.app**
+- Dominio de envío verificado en Resend: **mail.ucanode.app** (subdominio de `ucanode.app`)
+- En Vercel, `APP_URL` debe coincidir con la URL pública para que los links de verificación apunten al sitio correcto
 
 Copiá el mismo esquema en tu `.env` local desde `.env.example`.
 
@@ -85,11 +95,12 @@ En una instalación fresca, el seed crea un perfil **sin** `carreraId` para que 
 
 ## 6. Verificación post-deploy
 
-1. Abrí la URL de Vercel.
-2. Debería aparecer el onboarding si no hay perfil con carrera.
-3. Elegí una carrera del catálogo (Informática, Industrial, Psicología, Arquitectura o Ingeniería Civil).
-4. Confirmá que la ingesta lazy carga el plan sin errores.
-5. Revisá `/materias`, `/entregas` y `/perfil`.
+1. Abrí [https://ucanode.app](https://ucanode.app).
+2. Registrate en `/registro` y confirmá que llega el mail de verificación desde `noreply@mail.ucanode.app`.
+3. Completá el onboarding si no hay perfil con carrera.
+4. Elegí una carrera del catálogo (Informática, Industrial, Psicología, Arquitectura o Ingeniería Civil).
+5. Confirmá que la ingesta lazy carga el plan sin errores.
+6. Revisá `/materias`, `/entregas`, `/concurrencia` y `/perfil`.
 
 ## 7. Troubleshooting
 
@@ -99,11 +110,5 @@ En una instalación fresca, el seed crea un perfil **sin** `carreraId` para que 
 | `DATABASE_URL no está definida` en runtime | Falta env en Vercel | Agregar en Production + Preview |
 | Onboarding no muestra formulario de carrera | Falta `NEXT_PUBLIC_CARRERA_SOLICITUD_FORM_URL` | Agregar variable pública |
 | Error de conexión a DB | IP/firewall o string mal copiada | Regenerar string en Neon y actualizar Vercel |
-
-## Rama recomendada para merge
-
-El onboarding y los planes de estudio están en `feature/OnBoarding`. Para el primer deploy:
-
-1. Mergear `feature/OnBoarding` → `develop` (o la rama que uses).
-2. Mergear a `main` cuando esté validado.
-3. Conectar Vercel a `main` o a `develop` según prefieras previews.
+| No llegan mails de verificación | Falta `RESEND_API_KEY` o dominio no verificado | Revisar Resend y `EMAIL_FROM` con `mail.ucanode.app` |
+| Links del mail apuntan a localhost o a `*.vercel.app` | `APP_URL` mal configurada | Setear `APP_URL=https://ucanode.app` en Production |
