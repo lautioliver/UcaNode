@@ -15,6 +15,7 @@ Esta wiki reúne la documentación técnica y funcional de UcaNode. El `README.m
 
 UcaNode ayuda a centralizar la organización académica:
 
+- Registro/login con verificación de email vía Resend (`mail.ucanode.app`).
 - Onboarding de carrera con carga lazy del plan de estudios.
 - Materias por estado: cursando, para finalizar, regular y finalizada.
 - Entregas, parciales y finales asociados a materias.

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { cookies } from "next/headers";
+import { getSiteUrl } from "@/lib/app-url";
 import { LayoutClient } from "@/components/layout-client";
 import { confirmarCarrera } from "@/lib/actions";
 import { isPerfilRegistrado } from "@/lib/auth";
@@ -20,6 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: "UcaNode — Autogestión Ucasal",
   description:
     "Sistema de autogestión para estudiantes de la Ucasal",

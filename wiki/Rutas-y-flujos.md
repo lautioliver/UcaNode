@@ -86,6 +86,8 @@ Flujo resumido:
 
 En desarrollo, si `RESEND_API_KEY` no está configurada, el link de verificación se imprime en la consola del servidor.
 
+En producción (`https://ucanode.app`), los mails salen desde `noreply@mail.ucanode.app` y los links usan `APP_URL`.
+
 ## Flujo de lectura
 
 ```mermaid

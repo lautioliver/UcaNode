@@ -77,6 +77,15 @@ La ingesta es idempotente: si la carrera ya está en DB con `estadoIngesta = LIS
 
 Carreras no disponibles en el catálogo pueden solicitarse vía un Google Form configurado con `NEXT_PUBLIC_CARRERA_SOLICITUD_FORM_URL`.
 
+## Auth y verificación de email
+
+El acceso requiere cuenta registrada con email verificado:
+
+1. `POST /api/auth/registro` crea el perfil y envía un mail vía Resend (`mail.ucanode.app`).
+2. El link de verificación usa `APP_URL` (producción: `https://ucanode.app`).
+3. `POST /api/auth/login` solo permite ingreso con `emailVerifiedAt` definido.
+4. Sin `RESEND_API_KEY` en desarrollo, el link se imprime en consola.
+
 ## Lectura de datos
 
 Las páginas de `src/app/**/page.tsx` son Server Components. Consultan Prisma directamente, reciben datos ya resueltos y renderizan HTML en servidor.
