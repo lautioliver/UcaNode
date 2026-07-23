@@ -195,8 +195,8 @@ export function EntregasWorkspace({
       <main className="relative min-w-0 space-y-8 overflow-x-clip pb-24">
         <PageHeader
           pill="Todas tus entregas"
-          title="¿Qué tenés que entregar?"
-          description="Vista ágil por semana o mes. Tocá una tarjeta para editar."
+        title="Entregas"
+        description="Gestioná TPs, parciales y finales con vistas de lista, semana y mes."
         />
 
         <div className="flex flex-wrap items-center gap-2">

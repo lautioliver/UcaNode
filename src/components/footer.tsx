@@ -23,7 +23,7 @@ const EXTERNAL_LINKS = [
   },
 ] as const;
 
-export function Footer() {
+export function Footer({ carreraNombre }: { carreraNombre?: string | null }) {
   const year = new Date().getFullYear();
 
   return (
@@ -36,7 +36,7 @@ export function Footer() {
                 UcaNode
               </span>
               <span className="block text-[11px] leading-tight text-muted">
-                Ing. Informática · Ucasal
+                {carreraNombre ?? "Autogestión Ucasal"}
               </span>
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-secondary">
@@ -81,6 +81,11 @@ export function Footer() {
                   </a>
                 </li>
               ))}
+              <li>
+                <span className="inline-flex cursor-default items-center gap-1.5 text-sm text-muted">
+                  Ayuda
+                </span>
+              </li>
               <li>
                 <Link
                   href="/links"

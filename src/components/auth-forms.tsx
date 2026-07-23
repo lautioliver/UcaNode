@@ -1,22 +1,26 @@
-import Link from "next/link";
+"use client";
 
-const input =
-  "w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-sm text-primary outline-none transition placeholder:text-muted focus:border-border-accent focus:ring-2 focus:ring-accent/40";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 function Field({
   label,
+  htmlFor,
   children,
 }: {
   label: string;
+  htmlFor?: string;
   children: React.ReactNode;
 }) {
   return (
-    <label className="block space-y-1.5">
-      <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">
+    <div className="space-y-1.5">
+      <Label htmlFor={htmlFor} className="text-xs font-medium text-secondary">
         {label}
-      </span>
+      </Label>
       {children}
-    </label>
+    </div>
   );
 }
 
@@ -31,32 +35,29 @@ export function LoginForm({
   return (
     <form action="/api/auth/login" method="POST" className="space-y-4">
       {next ? <input type="hidden" name="next" value={next} /> : null}
-      <Field label="Email">
-        <input
+      <Field label="Email" htmlFor="login-email">
+        <Input
+          id="login-email"
           name="email"
           type="email"
           required
           autoComplete="email"
           placeholder="tu@email.com"
-          className={input}
         />
       </Field>
-      <Field label="Contraseña">
-        <input
+      <Field label="Contraseña" htmlFor="login-password">
+        <Input
+          id="login-password"
           name="password"
           type="password"
           required
           autoComplete="current-password"
           placeholder="Tu contraseña"
-          className={input}
         />
       </Field>
-      <button
-        type="submit"
-        className="flex w-full items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white transition hover:bg-accent-hover"
-      >
+      <Button type="submit" className="w-full">
         Iniciar sesión
-      </button>
+      </Button>
       {error ? <p className="text-center text-sm text-danger">{error}</p> : null}
       <p className="text-center text-xs text-muted">
         ¿No tenés cuenta?{" "}
@@ -81,51 +82,48 @@ export function RegistroForm({
   return (
     <form action="/api/auth/registro" method="POST" className="space-y-4">
       {next ? <input type="hidden" name="next" value={next} /> : null}
-      <Field label="Nombre">
-        <input
+      <Field label="Nombre" htmlFor="registro-nombre">
+        <Input
+          id="registro-nombre"
           name="nombre"
           required
           autoComplete="name"
           placeholder="Tu nombre"
-          className={input}
         />
       </Field>
-      <Field label="Email">
-        <input
+      <Field label="Email" htmlFor="registro-email">
+        <Input
+          id="registro-email"
           name="email"
           type="email"
           required
           autoComplete="email"
           placeholder="tu@email.com"
-          className={input}
         />
       </Field>
-      <Field label="Contraseña">
-        <input
+      <Field label="Contraseña" htmlFor="registro-password">
+        <Input
+          id="registro-password"
           name="password"
           type="password"
           required
           autoComplete="new-password"
           placeholder="Mínimo 8 caracteres"
-          className={input}
         />
       </Field>
-      <Field label="Confirmar contraseña">
-        <input
+      <Field label="Confirmar contraseña" htmlFor="registro-confirm">
+        <Input
+          id="registro-confirm"
           name="confirmPassword"
           type="password"
           required
           autoComplete="new-password"
           placeholder="Repetí la contraseña"
-          className={input}
         />
       </Field>
-      <button
-        type="submit"
-        className="flex w-full items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white transition hover:bg-accent-hover"
-      >
+      <Button type="submit" className="w-full">
         Crear cuenta
-      </button>
+      </Button>
       {error ? <p className="text-center text-sm text-danger">{error}</p> : null}
       <p className="text-center text-xs text-muted">
         ¿Ya tenés cuenta?{" "}

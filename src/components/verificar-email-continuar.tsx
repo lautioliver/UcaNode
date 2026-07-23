@@ -29,12 +29,19 @@ export function VerificarEmailContinuar({
   useEffect(() => {
     if (!email) return;
 
-    void checkStatus();
+    // El chequeo inicial va en un timeout para no disparar setState
+    // sincrónicamente dentro del efecto (react-hooks/set-state-in-effect).
+    const initial = setTimeout(() => {
+      void checkStatus();
+    }, 0);
     const interval = setInterval(() => {
       void checkStatus();
     }, 5000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(initial);
+      clearInterval(interval);
+    };
   }, [email, checkStatus]);
 
   async function handleContinuar() {

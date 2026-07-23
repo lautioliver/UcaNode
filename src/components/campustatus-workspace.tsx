@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { RefreshCw } from "lucide-react";
 import { CampusStatusZoneCard } from "@/components/campustatus-zone-card";
@@ -12,11 +12,25 @@ import {
 import type { Zone } from "@/lib/campustatus/client";
 import {
   syncZoneReflections,
-  type ZoneWithReflection,
+  type ReflectionStore,
 } from "@/lib/campustatus/reflection";
 import { countZonesByStatus } from "@/lib/campustatus/utils";
 
 const REFLECTION_STORAGE_KEY = "ucanode_campustatus_reflections";
+
+function readStoredReflections(): ReflectionStore {
+  try {
+    const raw = localStorage.getItem(REFLECTION_STORAGE_KEY);
+    if (!raw) return {};
+    const parsed: unknown = JSON.parse(raw);
+    if (typeof parsed === "object" && parsed !== null) {
+      return parsed as ReflectionStore;
+    }
+  } catch {
+    // JSON inválido o storage inaccesible: se parte de cero
+  }
+  return {};
+}
 
 type CampusStatusWorkspaceProps = {
   zones: Zone[];
@@ -49,38 +63,22 @@ export function CampusStatusWorkspace({
     () => true,
     () => false,
   );
-  const [displayZones, setDisplayZones] = useState<ZoneWithReflection[]>(() =>
-    zones.map((zone) => ({ ...zone, reflectedAt: fetchedAt })),
-  );
+  // Deriva las zonas con su "reflectedAt" en render (localStorage solo existe
+  // en el cliente); el efecto de abajo solo persiste el store actualizado.
+  const { zones: displayZones, stored: nextStored } = useMemo(() => {
+    if (!mounted) {
+      return {
+        zones: zones.map((zone) => ({ ...zone, reflectedAt: fetchedAt })),
+        stored: null,
+      };
+    }
+    return syncZoneReflections(zones, fetchedAt, readStoredReflections());
+  }, [zones, fetchedAt, mounted]);
 
   useEffect(() => {
-    if (!mounted) return;
-
-    let stored: Record<string, { snapshot: string; reflectedAt: string }> = {};
-    try {
-      const raw = localStorage.getItem(REFLECTION_STORAGE_KEY);
-      if (raw) {
-        const parsed: unknown = JSON.parse(raw);
-        if (typeof parsed === "object" && parsed !== null) {
-          stored = parsed as Record<
-            string,
-            { snapshot: string; reflectedAt: string }
-          >;
-        }
-      }
-    } catch {
-      stored = {};
-    }
-
-    const { zones: synced, stored: nextStored } = syncZoneReflections(
-      zones,
-      fetchedAt,
-      stored,
-    );
-
+    if (!nextStored) return;
     localStorage.setItem(REFLECTION_STORAGE_KEY, JSON.stringify(nextStored));
-    setDisplayZones(synced);
-  }, [zones, fetchedAt, mounted]);
+  }, [nextStored]);
 
   const rojas = countZonesByStatus(displayZones, "Rojo");
   const amarillas = countZonesByStatus(displayZones, "Amarillo");
@@ -92,7 +90,7 @@ export function CampusStatusWorkspace({
         title="Concurrencia"
         description={
           error ??
-          "Estado de ocupación de espacios del campus, actualizado por la comunidad en CampuStatus."
+          "Consultá la ocupación del campus en tiempo real gracias a CampuStatus."
         }
         action={<RefreshButton />}
       />

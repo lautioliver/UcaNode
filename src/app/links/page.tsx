@@ -52,8 +52,8 @@ export default async function LinksPage({
     <main className="space-y-8">
       <PageHeader
         pill="Todos tus atajos"
-        title="¿Necesitás abrir algo del campus?"
-        description="Galería de enlaces al Campus, Drive, GitHub y más. Tocá una tarjeta para abrir o editar."
+        title="Links"
+        description="Accedé rápido a Campus, Drive, GitHub y tus recursos favoritos."
       />
 
       <div className="flex flex-wrap items-center gap-2">

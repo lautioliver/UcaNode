@@ -3,6 +3,9 @@
 import { useActionState, useEffect, useMemo, useState } from "react";
 import { Wand2 } from "lucide-react";
 import type { ActionResult } from "@/lib/actions";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 import {
   estadoMateriaLabel,
   tipoEntregaLabel,
@@ -24,13 +27,9 @@ function FormFeedback({
 }) {
   return (
     <>
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60 sm:col-span-2"
-      >
+      <Button type="submit" disabled={pending} className="sm:col-span-2">
         {pending ? "Guardando..." : submitLabel}
-      </button>
+      </Button>
       {state.message && (
         <p
           className={`text-sm sm:col-span-2 ${state.success ? "text-success" : "text-danger"}`}
@@ -49,28 +48,31 @@ function FormFeedback({
   );
 }
 
-const input =
-  "rounded-lg border border-border bg-surface px-3 py-2 text-sm text-primary placeholder:text-muted outline-none transition focus:border-border-accent focus:ring-2 focus:ring-accent/40";
-const select = input;
-const labelClass =
-  "block text-[11px] font-medium uppercase tracking-wider text-muted mb-1";
+const input = cn(
+  "flex h-9 w-full rounded-md border border-input bg-surface-card px-3 py-1 text-sm shadow-xs transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-accent/30 focus-visible:border-accent placeholder:text-muted",
+);
+const select = cn(input, "appearance-none");
 
 function Field({
   label,
+  htmlFor,
   children,
   span,
   hint,
 }: {
   label: string;
+  htmlFor?: string;
   children: React.ReactNode;
   span?: boolean;
   hint?: string;
 }) {
   return (
     <div className={span ? "sm:col-span-2" : ""}>
-      <label className={labelClass}>{label}</label>
+      <Label htmlFor={htmlFor} className="mb-1.5 block text-xs font-medium text-secondary">
+        {label}
+      </Label>
       {children}
-      {hint && <p className="mt-1 text-[10px] text-muted">{hint}</p>}
+      {hint && <p className="mt-1.5 text-xs text-muted">{hint}</p>}
     </div>
   );
 }
@@ -1070,88 +1072,3 @@ export function LinkEditForm({
   );
 }
 
-// ── PERFIL ──────────────────────────────────────────────
-
-export function PerfilForm({
-  action,
-  defaultValues,
-}: {
-  action: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
-  defaultValues: {
-    nombre: string;
-    emailUcasal: string;
-    carreraNombre: string | null;
-    anioIngreso: number;
-    legajo: string | null;
-    passwordConfigured: boolean;
-  };
-}) {
-  const [state, formAction, pending] = useActionState(action, { success: true });
-
-  return (
-    <form action={formAction} className="grid gap-4 sm:grid-cols-2">
-      <Field label="Nombre">
-        <input
-          name="nombre"
-          required
-          defaultValue={defaultValues.nombre}
-          placeholder="Tu nombre completo"
-          className={`${input} w-full`}
-        />
-      </Field>
-      <Field
-        label="Contraseña"
-        hint={
-          defaultValues.passwordConfigured
-            ? "Dejá vacío para mantener la actual. Se guarda hasheada en la base."
-            : "Opcional. Se guarda hasheada en la base de datos."
-        }
-      >
-        <input
-          name="password"
-          type="password"
-          autoComplete="new-password"
-          placeholder={defaultValues.passwordConfigured ? "••••••••" : "Contraseña UCASAL (opcional)"}
-          className={`${input} w-full`}
-        />
-      </Field>
-      <Field label="Email" span>
-        <input
-          name="emailUcasal"
-          type="email"
-          defaultValue={defaultValues.emailUcasal}
-          placeholder="nombre.apellido@ucasal.edu.ar"
-          className={`${input} w-full`}
-        />
-      </Field>
-      <Field label="Carrera" span hint="Se define en el onboarding inicial">
-        <input
-          value={defaultValues.carreraNombre ?? "Sin carrera asignada"}
-          readOnly
-          className={`${input} w-full cursor-not-allowed opacity-80`}
-        />
-      </Field>
-      <Field label="Año de ingreso">
-        <input
-          name="anioIngreso"
-          type="number"
-          min={2000}
-          max={2100}
-          required
-          defaultValue={defaultValues.anioIngreso}
-          placeholder="Ej: 2024"
-          className={`${input} w-full`}
-        />
-      </Field>
-      <Field label="Legajo">
-        <input
-          name="legajo"
-          defaultValue={defaultValues.legajo ?? ""}
-          placeholder="Ej: INF-0000 (opcional)"
-          className={`${input} w-full`}
-        />
-      </Field>
-      <FormFeedback state={state} pending={pending} submitLabel="Guardar perfil" />
-    </form>
-  );
-}

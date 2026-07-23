@@ -1,5 +1,12 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import {
+  Card as UiCard,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 type Tone = "accent" | "success" | "warning" | "danger" | "neutral";
 
@@ -52,7 +59,7 @@ export function CounterChip({
   tone?: Tone;
 }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-card px-3 py-1.5 text-xs text-secondary">
+    <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-card px-3 py-1.5 text-xs text-secondary shadow-[var(--shadow-card)]">
       <span className={`h-1.5 w-1.5 rounded-full ${dotClass[tone]}`} />
       <span className="font-semibold text-primary">{count}</span>
       <span>{label}</span>
@@ -73,11 +80,12 @@ export function FilterPill({
   onClick?: () => void;
   type?: "button" | "submit";
 }) {
-  const className = `inline-flex w-fit shrink-0 items-center whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium transition sm:px-4 sm:py-1.5 ${
+  const className = cn(
+    "inline-flex w-fit shrink-0 items-center whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium transition sm:px-4 sm:py-1.5",
     active
       ? "bg-accent text-white shadow-[var(--shadow-card)]"
-      : "border border-border bg-surface-card text-secondary hover:border-border-strong hover:text-primary"
-  }`;
+      : "border border-border bg-surface-card text-secondary hover:border-border-strong hover:text-primary",
+  );
 
   if (href) {
     return (
@@ -94,16 +102,11 @@ export function FilterPill({
 }
 
 const badgeToneClass: Record<Tone, string> = {
-  accent:
-    "border-[color:var(--accent)]/30 bg-accent-ghost text-accent",
-  success:
-    "border-[color:var(--success)]/30 bg-success-ghost text-success",
-  warning:
-    "border-[color:var(--warning)]/30 bg-warning-ghost text-warning",
-  danger:
-    "border-[color:var(--danger)]/30 bg-danger-ghost text-danger",
-  neutral:
-    "border-border bg-surface text-secondary",
+  accent: "border-[color:var(--accent)]/30 bg-accent-ghost text-accent",
+  success: "border-[color:var(--success)]/30 bg-success-ghost text-success",
+  warning: "border-[color:var(--warning)]/30 bg-warning-ghost text-warning",
+  danger: "border-[color:var(--danger)]/30 bg-danger-ghost text-danger",
+  neutral: "border-border bg-surface text-secondary",
 };
 
 export function StatusBadge({
@@ -117,7 +120,11 @@ export function StatusBadge({
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] font-medium ${badgeToneClass[tone]} ${className}`}
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] font-medium",
+        badgeToneClass[tone],
+        className,
+      )}
     >
       <span className={`h-1.5 w-1.5 rounded-full ${dotClass[tone]}`} />
       {children}
@@ -160,9 +167,7 @@ export function ProgressBar({
         <div className="flex min-w-0 items-center justify-between gap-2 text-xs">
           {label && <span className="min-w-0 truncate text-secondary">{label}</span>}
           {showValue && (
-            <span className={`font-semibold ${textToneClass[tone]}`}>
-              {rounded}%
-            </span>
+            <span className={`font-semibold ${textToneClass[tone]}`}>{rounded}%</span>
           )}
         </div>
       )}
@@ -184,11 +189,9 @@ export function Card({
   className?: string;
 }) {
   return (
-    <div
-      className={`rounded-2xl border border-border bg-surface-card p-5 shadow-[var(--shadow-card)] ${className}`}
-    >
-      {children}
-    </div>
+    <UiCard className={cn("rounded-2xl border-border bg-surface-card shadow-[var(--shadow-card)]", className)}>
+      <CardContent className="p-5">{children}</CardContent>
+    </UiCard>
   );
 }
 
@@ -204,21 +207,66 @@ export function SectionCard({
   className?: string;
 }) {
   return (
-    <section
-      className={`flex min-w-0 flex-col rounded-2xl border border-border bg-surface-card p-5 shadow-[var(--shadow-card)] ${className}`}
+    <UiCard
+      className={cn(
+        "flex min-w-0 flex-col rounded-2xl border-border bg-surface-card shadow-[var(--shadow-card)]",
+        className,
+      )}
     >
-      <div className="mb-4 flex min-w-0 items-center justify-between gap-2">
-        <h2 className="min-w-0 truncate text-sm font-semibold text-primary">{title}</h2>
+      <CardHeader className="flex min-w-0 flex-row items-center justify-between gap-2 space-y-0 pb-4">
+        <CardTitle className="min-w-0 truncate text-sm font-semibold text-primary">
+          {title}
+        </CardTitle>
         {action && <div className="shrink-0">{action}</div>}
-      </div>
-      <div className="min-w-0 flex-1 overflow-auto">{children}</div>
-    </section>
+      </CardHeader>
+      <CardContent className="min-w-0 flex-1 overflow-auto pt-0">{children}</CardContent>
+    </UiCard>
+  );
+}
+
+export function StatCard({
+  title,
+  value,
+  hint,
+  tone = "accent",
+  icon,
+}: {
+  title: string;
+  value: React.ReactNode;
+  hint?: string;
+  tone?: Tone;
+  icon?: React.ReactNode;
+}) {
+  return (
+    <UiCard className="rounded-2xl border-border bg-surface-card shadow-[var(--shadow-card)]">
+      <CardContent className="flex items-start justify-between gap-4 p-5">
+        <div className="min-w-0 space-y-2">
+          <p className="text-sm text-secondary">{title}</p>
+          <p className="text-3xl font-semibold tracking-tight text-primary">{value}</p>
+          {hint && <p className="text-xs text-muted">{hint}</p>}
+        </div>
+        {icon && (
+          <div
+            className={cn(
+              "flex h-11 w-11 shrink-0 items-center justify-center rounded-full",
+              tone === "accent" && "bg-accent-ghost text-accent",
+              tone === "success" && "bg-success-ghost text-success",
+              tone === "warning" && "bg-warning-ghost text-warning",
+              tone === "danger" && "bg-danger-ghost text-danger",
+              tone === "neutral" && "bg-surface-hover text-secondary",
+            )}
+          >
+            {icon}
+          </div>
+        )}
+      </CardContent>
+    </UiCard>
   );
 }
 
 export function EmptyState({ message }: { message: string }) {
   return (
-    <p className="rounded-xl border border-dashed border-border px-4 py-8 text-center text-sm text-muted">
+    <p className="rounded-xl border border-dashed border-border bg-surface-subtle px-4 py-8 text-center text-sm text-muted">
       {message}
     </p>
   );
@@ -234,7 +282,7 @@ export function LinkButton({
   return (
     <Link
       href={href}
-      className="inline-flex w-fit max-w-full items-center gap-1 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-secondary transition hover:border-border-strong hover:text-primary"
+      className="inline-flex w-fit max-w-full items-center gap-1 rounded-full border border-border bg-surface-card px-3 py-1.5 text-xs font-medium text-secondary shadow-[var(--shadow-card)] transition hover:border-border-strong hover:text-primary"
     >
       {children}
       <ArrowUpRight className="h-3 w-3" />

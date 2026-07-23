@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
+import { Topbar } from "@/components/topbar";
 import { Footer } from "@/components/footer";
 import { EntregaFab } from "@/components/entrega-fab";
 import { FantasmaGate } from "@/components/fantasma-gate";
@@ -33,7 +34,9 @@ export function LayoutClient({
   perfil: {
     id: string;
     nombre: string | null;
+    emailUcasal: string | null;
     carreraId: string | null;
+    carreraNombre: string | null;
     fantasma: boolean;
   } | null;
   collapsed: boolean;
@@ -71,15 +74,21 @@ export function LayoutClient({
     <div className="min-h-screen w-full lg:flex">
       <Sidebar
         perfilNombre={perfil.nombre}
+        carreraNombre={perfil.carreraNombre}
         cuentaRegistrada={cuentaRegistrada}
         initialCollapsed={collapsed}
-        initialDark={dark}
       />
       <div className="flex min-h-screen w-full min-w-0 flex-1 flex-col">
-        <div className="w-full flex-1 px-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] pt-16 sm:px-6 lg:px-8 lg:pb-10 lg:pt-8">
+        <Topbar
+          perfilNombre={perfil.nombre}
+          perfilEmail={perfil.emailUcasal}
+          cuentaRegistrada={cuentaRegistrada}
+          initialDark={dark}
+        />
+        <div className="w-full flex-1 px-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] pt-4 sm:px-6 lg:px-8 lg:pb-10">
           <div className="mx-auto w-full min-w-0 max-w-7xl overflow-x-clip">{children}</div>
         </div>
-        <Footer />
+        <Footer carreraNombre={perfil.carreraNombre} />
       </div>
       <EntregaFab materias={materias} />
     </div>

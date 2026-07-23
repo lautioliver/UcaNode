@@ -66,8 +66,8 @@ export default async function HorariosPage() {
     <main className="space-y-8">
       <PageHeader
         pill="Tu semana en un vistazo"
-        title="¿Qué clases tenés esta semana?"
-        description="Consultá tu grilla semanal. Activá modo edición solo cuando necesites actualizar el cuatrimestre."
+        title="Horarios"
+        description="Visualizá y editá tu grilla semanal de clases presenciales y virtuales."
       />
 
       <div className="flex flex-wrap items-center gap-2">
