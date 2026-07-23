@@ -30,15 +30,15 @@ UcaNode/
 
 | Archivo/carpeta | Rol |
 |---|---|
-| `layout.tsx` | Layout raíz, gate de onboarding, fuentes, sidebar, tema inicial y perfil |
-| `page.tsx` | Dashboard principal |
+| `layout.tsx` | Layout raíz, gate de onboarding, fuentes, sidebar, top bar, búsqueda global y tema inicial |
+| `page.tsx` | Redirect a `/dashboard` |
 | `materias/page.tsx` | Catálogo de materias en tarjetas (año/semestre destacados) |
 | `materias/[id]/page.tsx` | Detalle de materia |
 | `entregas/page.tsx` | Gestión de entregas |
 | `horarios/page.tsx` | Grilla semanal de horarios (solo materias activas) |
 | `concurrencia/page.tsx` | Concurrencia del campus vía CampuStatus |
 | `links/page.tsx` | Catálogo de links con filtros por categoría |
-| `perfil/page.tsx` | Datos del estudiante |
+| `perfil/page.tsx` | Perfil y configuración (información, académico, seguridad, apariencia) |
 | `login/page.tsx`, `registro/page.tsx` | Acceso y alta de cuenta |
 | `verificar-email/page.tsx` | Pantalla post-registro y reenvío de verificación |
 | `api/auth/` | Login, registro, verificación, logout y reenvío de mail |
@@ -52,8 +52,13 @@ UcaNode/
 
 | Archivo | Rol |
 |---|---|
-| `layout.tsx` | Componentes base de UI como headers, tarjetas, botones y estados vacíos |
-| `sidebar.tsx` | Navegación lateral, tema, colapso y menú móvil |
+| `layout.tsx` | Componentes base de UI (headers, tarjetas, KPIs, badges, filtros) |
+| `layout-client.tsx` | Shell autenticado: sidebar + top bar + footer |
+| `sidebar.tsx` | Navegación lateral agrupada (Menú / General), colapso y menú móvil |
+| `topbar.tsx` | Barra superior con búsqueda, tema y menú de usuario |
+| `global-search.tsx` | Command palette de búsqueda global; consulta `lib/search.ts` con debounce |
+| `perfil-settings.tsx` | Formularios de perfil por sección (info, seguridad, apariencia) |
+| `ui/` | Primitivas shadcn/ui (Button, Input, Card, Dialog, Sheet, etc.) |
 | `forms.tsx` | Formularios client con `useActionState` |
 | `item-actions.tsx` | Acciones inline para editar y eliminar |
 | `materia-card.tsx` | Tarjetas/listados de materias (dashboard) |
@@ -78,6 +83,7 @@ UcaNode/
 | `perfil.ts` | Obtiene o crea el perfil del estudiante |
 | `planes-estudio/` | Catálogo, fuente JSON, ingesta lazy, consultas y tipos del plan |
 | `schemas.ts` | Schemas Zod para validar formularios |
+| `search.ts` | Server Action de búsqueda global (materias, entregas, links) |
 | `prisma.ts` | Cliente Prisma singleton |
 | `labels.ts` | Etiquetas legibles y clases asociadas a enums |
 | `entrega-utils.ts` | Helpers para fechas/estado de entregas |

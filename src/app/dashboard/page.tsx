@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  AlertTriangle,
   BookOpen,
   CalendarDays,
   ClipboardCheck,
@@ -12,11 +13,11 @@ import { DiaSemana, EstadoMateria } from "@/generated/prisma/client";
 import { AgendaResumida } from "@/components/agenda-resumida";
 import { EntregaCard } from "@/components/entrega-card";
 import {
-  CounterChip,
   EmptyState,
   LinkButton,
   PageHeader,
   SectionCard,
+  StatCard,
 } from "@/components/layout";
 import { categoriaLinkLabel, diaSemanaLabel } from "@/lib/labels";
 import { getOrCreatePerfil } from "@/lib/perfil";
@@ -84,16 +85,41 @@ export default async function DashboardPage() {
   return (
     <main className="min-w-0 space-y-8">
       <PageHeader
-        pill="Actualizado desde tus datos"
-        title="¿Qué necesitás hacer esta semana?"
-        description="Un vistazo rápido a tus entregas pendientes, materias en curso y accesos rápidos para arrancar el día."
-        action={<LinkButton href="/entregas">Ver todas</LinkButton>}
+        pill="Resumen semanal"
+        title="Dashboard"
+        description="Planificá, priorizá y organizá tu semana académica con un vistazo rápido a lo más importante."
+        action={<LinkButton href="/entregas">Ver entregas</LinkButton>}
       />
 
-      <div className="flex flex-wrap items-center gap-2">
-        <CounterChip tone="danger" count={urgentes.length} label="Urgentes" />
-        <CounterChip tone="warning" count={enSemana.length} label="Esta semana" />
-        <CounterChip tone="success" count={aTiempo.length} label="A tiempo" />
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <StatCard
+          title="Urgentes"
+          value={urgentes.length}
+          hint="Vencen en menos de 2 días"
+          tone="danger"
+          icon={<AlertTriangle className="h-5 w-5" />}
+        />
+        <StatCard
+          title="Esta semana"
+          value={enSemana.length}
+          hint="Próximos 7 días"
+          tone="warning"
+          icon={<CalendarDays className="h-5 w-5" />}
+        />
+        <StatCard
+          title="A tiempo"
+          value={aTiempo.length}
+          hint="Con margen amplio"
+          tone="success"
+          icon={<ClipboardCheck className="h-5 w-5" />}
+        />
+        <StatCard
+          title="Materias cursando"
+          value={materiasCursando.length}
+          hint="Activas en tu plan"
+          tone="accent"
+          icon={<BookOpen className="h-5 w-5" />}
+        />
       </div>
 
       <section className="space-y-4">

@@ -75,6 +75,17 @@ npm run test
 
 Los tests actuales cubren validaciones y lógica de correlatividades en `src/lib/__tests__/`.
 
+## UI y componentes
+
+- **Design system:** [shadcn/ui](https://ui.shadcn.com/) sobre Radix + Tailwind CSS 4.
+- **Theming:** tokens en `src/app/globals.css` (fondo crema / navy, primario azul `#2563eb`).
+- **Config shadcn:** `components.json`; primitivas en `src/components/ui/`.
+- **Agregar componentes:** `npx shadcn@latest add <nombre>`.
+- **Shell:** sidebar agrupada + top bar con búsqueda global (`Ctrl+K`) en `layout-client.tsx`.
+- **Perfil:** `/perfil` con secciones separadas; cambios de email/contraseña requieren contraseña actual (`updatePerfilSeguridad`).
+
+Los componentes que usan Radix (Button, Input, Dialog, etc.) deben importarse desde archivos `"use client"` o componentes client.
+
 ## Variables y configuración
 
 | Variable | Uso |

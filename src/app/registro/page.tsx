@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { RegistroForm } from "@/components/auth-forms";
-import { AuthPageShell } from "@/components/auth-shell";
+import { AuthScene } from "@/components/auth-scene";
 import { safeAuthRedirect } from "@/lib/auth";
 
 export const metadata: Metadata = {
@@ -16,11 +16,12 @@ export default async function RegistroPage({
   const safeNext = next ? safeAuthRedirect(next) : undefined;
 
   return (
-    <AuthPageShell
+    <AuthScene
       title="Crear cuenta"
       description="Guardá tu progreso para acceder desde cualquier dispositivo."
+      hint="Después del registro vas a elegir tu carrera en el onboarding."
     >
       <RegistroForm next={safeNext} error={error} />
-    </AuthPageShell>
+    </AuthScene>
   );
 }
