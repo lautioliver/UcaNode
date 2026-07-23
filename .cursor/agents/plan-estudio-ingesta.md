@@ -26,6 +26,11 @@ Antes de escribir código, leé estos archivos:
 | `src/lib/planes-estudio/catalogo.ts` | Lista visible en onboarding |
 | `src/lib/planes-estudio/fuente.ts` | Mapa slug → JSON |
 | `src/lib/planes-estudio/ingesta.ts` | Carga lazy a `Carrera` + `PlanEstudio` + `CorrelatividadPlan` |
+| `src/components/carrera-icons.tsx` | Ícono y color por carrera en login (órbita flotante) |
+| `src/components/floating-carreras.tsx` | Posiciones de la órbita en `/login` |
+| `src/components/auth-scene.tsx` | Layout del inicio de sesión y registro |
+| `src/app/login/page.tsx` | Página que consume `listCarrerasDisponibles()` |
+| `src/app/registro/page.tsx` | Crear cuenta con el mismo layout centrado |
 
 ## Formato del JSON
 
@@ -90,8 +95,10 @@ Copiá este checklist y marcá progreso:
 - [ ] 3. Validar JSON
 - [ ] 4. Guardar en src/data/planes/{slug}.json
 - [ ] 5. Registrar en catalogo.ts y fuente.ts
-- [ ] 6. Correr tests y build
-- [ ] 7. Reportar resumen al usuario
+- [ ] 6. Actualizar ícono en login (carrera-icons.tsx) y onboarding
+- [ ] 7. Si hay >5 carreras, ampliar órbita en floating-carreras.tsx
+- [ ] 8. Correr tests y build
+- [ ] 9. Reportar resumen al usuario
 ```
 
 ### 1. Analizar insumo
@@ -155,7 +162,69 @@ const FUENTES = {
 
 **Icono en onboarding** (opcional): agregar en `CARRERA_ICONS` de `src/components/onboarding-carrera.tsx` si hay un ícono lógico (`Cpu`, `Calculator`, etc.).
 
-### 6. Verificar
+### 6. Actualizar inicio de sesión (`/login`)
+
+Al registrar una carrera en `catalogo.ts`, **ya aparece automáticamente** en el login porque `src/app/login/page.tsx` pasa `listCarrerasDisponibles()` a `AuthScene` → `FloatingCarreras`. El nombre completo se muestra en las pills flotantes (desktop). El registro (`/registro`) usa el mismo layout centrado sin órbita.
+
+**Obligatorio:** registrar ícono y color en `src/components/carrera-icons.tsx`:
+
+```typescript
+import { Calculator } from "lucide-react"; // elegir ícono acorde a la carrera
+
+const CARRERA_VISUALS: Record<string, CarreraVisual> = {
+  // ...existentes
+  "{slug}": {
+    Icon: Calculator,
+    iconClassName: "text-orange-500",
+    badgeClassName: "bg-orange-500/12 ring-orange-500/25",
+  },
+};
+```
+
+Reglas para el ícono:
+
+| Tipo de carrera | Íconos sugeridos (lucide-react) |
+|---|---|
+| Informática / Sistemas | `Cpu`, `Code`, `Monitor` |
+| Industrial / Producción | `Factory`, `Cog`, `Workflow` |
+| Civil / Obras | `HardHat`, `Hammer`, `Landmark` |
+| Arquitectura | `Building2`, `Compass`, `PenTool` |
+| Psicología / Salud mental | `Brain`, `Heart`, `Sparkles` |
+| Administración / Contador | `Calculator`, `Briefcase`, `LineChart` |
+| Derecho | `Scale`, `Gavel` |
+| Medicina / Enfermería | `Stethoscope`, `HeartPulse` |
+| Educación | `BookOpen`, `GraduationCap` |
+| Otra | `GraduationCap` (fallback vía `DEFAULT_VISUAL`) |
+
+Reglas para el color:
+
+- Usar un tono **distinto** al resto (`text-{color}-500` + `bg-{color}-500/12 ring-{color}-500/25`).
+- Colores ya usados: sky, amber, violet, rose, emerald. Preferir: orange, cyan, indigo, fuchsia, lime, teal.
+- No repetir la misma pareja ícono+color en dos carreras.
+
+**Recomendado:** sincronizar el mismo ícono en onboarding:
+
+```typescript
+// src/components/onboarding-carrera.tsx → CARRERA_ICONS
+"{slug}": Calculator,
+```
+
+**Si la carrera es la 6.ª o más:** hoy hay 5 slots en `FLOAT_STYLES` (`floating-carreras.tsx`). Agregar una entrada nueva alternando lado y altura:
+
+```typescript
+{
+  className:
+    "carrera-float-f right-[max(0.5rem,5vw)] bottom-[14%] md:right-[3%] lg:right-[5%] xl:right-[7%]",
+  delay: "-15s",
+  duration: "28s",
+},
+```
+
+Patrón: izquierda/derecha alternados, `top` entre 12–50% o `bottom` ~14%, delays negativos distintos, duración 24–29s.
+
+**Verificar visualmente:** `npm run dev` → `/login` en viewport ≥ `md` (768px). Mobile no muestra órbita; solo el contador “N carreras…”.
+
+### 7. Verificar
 
 ```bash
 npx tsx scripts/validate-plan-estudio.ts src/data/planes/*.json
@@ -163,9 +232,9 @@ npm run test
 npm run build
 ```
 
-Opcional: probar onboarding con `npm run db:reset && npm run dev` y elegir la carrera nueva.
+Opcional: probar onboarding con `npm run db:reset && npm run dev` y elegir la carrera nueva. Revisar `/login` para confirmar pill flotante con ícono y nombre completo.
 
-### 7. Documentación
+### 8. Documentación
 
 Si cambiaste catálogo, onboarding o modelo de planes, invocá mentalmente las reglas de `readme-maintainer` y actualizá solo lo necesario en `README.md` o `wiki/` si el cambio es visible para otros devs.
 
@@ -183,9 +252,10 @@ Al terminar, reportá:
 
 1. **Slug y nombre** de la carrera agregada
 2. **Cantidad de materias** cargadas
-3. **Archivos tocados**
-4. **Resultado** de validate / test / build
-5. **Cómo probar** en onboarding local
+3. **Archivos tocados** (incl. `carrera-icons.tsx` si se agregó ícono de login)
+4. **Ícono y color** elegidos para login/onboarding
+5. **Resultado** de validate / test / build
+6. **Cómo probar** en onboarding y en `/login`
 
 ## Ejemplo de pedido del usuario
 

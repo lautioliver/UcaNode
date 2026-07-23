@@ -17,15 +17,16 @@ Producción: [https://ucanode.app](https://ucanode.app)
 - Grilla semanal de horarios (materias en cursada / para finalizar).
 - Concurrencia del campus en tiempo casi real vía CampuStatus.
 - Administración de links externos frecuentes.
-- Perfil del estudiante.
-- Tema claro/oscuro y sidebar colapsable.
+- Perfil del estudiante con secciones de información, seguridad (contraseña actual requerida) y apariencia.
+- Tema claro/oscuro, sidebar colapsable y búsqueda global (Ctrl+K).
 
 ## Stack
 
 | Capa | Tecnología |
 |---|---|
 | Framework | Next.js 16 App Router |
-| UI | React 19 + Tailwind CSS 4 |
+| UI | React 19 + Tailwind CSS 4 + shadcn/ui (Radix) |
+| Íconos | lucide-react |
 | ORM | Prisma 7 |
 | Base de datos | PostgreSQL (Neon en producción) |
 | Validación | Zod |
