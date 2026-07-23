@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { LoginForm } from "@/components/auth-forms";
-import { AuthPageShell } from "@/components/auth-shell";
-import { CarrerasDisponibles } from "@/components/carreras-disponibles";
+import { AuthScene } from "@/components/auth-scene";
 import { safeAuthRedirect } from "@/lib/auth";
 import { listCarrerasDisponibles } from "@/lib/planes-estudio/catalogo";
 
@@ -18,12 +17,12 @@ export default async function LoginPage({
   const safeNext = next ? safeAuthRedirect(next) : undefined;
 
   return (
-    <AuthPageShell
+    <AuthScene
       title="Iniciar sesión"
       description="Accedé a tu espacio con email y contraseña."
+      carreras={listCarrerasDisponibles()}
     >
       <LoginForm next={safeNext} error={error} />
-      <CarrerasDisponibles carreras={listCarrerasDisponibles()} className="mt-6" />
-    </AuthPageShell>
+    </AuthScene>
   );
 }

@@ -50,8 +50,8 @@ export default async function MateriasPage() {
     <main className="min-w-0 space-y-8 overflow-x-clip">
       <PageHeader
         pill="Tu plan de materias"
-        title="¿Cómo van tus materias?"
-        description="Galería de materias con abreviatura, nombre y período. Tocá una tarjeta para ver el detalle."
+        title="Materias"
+        description="Organizá tu plan de estudios, estados y detalle de cada materia."
       />
 
       <div className="flex flex-wrap items-center gap-2">

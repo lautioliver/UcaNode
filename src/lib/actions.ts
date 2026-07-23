@@ -9,12 +9,13 @@ import {
   entregaSchema,
   horarioSchema,
   linkSchema,
-  perfilSchema,
+  perfilInfoSchema,
+  perfilSeguridadSchema,
   onboardingCarreraSchema,
 } from "@/lib/schemas";
 import { getCarreraCatalogo } from "@/lib/planes-estudio/catalogo";
 import { hydrateCarrera } from "@/lib/planes-estudio/ingesta";
-import { hashPassword } from "@/lib/password";
+import { hashPassword, verifyPassword } from "@/lib/password";
 import { sendVerificationForPerfil } from "@/lib/email-verification";
 import { getOrCreatePerfil, setPerfilCookie } from "@/lib/perfil";
 import { isPerfilRegistrado } from "@/lib/auth";
@@ -31,13 +32,6 @@ async function ownedMateria(materiaId: string, perfilId: string) {
 async function ownedEntrega(entregaId: string, perfilId: string) {
   return prisma.entrega.findFirst({
     where: { id: entregaId, materia: { perfilId } },
-    include: { materia: true },
-  });
-}
-
-async function ownedHorario(horarioId: string, perfilId: string) {
-  return prisma.horario.findFirst({
-    where: { id: horarioId, materia: { perfilId } },
     include: { materia: true },
   });
 }
@@ -622,9 +616,9 @@ export async function confirmarCarrera(
     revalidateApp();
     refresh();
     return ok("Plan de estudios listo");
-  } catch (e: any) {
+  } catch (e) {
     console.error("confirmarCarrera", e);
-    return fail(`Error: ${e?.message ?? e}`);
+    return fail(`Error: ${e instanceof Error ? e.message : String(e)}`);
   }
 }
 
@@ -635,28 +629,72 @@ export async function updatePerfil(
   const limit = await checkLimit();
   if (limit) return limit;
 
-  const parsed = perfilSchema.safeParse({
+  const parsed = perfilInfoSchema.safeParse({
     nombre: safeStr(formData, "nombre"),
-    emailUcasal: safeStr(formData, "emailUcasal"),
     anioIngreso: safeStr(formData, "anioIngreso"),
     legajo: safeStr(formData, "legajo"),
-    password: safeStr(formData, "password"),
   });
 
   if (!parsed.success) {
     return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
   }
 
-  const { password, ...perfilData } = parsed.data;
+  try {
+    const existing = await sessionPerfil();
+    await prisma.perfil.update({
+      where: { id: existing.id },
+      data: parsed.data,
+    });
+    revalidatePerfil();
+    refresh();
+    return ok("Perfil guardado");
+  } catch (e) {
+    console.error("updatePerfil", e);
+    return fail("Error al guardar el perfil");
+  }
+}
+
+export async function updatePerfilSeguridad(
+  _prev: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+
+  const parsed = perfilSeguridadSchema.safeParse({
+    emailUcasal: safeStr(formData, "emailUcasal"),
+    password: safeStr(formData, "password"),
+    currentPassword: safeStr(formData, "currentPassword"),
+  });
+
+  if (!parsed.success) {
+    return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
+  }
+
+  const { password, currentPassword, emailUcasal } = parsed.data;
   const passwordInput = password?.trim();
+  const nextEmail = emailUcasal ?? null;
 
   try {
     const existing = await sessionPerfil();
-    const emailChanged = perfilData.emailUcasal !== existing.emailUcasal;
-    const data: typeof perfilData & {
-      password?: string | null;
+
+    if (!existing.password) {
+      return fail("Configurá una contraseña desde el registro antes de cambiar datos de seguridad.");
+    }
+
+    const valid = await verifyPassword(currentPassword, existing.password);
+    if (!valid) {
+      return fail("La contraseña actual no es correcta.", {
+        currentPassword: ["La contraseña actual no es correcta."],
+      });
+    }
+
+    const emailChanged = nextEmail !== existing.emailUcasal;
+    const data: {
+      emailUcasal: string | null;
+      password?: string;
       emailVerifiedAt?: Date | null;
-    } = { ...perfilData };
+    } = { emailUcasal: nextEmail };
 
     if (passwordInput) {
       data.password = await hashPassword(passwordInput);
@@ -670,21 +708,21 @@ export async function updatePerfil(
     revalidatePerfil();
     refresh();
 
-    if (emailChanged && perfilData.emailUcasal) {
+    if (emailChanged && nextEmail) {
       try {
         await sendVerificationForPerfil(existing.id);
-        return ok("Perfil guardado. Te enviamos un email para verificar la nueva dirección.");
+        return ok("Datos de seguridad guardados. Te enviamos un email para verificar la nueva dirección.");
       } catch (e) {
         console.error("sendVerificationForPerfil", e);
         return ok(
-          "Perfil guardado, pero no pudimos enviar el email de verificación. Reenvialo desde la pantalla de verificación.",
+          "Datos guardados, pero no pudimos enviar el email de verificación. Reenvialo desde la pantalla de verificación.",
         );
       }
     }
 
-    return ok("Perfil guardado");
+    return ok(passwordInput ? "Contraseña actualizada" : "Datos de seguridad guardados");
   } catch (e) {
-    console.error("updatePerfil", e);
-    return fail("Error al guardar el perfil");
+    console.error("updatePerfilSeguridad", e);
+    return fail("Error al guardar los datos de seguridad");
   }
 }

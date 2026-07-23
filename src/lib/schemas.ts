@@ -78,18 +78,30 @@ export const linkSchema = z.object({
   favorito: z.boolean().optional(),
 });
 
-export const perfilSchema = z.object({
+export const perfilInfoSchema = z.object({
   nombre: z.string().min(1, "El nombre es requerido"),
-  emailUcasal: z.preprocess(
-    (value) => (value === "" || value === null || value === undefined ? null : value),
-    z.union([z.null(), z.string().email("Email inválido")]),
-  ),
   anioIngreso: z.coerce
     .number()
     .int()
     .min(1900, "Año inválido")
     .max(2100, "Año inválido"),
   legajo: z.string().nullable().optional(),
+});
+
+export const perfilSeguridadSchema = z.object({
+  emailUcasal: z.preprocess(
+    (value) => (value === "" || value === null || value === undefined ? null : value),
+    z.union([z.null(), z.string().email("Email inválido")]),
+  ),
+  password: z.string().nullable().optional(),
+  currentPassword: z.string().min(1, "Ingresá tu contraseña actual"),
+});
+
+export const perfilSchema = perfilInfoSchema.extend({
+  emailUcasal: z.preprocess(
+    (value) => (value === "" || value === null || value === undefined ? null : value),
+    z.union([z.null(), z.string().email("Email inválido")]),
+  ),
   password: z.string().nullable().optional(),
 });
 

@@ -60,8 +60,8 @@ export function AnalyticsWorkspace({
     <div className="space-y-8">
       <PageHeader
         pill="Progreso académico"
-        title="Analíticas de entregas"
-        description="Mirá cómo venís con tus entregas: completitud, puntualidad, notas y tiempos de trabajo."
+        title="Analíticas"
+        description="Seguí tu progreso académico con KPIs de entregas, notas y puntualidad."
       />
 
       <div className="flex flex-wrap gap-2">
