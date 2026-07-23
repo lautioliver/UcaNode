@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { Analytics } from "@vercel/analytics/next";
 import { getSiteUrl } from "@/lib/app-url";
 import { LayoutClient } from "@/components/layout-client";
 import { confirmarCarrera } from "@/lib/actions";
@@ -93,6 +94,7 @@ export default async function RootLayout({
         >
           {children}
         </LayoutClient>
+        <Analytics />
       </body>
     </html>
   );
