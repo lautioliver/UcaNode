@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+export const POST_TITLE_MIN_LENGTH = 5;
+export const POST_CONTENT_MIN_LENGTH = 10;
+
 export const AttachmentTypeSchema = z.enum(["PDF", "DRIVE", "EXAM", "OTRO"]);
 
 export const attachmentInputSchema = z.object({
@@ -15,8 +18,18 @@ export const attachmentInputSchema = z.object({
 });
 
 export const createPostSchema = z.object({
-  title: z.string().min(5, "El título debe tener al menos 5 caracteres"),
-  content: z.string().min(10, "El contenido debe tener al menos 10 caracteres"),
+  title: z
+    .string()
+    .min(
+      POST_TITLE_MIN_LENGTH,
+      `El título debe tener al menos ${POST_TITLE_MIN_LENGTH} caracteres`,
+    ),
+  content: z
+    .string()
+    .min(
+      POST_CONTENT_MIN_LENGTH,
+      `El contenido debe tener al menos ${POST_CONTENT_MIN_LENGTH} caracteres`,
+    ),
   planEstudioCodigo: z.string().nullable().optional(),
   tags: z.array(z.string()).optional(),
   attachments: z.array(attachmentInputSchema).optional(),

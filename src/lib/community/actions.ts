@@ -13,6 +13,7 @@ import {
 } from "@/lib/community/schemas";
 import { aggregateVotes } from "@/lib/community/votes";
 import type { ActionResult } from "@/lib/actions";
+import type { ZodError } from "zod";
 
 function ok<T extends Record<string, unknown> | undefined = undefined>(
   message?: string,
@@ -26,6 +27,12 @@ function fail(
   errors?: Record<string, string[]>,
 ): ActionResult {
   return { success: false, message, errors };
+}
+
+function failFromZod(error: ZodError, fallback = "Datos inválidos"): ActionResult {
+  const fieldErrors = error.flatten().fieldErrors as Record<string, string[]>;
+  const first = Object.values(fieldErrors).flat()[0];
+  return fail(first ?? fallback, fieldErrors);
 }
 
 async function checkLimit(): Promise<ActionResult | null> {
@@ -69,7 +76,7 @@ export async function createPost(input: {
 
   const parsed = createPostSchema.safeParse(input);
   if (!parsed.success) {
-    return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
+    return failFromZod(parsed.error);
   }
 
   try {
@@ -131,7 +138,7 @@ export async function createComment(input: {
 
   const parsed = createCommentSchema.safeParse(input);
   if (!parsed.success) {
-    return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
+    return failFromZod(parsed.error);
   }
 
   try {
