@@ -10,6 +10,7 @@ import {
   LayoutDashboard,
   Link2,
   Loader2,
+  MessageSquare,
   Search,
   Users,
 } from "lucide-react";
@@ -32,6 +33,7 @@ const NAV_ITEMS = [
   { href: "/analytics", label: "Analíticas", Icon: BarChart3 },
   { href: "/horarios", label: "Horarios", Icon: CalendarDays },
   { href: "/concurrencia", label: "Concurrencia", Icon: Users },
+  { href: "/comunidad", label: "Comunidad", Icon: MessageSquare },
   { href: "/links", label: "Links", Icon: Link2 },
   { href: "/perfil", label: "Perfil", Icon: Users },
 ];

@@ -16,6 +16,7 @@ Producción: [https://ucanode.app](https://ucanode.app)
 - Calendario/listado de entregas por materia, tipo, fecha, prioridad y estado.
 - Grilla semanal de horarios (materias en cursada / para finalizar).
 - Concurrencia del campus en tiempo casi real vía CampuStatus.
+- Comunidad estudiantil con feed de publicaciones, filtros por carrera/materias, votos, comentarios anidados y adjuntos por URL externa (Drive, PDF).
 - Administración de links externos frecuentes.
 - Perfil del estudiante con secciones de información, seguridad (contraseña actual requerida) y apariencia.
 - Tema claro/oscuro, sidebar colapsable y búsqueda global (Ctrl+K).
