@@ -19,6 +19,7 @@ export type HorarioData = {
   horaFin: string;
   modalidad: string;
   aulaLink: string | null;
+  etiqueta: string | null;
   materiaId: string;
   materia: {
     id: string;
@@ -59,6 +60,11 @@ function HorarioLine({
           <Clock className="h-3 w-3 shrink-0" />
           {horario.horaInicio}–{horario.horaFin}
         </span>
+        {horario.etiqueta && (
+          <span className="inline-flex rounded-full bg-surface-hover px-2 py-0.5 text-[10px] font-medium text-secondary">
+            {horario.etiqueta}
+          </span>
+        )}
         <span
           className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium ${
             presencial ? "bg-success-ghost text-success" : "bg-accent-ghost text-accent"
@@ -307,6 +313,7 @@ export function HorariosWorkspace({
               horaFin: editing.horaFin,
               modalidad: editing.modalidad,
               aulaLink: editing.aulaLink,
+              etiqueta: editing.etiqueta,
               materiaId: editing.materiaId,
             }}
             onSuccess={() => setEditing(null)}

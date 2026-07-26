@@ -134,6 +134,12 @@ export default async function MateriaDetailPage({
                   </div>
                   <p className="mt-1 text-xs text-secondary">
                     {h.horaInicio} – {h.horaFin}
+                    {h.etiqueta ? (
+                      <>
+                        {" · "}
+                        <span className="font-medium">{h.etiqueta}</span>
+                      </>
+                    ) : null}
                   </p>
                   {h.aulaLink && (
                     <p className="mt-0.5 text-[11px] text-muted">{h.aulaLink}</p>
