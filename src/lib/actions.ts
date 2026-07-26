@@ -12,11 +12,13 @@ import {
   perfilInfoSchema,
   perfilSeguridadSchema,
   onboardingCarreraSchema,
+  supportSchema,
 } from "@/lib/schemas";
 import { getCarreraCatalogo } from "@/lib/planes-estudio/catalogo";
 import { hydrateCarrera } from "@/lib/planes-estudio/ingesta";
 import { hashPassword, verifyPassword } from "@/lib/password";
 import { sendVerificationForPerfil } from "@/lib/email-verification";
+import { sendSupportEmail } from "@/lib/email";
 import { getOrCreatePerfil, setPerfilCookie } from "@/lib/perfil";
 import { isPerfilRegistrado } from "@/lib/auth";
 import { applyEstadoTimestamps, notaForTipo } from "@/lib/entrega-tracking";
@@ -724,5 +726,77 @@ export async function updatePerfilSeguridad(
   } catch (e) {
     console.error("updatePerfilSeguridad", e);
     return fail("Error al guardar los datos de seguridad");
+  }
+}
+
+const CATEGORIA_SOPORTE_LABEL: Record<string, string> = {
+  BUG: "Bug",
+  CONSULTA: "Consulta",
+  SUGERENCIA: "Sugerencia",
+};
+
+export async function submitSupportMessage(
+  _prev: ActionResult,
+  formData: FormData,
+): Promise<ActionResult> {
+  if (safeStr(formData, "website")) {
+    return ok("Mensaje enviado. Te responderemos a la brevedad.");
+  }
+
+  const limit = await checkLimit();
+  if (limit) return limit;
+
+  const parsed = supportSchema.safeParse({
+    asunto: safeStr(formData, "asunto"),
+    mensaje: safeStr(formData, "mensaje"),
+    categoria: formData.get("categoria"),
+  });
+
+  if (!parsed.success) {
+    return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
+  }
+
+  const supportEmail = process.env.SUPPORT_EMAIL?.trim();
+  if (!supportEmail) {
+    if (process.env.NODE_ENV === "production") {
+      console.error("submitSupportMessage: SUPPORT_EMAIL no configurado");
+      return fail("El soporte no está disponible en este momento. Intentá más tarde.");
+    }
+    console.warn(
+      "[soporte] SUPPORT_EMAIL no configurado — el mensaje se registrará en consola (modo desarrollo).",
+    );
+  }
+
+  try {
+    const perfil = await sessionPerfil();
+    const full = await prisma.perfil.findUnique({
+      where: { id: perfil.id },
+      include: { carrera: true },
+    });
+
+    const userEmail = full?.emailUcasal?.trim();
+    if (!userEmail) {
+      return fail("Necesitás tener un email configurado en tu perfil para contactar soporte.");
+    }
+
+    const categoria = parsed.data.categoria
+      ? CATEGORIA_SOPORTE_LABEL[parsed.data.categoria] ?? parsed.data.categoria
+      : null;
+
+    await sendSupportEmail({
+      to: supportEmail ?? userEmail,
+      replyTo: userEmail,
+      nombre: full?.nombre ?? "Usuario",
+      email: userEmail,
+      carrera: full?.carrera?.nombre ?? null,
+      categoria,
+      asunto: parsed.data.asunto,
+      mensaje: parsed.data.mensaje,
+    });
+
+    return ok("Mensaje enviado. Te responderemos a tu email UCASAL.");
+  } catch (e) {
+    console.error("submitSupportMessage", e);
+    return fail("No pudimos enviar tu mensaje. Intentá de nuevo en unos minutos.");
   }
 }

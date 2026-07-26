@@ -83,9 +83,12 @@ export function Footer({ carreraNombre }: { carreraNombre?: string | null }) {
                 </li>
               ))}
               <li>
-                <span className="inline-flex cursor-default items-center gap-1.5 text-sm text-muted">
-                  Ayuda
-                </span>
+                <Link
+                  href="/soporte"
+                  className="inline-flex items-center gap-1 text-sm text-secondary transition hover:text-primary"
+                >
+                  Soporte
+                </Link>
               </li>
               <li>
                 <Link

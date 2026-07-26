@@ -120,6 +120,25 @@ export const loginSchema = z.object({
   next: z.string().nullish(),
 });
 
+export const CategoriaSoporte = z.enum(["BUG", "CONSULTA", "SUGERENCIA"]);
+
+export const supportSchema = z.object({
+  asunto: z
+    .string()
+    .trim()
+    .min(1, "El asunto es requerido")
+    .max(120, "Máximo 120 caracteres"),
+  mensaje: z
+    .string()
+    .trim()
+    .min(1, "El mensaje es requerido")
+    .max(2000, "Máximo 2000 caracteres"),
+  categoria: z.preprocess(
+    (value) => (value === "" || value === null || value === undefined ? null : value),
+    CategoriaSoporte.nullable(),
+  ),
+});
+
 export const registroSchema = z
   .object({
     nombre: z.string().min(1, "El nombre es requerido"),
