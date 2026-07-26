@@ -21,6 +21,11 @@ function d(iso: string) {
 }
 
 async function main() {
+  await prisma.commentVote.deleteMany();
+  await prisma.postVote.deleteMany();
+  await prisma.comment.deleteMany();
+  await prisma.postAttachment.deleteMany();
+  await prisma.post.deleteMany();
   await prisma.entrega.deleteMany();
   await prisma.horario.deleteMany();
   await prisma.materia.deleteMany();
@@ -378,6 +383,74 @@ async function main() {
         favorito: true,
       },
     ],
+  });
+
+  const postSo = await prisma.post.create({
+    data: {
+      title: "Parcial 1 resuelto — Sistemas Operativos (2024)",
+      content:
+        "Subo el parcial del año pasado con respuestas comentadas.\n\nTemas incluidos:\n- Planificación de procesos\n- Paginación y segmentación\n- Deadlocks",
+      tags: ["Finales", "Parciales"],
+      perfilId,
+      attachments: {
+        create: {
+          name: "SO_Parcial1_2024_resuelto.pdf",
+          url: "https://drive.google.com/file/d/ejemplo-so-parcial",
+          type: "PDF",
+        },
+      },
+    },
+  });
+
+  const postInscrip = await prisma.post.create({
+    data: {
+      title: "Inscripción a finales — agosto 2026",
+      content:
+        "Abrí la inscripción para finales de agosto. Recordá revisar correlativas en el portal antes de inscribirte.",
+      tags: ["Finales", "Inscrip"],
+      perfilId,
+    },
+  });
+
+  await prisma.post.create({
+    data: {
+      title: "Apuntes completos de Bases de Datos I",
+      content:
+        "Comparto carpeta con apuntes de normalización, SQL y diseño lógico. Todo organizado por unidad.",
+      tags: ["Apuntes"],
+      perfilId,
+      attachments: {
+        create: {
+          name: "Apuntes_BD_I_Drive",
+          url: "https://drive.google.com/drive/folders/ejemplo-bd",
+          type: "DRIVE",
+        },
+      },
+    },
+  });
+
+  await prisma.postVote.createMany({
+    data: [
+      { postId: postSo.id, perfilId, type: 1 },
+      { postId: postInscrip.id, perfilId, type: 1 },
+    ],
+  });
+
+  const comment = await prisma.comment.create({
+    data: {
+      postId: postSo.id,
+      perfilId,
+      content: "Gracias! El ejercicio de Round Robin me salvó.",
+    },
+  });
+
+  await prisma.comment.create({
+    data: {
+      postId: postSo.id,
+      perfilId,
+      parentId: comment.id,
+      content: "De nada! Cualquier duda avisá.",
+    },
   });
 
   console.log("Seed completado.");
