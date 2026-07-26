@@ -12,6 +12,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { createComment } from "@/lib/community/actions";
+import { formatActionError } from "@/lib/community/errors";
 
 function countComments(items: CommunityComment[]): number {
   return items.reduce(
@@ -108,7 +109,7 @@ export function CommentThread({ comments, postId }: CommentThreadProps) {
       });
 
       if (!result.success) {
-        setError(result.message ?? "No se pudo publicar el comentario.");
+        setError(formatActionError(result, "No se pudo publicar el comentario."));
         return;
       }
 

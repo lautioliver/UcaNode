@@ -7,6 +7,11 @@ import { ComposerFormatBar } from "@/app/comunidad/components/community-composer
 import type { AttachmentType } from "@/app/comunidad/components/mock-data";
 import type { MateriaPlanFuente } from "@/lib/planes-estudio/types";
 import { createPost } from "@/lib/community/actions";
+import { formatActionError, isValidAttachmentUrl } from "@/lib/community/errors";
+import {
+  POST_CONTENT_MIN_LENGTH,
+  POST_TITLE_MIN_LENGTH,
+} from "@/lib/community/schemas";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -108,7 +113,37 @@ export function CreatePostModal({
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!title.trim() || !body.trim()) return;
+
+    const trimmedTitle = title.trim();
+    const trimmedBody = body.trim();
+
+    if (trimmedTitle.length < POST_TITLE_MIN_LENGTH) {
+      setError(`El título debe tener al menos ${POST_TITLE_MIN_LENGTH} caracteres.`);
+      return;
+    }
+
+    if (trimmedBody.length < POST_CONTENT_MIN_LENGTH) {
+      setError(`El contenido debe tener al menos ${POST_CONTENT_MIN_LENGTH} caracteres.`);
+      return;
+    }
+
+    for (const att of attachments) {
+      const name = att.name.trim();
+      const url = att.url.trim();
+      const hasPartial = Boolean(name || url);
+
+      if (!hasPartial) continue;
+
+      if (!name || !url) {
+        setError("Completá el nombre y la URL de cada adjunto.");
+        return;
+      }
+
+      if (!isValidAttachmentUrl(url)) {
+        setError("Las URLs de adjuntos deben empezar con http:// o https://.");
+        return;
+      }
+    }
 
     const validAttachments = attachments.filter(
       (att) => att.name.trim() && att.url.trim(),
@@ -117,8 +152,8 @@ export function CreatePostModal({
     setError(null);
     startTransition(async () => {
       const result = await createPost({
-        title: title.trim(),
-        content: body.trim(),
+        title: trimmedTitle,
+        content: trimmedBody,
         planEstudioCodigo: materiaCodigo || "general",
         attachments: validAttachments.map((att) => ({
           name: att.name.trim(),
@@ -128,7 +163,7 @@ export function CreatePostModal({
       });
 
       if (!result.success) {
-        setError(result.message ?? "No se pudo publicar.");
+        setError(formatActionError(result, "No se pudo publicar."));
         return;
       }
 
@@ -139,7 +174,10 @@ export function CreatePostModal({
     });
   }
 
-  const canPublish = Boolean(title.trim() && body.trim()) && !isPending;
+  const canPublish =
+    title.trim().length >= POST_TITLE_MIN_LENGTH &&
+    body.trim().length >= POST_CONTENT_MIN_LENGTH &&
+    !isPending;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -158,7 +196,11 @@ export function CreatePostModal({
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Ej: Parcial resuelto de Algoritmos"
                 className="bg-surface-card"
+                minLength={POST_TITLE_MIN_LENGTH}
               />
+              <p className="text-xs text-muted">
+                Mínimo {POST_TITLE_MIN_LENGTH} caracteres ({title.trim().length}/{POST_TITLE_MIN_LENGTH})
+              </p>
             </div>
 
             <div className="space-y-2">
@@ -190,6 +232,9 @@ export function CreatePostModal({
                 attachActive={attachments.length > 0}
                 onAttach={addAttachment}
               />
+              <p className="text-xs text-muted">
+                Mínimo {POST_CONTENT_MIN_LENGTH} caracteres ({body.trim().length}/{POST_CONTENT_MIN_LENGTH})
+              </p>
             </div>
 
             {attachments.length > 0 && (
