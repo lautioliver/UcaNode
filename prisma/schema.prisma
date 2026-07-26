@@ -58,6 +58,20 @@ enum EstadoIngesta {
   ERROR
 }
 
+enum PostCategory {
+  GENERAL
+  APUNTE
+  PREGUNTA
+  EXAMEN
+}
+
+enum AttachmentType {
+  PDF
+  DRIVE
+  EXAM
+  OTRO
+}
+
 model Carrera {
   id            String        @id @default(cuid())
   slug          String        @unique
@@ -69,6 +83,7 @@ model Carrera {
   estadoIngesta EstadoIngesta @default(LISTO)
   materias      PlanEstudio[]
   perfiles      Perfil[]
+  posts         Post[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }
@@ -89,6 +104,7 @@ model PlanEstudio {
   correlativas  CorrelatividadPlan[] @relation("MateriaCorrelativas")
   requisitoDe   CorrelatividadPlan[] @relation("RequisitoDe")
   materias      Materia[]
+  posts         Post[]
   createdAt     DateTime             @default(now())
   updatedAt     DateTime             @updatedAt
 
@@ -122,6 +138,10 @@ model Perfil {
   materias                Materia[]
   links                   LinkExterno[]
   emailVerificationTokens EmailVerificationToken[]
+  posts                   Post[]
+  comments                Comment[]
+  postVotes               PostVote[]
+  commentVotes            CommentVote[]
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
 }
@@ -211,4 +231,90 @@ model LinkExterno {
   updatedAt     DateTime       @updatedAt
 
   @@index([perfilId])
+}
+
+model Post {
+  id            String           @id @default(cuid())
+  title         String
+  content       String           @db.Text
+  category      PostCategory     @default(GENERAL)
+  tags          String[]         @default([])
+
+  perfilId      String
+  perfil        Perfil           @relation(fields: [perfilId], references: [id], onDelete: Cascade)
+
+  carreraId     String?
+  carrera       Carrera?         @relation(fields: [carreraId], references: [id])
+
+  planEstudioId String?
+  planEstudio   PlanEstudio?     @relation(fields: [planEstudioId], references: [id])
+
+  attachments   PostAttachment[]
+  comments      Comment[]
+  votes         PostVote[]
+
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([perfilId])
+  @@index([carreraId])
+  @@index([planEstudioId])
+  @@index([createdAt])
+}
+
+model PostAttachment {
+  id     String         @id @default(cuid())
+  name   String
+  url    String
+  type   AttachmentType @default(OTRO)
+  postId String
+  post   Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+}
+
+model Comment {
+  id       String        @id @default(cuid())
+  content  String        @db.Text
+
+  perfilId String
+  perfil   Perfil        @relation(fields: [perfilId], references: [id], onDelete: Cascade)
+
+  postId   String
+  post     Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  parentId String?
+  parent   Comment?      @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies  Comment[]     @relation("CommentReplies")
+
+  votes    CommentVote[]
+
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@index([postId])
+  @@index([perfilId])
+  @@index([parentId])
+}
+
+model PostVote {
+  id       String @id @default(cuid())
+  type     Int
+  perfilId String
+  perfil   Perfil @relation(fields: [perfilId], references: [id], onDelete: Cascade)
+  postId   String
+  post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([perfilId, postId])
+}
+
+model CommentVote {
+  id        String  @id @default(cuid())
+  type      Int
+  perfilId  String
+  perfil    Perfil  @relation(fields: [perfilId], references: [id], onDelete: Cascade)
+  commentId String
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([perfilId, commentId])
 }

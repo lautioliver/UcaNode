@@ -3,6 +3,7 @@ export type AttachmentType = "pdf" | "drive" | "exam";
 export type CommunityAttachment = {
   name: string;
   type: AttachmentType;
+  url?: string;
 };
 
 export type CommunityAuthor = {

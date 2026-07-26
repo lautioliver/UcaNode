@@ -2,10 +2,7 @@
 
 import Link from "next/link";
 import { Search } from "lucide-react";
-import {
-  TOP_RESOURCES,
-  TRENDING_TAGS,
-} from "@/app/comunidad/components/mock-data";
+import type { TopResource } from "@/app/comunidad/components/mock-data";
 import { FilterPill } from "@/components/layout";
 
 function SidebarPanel({
@@ -28,6 +25,8 @@ type CommunitySidebarProps = {
   onSearchChange: (query: string) => void;
   activeTag: string | null;
   onTagSelect: (tag: string | null) => void;
+  topResources: TopResource[];
+  trendingTags: string[];
 };
 
 export function CommunitySidebar({
@@ -35,6 +34,8 @@ export function CommunitySidebar({
   onSearchChange,
   activeTag,
   onTagSelect,
+  topResources,
+  trendingTags,
 }: CommunitySidebarProps) {
   return (
     <aside className="flex w-full min-w-0 flex-col gap-3 lg:sticky lg:top-24 lg:self-start">
@@ -50,44 +51,52 @@ export function CommunitySidebar({
       </div>
 
       <SidebarPanel title="Top recursos">
-        <ul className="space-y-2">
-          {TOP_RESOURCES.map((resource, i) => (
-            <li key={resource.postId}>
-              <Link
-                href={`/comunidad/${resource.postId}`}
-                className="block rounded-xl border border-border bg-surface px-3 py-2.5 transition hover:border-border-strong"
-              >
-                <div className="flex items-start gap-2">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-ghost text-[10px] font-bold text-accent">
-                    {i + 1}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium text-primary">
-                      {resource.title}
-                    </p>
-                    <p className="truncate text-[11px] text-muted">
-                      {resource.materia} · ↑ {resource.votes}
-                    </p>
+        {topResources.length === 0 ? (
+          <p className="text-xs text-muted">Todavía no hay recursos destacados.</p>
+        ) : (
+          <ul className="space-y-2">
+            {topResources.map((resource, i) => (
+              <li key={resource.postId}>
+                <Link
+                  href={`/comunidad/${resource.postId}`}
+                  className="block rounded-xl border border-border bg-surface px-3 py-2.5 transition hover:border-border-strong"
+                >
+                  <div className="flex items-start gap-2">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-ghost text-[10px] font-bold text-accent">
+                      {i + 1}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium text-primary">
+                        {resource.title}
+                      </p>
+                      <p className="truncate text-[11px] text-muted">
+                        {resource.materia} · ↑ {resource.votes}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </SidebarPanel>
 
       <SidebarPanel title="Tendencias">
-        <div className="flex flex-wrap gap-1.5">
-          {TRENDING_TAGS.map((tag) => (
-            <FilterPill
-              key={tag}
-              active={activeTag === tag}
-              onClick={() => onTagSelect(activeTag === tag ? null : tag)}
-            >
-              #{tag}
-            </FilterPill>
-          ))}
-        </div>
+        {trendingTags.length === 0 ? (
+          <p className="text-xs text-muted">Sin tendencias recientes.</p>
+        ) : (
+          <div className="flex flex-wrap gap-1.5">
+            {trendingTags.map((tag) => (
+              <FilterPill
+                key={tag}
+                active={activeTag === tag}
+                onClick={() => onTagSelect(activeTag === tag ? null : tag)}
+              >
+                #{tag}
+              </FilterPill>
+            ))}
+          </div>
+        )}
       </SidebarPanel>
 
       <SidebarPanel title="Reglas de la comunidad">

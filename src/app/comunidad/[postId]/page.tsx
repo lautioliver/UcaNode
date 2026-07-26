@@ -9,11 +9,12 @@ import { CommentThread } from "@/app/comunidad/components/comment-thread";
 import {
   authorInitials,
   formatRelativeTime,
-  getPostById,
 } from "@/app/comunidad/components/mock-data";
 import { PostVoteButtons } from "@/app/comunidad/components/post-vote-buttons";
 import { StatusBadge } from "@/components/layout";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { getPostById, getUserPostVote } from "@/lib/community/queries";
+import { getPerfil } from "@/lib/perfil";
 
 type Props = {
   params: Promise<{ postId: string }>;
@@ -21,7 +22,10 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { postId } = await params;
-  const post = getPostById(postId);
+  const perfil = await getPerfil();
+  const post = perfil
+    ? await getPostById(postId, perfil.id)
+    : null;
   return {
     title: post ? `${post.title} — Comunidad` : "Comunidad — UcaNode",
   };
@@ -29,7 +33,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ComunidadPostPage({ params }: Props) {
   const { postId } = await params;
-  const post = getPostById(postId);
+  const perfil = await getPerfil();
+  if (!perfil) return null;
+
+  const [post, userVote] = await Promise.all([
+    getPostById(postId, perfil.id),
+    getUserPostVote(perfil.id, postId),
+  ]);
   if (!post) notFound();
 
   return (
@@ -86,9 +96,12 @@ export default async function ComunidadPostPage({ params }: Props) {
           {post.attachments && post.attachments.length > 0 && (
             <div className="flex flex-wrap gap-2 pt-1">
               {post.attachments.map((att) => (
-                <span
+                <a
                   key={att.name}
-                  className="inline-flex max-w-full items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-2 text-sm text-secondary"
+                  href={att.url ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex max-w-full items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-2 text-sm text-secondary transition hover:border-border-strong"
                 >
                   {att.type === "drive" ? (
                     <ExternalLink className="h-4 w-4 shrink-0 text-accent" />
@@ -96,7 +109,7 @@ export default async function ComunidadPostPage({ params }: Props) {
                     <FileText className="h-4 w-4 shrink-0 text-accent" />
                   )}
                   <span className="truncate">{att.name}</span>
-                </span>
+                </a>
               ))}
             </div>
           )}
@@ -104,8 +117,10 @@ export default async function ComunidadPostPage({ params }: Props) {
 
         <div className="border-t border-border pt-4">
           <PostVoteButtons
+            postId={post.id}
             initialUp={post.votes.up}
             initialDown={post.votes.down}
+            initialUserVote={userVote}
           />
         </div>
       </article>

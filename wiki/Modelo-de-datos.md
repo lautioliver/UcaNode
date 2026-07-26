@@ -115,15 +115,70 @@ erDiagram
         String url
         CategoriaLink categoria
         Boolean favorito
+        String perfilId FK
         DateTime createdAt
         DateTime updatedAt
     }
 
+    Post {
+        String id PK
+        String title
+        String content
+        PostCategory category
+        String[] tags
+        String perfilId FK
+        String carreraId FK
+        String planEstudioId FK
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    PostAttachment {
+        String id PK
+        String name
+        String url
+        AttachmentType type
+        String postId FK
+    }
+
+    Comment {
+        String id PK
+        String content
+        String perfilId FK
+        String postId FK
+        String parentId FK
+        DateTime createdAt
+        DateTime updatedAt
+    }
+
+    PostVote {
+        String id PK
+        Int type
+        String perfilId FK
+        String postId FK
+    }
+
+    CommentVote {
+        String id PK
+        Int type
+        String perfilId FK
+        String commentId FK
+    }
+
     Carrera ||--o{ PlanEstudio : "tiene"
     Carrera ||--o{ Perfil : "asignada a"
+    Carrera ||--o{ Post : "scope"
     PlanEstudio ||--o{ CorrelatividadPlan : "requiere"
     PlanEstudio ||--o{ CorrelatividadPlan : "es requisito de"
     PlanEstudio ||--o{ Materia : "vincula"
+    PlanEstudio ||--o{ Post : "materia"
+    Perfil ||--o{ Post : "publica"
+    Perfil ||--o{ Comment : "escribe"
+    Post ||--o{ PostAttachment : "adjuntos"
+    Post ||--o{ Comment : "comentarios"
+    Post ||--o{ PostVote : "votos"
+    Comment ||--o{ Comment : "respuestas"
+    Comment ||--o{ CommentVote : "votos"
     Materia ||--o{ Entrega : "tiene"
     Materia ||--o{ Horario : "tiene"
 ```
@@ -141,6 +196,10 @@ erDiagram
 | `Entrega` | TP, parciales y finales asociados a una materia. |
 | `Horario` | Bloques semanales asociados a una materia. |
 | `LinkExterno` | Accesos frecuentes, con categoría y marca de favorito. |
+| `Post` | Publicación del foro estudiantil. Vincula autor (`Perfil`), carrera y materia del plan (`PlanEstudio`, opcional). |
+| `PostAttachment` | Enlaces externos adjuntos a un post (Drive, PDF, examen). |
+| `Comment` | Comentario en un post; soporta respuestas anidadas vía `parentId`. |
+| `PostVote` / `CommentVote` | Voto del perfil autenticado (`type`: `1` up, `-1` down). Un voto por usuario y target. |
 
 ## Enums
 
@@ -154,6 +213,8 @@ erDiagram
 | `DiaSemana` | `LUNES`, `MARTES`, `MIERCOLES`, `JUEVES`, `VIERNES` |
 | `TipoCorrelativa` | `REGULARIZADA`, `APROBADA`, `PARA_RENDIR` |
 | `EstadoIngesta` | `PENDIENTE`, `LISTO`, `ERROR` |
+| `PostCategory` | `GENERAL`, `APUNTE`, `PREGUNTA`, `EXAMEN` |
+| `AttachmentType` | `PDF`, `DRIVE`, `EXAM`, `OTRO` |
 
 > `Entrega.nota` es un campo opcional (`Float`, 0–10) que aplica a entregas de tipo `PARCIAL` y `FINAL`. Se carga desde la creación o edición de la entrega cuando el estudiante recibe la calificación; si el tipo deja de ser evaluable (`TP`), la nota se descarta.
 
@@ -165,6 +226,8 @@ erDiagram
 - `PlanEstudio` tiene correlatividades bidireccionales vía `CorrelatividadPlan`.
 - `Materia` puede vincularse opcionalmente a una fila de `PlanEstudio` (`planEstudioId`).
 - `Materia` tiene muchas `Entrega` y muchos `Horario`.
+- `Post` pertenece a un `Perfil`; opcionalmente a `Carrera` y `PlanEstudio`.
+- `Comment` puede referenciar un comentario padre (`parentId`) para hilos anidados.
 - Si se elimina una `Materia`, sus entregas y horarios se eliminan en cascada.
 - Si se elimina una `Carrera`, sus filas de `PlanEstudio` se eliminan en cascada.
 

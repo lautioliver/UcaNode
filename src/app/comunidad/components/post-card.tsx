@@ -120,7 +120,11 @@ export function PostCard({ post, interactive = true }: PostCardProps) {
         className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-3"
         onClick={(e) => e.stopPropagation()}
       >
-        <PostVoteButtons initialUp={post.votes.up} initialDown={post.votes.down} />
+        <PostVoteButtons
+          postId={post.id}
+          initialUp={post.votes.up}
+          initialDown={post.votes.down}
+        />
 
         <div className="flex items-center gap-1">
           <Button

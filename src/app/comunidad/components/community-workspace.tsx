@@ -1,13 +1,15 @@
 "use client";
 
 import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { CommunitySidebar } from "@/app/comunidad/components/community-sidebar";
 import { CreatePostModal } from "@/app/comunidad/components/create-post-modal";
-import { MOCK_POSTS, type CommunityPost } from "@/app/comunidad/components/mock-data";
+import { type CommunityPost } from "@/app/comunidad/components/mock-data";
 import { PostCard } from "@/app/comunidad/components/post-card";
 import { EmptyState, PageHeader } from "@/components/layout";
 import { Button } from "@/components/ui/button";
+import type { CommunitySidebarData } from "@/lib/community/queries";
 import type { MateriaPlanFuente } from "@/lib/planes-estudio/types";
 
 type FeedFilter = "todo" | "carrera" | "materias" | "archivos";
@@ -21,20 +23,20 @@ const FILTER_TABS: { key: FeedFilter; label: string }[] = [
 
 type CommunityWorkspaceProps = {
   carreraNombre: string;
-  authorName: string;
   materiasCursando: { nombre: string; codigo: string | null }[];
   planMaterias: MateriaPlanFuente[];
-  initialPosts?: CommunityPost[];
+  initialPosts: CommunityPost[];
+  sidebarData: CommunitySidebarData;
 };
 
 export function CommunityWorkspace({
   carreraNombre,
-  authorName,
   materiasCursando,
   planMaterias,
-  initialPosts = MOCK_POSTS,
+  initialPosts,
+  sidebarData,
 }: CommunityWorkspaceProps) {
-  const [posts, setPosts] = useState<CommunityPost[]>(initialPosts);
+  const router = useRouter();
   const [filter, setFilter] = useState<FeedFilter>("todo");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTag, setActiveTag] = useState<string | null>(null);
@@ -46,7 +48,7 @@ export function CommunityWorkspace({
   );
 
   const filteredPosts = useMemo(() => {
-    let result = posts;
+    let result = initialPosts;
 
     switch (filter) {
       case "carrera":
@@ -79,10 +81,10 @@ export function CommunityWorkspace({
     }
 
     return result;
-  }, [posts, filter, carreraNombre, materiaNames, activeTag, searchQuery]);
+  }, [initialPosts, filter, carreraNombre, materiaNames, activeTag, searchQuery]);
 
-  function handlePublish(post: CommunityPost) {
-    setPosts((prev) => [post, ...prev]);
+  function handlePublished() {
+    router.refresh();
     setFilter("todo");
     setActiveTag(null);
     setSearchQuery("");
@@ -133,6 +135,8 @@ export function CommunityWorkspace({
           onSearchChange={setSearchQuery}
           activeTag={activeTag}
           onTagSelect={setActiveTag}
+          topResources={sidebarData.topResources}
+          trendingTags={sidebarData.trendingTags}
         />
       </div>
 
@@ -140,9 +144,7 @@ export function CommunityWorkspace({
         open={createOpen}
         onOpenChange={setCreateOpen}
         planMaterias={planMaterias}
-        carreraNombre={carreraNombre}
-        authorName={authorName}
-        onPublish={handlePublish}
+        onPublished={handlePublished}
       />
     </main>
   );

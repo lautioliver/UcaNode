@@ -73,10 +73,30 @@ La sidebar incluye accesos a dashboard, materias, entregas, horarios, concurrenc
 | `/entregas` | `entrega.findMany`, `materia.findMany` | `createEntrega`, `updateEntrega`, `deleteEntrega` |
 | `/horarios` | `horario.findMany` y `materia.findMany` filtrados a estados activos (`CURSANDO`, `PARA_FINALIZAR`) | `createHorario`, `updateHorario`, `deleteHorario` |
 | `/concurrencia` | `fetchZones` desde CampuStatus (`GET /api/zones`, cache 60 s) | - |
-| `/comunidad` | `getPerfilConCarrera`, materias `CURSANDO`, `getPlanMateriasByCarreraId`; feed desde mock local | UI-only: filtros, votos, favoritos y publicación local |
-| `/comunidad/[postId]` | Post y comentarios desde mock local | UI-only: respuestas locales en el hilo |
+| `/comunidad` | `getPosts`, `getCommunitySidebarData`, perfil, materias `CURSANDO`, plan de estudio | `createPost`, `votePost` |
+| `/comunidad/[postId]` | `getPostById`, comentarios anidados | `createComment`, `votePost`, `voteComment` |
 | `/links` | `linkExterno.findMany`, perfil | `createLink`, `updateLink`, `deleteLink` |
 | `/perfil` | `perfil.findFirst` con `carrera` | `updatePerfil` (carrera de solo lectura, definida en onboarding) |
+
+## Comunidad (foro estudiantil)
+
+Lógica en `src/lib/community/`:
+
+| Módulo | Rol |
+|---|---|
+| `queries.ts` | `getPosts`, `getPostById`, `getCommunitySidebarData` |
+| `actions.ts` | `createPost`, `createComment`, `votePost`, `voteComment` |
+| `mappers.ts` | Prisma → DTOs (`CommunityPost`, `CommunityComment`) |
+| `comment-tree.ts` | Comentarios planos → árbol anidado |
+| `schemas.ts` | Validación Zod de entradas |
+
+Flujo resumido:
+
+1. `/comunidad` carga posts desde PostgreSQL y sidebar (top recursos + tendencias).
+2. Filtros por pestaña y búsqueda se aplican en cliente sobre el feed inicial.
+3. **Nuevo post** → `createPost` (título, contenido, materia del plan, adjuntos URL).
+4. **Detalle** `/comunidad/[postId]` → comentarios anidados + votos optimistas.
+5. Perfiles `fantasma` no pueden escribir hasta completar registro.
 
 ## Auth y verificación de email
 
