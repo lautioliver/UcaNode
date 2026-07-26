@@ -104,6 +104,7 @@ erDiagram
         String horaFin
         Modalidad modalidad
         String aulaLink
+        String etiqueta
         String materiaId FK
         DateTime createdAt
         DateTime updatedAt

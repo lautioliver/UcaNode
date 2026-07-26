@@ -12,6 +12,7 @@ import {
   estadoEntregaLabel,
   diaSemanaLabel,
   modalidadLabel,
+  horarioEtiquetasSugeridas,
   categoriaLinkLabel,
 } from "@/lib/labels";
 import { createCorrelatividadesHelpers, type MateriaAutoInfo, type MateriaPlan } from "@/lib/correlatividades";
@@ -772,6 +773,67 @@ export function EntregaEditForm({
 
 // ── HORARIO ─────────────────────────────────────────────
 
+function HorarioEtiquetaField({ defaultValue }: { defaultValue?: string | null }) {
+  const [modo, setModo] = useState<"preset" | "custom">(() => {
+    if (!defaultValue) return "preset";
+    return horarioEtiquetasSugeridas.includes(
+      defaultValue as (typeof horarioEtiquetasSugeridas)[number],
+    )
+      ? "preset"
+      : "custom";
+  });
+
+  const presetValue =
+    defaultValue &&
+    horarioEtiquetasSugeridas.includes(
+      defaultValue as (typeof horarioEtiquetasSugeridas)[number],
+    )
+      ? defaultValue
+      : "";
+
+  return (
+    <Field
+      label="Etiqueta"
+      span
+      hint="Opcional — detalle de la clase (Teórica, Práctica, etc.)"
+    >
+      {modo === "preset" ? (
+        <select
+          name="etiqueta"
+          defaultValue={presetValue}
+          onChange={(e) => {
+            if (e.target.value === "__custom__") setModo("custom");
+          }}
+          className={`${select} w-full`}
+        >
+          <option value="">Sin etiqueta</option>
+          {horarioEtiquetasSugeridas.map((e) => (
+            <option key={e} value={e}>
+              {e}
+            </option>
+          ))}
+          <option value="__custom__">Personalizada…</option>
+        </select>
+      ) : (
+        <input
+          name="etiqueta"
+          defaultValue={
+            defaultValue &&
+            !horarioEtiquetasSugeridas.includes(
+              defaultValue as (typeof horarioEtiquetasSugeridas)[number],
+            )
+              ? defaultValue
+              : ""
+          }
+          placeholder="Escribí tu etiqueta"
+          maxLength={40}
+          className={`${input} w-full`}
+        />
+      )}
+    </Field>
+  );
+}
+
 export function HorarioCreateForm({
   action,
   materias,
@@ -848,6 +910,7 @@ export function HorarioCreateForm({
           className={`${input} w-full`}
         />
       </Field>
+      <HorarioEtiquetaField />
       <FormFeedback state={state} pending={pending} submitLabel="Agregar horario" />
     </form>
   );
@@ -868,6 +931,7 @@ export function HorarioEditForm({
     horaFin: string;
     modalidad: string;
     aulaLink: string | null;
+    etiqueta: string | null;
     materiaId: string;
   };
   onSuccess?: () => void;
@@ -951,6 +1015,7 @@ export function HorarioEditForm({
           className={`${input} w-full`}
         />
       </Field>
+      <HorarioEtiquetaField defaultValue={defaultValues.etiqueta} />
       <FormFeedback state={state} pending={pending} submitLabel="Guardar cambios" />
     </form>
   );

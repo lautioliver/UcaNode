@@ -186,4 +186,26 @@ describe("horarioSchema", () => {
     });
     expect(result.success).toBe(true);
   });
+
+  it("accepts optional etiqueta", () => {
+    const result = horarioSchema.safeParse({
+      dia: "LUNES",
+      horaInicio: "18:00",
+      horaFin: "22:00",
+      materiaId: "abc123",
+      etiqueta: "Teórica",
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects etiqueta over 40 chars", () => {
+    const result = horarioSchema.safeParse({
+      dia: "LUNES",
+      horaInicio: "18:00",
+      horaFin: "22:00",
+      materiaId: "abc123",
+      etiqueta: "a".repeat(41),
+    });
+    expect(result.success).toBe(false);
+  });
 });

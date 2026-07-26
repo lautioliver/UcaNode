@@ -213,6 +213,7 @@ model Horario {
   horaFin       String
   modalidad     Modalidad  @default(PRESENCIAL)
   aulaLink      String?
+  etiqueta      String?
   materiaId     String
   materia       Materia    @relation(fields: [materiaId], references: [id], onDelete: Cascade)
   createdAt     DateTime   @default(now())
