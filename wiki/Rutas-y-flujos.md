@@ -28,6 +28,8 @@ flowchart TD
     Ent["/entregas Entregas"]
     Hor["/horarios Horarios"]
     Con["/concurrencia Concurrencia"]
+    Com["/comunidad Comunidad"]
+    ComId["/comunidad/[postId] Hilo de publicación"]
     Lnk["/links Links"]
     Per["/perfil Perfil"]
     Err["error.tsx Error boundary"]
@@ -40,6 +42,9 @@ flowchart TD
     Root --> Ent
     Root --> Hor
     Root --> Con
+    Root --> Com
+    Com --> ComId
+    ComId --> Com
     Root --> Lnk
     Mat --> MatId
     MatId --> Mat
@@ -48,13 +53,14 @@ flowchart TD
     Ent --> Per
     Hor --> Per
     Con --> Per
+    Com --> Per
     Lnk --> Per
 
-    Root & Mat & MatId & Ent & Hor & Con & Lnk & Per -.-> Err
-    Root & Mat & MatId & Ent & Hor & Con & Lnk & Per -.-> Ld
+    Root & Mat & MatId & Ent & Hor & Con & Com & ComId & Lnk & Per -.-> Err
+    Root & Mat & MatId & Ent & Hor & Con & Com & ComId & Lnk & Per -.-> Ld
 ```
 
-La sidebar incluye accesos a dashboard, materias, entregas, horarios, concurrencia, links y perfil. Solo es visible después de completar el onboarding. También maneja el modo claro/oscuro y el colapso en pantallas grandes.
+La sidebar incluye accesos a dashboard, materias, entregas, horarios, concurrencia, comunidad, links y perfil. Solo es visible después de completar el onboarding. También maneja el modo claro/oscuro y el colapso en pantallas grandes.
 
 ## Rutas
 
@@ -67,6 +73,8 @@ La sidebar incluye accesos a dashboard, materias, entregas, horarios, concurrenc
 | `/entregas` | `entrega.findMany`, `materia.findMany` | `createEntrega`, `updateEntrega`, `deleteEntrega` |
 | `/horarios` | `horario.findMany` y `materia.findMany` filtrados a estados activos (`CURSANDO`, `PARA_FINALIZAR`) | `createHorario`, `updateHorario`, `deleteHorario` |
 | `/concurrencia` | `fetchZones` desde CampuStatus (`GET /api/zones`, cache 60 s) | - |
+| `/comunidad` | `getPerfilConCarrera`, materias `CURSANDO`, `getPlanMateriasByCarreraId`; feed desde mock local | UI-only: filtros, votos, favoritos y publicación local |
+| `/comunidad/[postId]` | Post y comentarios desde mock local | UI-only: respuestas locales en el hilo |
 | `/links` | `linkExterno.findMany`, perfil | `createLink`, `updateLink`, `deleteLink` |
 | `/perfil` | `perfil.findFirst` con `carrera` | `updatePerfil` (carrera de solo lectura, definida en onboarding) |
 

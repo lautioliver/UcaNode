@@ -15,6 +15,7 @@ import {
   Link2,
   LogOut,
   Menu,
+  MessageSquare,
   Settings,
   Users,
   X,
@@ -34,6 +35,7 @@ const MENU_ITEMS: NavItem[] = [
   { href: "/analytics", label: "Analíticas", Icon: BarChart3 },
   { href: "/horarios", label: "Horarios", Icon: CalendarDays },
   { href: "/concurrencia", label: "Concurrencia", Icon: Users },
+  { href: "/comunidad", label: "Comunidad", Icon: MessageSquare },
   { href: "/links", label: "Links", Icon: Link2 },
 ];
 
