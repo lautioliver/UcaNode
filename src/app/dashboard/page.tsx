@@ -176,6 +176,12 @@ export default async function DashboardPage() {
                   </div>
                   <p className="mt-1 text-xs text-muted">
                     {h.horaInicio} – {h.horaFin}
+                    {h.etiqueta ? (
+                      <>
+                        {" · "}
+                        <span className="font-medium text-secondary">{h.etiqueta}</span>
+                      </>
+                    ) : null}
                     {h.aulaLink ? (
                       <>
                         {" · "}

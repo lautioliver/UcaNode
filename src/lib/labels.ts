@@ -39,6 +39,15 @@ export const modalidadLabel: Record<Modalidad, string> = {
   VIRTUAL: "Virtual",
 };
 
+export const horarioEtiquetasSugeridas = [
+  "Teórica",
+  "Práctica",
+  "Laboratorio",
+  "TP",
+  "Seminario",
+  "Consulta",
+] as const;
+
 export const categoriaLinkLabel: Record<CategoriaLink, string> = {
   GOOGLE_DRIVE: "Google Drive",
   PLATAFORMA_UCASAL: "Plataforma Ucasal",

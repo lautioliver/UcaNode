@@ -52,6 +52,7 @@ export default async function HorariosPage() {
     horaFin: h.horaFin,
     modalidad: h.modalidad,
     aulaLink: h.aulaLink,
+    etiqueta: h.etiqueta,
     materiaId: h.materiaId,
     materia: {
       id: h.materia.id,

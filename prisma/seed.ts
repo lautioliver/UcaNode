@@ -285,6 +285,7 @@ async function main() {
         horaFin: "22:00",
         modalidad: Modalidad.PRESENCIAL,
         aulaLink: "Aula 12",
+        etiqueta: "Teórica",
         materiaId: intro.id,
       },
       {
@@ -293,6 +294,7 @@ async function main() {
         horaFin: "22:00",
         modalidad: Modalidad.VIRTUAL,
         aulaLink: "https://meet.google.com/paradigmas-2c",
+        etiqueta: "Práctica",
         materiaId: paradigmas.id,
       },
       {
@@ -317,6 +319,7 @@ async function main() {
         horaFin: "17:00",
         modalidad: Modalidad.VIRTUAL,
         aulaLink: "https://meet.google.com/sistemas-op",
+        etiqueta: "Consulta",
         materiaId: sistemasOp.id,
       },
       {

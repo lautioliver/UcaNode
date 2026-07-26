@@ -67,6 +67,11 @@ export const horarioSchema = z.object({
   horaFin: z.string().min(1, "Hora fin requerida"),
   modalidad: Modalidad.default("PRESENCIAL"),
   aulaLink: z.string().nullable().optional(),
+  etiqueta: z
+    .string()
+    .max(40, "La etiqueta no puede superar 40 caracteres")
+    .nullable()
+    .optional(),
   materiaId: z.string().min(1, "La materia es requerida"),
 });
 
