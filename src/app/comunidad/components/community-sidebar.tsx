@@ -104,8 +104,20 @@ export function CommunitySidebar({
           <li>Respetá a compañeros y docentes. No compartas datos personales.</li>
           <li>Subí material con fuente clara y verificá que no infrinja derechos de autor.</li>
           <li>Usá la etiqueta de materia correcta para facilitar la búsqueda.</li>
-          <li>Reportá contenido inapropiado desde el hilo o contactando moderación.</li>
+          <li>
+            Reportá contenido inapropiado desde el hilo o{" "}
+            <Link href="/soporte" className="text-accent underline-offset-2 hover:underline">
+              contactando soporte
+            </Link>
+            .
+          </li>
         </ul>
+        <Link
+          href="/soporte"
+          className="mt-3 inline-flex text-xs font-medium text-accent transition hover:text-accent/80"
+        >
+          Ir a soporte →
+        </Link>
       </SidebarPanel>
     </aside>
   );

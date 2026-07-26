@@ -38,6 +38,7 @@ Si cargás la URL a mano, agregá las variables en **Vercel → Project → Sett
 | `RESEND_API_KEY` | Sí (auth) | API key de Resend para emails de verificación |
 | `EMAIL_FROM` | Sí (auth) | Remitente verificado, p. ej. `UcaNode <noreply@mail.ucanode.app>` |
 | `APP_URL` | Sí (auth) | URL pública de la app, p. ej. `https://ucanode.app` (links en mails) |
+| `SUPPORT_EMAIL` | Sí (soporte) | Inbox donde llegan los mensajes del formulario de `/soporte` |
 | `CAMPUSSTATUS_URL` | Opcional | URL de CampuStatus; default producción en `.env.example` |
 
 Si solo definís `DATABASE_URL`, el build también funciona (se usa como fallback para migraciones). Con la integración Neon→Vercel, `DATABASE_URL_UNPOOLED` se setea sola.
