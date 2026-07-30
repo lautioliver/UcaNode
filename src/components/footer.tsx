@@ -15,7 +15,7 @@ const NAV_LINKS = [
 
 const EXTERNAL_LINKS = [
   {
-    href: "https://campus.ucasal.edu.ar",
+    href: "https://www.ucasal.edu.ar/htm/sead/plataformasvirtuales/",
     label: "Campus Ucasal",
   },
   {
@@ -107,7 +107,7 @@ export function Footer({ carreraNombre }: { carreraNombre?: string | null }) {
               Proyecto
             </p>
             <ul className="space-y-2 text-sm text-secondary">
-              <li>PostgreSQL (Neon) · sin sincronización con Notion</li>
+              <li>PostgreSQL (Neon)</li>
               <li>
                 <span className="inline-flex items-center gap-2">
                   <span className="h-1.5 w-1.5 rounded-full bg-success" />
