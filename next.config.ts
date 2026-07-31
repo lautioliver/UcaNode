@@ -2,16 +2,18 @@ import type { NextConfig } from "next";
 
 const cspHeader = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval';
+  script-src 'self' 'unsafe-eval' 'unsafe-inline';
   style-src 'self' 'unsafe-inline';
-  img-src 'self' data: blob:;
+  img-src 'self' blob: data: https:;
   font-src 'self' data:;
-  connect-src 'self';
+  object-src 'none';
+  base-uri 'self';
+  form-action 'self';
   frame-ancestors 'none';
+  upgrade-insecure-requests;
 `.replace(/\s{2,}/g, ' ').trim();
 
 const nextConfig: NextConfig = {
-
   async headers() {
     return [
       {
