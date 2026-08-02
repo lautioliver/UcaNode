@@ -36,6 +36,12 @@ const FLOAT_STYLES = [
     delay: "-13s",
     duration: "26s",
   },
+  {
+    className:
+      "carrera-float-f right-[max(0.5rem,5vw)] bottom-[14%] md:right-[3%] lg:right-[5%] xl:right-[7%]",
+    delay: "-15s",
+    duration: "28s",
+  },
 ] as const;
 
 export function FloatingCarreras({ carreras }: { carreras: CarreraCatalogo[] }) {

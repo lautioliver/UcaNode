@@ -4,6 +4,7 @@ import planArquitectura from "@/data/planes/arquitectura-2015.json";
 import planIndustrial from "@/data/planes/ingenieria-industrial-2005.json";
 import planPsicologia from "@/data/planes/licenciatura-en-psicologia-1114.json";
 import planCivil from "@/data/planes/ingenieria-civil-2012.json";
+import planTelecomunicaciones from "@/data/planes/ingenieria-en-telecomunicaciones-2012.json";
 
 export const CARRERAS_DISPONIBLES: CarreraCatalogo[] = [
   {
@@ -50,6 +51,15 @@ export const CARRERAS_DISPONIBLES: CarreraCatalogo[] = [
     modalidad: planCivil.modalidad,
     duracionAnios: planCivil.duracionAnios,
     descripcion: planCivil.descripcion,
+  },
+  {
+    slug: "ingenieria-en-telecomunicaciones-2012",
+    nombre: planTelecomunicaciones.carrera,
+    planAnio: planTelecomunicaciones.plan,
+    resolucion: planTelecomunicaciones.resolucion,
+    modalidad: planTelecomunicaciones.modalidad,
+    duracionAnios: planTelecomunicaciones.duracionAnios,
+    descripcion: planTelecomunicaciones.descripcion,
   },
 ];
 
