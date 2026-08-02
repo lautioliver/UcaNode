@@ -22,6 +22,10 @@ const EXTERNAL_LINKS = [
     href: "https://www.ucasal.edu.ar",
     label: "Sitio Ucasal",
   },
+  {
+    href: "https://campustatus.vercel.app/",
+    label: "Campustatus",
+  },
 ] as const;
 
 export function Footer({ carreraNombre }: { carreraNombre?: string | null }) {
