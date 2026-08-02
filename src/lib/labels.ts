@@ -42,10 +42,7 @@ export const modalidadLabel: Record<Modalidad, string> = {
 export const horarioEtiquetasSugeridas = [
   "Teórica",
   "Práctica",
-  "Laboratorio",
-  "TP",
-  "Seminario",
-  "Consulta",
+  "Consulta"
 ] as const;
 
 export const categoriaLinkLabel: Record<CategoriaLink, string> = {

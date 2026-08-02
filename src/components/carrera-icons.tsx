@@ -5,6 +5,7 @@ import {
   Cpu,
   Factory,
   HardHat,
+  Radio,
   type LucideProps,
 } from "lucide-react";
 import type { CarreraCatalogo } from "@/lib/planes-estudio/types";
@@ -41,6 +42,11 @@ const CARRERA_VISUALS: Record<string, CarreraVisual> = {
     Icon: HardHat,
     iconClassName: "text-emerald-500",
     badgeClassName: "bg-emerald-500/12 ring-emerald-500/25",
+  },
+  "ingenieria-en-telecomunicaciones-2012": {
+    Icon: Radio,
+    iconClassName: "text-cyan-500",
+    badgeClassName: "bg-cyan-500/12 ring-cyan-500/25",
   },
 };
 

@@ -70,22 +70,20 @@ async function ingestarCarrera(slug: string): Promise<Carrera> {
     });
 
     if (materiasExistentes === 0) {
-      for (const materia of fuente.materias) {
-        await tx.planEstudio.create({
-          data: {
-            codigo: materia.codigo,
-            codigoOficial: materia.codigoOficial,
-            nombre: materia.nombre,
-            abreviatura: materia.abreviatura,
-            aliases: materia.aliases,
-            anio: materia.anio,
-            semestre: materia.semestre,
-            tipoDictado: materia.tipoDictado,
-            creditos: materia.creditos,
-            carreraId: carrera.id,
-          },
-        });
-      }
+      await tx.planEstudio.createMany({
+        data: fuente.materias.map((materia) => ({
+          codigo: materia.codigo,
+          codigoOficial: materia.codigoOficial,
+          nombre: materia.nombre,
+          abreviatura: materia.abreviatura,
+          aliases: materia.aliases,
+          anio: materia.anio,
+          semestre: materia.semestre,
+          tipoDictado: materia.tipoDictado,
+          creditos: materia.creditos,
+          carreraId: carrera.id,
+        })),
+      });
 
       const planRows = await tx.planEstudio.findMany({
         where: { carreraId: carrera.id },
@@ -93,18 +91,21 @@ async function ingestarCarrera(slug: string): Promise<Carrera> {
       });
       const idByCodigo = new Map(planRows.map((row) => [row.codigo, row.id]));
 
-      for (const row of buildCorrelativas(fuente.materias)) {
-        const materiaId = idByCodigo.get(row.materiaCodigo);
-        const requisitoId = idByCodigo.get(row.requisitoCodigo);
-        if (!materiaId || !requisitoId) continue;
-
-        await tx.correlatividadPlan.create({
-          data: {
+      const correlativasData = buildCorrelativas(fuente.materias)
+        .map((row) => {
+          const materiaId = idByCodigo.get(row.materiaCodigo);
+          const requisitoId = idByCodigo.get(row.requisitoCodigo);
+          if (!materiaId || !requisitoId) return null;
+          return {
             materiaId,
             requisitoId,
             tipo: row.tipo,
-          },
-        });
+          };
+        })
+        .filter((row): row is NonNullable<typeof row> => row !== null);
+
+      if (correlativasData.length > 0) {
+        await tx.correlatividadPlan.createMany({ data: correlativasData });
       }
     }
 
@@ -112,7 +113,7 @@ async function ingestarCarrera(slug: string): Promise<Carrera> {
       where: { id: carrera.id },
       data: { estadoIngesta: "LISTO" },
     });
-  });
+  }, { timeout: 30_000 });
 }
 
 export async function hydrateCarrera(slug: string): Promise<Carrera> {
