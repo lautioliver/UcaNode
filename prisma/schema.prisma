@@ -129,6 +129,7 @@ model Perfil {
   nombre                  String
   emailUcasal             String?                  @unique
   emailVerifiedAt         DateTime?
+  termsAcceptedAt         DateTime?
   anioIngreso             Int
   legajo                  String?
   password                String?

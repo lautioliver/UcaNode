@@ -1,4 +1,5 @@
 import { ExternalLink } from "lucide-react";
+import Link from "next/link";
 import { LogoMark } from "@/components/logo";
 import { FloatingCarreras } from "@/components/floating-carreras";
 import { Card, CardContent } from "@/components/ui/card";
@@ -54,6 +55,17 @@ export function AuthScene({
           <Card className="rounded-2xl border-border bg-surface-card shadow-[var(--shadow-card-lg)]">
             <CardContent className="p-5 sm:p-6">{children}</CardContent>
           </Card>
+
+          <p className="text-center text-xs text-muted">
+            <Link
+              href="/terminos-y-condiciones"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-secondary underline-offset-2 transition hover:text-primary hover:underline"
+            >
+              Términos y Condiciones
+            </Link>
+          </p>
         </div>
       </main>
 

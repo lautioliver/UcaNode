@@ -14,7 +14,8 @@ function isAuthRoute(pathname: string) {
   return (
     pathname.startsWith("/login") ||
     pathname.startsWith("/registro") ||
-    pathname.startsWith("/verificar-email")
+    pathname.startsWith("/verificar-email") ||
+    pathname.startsWith("/terminos-y-condiciones")
   );
 }
 

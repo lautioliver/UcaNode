@@ -9,6 +9,14 @@ import {
   registroSchema,
 } from "../schemas";
 
+const validRegistro = {
+  nombre: "Juan",
+  email: "juan@mail.com",
+  password: "secret123",
+  confirmPassword: "secret123",
+  acceptTerms: "on" as const,
+};
+
 describe("materiaSchema", () => {
   it("accepts valid materia", () => {
     const result = materiaSchema.safeParse({ nombre: "Álgebra" });
@@ -152,25 +160,41 @@ describe("loginSchema", () => {
       expect(result.data.email).toBe("juan@mail.com");
     }
   });
+
+  it("accepts login payload when acceptTerms is on", () => {
+    const result = loginSchema.safeParse({
+      email: "juan@mail.com",
+      password: "secret123",
+      acceptTerms: "on",
+    });
+    expect(result.success).toBe(true);
+  });
 });
 
 describe("registroSchema", () => {
   it("accepts matching passwords", () => {
-    const result = registroSchema.safeParse({
-      nombre: "Juan",
-      email: "juan@mail.com",
-      password: "secret123",
-      confirmPassword: "secret123",
-    });
+    const result = registroSchema.safeParse(validRegistro);
     expect(result.success).toBe(true);
   });
 
   it("rejects mismatched passwords", () => {
     const result = registroSchema.safeParse({
-      nombre: "Juan",
-      email: "juan@mail.com",
-      password: "secret123",
+      ...validRegistro,
       confirmPassword: "other",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects registration without acceptTerms", () => {
+    const { acceptTerms: _ignored, ...withoutTerms } = validRegistro;
+    const result = registroSchema.safeParse(withoutTerms);
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects registration when acceptTerms is not on", () => {
+    const result = registroSchema.safeParse({
+      ...validRegistro,
+      acceptTerms: "off",
     });
     expect(result.success).toBe(false);
   });
@@ -207,5 +231,24 @@ describe("horarioSchema", () => {
       etiqueta: "a".repeat(41),
     });
     expect(result.success).toBe(false);
+  });
+});
+
+describe("login terms business rules", () => {
+  function requiresTermsAcceptance(
+    termsAcceptedAt: Date | null,
+    acceptTerms: string | null | undefined,
+  ) {
+    return !termsAcceptedAt && acceptTerms !== "on";
+  }
+
+  it("requires acceptance when profile has no termsAcceptedAt", () => {
+    expect(requiresTermsAcceptance(null, null)).toBe(true);
+    expect(requiresTermsAcceptance(null, "on")).toBe(false);
+  });
+
+  it("does not require acceptance when profile already accepted terms", () => {
+    expect(requiresTermsAcceptance(new Date("2026-01-01"), null)).toBe(false);
+    expect(requiresTermsAcceptance(new Date("2026-01-01"), undefined)).toBe(false);
   });
 });
