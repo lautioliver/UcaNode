@@ -26,6 +26,10 @@ const EXTERNAL_LINKS = [
     href: "https://campustatus.vercel.app/",
     label: "Campustatus",
   },
+  {
+    href: "https://github.com/lautioliver/UcaNode",
+    label: "GitHub UcaNode",
+  },
 ] as const;
 
 export function Footer({ carreraNombre }: { carreraNombre?: string | null }) {
