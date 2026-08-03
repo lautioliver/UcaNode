@@ -23,6 +23,7 @@ type AuthFormInput = {
   email?: string | null;
   password?: string | null;
   confirmPassword?: string | null;
+  acceptTerms?: string | null;
   next?: string | null;
 };
 
@@ -47,6 +48,7 @@ export function parseAuthForm(formData: FormData): AuthFormInput {
     email: field(formData, "email"),
     password: field(formData, "password"),
     confirmPassword: field(formData, "confirmPassword"),
+    acceptTerms: field(formData, "acceptTerms"),
     next: field(formData, "next"),
   };
 }
@@ -94,15 +96,18 @@ export async function loginWithCredentials(
     });
   }
 
-  await clearFantasma(perfil.id);
-  return { ok: true, perfilId: perfil.id };
-}
+  if (!perfil.termsAcceptedAt && input.acceptTerms !== "on") {
+    return fail("Debés aceptar los Términos y Condiciones");
+  }
 
-async function clearFantasma(perfilId: string) {
   await prisma.perfil.update({
-    where: { id: perfilId },
-    data: { fantasma: false },
+    where: { id: perfil.id },
+    data: {
+      fantasma: false,
+      termsAcceptedAt: perfil.termsAcceptedAt ?? new Date(),
+    },
   });
+  return { ok: true, perfilId: perfil.id };
 }
 
 export async function registerAccount(
@@ -138,6 +143,7 @@ export async function registerAccount(
         password: passwordHash,
         emailVerifiedAt: null,
         fantasma: false,
+        termsAcceptedAt: new Date(),
       },
     });
     perfilId = adoptId;
@@ -149,6 +155,7 @@ export async function registerAccount(
         password: passwordHash,
         emailVerifiedAt: null,
         fantasma: false,
+        termsAcceptedAt: new Date(),
       },
     });
     perfilId = existing.id;
@@ -161,6 +168,7 @@ export async function registerAccount(
         emailVerifiedAt: null,
         fantasma: false,
         anioIngreso: new Date().getFullYear(),
+        termsAcceptedAt: new Date(),
       },
     });
     perfilId = perfil.id;

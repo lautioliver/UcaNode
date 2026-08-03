@@ -18,7 +18,8 @@ export function isAuthPath(pathname: string): boolean {
   return (
     pathname.startsWith("/login") ||
     pathname.startsWith("/registro") ||
-    pathname.startsWith("/verificar-email")
+    pathname.startsWith("/verificar-email") ||
+    pathname.startsWith("/terminos-y-condiciones")
   );
 }
 
