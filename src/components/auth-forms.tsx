@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { TermsAcceptanceField } from "@/components/terms-acceptance-field";
 
 function Field({
   label,
@@ -55,6 +56,7 @@ export function LoginForm({
           placeholder="Tu contraseña"
         />
       </Field>
+      <TermsAcceptanceField />
       <Button type="submit" className="w-full">
         Iniciar sesión
       </Button>
@@ -121,6 +123,7 @@ export function RegistroForm({
           placeholder="Repetí la contraseña"
         />
       </Field>
+      <TermsAcceptanceField required />
       <Button type="submit" className="w-full">
         Crear cuenta
       </Button>
