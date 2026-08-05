@@ -16,6 +16,20 @@ import { Drawer } from "@/components/drawer";
 import { MateriaCreateForm, MateriaEditForm } from "@/components/forms";
 import { EmptyState, FilterPill } from "@/components/layout";
 import { createCorrelatividadesHelpers, type MateriaPlan } from "@/lib/correlatividades";
+import { estadoMateriaLabel } from "@/lib/labels";
+
+type EstadoMateriaValue =
+  | "CURSANDO"
+  | "PARA_FINALIZAR"
+  | "REGULAR"
+  | "FINALIZADA";
+
+const ESTADO_BADGE_CLASS: Record<EstadoMateriaValue, string> = {
+  CURSANDO: "bg-accent-ghost text-accent",
+  PARA_FINALIZAR: "bg-warning-ghost text-warning",
+  REGULAR: "bg-indigo-500/15 text-indigo-400",
+  FINALIZADA: "bg-success-ghost text-success",
+};
 
 type Materia = {
   id: string;
@@ -51,6 +65,14 @@ const PERIODO_FILTROS: { value: PeriodoTipo | "todos"; label: string }[] = [
   { value: "anual", label: "Anual" },
   { value: "primer", label: "1° Semestre" },
   { value: "segundo", label: "2° Semestre" },
+];
+
+const ESTADO_FILTROS: { value: EstadoMateriaValue | "todos"; label: string }[] = [
+  { value: "todos", label: "Todos" },
+  { value: "CURSANDO", label: estadoMateriaLabel.CURSANDO },
+  { value: "PARA_FINALIZAR", label: estadoMateriaLabel.PARA_FINALIZAR },
+  { value: "REGULAR", label: estadoMateriaLabel.REGULAR },
+  { value: "FINALIZADA", label: estadoMateriaLabel.FINALIZADA },
 ];
 
 const SKIP_WORDS = new Set(["de", "del", "la", "las", "los", "y", "a", "en", "al"]);
@@ -183,6 +205,7 @@ export function MateriaCatalog({
   const [drawer, setDrawer] = useState<DrawerState>(null);
   const [filtroAnio, setFiltroAnio] = useState<string>("todos");
   const [filtroPeriodo, setFiltroPeriodo] = useState<PeriodoTipo | "todos">("todos");
+  const [filtroEstado, setFiltroEstado] = useState<EstadoMateriaValue | "todos">("todos");
 
   const planHelpers = useMemo(
     () => createCorrelatividadesHelpers(planMaterias),
@@ -198,16 +221,20 @@ export function MateriaCatalog({
     return [...set].sort((a, b) => a - b);
   }, [materias]);
 
+  const hayFiltrosActivos =
+    filtroAnio !== "todos" || filtroPeriodo !== "todos" || filtroEstado !== "todos";
+
   const materiasVisibles = useMemo(() => {
     const filtered = materias.filter((m) => {
       if (filtroAnio !== "todos" && m.anio !== Number(filtroAnio)) return false;
       if (filtroPeriodo !== "todos" && periodoTipo(m, findMateriaByName) !== filtroPeriodo) {
         return false;
       }
+      if (filtroEstado !== "todos" && m.estado !== filtroEstado) return false;
       return true;
     });
     return sortMaterias(filtered, findMateriaByName);
-  }, [materias, filtroAnio, filtroPeriodo, findMateriaByName]);
+  }, [materias, filtroAnio, filtroPeriodo, filtroEstado, findMateriaByName]);
 
   const openCreate = () => setDrawer({ mode: "create" });
   const openEdit = (materia: Materia) => setDrawer({ mode: "edit", materia });
@@ -258,14 +285,28 @@ export function MateriaCatalog({
             </FilterPill>
           ))}
         </div>
+
+        <div className="filter-scroll-row">
+          <span className="shrink-0 text-xs text-muted">Estado:</span>
+          {ESTADO_FILTROS.map(({ value, label }) => (
+            <FilterPill
+              key={value}
+              active={filtroEstado === value}
+              onClick={() => setFiltroEstado(value)}
+              type="button"
+            >
+              {label}
+            </FilterPill>
+          ))}
+        </div>
       </div>
 
       {materiasVisibles.length === 0 ? (
         <div className="space-y-4">
           <EmptyState
             message={
-              filtroAnio !== "todos" || filtroPeriodo !== "todos"
-                ? "No hay materias para ese año o período."
+              hayFiltrosActivos
+                ? "No hay materias para esos filtros."
                 : "Todavía no cargaste materias."
             }
           />
@@ -312,6 +353,14 @@ export function MateriaCatalog({
                     className={`inline-flex rounded px-1.5 py-0.5 text-[11px] font-medium ${badges.period.className}`}
                   >
                     {badges.period.label}
+                  </span>
+                  <span
+                    className={`inline-flex rounded px-1.5 py-0.5 text-[11px] font-medium ${
+                      ESTADO_BADGE_CLASS[m.estado as EstadoMateriaValue] ??
+                      "bg-surface-hover text-muted"
+                    }`}
+                  >
+                    {estadoMateriaLabel[m.estado as EstadoMateriaValue] ?? m.estado}
                   </span>
                 </div>
               </button>
