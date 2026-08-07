@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowLeft } from "lucide-react";
 import { LogoMark } from "@/components/logo";
+import { TermsBackLink } from "@/components/terms-back-link";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   TERMS_META,
@@ -95,13 +95,7 @@ export default function TerminosPage() {
           </Card>
 
           <div className="flex justify-center">
-            <Link
-              href="/login"
-              className="inline-flex items-center gap-2 text-sm text-secondary transition hover:text-primary"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Volver al inicio de sesión
-            </Link>
+            <TermsBackLink />
           </div>
         </div>
       </main>
