@@ -2,7 +2,12 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Perfil } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
-import { PERFIL_COOKIE, perfilCookieOptions } from "@/lib/session";
+import {
+  PERFIL_COOKIE,
+  SESSION_VERSION_COOKIE,
+  sessionCookieEntries,
+  sessionCookieNames,
+} from "@/lib/session";
 
 export { PERFIL_COOKIE } from "@/lib/session";
 
@@ -19,7 +24,10 @@ export function isAuthPath(pathname: string): boolean {
     pathname.startsWith("/login") ||
     pathname.startsWith("/registro") ||
     pathname.startsWith("/verificar-email") ||
-    pathname.startsWith("/terminos-y-condiciones")
+    pathname.startsWith("/terminos-y-condiciones") ||
+    pathname.startsWith("/cambiar-contrasena") ||
+    pathname.startsWith("/cambiar-email") ||
+    pathname.startsWith("/recuperar-contrasena")
   );
 }
 
@@ -28,21 +36,66 @@ export async function getPerfilCookieId(): Promise<string | undefined> {
   return cookieStore.get(PERFIL_COOKIE)?.value;
 }
 
-export async function setPerfilCookie(perfilId: string) {
+export async function getSessionVersionFromCookie(): Promise<number | undefined> {
   const cookieStore = await cookies();
-  cookieStore.set(PERFIL_COOKIE, perfilId, perfilCookieOptions());
+  const raw = cookieStore.get(SESSION_VERSION_COOKIE)?.value;
+  if (raw === undefined) return undefined;
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) ? parsed : undefined;
 }
 
-export async function clearPerfilCookie() {
+export async function setSessionCookies(perfilId: string, sessionVersion: number) {
   const cookieStore = await cookies();
-  cookieStore.delete(PERFIL_COOKIE);
+  for (const entry of sessionCookieEntries(perfilId, sessionVersion)) {
+    cookieStore.set(entry.name, entry.value, entry.options);
+  }
+}
+
+/** @deprecated Use setSessionCookies(perfilId, sessionVersion) */
+export async function setPerfilCookie(perfilId: string) {
+  const perfil = await prisma.perfil.findUnique({ where: { id: perfilId } });
+  await setSessionCookies(perfilId, perfil?.sessionVersion ?? 0);
+}
+
+export async function clearSessionCookies() {
+  const cookieStore = await cookies();
+  for (const name of sessionCookieNames()) {
+    cookieStore.delete(name);
+  }
+}
+
+/** @deprecated Use clearSessionCookies() */
+export async function clearPerfilCookie() {
+  await clearSessionCookies();
+}
+
+function sessionVersionMatches(
+  cookieVersion: number | undefined,
+  expectedVersion: number,
+) {
+  if (cookieVersion === undefined) {
+    return expectedVersion === 0;
+  }
+  return cookieVersion === expectedVersion;
 }
 
 export async function getPerfil(): Promise<Perfil | null> {
   const cookieId = await getPerfilCookieId();
   if (!cookieId) return null;
 
-  return prisma.perfil.findUnique({ where: { id: cookieId } });
+  const perfil = await prisma.perfil.findUnique({ where: { id: cookieId } });
+  if (!perfil) {
+    await clearSessionCookies();
+    return null;
+  }
+
+  const cookieVersion = await getSessionVersionFromCookie();
+  if (!sessionVersionMatches(cookieVersion, perfil.sessionVersion)) {
+    await clearSessionCookies();
+    return null;
+  }
+
+  return perfil;
 }
 
 async function loginRedirectPath(): Promise<string> {

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { safeAuthRedirect } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { PERFIL_COOKIE, perfilCookieOptions } from "@/lib/session";
+import { PERFIL_COOKIE } from "@/lib/session";
+import { setSessionOnResponse } from "@/lib/session-response";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -34,6 +35,6 @@ export async function POST(request: NextRequest) {
   }
 
   const response = NextResponse.redirect(new URL(next, request.url));
-  response.cookies.set(PERFIL_COOKIE, perfil.id, perfilCookieOptions());
+  setSessionOnResponse(response, perfil.id, perfil.sessionVersion);
   return response;
 }

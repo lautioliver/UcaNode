@@ -102,6 +102,37 @@ export const perfilSeguridadSchema = z.object({
   currentPassword: z.string().min(1, "Ingresá tu contraseña actual"),
 });
 
+export const requestEmailChangeSchema = z.object({
+  emailUcasal: z
+    .string()
+    .trim()
+    .email("Email inválido")
+    .transform((value) => value.toLowerCase()),
+});
+
+export const passwordResetRequestSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .email("Email inválido")
+    .transform((value) => value.toLowerCase()),
+});
+
+export const applyPasswordChangeSchema = z
+  .object({
+    token: z.string().min(1, "Token inválido"),
+    password: z.string().min(8, "Mínimo 8 caracteres"),
+    confirmPassword: z.string().min(1, "Confirmá la contraseña"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Las contraseñas no coinciden",
+    path: ["confirmPassword"],
+  });
+
+export const applyEmailChangeSchema = z.object({
+  token: z.string().min(1, "Token inválido"),
+});
+
 export const perfilSchema = perfilInfoSchema.extend({
   emailUcasal: z.preprocess(
     (value) => (value === "" || value === null || value === undefined ? null : value),

@@ -82,7 +82,7 @@ Los tests actuales cubren validaciones y lógica de correlatividades en `src/lib
 - **Config shadcn:** `components.json`; primitivas en `src/components/ui/`.
 - **Agregar componentes:** `npx shadcn@latest add <nombre>`.
 - **Shell:** sidebar agrupada + top bar con búsqueda global (`Ctrl+K`) en `layout-client.tsx`.
-- **Perfil:** `/perfil` con secciones separadas; cambios de email/contraseña requieren contraseña actual (`updatePerfilSeguridad`).
+- **Perfil:** `/perfil` con secciones separadas; cambios de email/contraseña se confirman por mail (magic link vía Resend).
 
 Los componentes que usan Radix (Button, Input, Dialog, etc.) deben importarse desde archivos `"use client"` o componentes client.
 

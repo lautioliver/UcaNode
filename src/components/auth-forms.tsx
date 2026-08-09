@@ -46,9 +46,11 @@ export function LoginForm({
   useEffect(() => {
     const draft = readLoginDraft();
     if (!draft) return;
+    /* eslint-disable react-hooks/set-state-in-effect -- hydrate from sessionStorage after mount */
     setEmail(draft.email);
     setPassword(draft.password ?? "");
     setAcceptTerms(draft.acceptTerms);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   function persistDraft(nextEmail: string, nextPassword: string, nextAcceptTerms: boolean) {
@@ -100,7 +102,21 @@ export function LoginForm({
       <Button type="submit" className="w-full">
         Iniciar sesión
       </Button>
-      {error ? <p className="text-center text-sm text-danger">{error}</p> : null}
+      {error === "password_updated" ? (
+        <p className="text-center text-sm text-success">
+          Contraseña actualizada. Iniciá sesión con tu nueva contraseña.
+        </p>
+      ) : error ? (
+        <p className="text-center text-sm text-danger">{error}</p>
+      ) : null}
+      <p className="text-center text-xs text-muted">
+        <Link
+          href="/recuperar-contrasena"
+          className="text-secondary underline-offset-2 transition hover:text-primary hover:underline"
+        >
+          ¿Olvidaste tu contraseña?
+        </Link>
+      </p>
       <p className="text-center text-xs text-muted">
         ¿No tenés cuenta?{" "}
         <Link
@@ -130,11 +146,13 @@ export function RegistroForm({
   useEffect(() => {
     const draft = readRegistroDraft();
     if (!draft) return;
+    /* eslint-disable react-hooks/set-state-in-effect -- hydrate from sessionStorage after mount */
     setNombre(draft.nombre);
     setEmail(draft.email);
     setPassword(draft.password ?? "");
     setConfirmPassword(draft.confirmPassword ?? "");
     setAcceptTerms(draft.acceptTerms);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   function persistDraft(

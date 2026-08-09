@@ -58,6 +58,11 @@ enum EstadoIngesta {
   ERROR
 }
 
+enum SecurityActionType {
+  PASSWORD_CHANGE
+  EMAIL_CHANGE
+}
+
 enum PostCategory {
   GENERAL
   APUNTE
@@ -135,10 +140,12 @@ model Perfil {
   password                String?
   carreraId               String?
   fantasma                Boolean                  @default(false)
+  sessionVersion          Int                      @default(0)
   carrera                 Carrera?                 @relation(fields: [carreraId], references: [id])
   materias                Materia[]
   links                   LinkExterno[]
   emailVerificationTokens EmailVerificationToken[]
+  securityActionTokens    SecurityActionToken[]
   posts                   Post[]
   comments                Comment[]
   postVotes               PostVote[]
@@ -156,6 +163,19 @@ model EmailVerificationToken {
   createdAt DateTime @default(now())
 
   @@index([perfilId])
+}
+
+model SecurityActionToken {
+  id        String             @id @default(cuid())
+  tokenHash String             @unique
+  perfilId  String
+  perfil    Perfil             @relation(fields: [perfilId], references: [id], onDelete: Cascade)
+  type      SecurityActionType
+  payload   Json?
+  expiresAt DateTime
+  createdAt DateTime           @default(now())
+
+  @@index([perfilId, type])
 }
 
 model Materia {
