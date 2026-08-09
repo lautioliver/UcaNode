@@ -8,7 +8,11 @@ import {
   PerfilInfoForm,
   PerfilSeguridadForm,
 } from "@/components/perfil-settings";
-import { updatePerfil, updatePerfilSeguridad } from "@/lib/actions";
+import {
+  updatePerfil,
+  requestPasswordChange,
+  requestEmailChange,
+} from "@/lib/actions";
 
 export const metadata: Metadata = {
   title: "Perfil — UcaNode",
@@ -40,10 +44,11 @@ export default async function PerfilPage() {
         <PerfilAcademicoCard carreraNombre={perfil?.carrera?.nombre ?? null} />
 
         <PerfilSeguridadForm
-          action={updatePerfilSeguridad}
+          passwordAction={requestPasswordChange}
+          emailAction={requestEmailChange}
           defaultValues={{
             emailUcasal: displayEmailUcasal(perfil?.emailUcasal),
-            passwordConfigured: Boolean(perfil?.password),
+            emailVerified: Boolean(perfil?.emailVerifiedAt),
           }}
         />
 

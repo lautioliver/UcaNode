@@ -112,6 +112,9 @@ Rutas públicas (sin gate de carrera ni cookie obligatoria para la pantalla):
 | `GET /api/auth/estado-verificacion` | Consulta si el email ya fue verificado (DB) |
 | `POST /api/auth/continuar-verificacion` | Continúa tras verificar sin salir de la plataforma |
 | `POST /api/auth/reenviar-verificacion` | Reenvía el mail (cooldown 1 min) |
+| `/recuperar-contrasena` | Solicita enlace para restablecer contraseña (sin sesión) |
+| `/cambiar-contrasena?token=...` | Formulario para nueva contraseña (token por email, TTL 1 h) |
+| `/cambiar-email?token=...` | Confirma cambio de email solicitado desde `/perfil` (TTL 24 h) |
 
 Flujo resumido:
 
@@ -120,7 +123,8 @@ Flujo resumido:
 3. Click en el link del mail o botón Continuar → `emailVerifiedAt` + sesión activa.
 4. Onboarding de carrera (solo con cuenta verificada).
 5. Login solo permitido con email verificado.
-4. Cambio de email en `/perfil` invalida la verificación y dispara un nuevo mail.
+6. **Cambio de contraseña** en `/perfil` > Seguridad: mail con link a `/cambiar-contrasena`. También disponible desde `/recuperar-contrasena` (olvidé mi contraseña). Al aplicar el cambio se incrementa `sessionVersion` y se invalidan sesiones en otros dispositivos.
+7. **Cambio de email** en `/perfil` > Seguridad: mail al email actual con link a `/cambiar-email`; al confirmar se invalida la verificación y se envía mail al nuevo email.
 
 En desarrollo, si `RESEND_API_KEY` no está configurada, el link de verificación se imprime en la consola del servidor.
 

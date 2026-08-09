@@ -2,6 +2,7 @@
 
 import { revalidatePath, refresh } from "next/cache";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit } from "@/lib/rate-limit";
 import {
@@ -10,17 +11,31 @@ import {
   horarioSchema,
   linkSchema,
   perfilInfoSchema,
-  perfilSeguridadSchema,
   onboardingCarreraSchema,
   supportSchema,
+  requestEmailChangeSchema,
+  passwordResetRequestSchema,
+  applyPasswordChangeSchema,
+  applyEmailChangeSchema,
 } from "@/lib/schemas";
 import { getCarreraCatalogo } from "@/lib/planes-estudio/catalogo";
 import { hydrateCarrera } from "@/lib/planes-estudio/ingesta";
-import { hashPassword, verifyPassword } from "@/lib/password";
-import { sendVerificationForPerfil } from "@/lib/email-verification";
+import { hashPassword } from "@/lib/password";
+import {
+  PASSWORD_RESET_OK_MESSAGE,
+  applyEmailChangeFromToken,
+  sendEmailChangeForPerfil,
+  sendPasswordChangeForPerfil,
+  requestPasswordResetForEmail,
+} from "@/lib/password-change";
 import { sendSupportEmail } from "@/lib/email";
-import { getOrCreatePerfil, setPerfilCookie } from "@/lib/perfil";
+import { getOrCreatePerfil, setSessionCookies } from "@/lib/perfil";
 import { isPerfilRegistrado } from "@/lib/auth";
+import { SecurityActionType } from "@/generated/prisma/client";
+import {
+  consumeSecurityToken,
+  isEligibleForPasswordRecovery,
+} from "@/lib/security-action";
 import { applyEstadoTimestamps, notaForTipo } from "@/lib/entrega-tracking";
 
 async function sessionPerfil() {
@@ -615,7 +630,11 @@ export async function confirmarCarrera(
       data: { carreraId: carrera.id },
     });
 
-    await setPerfilCookie(perfilId);
+    const updated = await prisma.perfil.findUniqueOrThrow({
+      where: { id: perfilId },
+      select: { sessionVersion: true },
+    });
+    await setSessionCookies(perfilId, updated.sessionVersion);
 
     revalidateApp();
     refresh();
@@ -658,76 +677,204 @@ export async function updatePerfil(
   }
 }
 
-export async function updatePerfilSeguridad(
+export async function requestPasswordChange(
   _prev: ActionResult,
-  formData: FormData
+  formData: FormData,
+): Promise<ActionResult> {
+  void _prev;
+  void formData;
+  const limit = await checkLimit();
+  if (limit) return limit;
+
+  try {
+    const perfil = await sessionPerfil();
+
+    if (!isEligibleForPasswordRecovery(perfil)) {
+      return fail("Necesitás un email UCASAL verificado para cambiar la contraseña.");
+    }
+
+    const result = await sendPasswordChangeForPerfil(perfil.id);
+    if (!result.ok) {
+      return fail("Esperá un minuto antes de volver a solicitar el enlace.");
+    }
+
+    return ok("Te enviamos un enlace a tu email para cambiar la contraseña.");
+  } catch (e) {
+    console.error("requestPasswordChange", e);
+    return fail("No pudimos enviar el email. Intentá de nuevo más tarde.");
+  }
+}
+
+export async function requestEmailChange(
+  _prev: ActionResult,
+  formData: FormData,
 ): Promise<ActionResult> {
   const limit = await checkLimit();
   if (limit) return limit;
 
-  const parsed = perfilSeguridadSchema.safeParse({
+  const parsed = requestEmailChangeSchema.safeParse({
     emailUcasal: safeStr(formData, "emailUcasal"),
+  });
+
+  if (!parsed.success) {
+    return fail("Email inválido", parsed.error.flatten().fieldErrors);
+  }
+
+  try {
+    const perfil = await sessionPerfil();
+
+    if (!perfil.emailUcasal || !perfil.emailVerifiedAt) {
+      return fail("Necesitás un email UCASAL verificado para cambiarlo.");
+    }
+
+    if (parsed.data.emailUcasal === perfil.emailUcasal) {
+      return fail("El email nuevo debe ser distinto al actual.");
+    }
+
+    const taken = await prisma.perfil.findUnique({
+      where: { emailUcasal: parsed.data.emailUcasal },
+    });
+    if (taken) {
+      return fail("Ese email ya está registrado en UcaNode.");
+    }
+
+    const result = await sendEmailChangeForPerfil(perfil.id, parsed.data.emailUcasal);
+    if (!result.ok) {
+      return fail("Esperá un minuto antes de volver a solicitar el cambio.");
+    }
+
+    revalidatePerfil();
+    return ok(
+      `Te enviamos un email a ${perfil.emailUcasal} para confirmar el cambio.`,
+    );
+  } catch (e) {
+    console.error("requestEmailChange", e);
+    return fail("No pudimos enviar el email. Intentá de nuevo más tarde.");
+  }
+}
+
+export async function requestPasswordReset(
+  _prev: ActionResult,
+  formData: FormData,
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+
+  const parsed = passwordResetRequestSchema.safeParse({
+    email: safeStr(formData, "email"),
+  });
+
+  if (!parsed.success) {
+    return fail("Email inválido", parsed.error.flatten().fieldErrors);
+  }
+
+  try {
+    const result = await requestPasswordResetForEmail(parsed.data.email);
+    return ok(result.message ?? PASSWORD_RESET_OK_MESSAGE);
+  } catch (e) {
+    console.error("requestPasswordReset", e);
+    return ok(PASSWORD_RESET_OK_MESSAGE);
+  }
+}
+
+export async function applyPasswordChange(
+  _prev: ActionResult,
+  formData: FormData,
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+
+  const parsed = applyPasswordChangeSchema.safeParse({
+    token: safeStr(formData, "token"),
     password: safeStr(formData, "password"),
-    currentPassword: safeStr(formData, "currentPassword"),
+    confirmPassword: safeStr(formData, "confirmPassword"),
   });
 
   if (!parsed.success) {
     return fail("Datos inválidos", parsed.error.flatten().fieldErrors);
   }
 
-  const { password, currentPassword, emailUcasal } = parsed.data;
-  const passwordInput = password?.trim();
-  const nextEmail = emailUcasal ?? null;
+  const tokenResult = await consumeSecurityToken(
+    parsed.data.token,
+    SecurityActionType.PASSWORD_CHANGE,
+  );
+
+  if (!tokenResult.ok) {
+    const message =
+      tokenResult.reason === "expired"
+        ? "El enlace expiró. Solicitá uno nuevo."
+        : "El enlace no es válido.";
+    return fail(message);
+  }
 
   try {
-    const existing = await sessionPerfil();
+    const passwordHash = await hashPassword(parsed.data.password);
+    const perfil = await prisma.perfil.update({
+      where: { id: tokenResult.perfilId },
+      data: {
+        password: passwordHash,
+        sessionVersion: { increment: 1 },
+      },
+    });
 
-    if (!existing.password) {
-      return fail("Configurá una contraseña desde el registro antes de cambiar datos de seguridad.");
-    }
-
-    const valid = await verifyPassword(currentPassword, existing.password);
-    if (!valid) {
-      return fail("La contraseña actual no es correcta.", {
-        currentPassword: ["La contraseña actual no es correcta."],
-      });
-    }
-
-    const emailChanged = nextEmail !== existing.emailUcasal;
-    const data: {
-      emailUcasal: string | null;
-      password?: string;
-      emailVerifiedAt?: Date | null;
-    } = { emailUcasal: nextEmail };
-
-    if (passwordInput) {
-      data.password = await hashPassword(passwordInput);
-    }
-
-    if (emailChanged) {
-      data.emailVerifiedAt = null;
-    }
-
-    await prisma.perfil.update({ where: { id: existing.id }, data });
+    await setSessionCookies(perfil.id, perfil.sessionVersion);
     revalidatePerfil();
     refresh();
-
-    if (emailChanged && nextEmail) {
-      try {
-        await sendVerificationForPerfil(existing.id);
-        return ok("Datos de seguridad guardados. Te enviamos un email para verificar la nueva dirección.");
-      } catch (e) {
-        console.error("sendVerificationForPerfil", e);
-        return ok(
-          "Datos guardados, pero no pudimos enviar el email de verificación. Reenvialo desde la pantalla de verificación.",
-        );
-      }
-    }
-
-    return ok(passwordInput ? "Contraseña actualizada" : "Datos de seguridad guardados");
+    redirect("/login?error=password_updated");
   } catch (e) {
-    console.error("updatePerfilSeguridad", e);
-    return fail("Error al guardar los datos de seguridad");
+    console.error("applyPasswordChange", e);
+    return fail("Error al actualizar la contraseña");
+  }
+}
+
+export async function applyEmailChange(
+  _prev: ActionResult,
+  formData: FormData,
+): Promise<ActionResult> {
+  const limit = await checkLimit();
+  if (limit) return limit;
+
+  const parsed = applyEmailChangeSchema.safeParse({
+    token: safeStr(formData, "token"),
+  });
+
+  if (!parsed.success) {
+    return fail("Token inválido");
+  }
+
+  const tokenResult = await consumeSecurityToken(
+    parsed.data.token,
+    SecurityActionType.EMAIL_CHANGE,
+  );
+
+  if (!tokenResult.ok) {
+    const message =
+      tokenResult.reason === "expired"
+        ? "El enlace expiró. Solicitá un cambio de email nuevamente."
+        : "El enlace no es válido.";
+    return fail(message);
+  }
+
+  const newEmail = tokenResult.payload?.newEmail;
+  if (!newEmail) {
+    return fail("El enlace no es válido.");
+  }
+
+  const taken = await prisma.perfil.findUnique({ where: { emailUcasal: newEmail } });
+  if (taken && taken.id !== tokenResult.perfilId) {
+    return fail("Ese email ya está registrado en UcaNode.");
+  }
+
+  try {
+    await applyEmailChangeFromToken(tokenResult.perfilId, newEmail);
+    revalidatePerfil();
+    refresh();
+    return ok(
+      "Email actualizado. Te enviamos un mail al nuevo email para verificarlo.",
+    );
+  } catch (e) {
+    console.error("applyEmailChange", e);
+    return fail("Error al confirmar el cambio de email");
   }
 }
 
