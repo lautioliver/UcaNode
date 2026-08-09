@@ -28,18 +28,18 @@ function FormFeedback({
 }) {
   return (
     <>
-      <Button type="submit" disabled={pending} className="sm:col-span-2">
+      <Button type="submit" disabled={pending} className="col-span-full">
         {pending ? "Guardando..." : submitLabel}
       </Button>
       {state.message && (
         <p
-          className={`text-sm sm:col-span-2 ${state.success ? "text-success" : "text-danger"}`}
+          className={`text-sm col-span-full ${state.success ? "text-success" : "text-danger"}`}
         >
           {state.message}
         </p>
       )}
       {state.errors && (
-        <ul className="text-sm text-danger sm:col-span-2">
+        <ul className="text-sm text-danger col-span-full">
           {Object.entries(state.errors).map(([field, msgs]) =>
             msgs.map((msg, i) => <li key={`${field}-${i}`}>{field}: {msg}</li>)
           )}
@@ -68,7 +68,7 @@ function Field({
   hint?: string;
 }) {
   return (
-    <div className={span ? "sm:col-span-2" : ""}>
+    <div className={span ? "col-span-full" : ""}>
       <Label htmlFor={htmlFor} className="mb-1.5 block text-xs font-medium text-secondary">
         {label}
       </Label>

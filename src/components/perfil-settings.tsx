@@ -179,66 +179,115 @@ export function PerfilAcademicoCard({ carreraNombre }: { carreraNombre: string |
 }
 
 export function PerfilSeguridadForm({
-  action,
+  passwordAction,
+  emailAction,
   defaultValues,
 }: {
-  action: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
+  passwordAction: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
+  emailAction: (prev: ActionResult, data: FormData) => Promise<ActionResult>;
   defaultValues: {
     emailUcasal: string;
-    passwordConfigured: boolean;
+    emailVerified: boolean;
   };
 }) {
-  const [state, formAction, pending] = useActionState(action, { success: true });
+  const [passwordState, passwordFormAction, passwordPending] = useActionState(
+    passwordAction,
+    { success: true },
+  );
+  const [emailState, emailFormAction, emailPending] = useActionState(emailAction, {
+    success: true,
+  });
 
   return (
     <Card className="rounded-2xl border-border bg-surface-card shadow-[var(--shadow-card)]">
       <CardHeader>
         <CardTitle className="text-lg">Seguridad</CardTitle>
         <CardDescription>
-          Para cambiar email o contraseña necesitás confirmar tu contraseña actual.
+          Para cambiar contraseña o email te enviamos un enlace de verificación a tu
+          casilla UCASAL.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form action={formAction} className="grid gap-4 sm:grid-cols-2">
-          <Field label="Contraseña actual" htmlFor="currentPassword" span>
-            <Input
-              id="currentPassword"
-              name="currentPassword"
-              type="password"
-              autoComplete="current-password"
-              required
-              placeholder="Ingresá tu contraseña actual"
-            />
-          </Field>
-          <Field label="Email UCASAL" htmlFor="emailUcasal" span>
-            <Input
-              id="emailUcasal"
-              name="emailUcasal"
-              type="email"
-              defaultValue={defaultValues.emailUcasal}
-              placeholder="nombre.apellido@ucasal.edu.ar"
-            />
-          </Field>
-          <Field
-            label="Nueva contraseña"
-            htmlFor="password"
-            span
-            hint={
-              defaultValues.passwordConfigured
-                ? "Dejá vacío si no querés cambiar la contraseña."
-                : "Opcional si aún no configuraste una contraseña."
-            }
-          >
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="new-password"
-              placeholder="Nueva contraseña (opcional)"
-            />
-          </Field>
-          <FormFeedback state={state} pending={pending} submitLabel="Actualizar seguridad" />
-        </form>
+      <CardContent className="space-y-8">
+        <div className="space-y-3">
+          <div>
+            <h3 className="text-sm font-medium text-primary">Contraseña</h3>
+            <p className="mt-1 text-sm text-secondary">
+              Te enviaremos un enlace a{" "}
+              {defaultValues.emailUcasal || "tu email UCASAL"} para elegir una
+              contraseña nueva.
+            </p>
+          </div>
+          <form action={passwordFormAction}>
+            <Button
+              type="submit"
+              variant="outline"
+              disabled={passwordPending || !defaultValues.emailVerified}
+            >
+              {passwordPending ? "Enviando..." : "Enviar enlace para cambiar contraseña"}
+            </Button>
+            {!defaultValues.emailVerified ? (
+              <p className="mt-2 text-sm text-muted">
+                Verificá tu email UCASAL antes de cambiar la contraseña.
+              </p>
+            ) : null}
+            {passwordState.message ? (
+              <p
+                className={`mt-2 text-sm ${passwordState.success ? "text-success" : "text-danger"}`}
+              >
+                {passwordState.message}
+              </p>
+            ) : null}
+          </form>
+        </div>
+
+        <div className="space-y-3 border-t border-border pt-6">
+          <div>
+            <h3 className="text-sm font-medium text-primary">Email UCASAL</h3>
+            <p className="mt-1 text-sm text-secondary">
+              Email actual:{" "}
+              <span className="font-medium text-primary">
+                {defaultValues.emailUcasal || "Sin configurar"}
+              </span>
+            </p>
+          </div>
+          <form action={emailFormAction} className="grid gap-4">
+            <Field label="Nuevo email UCASAL" htmlFor="emailUcasal" span>
+              <Input
+                id="emailUcasal"
+                name="emailUcasal"
+                type="email"
+                placeholder="nombre.apellido@ucasal.edu.ar"
+                disabled={!defaultValues.emailVerified}
+              />
+            </Field>
+            <Button
+              type="submit"
+              variant="outline"
+              disabled={emailPending || !defaultValues.emailVerified}
+            >
+              {emailPending ? "Enviando..." : "Solicitar cambio de email"}
+            </Button>
+            {!defaultValues.emailVerified ? (
+              <p className="text-sm text-muted">
+                Verificá tu email UCASAL antes de cambiarlo.
+              </p>
+            ) : null}
+            {emailState.message ? (
+              <p
+                className={`text-sm ${emailState.success ? "text-success" : "text-danger"}`}
+              >
+                {emailState.message}
+              </p>
+            ) : null}
+            {emailState.errors ? (
+              <ul className="space-y-1 text-sm text-danger">
+                {Object.values(emailState.errors).flat().map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            ) : null}
+          </form>
+        </div>
       </CardContent>
     </Card>
   );

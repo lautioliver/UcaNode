@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { safeAuthRedirect } from "@/lib/auth";
 import { parseAuthForm, registerAccount } from "@/lib/auth-service";
-import { PERFIL_COOKIE, perfilCookieOptions } from "@/lib/session";
+import { prisma } from "@/lib/prisma";
+import { setSessionOnResponse } from "@/lib/session-response";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -20,7 +21,12 @@ export async function POST(request: NextRequest) {
   if (input.next) url.searchParams.set("next", safeAuthRedirect(input.next));
   url.searchParams.set("sent", "1");
 
+  const perfil = await prisma.perfil.findUnique({
+    where: { id: result.perfilId },
+    select: { sessionVersion: true },
+  });
+
   const response = NextResponse.redirect(url);
-  response.cookies.set(PERFIL_COOKIE, result.perfilId, perfilCookieOptions());
+  setSessionOnResponse(response, result.perfilId, perfil?.sessionVersion ?? 0);
   return response;
 }

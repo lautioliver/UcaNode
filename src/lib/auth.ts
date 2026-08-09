@@ -26,7 +26,9 @@ export function safeAuthRedirect(next: string | null | undefined): string {
   if (
     next.startsWith("/login") ||
     next.startsWith("/registro") ||
-    next.startsWith("/verificar-email")
+    next.startsWith("/verificar-email") ||
+    next.startsWith("/recuperar-contrasena") ||
+    next.startsWith("/cambiar-contrasena")
   ) {
     return "/";
   }
