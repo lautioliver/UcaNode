@@ -30,15 +30,19 @@ function FormFeedback({
   state,
   pending,
   submitLabel = "Guardar",
+  pendingLabel = "Guardando...",
+  disabled = false,
 }: {
   state: ActionResult;
   pending: boolean;
   submitLabel?: string;
+  pendingLabel?: string;
+  disabled?: boolean;
 }) {
   return (
     <>
-      <Button type="submit" disabled={pending} className="sm:col-span-2">
-        {pending ? "Guardando..." : submitLabel}
+      <Button type="submit" disabled={pending || disabled} className="sm:col-span-2">
+        {pending ? pendingLabel : submitLabel}
       </Button>
       {state.message && (
         <p
@@ -71,7 +75,7 @@ function Field({
 }: {
   label: string;
   htmlFor?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   span?: boolean;
   hint?: string;
 }) {
@@ -198,6 +202,10 @@ export function PerfilSeguridadForm({
     success: true,
   });
 
+  const emailHint = defaultValues.emailUcasal
+    ? `Te enviaremos un enlace a ${defaultValues.emailUcasal} para elegir una contraseña nueva.`
+    : "Configurá y verificá tu email UCASAL para poder cambiar la contraseña.";
+
   return (
     <Card className="rounded-2xl border-border bg-surface-card shadow-[var(--shadow-card)]">
       <CardHeader>
@@ -207,87 +215,55 @@ export function PerfilSeguridadForm({
           casilla UCASAL.
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-8">
-        <div className="space-y-3">
-          <div>
-            <h3 className="text-sm font-medium text-primary">Contraseña</h3>
-            <p className="mt-1 text-sm text-secondary">
-              Te enviaremos un enlace a{" "}
-              {defaultValues.emailUcasal || "tu email UCASAL"} para elegir una
-              contraseña nueva.
-            </p>
-          </div>
-          <form action={passwordFormAction}>
-            <Button
-              type="submit"
-              variant="outline"
-              disabled={passwordPending || !defaultValues.emailVerified}
-            >
-              {passwordPending ? "Enviando..." : "Enviar enlace para cambiar contraseña"}
-            </Button>
-            {!defaultValues.emailVerified ? (
-              <p className="mt-2 text-sm text-muted">
-                Verificá tu email UCASAL antes de cambiar la contraseña.
-              </p>
-            ) : null}
-            {passwordState.message ? (
-              <p
-                className={`mt-2 text-sm ${passwordState.success ? "text-success" : "text-danger"}`}
-              >
-                {passwordState.message}
-              </p>
-            ) : null}
-          </form>
-        </div>
+      <CardContent className="space-y-6">
+        <Field label="Email UCASAL actual" htmlFor="emailUcasalActual" span>
+          <Input
+            id="emailUcasalActual"
+            value={defaultValues.emailUcasal || "Sin configurar"}
+            readOnly
+            className="cursor-not-allowed bg-surface-subtle opacity-90"
+          />
+        </Field>
 
-        <div className="space-y-3 border-t border-border pt-6">
-          <div>
-            <h3 className="text-sm font-medium text-primary">Email UCASAL</h3>
-            <p className="mt-1 text-sm text-secondary">
-              Email actual:{" "}
-              <span className="font-medium text-primary">
-                {defaultValues.emailUcasal || "Sin configurar"}
-              </span>
+        <form action={passwordFormAction} className="grid gap-4 sm:grid-cols-2">
+          <Field label="Contraseña" span hint={emailHint} />
+          {!defaultValues.emailVerified ? (
+            <p className="text-sm text-muted sm:col-span-2">
+              Verificá tu email UCASAL antes de cambiar la contraseña.
             </p>
-          </div>
-          <form action={emailFormAction} className="grid gap-4">
-            <Field label="Nuevo email UCASAL" htmlFor="emailUcasal" span>
-              <Input
-                id="emailUcasal"
-                name="emailUcasal"
-                type="email"
-                placeholder="nombre.apellido@ucasal.edu.ar"
-                disabled={!defaultValues.emailVerified}
-              />
-            </Field>
-            <Button
-              type="submit"
-              variant="outline"
-              disabled={emailPending || !defaultValues.emailVerified}
-            >
-              {emailPending ? "Enviando..." : "Solicitar cambio de email"}
-            </Button>
-            {!defaultValues.emailVerified ? (
-              <p className="text-sm text-muted">
-                Verificá tu email UCASAL antes de cambiarlo.
-              </p>
-            ) : null}
-            {emailState.message ? (
-              <p
-                className={`text-sm ${emailState.success ? "text-success" : "text-danger"}`}
-              >
-                {emailState.message}
-              </p>
-            ) : null}
-            {emailState.errors ? (
-              <ul className="space-y-1 text-sm text-danger">
-                {Object.values(emailState.errors).flat().map((error) => (
-                  <li key={error}>{error}</li>
-                ))}
-              </ul>
-            ) : null}
-          </form>
-        </div>
+          ) : null}
+          <FormFeedback
+            state={passwordState}
+            pending={passwordPending}
+            disabled={!defaultValues.emailVerified}
+            submitLabel="Enviar enlace para cambiar contraseña"
+            pendingLabel="Enviando..."
+          />
+        </form>
+
+        <form action={emailFormAction} className="grid gap-4 sm:grid-cols-2">
+          <Field label="Nuevo email UCASAL" htmlFor="emailUcasal" span>
+            <Input
+              id="emailUcasal"
+              name="emailUcasal"
+              type="email"
+              placeholder="nombre.apellido@ucasal.edu.ar"
+              disabled={!defaultValues.emailVerified}
+            />
+          </Field>
+          {!defaultValues.emailVerified ? (
+            <p className="text-sm text-muted sm:col-span-2">
+              Verificá tu email UCASAL antes de cambiarlo.
+            </p>
+          ) : null}
+          <FormFeedback
+            state={emailState}
+            pending={emailPending}
+            disabled={!defaultValues.emailVerified}
+            submitLabel="Solicitar cambio de email"
+            pendingLabel="Enviando..."
+          />
+        </form>
       </CardContent>
     </Card>
   );
