@@ -117,3 +117,38 @@ npm run validate:plan -- src/data/correlatividades.json
 ```
 
 Para incorporar una carrera nueva al onboarding, seguí el flujo del agente `.cursor/agents/plan-estudio-ingesta.md`.
+
+## Red institucional: error de certificado HTTPS
+
+En redes con **FortiGate** (inspección SSL), al abrir `https://ucanode.app` puede aparecer:
+
+- `ERR_CERT_AUTHORITY_INVALID` en Cursor o el navegador
+- Emisor del certificado: `Fortinet CA — FG6H0ETB21902486` (en lugar de Vercel/Let's Encrypt)
+
+**No es un fallo de UcaNode.** La red reemplaza el certificado de Vercel por uno firmado por la CA interna de Fortinet. HSTS de Vercel no causa este error; el bloqueo ocurre en el handshake TLS.
+
+### Opción rápida (solo Cursor)
+
+1. Abrí `https://ucanode.app` en el preview/browser de Cursor.
+2. En el modal **Certificate Error**, marcá **Remember for this workspace**.
+3. Clic en **Trust Certificate** y recargá la página.
+
+### Opción definitiva (todo el sistema Linux)
+
+1. Pedí a sistemas/IT el certificado raíz **Fortinet_CA_SSL** (`.crt` / `.pem`).
+   - Plantilla de solicitud: `./scripts/install-fortinet-ca.sh --solicitud-it`
+2. Guardá el archivo en `certs/Fortinet_CA_SSL.crt` (no commitear) o en `~/Downloads/`.
+3. Instalá la CA:
+
+```bash
+chmod +x scripts/install-fortinet-ca.sh
+./scripts/install-fortinet-ca.sh certs/Fortinet_CA_SSL.crt
+```
+
+4. Reiniciá Cursor y el navegador. Verificá:
+
+```bash
+curl -I https://ucanode.app
+```
+
+Debe responder `HTTP/2 307` sin error SSL.

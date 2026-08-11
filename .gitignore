@@ -23,6 +23,8 @@
 # misc
 .DS_Store
 *.pem
+certs/*.crt
+certs/*.cer
 
 # local design references
 /b-cs.png
