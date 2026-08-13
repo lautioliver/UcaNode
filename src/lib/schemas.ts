@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { EDIFICIO_ID_MAX, EDIFICIO_ID_MIN } from "@/lib/campus/edificios";
 
 export const EstadoMateria = z.enum([
   "CURSANDO",
@@ -70,6 +71,18 @@ export const horarioSchema = z.object({
   etiqueta: z
     .string()
     .max(40, "La etiqueta no puede superar 40 caracteres")
+    .nullable()
+    .optional(),
+  edificioId: z.coerce
+    .number()
+    .int()
+    .min(EDIFICIO_ID_MIN, "Edificio inválido")
+    .max(EDIFICIO_ID_MAX, "Edificio inválido")
+    .nullable()
+    .optional(),
+  aula: z
+    .string()
+    .max(50, "El aula no puede superar 50 caracteres")
     .nullable()
     .optional(),
   materiaId: z.string().min(1, "La materia es requerida"),

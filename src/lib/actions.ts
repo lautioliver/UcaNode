@@ -397,6 +397,8 @@ export async function createHorario(
     modalidad: formData.get("modalidad") || "PRESENCIAL",
     aulaLink: safeStr(formData, "aulaLink"),
     etiqueta: safeStr(formData, "etiqueta"),
+    edificioId: safeNum(formData, "edificioId"),
+    aula: safeStr(formData, "aula"),
     materiaId: safeStr(formData, "materiaId"),
   });
 
@@ -435,6 +437,8 @@ export async function updateHorario(
     modalidad: formData.get("modalidad"),
     aulaLink: safeStr(formData, "aulaLink"),
     etiqueta: safeStr(formData, "etiqueta"),
+    edificioId: safeNum(formData, "edificioId"),
+    aula: safeStr(formData, "aula"),
     materiaId: safeStr(formData, "materiaId"),
   });
 

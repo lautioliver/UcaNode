@@ -235,10 +235,15 @@ model Horario {
   modalidad     Modalidad  @default(PRESENCIAL)
   aulaLink      String?
   etiqueta      String?
+  /// Edificio del Campus Castañares (1-21), ver src/lib/campus/edificios.ts
+  edificioId    Int?
+  aula          String?    @db.VarChar(50)
   materiaId     String
   materia       Materia    @relation(fields: [materiaId], references: [id], onDelete: Cascade)
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
+
+  @@index([edificioId])
 }
 
 model LinkExterno {
