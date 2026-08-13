@@ -325,7 +325,7 @@ export function AppPreview({
         <div className="ml-3 flex min-w-0 flex-1 items-center gap-1.5 rounded-lg border border-border bg-surface-card px-3 py-1">
           <span className="text-[11px] text-muted">🔒</span>
           <span className="truncate text-[11px] text-secondary">
-            uca-node.vercel.app/{VIEW_LABEL[view]}
+            ucanode.app/{VIEW_LABEL[view]}
           </span>
         </div>
         <span className="hidden shrink-0 items-center gap-1.5 rounded-full bg-accent-ghost px-2.5 py-1 text-[10px] font-medium text-accent sm:inline-flex">
