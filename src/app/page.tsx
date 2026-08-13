@@ -61,17 +61,17 @@ export default async function LandingPage() {
             </a>
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <LandingThemeToggle initialDark={dark} />
             <Link
               href="/login"
-              className="inline-flex h-9 items-center rounded-full border border-border bg-surface-card px-4 text-sm font-medium text-secondary transition hover:border-border-strong hover:text-primary"
+              className="hidden h-9 items-center rounded-full border border-border bg-surface-card px-4 text-sm font-medium text-secondary transition hover:border-border-strong hover:text-primary sm:inline-flex"
             >
               Ingresar
             </Link>
             <Link
               href="/registro"
-              className="inline-flex h-9 items-center rounded-full bg-accent px-4 text-sm font-medium text-white transition hover:bg-accent-hover"
+              className="inline-flex h-9 items-center rounded-full bg-accent px-3.5 text-sm font-medium text-white transition hover:bg-accent-hover sm:px-4"
             >
               Crear cuenta
             </Link>
@@ -91,7 +91,7 @@ export default async function LandingPage() {
               <Sparkles className="h-3.5 w-3.5 text-accent" />
               Autogestión para estudiantes de la Ucasal
             </span>
-            <h1 className="text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl">
+            <h1 className="text-[2rem] font-semibold leading-[1.1] tracking-tight sm:text-5xl">
               Tu vida académica,{" "}
               <span className="text-accent">en un solo panel.</span>
             </h1>
@@ -565,10 +565,10 @@ export default async function LandingPage() {
                   <span className="inline-flex items-center gap-2">
                     <Mail className="h-3.5 w-3.5 text-muted" />
                     <a
-                      href="mailto:ucanode.app@gmail.com"
+                      href="mailto:ucanodesoporte@gmail.com"
                       className="text-secondary transition hover:text-primary"
                     >
-                      ucanode.app@gmail.com
+                      ucanodesoporte@gmail.com
                     </a>
                   </span>
                 </li>
