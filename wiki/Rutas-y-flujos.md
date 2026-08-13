@@ -27,6 +27,7 @@ flowchart TD
     MatId["/materias/[id] Detalle de materia"]
     Ent["/entregas Entregas"]
     Hor["/horarios Horarios"]
+    Cam["/campus Mapa del campus"]
     Con["/concurrencia Concurrencia"]
     Com["/comunidad Comunidad"]
     ComId["/comunidad/[postId] Hilo de publicación"]
@@ -41,6 +42,8 @@ flowchart TD
     Root --> Mat
     Root --> Ent
     Root --> Hor
+    Root --> Cam
+    Hor --> Cam
     Root --> Con
     Root --> Com
     Com --> ComId
@@ -52,26 +55,28 @@ flowchart TD
     Mat --> Per
     Ent --> Per
     Hor --> Per
+    Cam --> Per
     Con --> Per
     Com --> Per
     Lnk --> Per
 
-    Root & Mat & MatId & Ent & Hor & Con & Com & ComId & Lnk & Per -.-> Err
-    Root & Mat & MatId & Ent & Hor & Con & Com & ComId & Lnk & Per -.-> Ld
+    Root & Mat & MatId & Ent & Hor & Cam & Con & Com & ComId & Lnk & Per -.-> Err
+    Root & Mat & MatId & Ent & Hor & Cam & Con & Com & ComId & Lnk & Per -.-> Ld
 ```
 
-La sidebar incluye accesos a dashboard, materias, entregas, horarios, concurrencia, comunidad, links y perfil. Solo es visible después de completar el onboarding. También maneja el modo claro/oscuro y el colapso en pantallas grandes.
+La sidebar incluye accesos a dashboard, materias, entregas, horarios, campus, concurrencia, comunidad, links y perfil. Solo es visible después de completar el onboarding. También maneja el modo claro/oscuro y el colapso en pantallas grandes.
 
 ## Rutas
 
 | Ruta | Lecturas principales | Acciones disponibles |
 |---|---|---|
 | Onboarding (layout) | `requirePerfil`, `listCarrerasDisponibles` | `confirmarCarrera` (requiere email verificado) |
-| `/` | Entregas, materias cursando, horarios y links favoritos | - |
+| `/` | Entregas, materias cursando, horarios y links favoritos. Widget de próxima clase con acceso al mapa del campus | - |
 | `/materias` | `materia.findMany`, `getPlanMateriasByCarreraId` (autocompletado) | `createMateria`, `updateMateria`, `deleteMateria` |
 | `/materias/[id]` | `materia.findUnique` con entregas y horarios | Acciones sobre items relacionados según componentes reutilizados |
 | `/entregas` | `entrega.findMany`, `materia.findMany` | `createEntrega`, `updateEntrega`, `deleteEntrega` |
 | `/horarios` | `horario.findMany` y `materia.findMany` filtrados a estados activos (`CURSANDO`, `PARA_FINALIZAR`) | `createHorario`, `updateHorario`, `deleteHorario` |
+| `/campus` | Diccionario estático `src/lib/campus/edificios.ts` y `fetchZones` para la capa de ocupación (opcional) | - |
 | `/concurrencia` | `fetchZones` desde CampuStatus (`GET /api/zones`, cache 60 s) | - |
 | `/comunidad` | `getPosts`, `getCommunitySidebarData`, perfil, materias `CURSANDO`, plan de estudio | `createPost`, `votePost` |
 | `/comunidad/[postId]` | `getPostById`, comentarios anidados | `createComment`, `votePost`, `voteComment` |

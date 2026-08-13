@@ -19,10 +19,11 @@ Producción: [https://ucanode.app](https://ucanode.app)
 - Registro y login con verificación de email (Resend, dominio `mail.ucanode.app`).
 - Onboarding inicial (tras login y verificación de email): selección de carrera y carga lazy del plan de estudios desde JSON.
 - Login como punto de entrada; listado de carreras disponibles en la pantalla de acceso.
-- Dashboard con próximas entregas, clases del día, materias en curso y links favoritos.
+- Dashboard con próxima clase (con acceso al mapa del campus), próximas entregas, clases del día, materias en curso y links favoritos.
 - Gestión de materias en catálogo de tarjetas (año/semestre, estados y correlatividades).
 - Calendario/listado de entregas por materia, tipo, fecha, prioridad y estado.
-- Grilla semanal de horarios (materias en cursada / para finalizar).
+- Grilla semanal de horarios (materias en cursada / para finalizar), con edificio y aula del campus por clase.
+- Mapa interactivo del Campus Castañares: los 21 edificios oficiales, servicios y referencias, con zoom y filtros.
 - Concurrencia del campus en tiempo casi real vía CampuStatus.
 - Comunidad estudiantil con feed de publicaciones, filtros por carrera/materias, votos, comentarios anidados y adjuntos por URL externa (Drive, PDF).
 - Administración de links externos frecuentes.
@@ -87,6 +88,7 @@ La documentación técnica vive en la wiki del repo:
 - [Arquitectura](wiki/Arquitectura.md)
 - [Modelo de datos](wiki/Modelo-de-datos.md)
 - [Rutas y flujos](wiki/Rutas-y-flujos.md)
+- [Mapa del campus](wiki/Mapa-del-campus.md)
 - [Guía de desarrollo](wiki/Desarrollo.md)
 - [Deploy en Vercel + Neon](wiki/Deploy.md)
 - [Estructura del proyecto](wiki/Estructura-del-proyecto.md)

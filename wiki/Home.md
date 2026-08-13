@@ -7,6 +7,7 @@ Esta wiki reúne la documentación técnica y funcional de UcaNode. El `README.m
 - [Arquitectura](Arquitectura.md): cómo se conectan App Router, Server Components, Server Actions, Prisma y PostgreSQL (Neon).
 - [Modelo de datos](Modelo-de-datos.md): entidades, relaciones, enums, plan de estudios e índices definidos en Prisma.
 - [Rutas y flujos](Rutas-y-flujos.md): navegación principal, consultas por pantalla y flujo de lectura/escritura.
+- [Mapa del campus](Mapa-del-campus.md): mapa interactivo del Campus Castañares, coordenadas de los 21 edificios y widget de próxima clase.
 - [Guía de desarrollo](Desarrollo.md): requisitos, setup, scripts y tareas habituales.
 - [Deploy en Vercel + Neon](Deploy.md): variables, build y verificación en producción.
 - [Estructura del proyecto](Estructura-del-proyecto.md): carpetas principales y responsabilidad de cada archivo.
@@ -19,7 +20,8 @@ UcaNode ayuda a centralizar la organización académica:
 - Onboarding de carrera con carga lazy del plan de estudios.
 - Materias por estado: cursando, para finalizar, regular y finalizada.
 - Entregas, parciales y finales asociados a materias.
-- Horarios semanales.
+- Horarios semanales, con edificio y aula del campus por bloque de cursada.
+- Mapa interactivo del Campus Castañares y widget de próxima clase.
 - Links externos frecuentes.
 - Perfil del estudiante vinculado a una carrera UCASAL.
 - Correlatividades del plan oficial (desde DB tras onboarding).
