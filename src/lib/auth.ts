@@ -21,8 +21,12 @@ export function isPerfilPendienteVerificacion(
   );
 }
 
+const AUTH_FALLBACK = "/dashboard";
+
 export function safeAuthRedirect(next: string | null | undefined): string {
-  if (!next || !next.startsWith("/") || next.startsWith("//")) return "/";
+  if (!next || !next.startsWith("/") || next.startsWith("//")) {
+    return AUTH_FALLBACK;
+  }
   if (
     next.startsWith("/login") ||
     next.startsWith("/registro") ||
@@ -30,7 +34,7 @@ export function safeAuthRedirect(next: string | null | undefined): string {
     next.startsWith("/recuperar-contrasena") ||
     next.startsWith("/cambiar-contrasena")
   ) {
-    return "/";
+    return AUTH_FALLBACK;
   }
   return next;
 }
