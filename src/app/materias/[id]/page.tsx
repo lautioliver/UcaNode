@@ -12,6 +12,7 @@ import {
   StatusBadge,
 } from "@/components/layout";
 import { EntregaCard } from "@/components/entrega-card";
+import { getEdificio } from "@/lib/campus/edificios";
 import {
   diaSemanaLabel,
   estadoMateriaLabel,
@@ -141,9 +142,11 @@ export default async function MateriaDetailPage({
                       </>
                     ) : null}
                   </p>
-                  {h.aulaLink && (
-                    <p className="mt-0.5 text-[11px] text-muted">{h.aulaLink}</p>
-                  )}
+                  <UbicacionHorario
+                    edificioId={h.edificioId}
+                    aula={h.aula}
+                    aulaLink={h.aulaLink}
+                  />
                 </div>
               ))}
             </div>
@@ -153,5 +156,33 @@ export default async function MateriaDetailPage({
         </SectionCard>
       </div>
     </main>
+  );
+}
+
+function UbicacionHorario({
+  edificioId,
+  aula,
+  aulaLink,
+}: {
+  edificioId: number | null;
+  aula: string | null;
+  aulaLink: string | null;
+}) {
+  const edificio = getEdificio(edificioId);
+
+  return (
+    <>
+      {edificio && (
+        <p className="mt-1 text-[11px] text-secondary">
+          <span className="font-medium text-accent">Edificio #{edificio.id}</span>
+          {` · ${edificio.nombre}`}
+          {aula ? ` · ${aula}` : ""}
+        </p>
+      )}
+      {!edificio && aula && (
+        <p className="mt-0.5 text-[11px] text-muted">{aula}</p>
+      )}
+      {aulaLink && <p className="mt-0.5 text-[11px] text-muted">{aulaLink}</p>}
+    </>
   );
 }
