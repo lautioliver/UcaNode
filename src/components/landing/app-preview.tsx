@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   Activity,
   AlertTriangle,
@@ -282,27 +282,43 @@ export function AppPreview({
 }) {
   const [view, setView] = useState<ViewId>(initialView);
   const [auto, setAuto] = useState(autoRotate);
-  const [hovering, setHovering] = useState(false);
+  const [progress, setProgress] = useState(0);
   const hoverRef = useRef(false);
 
+  // true solo en el cliente: evita hydration mismatch (fechas relativas a Date.now()).
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+
   useEffect(() => {
-    if (!auto) return;
+    if (!auto || !mounted) return;
+    const STEP_MS = 100;
     const id = setInterval(() => {
       if (hoverRef.current) return;
-      setView((prev) => VIEWS[(VIEWS.indexOf(prev) + 1) % VIEWS.length]);
-    }, ROTACION_MS);
+      setProgress((prev) => {
+        const next = prev + STEP_MS;
+        if (next >= ROTACION_MS) {
+          setView((v) => VIEWS[(VIEWS.indexOf(v) + 1) % VIEWS.length]);
+          return 0;
+        }
+        return next;
+      });
+    }, STEP_MS);
     return () => clearInterval(id);
-  }, [auto]);
+  }, [auto, mounted]);
 
   const select = (v: ViewId) => {
     setView(v);
+    setProgress(0);
     setAuto(false);
   };
 
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-surface-card shadow-[var(--shadow-card-lg)]">
       {/* Barra de navegador */}
-      <div className="flex items-center gap-2 border-b border-border bg-surface-subtle px-4 py-2.5">
+      <div className="flex items-center gap-2 border-b border-border bg-surface-subtle px-3 py-2 sm:px-4 sm:py-2.5">
         <span className="h-2.5 w-2.5 rounded-full bg-danger/70" />
         <span className="h-2.5 w-2.5 rounded-full bg-warning/70" />
         <span className="h-2.5 w-2.5 rounded-full bg-success/70" />
@@ -322,7 +338,7 @@ export function AppPreview({
       </div>
 
       {/* Topbar de la app */}
-      <div className="flex h-12 items-center gap-3 border-b border-border bg-surface px-4">
+      <div className="flex h-11 items-center gap-3 border-b border-border bg-surface px-3 sm:h-12 sm:px-4">
         <div className="hidden min-w-0 flex-1 sm:block">
           <div className="flex h-8 w-full max-w-sm items-center gap-2 rounded-lg border border-border bg-surface-subtle px-2.5 text-[11px] text-muted">
             <Search className="h-3 w-3 shrink-0" />
@@ -333,7 +349,7 @@ export function AppPreview({
           </div>
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-surface-card text-secondary">
+          <span className="hidden h-8 w-8 items-center justify-center rounded-lg border border-border bg-surface-card text-secondary sm:flex">
             <Sun className="h-3.5 w-3.5" />
           </span>
           <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-surface-card text-secondary">
@@ -350,9 +366,29 @@ export function AppPreview({
         </div>
       </div>
 
+      {/* Nav horizontal (móvil) */}
+      <div className="flex gap-1 overflow-x-auto border-b border-border bg-surface-nav px-2 py-1.5 md:hidden">
+        {NAV.map(({ id, label, Icon }) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => select(id)}
+            aria-current={view === id ? "page" : undefined}
+            className={`flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-medium transition ${
+              view === id
+                ? "border-accent bg-accent-ghost text-accent"
+                : "border-border bg-surface-card text-muted hover:text-primary"
+            }`}
+          >
+            <Icon className="h-3 w-3 shrink-0" />
+            <span className="whitespace-nowrap">{label}</span>
+          </button>
+        ))}
+      </div>
+
       <div className="flex">
         {/* Sidebar */}
-        <div className="w-36 shrink-0 border-r border-border bg-surface-nav p-2.5 sm:w-44 sm:p-3">
+        <div className="hidden w-44 shrink-0 border-r border-border bg-surface-nav p-3 md:block">
           <div className="mb-3 flex items-center gap-2 px-1.5">
             <LogoMark className="h-5 w-5 shrink-0" />
             <span className="text-[11px] font-semibold text-primary">UcaNode</span>
@@ -375,7 +411,7 @@ export function AppPreview({
               </button>
             ))}
           </nav>
-          <div className="mt-4 hidden px-1.5 sm:block">
+          <div className="mt-4 hidden px-1.5 lg:block">
             <p className="mb-2 text-[10px] font-medium uppercase tracking-wider text-muted">
               Clic para explorar
             </p>
@@ -390,35 +426,37 @@ export function AppPreview({
           className="flex min-w-0 flex-1 flex-col bg-surface"
           onMouseEnter={() => {
             hoverRef.current = true;
-            setHovering(true);
           }}
           onMouseLeave={() => {
             hoverRef.current = false;
-            setHovering(false);
           }}
         >
           <div className="relative">
             <div
               key={view}
-              className="entregas-view-enter min-h-[26rem] space-y-4 overflow-x-clip p-4 sm:p-5"
+              className="entregas-view-enter flex h-[30rem] min-h-0 flex-col space-y-4 overflow-x-clip overflow-y-auto p-3 sm:p-5 xl:h-[32rem]"
             >
-              {view === "dashboard" && <DashboardView />}
-              {view === "entregas" && <EntregasView />}
-              {view === "horarios" && <HorariosView />}
-              {view === "materias" && <MateriasView />}
-              {view === "links" && <LinksView />}
-              {view === "comunidad" && <ComunidadView />}
-              {view === "concurrencia" && <ConcurrenciaView />}
+              {!mounted ? (
+                <PreviewSkeleton />
+              ) : (
+                <>
+                  {view === "dashboard" && <DashboardView />}
+                  {view === "entregas" && <EntregasView />}
+                  {view === "horarios" && <HorariosView />}
+                  {view === "materias" && <MateriasView />}
+                  {view === "links" && <LinksView />}
+                  {view === "comunidad" && <ComunidadView />}
+                  {view === "concurrencia" && <ConcurrenciaView />}
+                </>
+              )}
             </div>
 
             {/* Barra de progreso de rotación */}
             {auto && (
               <div className="absolute inset-x-0 bottom-0 h-0.5 bg-surface-hover">
                 <div
-                  key={view}
-                  className={`preview-timer h-full rounded-r-full bg-accent ${
-                    hovering ? "[animation-play-state:paused]" : ""
-                  }`}
+                  className="h-full rounded-r-full bg-accent transition-[width] duration-100 ease-linear"
+                  style={{ width: `${(progress / ROTACION_MS) * 100}%` }}
                 />
               </div>
             )}
@@ -440,6 +478,29 @@ export function AppPreview({
             ))}
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+/** Placeholder mientras el preview se monta en el cliente (evita hydration mismatch). */
+function PreviewSkeleton() {
+  return (
+    <div className="space-y-4" aria-hidden>
+      <div className="space-y-1.5">
+        <div className="h-4 w-32 animate-pulse rounded-full bg-surface-hover" />
+        <div className="h-5 w-48 animate-pulse rounded-lg bg-surface-hover" />
+        <div className="h-3 w-72 max-w-full animate-pulse rounded bg-surface-hover" />
+      </div>
+      <div className="grid grid-cols-2 gap-2.5 xl:grid-cols-4">
+        {[0, 1, 2, 3].map((i) => (
+          <div key={i} className="h-24 animate-pulse rounded-xl border border-border bg-surface-card" />
+        ))}
+      </div>
+      <div className="grid gap-2.5 md:grid-cols-2">
+        {[0, 1, 2].map((i) => (
+          <div key={i} className="h-36 animate-pulse rounded-xl border border-border bg-surface-card" />
+        ))}
       </div>
     </div>
   );

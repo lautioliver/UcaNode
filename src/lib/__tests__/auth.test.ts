@@ -45,8 +45,9 @@ describe("auth helpers", () => {
 
   it("sanitizes redirect paths", () => {
     expect(safeAuthRedirect("/materias")).toBe("/materias");
-    expect(safeAuthRedirect("//evil.com")).toBe("/");
-    expect(safeAuthRedirect("/login")).toBe("/");
-    expect(safeAuthRedirect("/verificar-email")).toBe("/");
+    expect(safeAuthRedirect("//evil.com")).toBe("/dashboard");
+    expect(safeAuthRedirect("/login")).toBe("/dashboard");
+    expect(safeAuthRedirect("/verificar-email")).toBe("/dashboard");
+    expect(safeAuthRedirect(null)).toBe("/dashboard");
   });
 });
