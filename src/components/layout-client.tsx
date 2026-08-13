@@ -19,6 +19,10 @@ function isAuthRoute(pathname: string) {
   );
 }
 
+function isLandingRoute(pathname: string) {
+  return pathname === "/";
+}
+
 export function LayoutClient({
   children,
   dark,
@@ -49,7 +53,7 @@ export function LayoutClient({
 }) {
   const pathname = usePathname();
 
-  if (isAuthRoute(pathname)) {
+  if (isAuthRoute(pathname) || isLandingRoute(pathname)) {
     return <>{children}</>;
   }
 

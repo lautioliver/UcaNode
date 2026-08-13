@@ -318,6 +318,55 @@ body {
   }
 }
 
+@keyframes landingFloatA {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(-2deg);
+  }
+}
+
+@keyframes landingFloatB {
+  0%,
+  100% {
+    transform: translateY(-6px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(8px) rotate(-1deg);
+  }
+}
+
+@keyframes previewTimer {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.preview-timer {
+  animation: previewTimer 5s linear forwards;
+}
+
+.landing-float-a {
+  animation: landingFloatA 5s ease-in-out infinite;
+}
+
+.landing-float-b {
+  animation: landingFloatB 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-float-a,
+  .landing-float-b,
+  .preview-timer {
+    animation: none !important;
+  }
+}
+
 .carrera-float {
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;

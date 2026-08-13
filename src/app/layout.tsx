@@ -42,10 +42,11 @@ export default async function RootLayout({
   const pathnameWithSearch = hdrs.get("x-pathname") ?? "/";
   const pathname = pathnameWithSearch.split("?")[0] ?? "/";
   const onAuthRoute = isAuthPath(pathname);
+  const onLanding = pathname === "/";
 
-  const perfil = onAuthRoute ? await getPerfil() : await requirePerfil();
+  const perfil = onAuthRoute || onLanding ? await getPerfil() : await requirePerfil();
 
-  if (!onAuthRoute && perfil) {
+  if (!onAuthRoute && !onLanding && perfil) {
     if (perfil.fantasma) {
       // FantasmaGate rendered in LayoutClient
     } else if (isPerfilPendienteVerificacion(perfil)) {
