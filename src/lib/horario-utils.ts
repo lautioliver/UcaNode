@@ -1,21 +1,26 @@
-import { DiaSemana } from "@/generated/prisma/client";
-
 /**
  * Salta no tiene horario de verano, así que fijar la zona alcanza para que el
  * cálculo de "próxima clase" no dependa de la zona del servidor.
  */
 export const TIMEZONE_CAMPUS = "America/Argentina/Buenos_Aires";
 
-const DIA_POR_NOMBRE: Record<string, DiaSemana> = {
-  Monday: DiaSemana.LUNES,
-  Tuesday: DiaSemana.MARTES,
-  Wednesday: DiaSemana.MIERCOLES,
-  Thursday: DiaSemana.JUEVES,
-  Friday: DiaSemana.VIERNES,
+/**
+ * Espeja los valores del enum `DiaSemana` de Prisma sin importarlo: este módulo
+ * también se usa desde componentes de cliente, donde el client de Prisma no
+ * puede entrar al bundle.
+ */
+export type DiaCampus = "LUNES" | "MARTES" | "MIERCOLES" | "JUEVES" | "VIERNES";
+
+const DIA_POR_NOMBRE: Record<string, DiaCampus> = {
+  Monday: "LUNES",
+  Tuesday: "MARTES",
+  Wednesday: "MIERCOLES",
+  Thursday: "JUEVES",
+  Friday: "VIERNES",
 };
 
 export type MomentoCampus = {
-  dia: DiaSemana | null;
+  dia: DiaCampus | null;
   /** Minutos transcurridos desde la medianoche en la zona del campus. */
   minutos: number;
 };
@@ -52,7 +57,7 @@ export function minutosDeHora(hora: string): number | null {
 }
 
 type HorarioBase = {
-  dia: DiaSemana | string;
+  dia: DiaCampus | string;
   horaInicio: string;
   horaFin: string;
 };
