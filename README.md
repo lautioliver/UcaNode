@@ -1,7 +1,7 @@
 # UcaNode
 
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fucanode.app&label=ucanode.app)](https://ucanode.app)
-[![CI](https://img.shields.io/github/actions/workflow/status/lautioliver/UcaNode/ci.yml?branch=main&label=CI)](https://github.com/lautioliver/UcaNode/actions/workflows/ci.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/lautioliver/UcaNode/ci.yml?branch=develop&label=CI)](https://github.com/lautioliver/UcaNode/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/github/license/lautioliver/UcaNode)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20.9.0-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
