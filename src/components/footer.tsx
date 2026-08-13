@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { href: "/entregas", label: "Entregas" },
   { href: "/analytics", label: "Analíticas" },
   { href: "/horarios", label: "Horarios" },
+  { href: "/campus", label: "Campus" },
   { href: "/concurrencia", label: "Concurrencia" },
   { href: "/comunidad", label: "Comunidad" },
   { href: "/links", label: "Links" },
