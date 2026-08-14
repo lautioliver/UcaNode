@@ -322,26 +322,6 @@ export default async function LandingPage() {
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-
-          <div className="relative mx-auto mt-14 w-full" style={{ perspective: "1600px" }}>
-            <TiltCard maxTilt={5}>
-              <AppPreview initialView="horarios" />
-            </TiltCard>
-            <div
-              className="landing-float-b absolute -right-2 top-10 hidden rounded-xl border border-border bg-surface-card px-3.5 py-2.5 shadow-[var(--shadow-card-lg)] lg:block"
-              style={{ transform: "translateZ(50px)" }}
-            >
-              <div className="flex items-center gap-2">
-                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent-ghost text-accent">
-                  <CalendarDays className="h-3.5 w-3.5" />
-                </span>
-                <div className="leading-tight">
-                  <p className="text-[11px] font-semibold text-primary">Semana ordenada</p>
-                  <p className="text-[10px] text-muted">Clases al detalle</p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
