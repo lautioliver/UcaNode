@@ -10,7 +10,17 @@
 
 ## Preview
 
-<video src="docs/assets/ucanode-preview.mp4" autoplay loop muted playsinline width="100%"></video>
+<p align="center">
+  <video
+    src="https://github.com/lautioliver/UcaNode/releases/download/readme-assets/ucanode-preview.mp4"
+    controls
+    muted
+    autoplay
+    loop
+    playsinline
+    width="100%">
+  </video>
+</p>
 
 Sistema de autogestión para estudiantes de la Ucasal.
 
