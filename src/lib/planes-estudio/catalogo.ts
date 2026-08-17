@@ -5,6 +5,7 @@ import planIndustrial from "@/data/planes/ingenieria-industrial-2005.json";
 import planPsicologia from "@/data/planes/licenciatura-en-psicologia-1114.json";
 import planCivil from "@/data/planes/ingenieria-civil-2012.json";
 import planTelecomunicaciones from "@/data/planes/ingenieria-en-telecomunicaciones-2012.json";
+import planRrii from "@/data/planes/licenciatura-en-relaciones-internacionales-2026.json";
 
 export const CARRERAS_DISPONIBLES: CarreraCatalogo[] = [
   {
@@ -60,6 +61,15 @@ export const CARRERAS_DISPONIBLES: CarreraCatalogo[] = [
     modalidad: planTelecomunicaciones.modalidad,
     duracionAnios: planTelecomunicaciones.duracionAnios,
     descripcion: planTelecomunicaciones.descripcion,
+  },
+  {
+    slug: "licenciatura-en-relaciones-internacionales-2026",
+    nombre: planRrii.carrera,
+    planAnio: planRrii.plan,
+    resolucion: planRrii.resolucion,
+    modalidad: planRrii.modalidad,
+    duracionAnios: planRrii.duracionAnios,
+    descripcion: planRrii.descripcion,
   },
 ];
 
