@@ -16,6 +16,7 @@ import {
   categoriaLinkLabel,
 } from "@/lib/labels";
 import { createCorrelatividadesHelpers, type MateriaAutoInfo, type MateriaPlan } from "@/lib/correlatividades";
+import { EDIFICIOS_LISTA } from "@/lib/campus/edificios";
 
 function FormFeedback({
   state,
@@ -834,6 +835,83 @@ function HorarioEtiquetaField({ defaultValue }: { defaultValue?: string | null }
   );
 }
 
+/**
+ * Modalidad + ubicación de la clase. La modalidad vive acá porque define qué
+ * campos de ubicación tienen sentido: edificio y aula para presencial, link para
+ * virtual. Los campos que no se renderizan no viajan en el FormData, así el
+ * cambio de modalidad limpia la ubicación anterior.
+ */
+function HorarioUbicacionFields({
+  defaultModalidad = "PRESENCIAL",
+  defaultEdificioId,
+  defaultAula,
+  defaultAulaLink,
+}: {
+  defaultModalidad?: string;
+  defaultEdificioId?: number | null;
+  defaultAula?: string | null;
+  defaultAulaLink?: string | null;
+}) {
+  const [modalidad, setModalidad] = useState(defaultModalidad);
+  const presencial = modalidad !== "VIRTUAL";
+
+  return (
+    <>
+      <Field label="Modalidad">
+        <select
+          name="modalidad"
+          value={modalidad}
+          onChange={(e) => setModalidad(e.target.value)}
+          className={`${select} w-full`}
+        >
+          {Object.entries(modalidadLabel).map(([value, label]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
+      </Field>
+
+      {presencial ? (
+        <>
+          <Field label="Edificio" hint="Numeración del mapa del campus">
+            <select
+              name="edificioId"
+              defaultValue={defaultEdificioId ? String(defaultEdificioId) : ""}
+              className={`${select} w-full`}
+            >
+              <option value="">Sin especificar</option>
+              {EDIFICIOS_LISTA.map((edificio) => (
+                <option key={edificio.id} value={edificio.id}>
+                  {edificio.id} — {edificio.nombre}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <Field label="Aula" span hint="Opcional — el aula concreta de la cursada">
+            <input
+              name="aula"
+              defaultValue={defaultAula ?? ""}
+              placeholder="Ej: Aula 204 o Lab. de Sistemas"
+              maxLength={50}
+              className={`${input} w-full`}
+            />
+          </Field>
+        </>
+      ) : (
+        <Field label="Link de la clase" span hint="URL del meet o del aula virtual">
+          <input
+            name="aulaLink"
+            defaultValue={defaultAulaLink ?? ""}
+            placeholder="https://meet.google.com/..."
+            className={`${input} w-full`}
+          />
+        </Field>
+      )}
+    </>
+  );
+}
+
 export function HorarioCreateForm({
   action,
   materias,
@@ -888,28 +966,13 @@ export function HorarioCreateForm({
           </select>
         )}
       </Field>
-      <Field label="Modalidad">
-        <select name="modalidad" defaultValue="PRESENCIAL" className={`${select} w-full`}>
-          {Object.entries(modalidadLabel).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </Field>
       <Field label="Hora de inicio">
         <input name="horaInicio" type="time" required className={`${input} w-full`} />
       </Field>
       <Field label="Hora de fin">
         <input name="horaFin" type="time" required className={`${input} w-full`} />
       </Field>
-      <Field label="Aula o link" span hint="Aula presencial o URL del meet/aula virtual">
-        <input
-          name="aulaLink"
-          placeholder="Ej: Aula 12 o https://meet.google.com/..."
-          className={`${input} w-full`}
-        />
-      </Field>
+      <HorarioUbicacionFields />
       <HorarioEtiquetaField />
       <FormFeedback state={state} pending={pending} submitLabel="Agregar horario" />
     </form>
@@ -932,6 +995,8 @@ export function HorarioEditForm({
     modalidad: string;
     aulaLink: string | null;
     etiqueta: string | null;
+    edificioId: number | null;
+    aula: string | null;
     materiaId: string;
   };
   onSuccess?: () => void;
@@ -976,19 +1041,6 @@ export function HorarioEditForm({
           ))}
         </select>
       </Field>
-      <Field label="Modalidad">
-        <select
-          name="modalidad"
-          defaultValue={defaultValues.modalidad}
-          className={`${select} w-full`}
-        >
-          {Object.entries(modalidadLabel).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </Field>
       <Field label="Hora de inicio">
         <input
           name="horaInicio"
@@ -1007,14 +1059,12 @@ export function HorarioEditForm({
           className={`${input} w-full`}
         />
       </Field>
-      <Field label="Aula o link" span>
-        <input
-          name="aulaLink"
-          defaultValue={defaultValues.aulaLink ?? ""}
-          placeholder="Ej: Aula 12 o https://meet.google.com/..."
-          className={`${input} w-full`}
-        />
-      </Field>
+      <HorarioUbicacionFields
+        defaultModalidad={defaultValues.modalidad}
+        defaultEdificioId={defaultValues.edificioId}
+        defaultAula={defaultValues.aula}
+        defaultAulaLink={defaultValues.aulaLink}
+      />
       <HorarioEtiquetaField defaultValue={defaultValues.etiqueta} />
       <FormFeedback state={state} pending={pending} submitLabel="Guardar cambios" />
     </form>

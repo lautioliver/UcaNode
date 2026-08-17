@@ -232,6 +232,57 @@ describe("horarioSchema", () => {
     });
     expect(result.success).toBe(false);
   });
+
+  const baseHorario = {
+    dia: "LUNES",
+    horaInicio: "18:00",
+    horaFin: "22:00",
+    materiaId: "abc123",
+  };
+
+  it("accepts edificioId within the campus range", () => {
+    const result = horarioSchema.safeParse({
+      ...baseHorario,
+      edificioId: 3,
+      aula: "Aula 204",
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("coerces edificioId coming from a form field", () => {
+    const result = horarioSchema.parse({ ...baseHorario, edificioId: "21" });
+    expect(result.edificioId).toBe(21);
+  });
+
+  it("accepts a null edificioId", () => {
+    const result = horarioSchema.safeParse({
+      ...baseHorario,
+      edificioId: null,
+      aula: null,
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects edificioId outside 1-21", () => {
+    for (const edificioId of [0, 22, -3]) {
+      expect(
+        horarioSchema.safeParse({ ...baseHorario, edificioId }).success,
+      ).toBe(false);
+    }
+  });
+
+  it("rejects a non integer edificioId", () => {
+    const result = horarioSchema.safeParse({ ...baseHorario, edificioId: 3.5 });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects aula over 50 chars", () => {
+    const result = horarioSchema.safeParse({
+      ...baseHorario,
+      aula: "a".repeat(51),
+    });
+    expect(result.success).toBe(false);
+  });
 });
 
 describe("login terms business rules", () => {

@@ -105,6 +105,8 @@ erDiagram
         Modalidad modalidad
         String aulaLink
         String etiqueta
+        Int edificioId
+        String aula
         String materiaId FK
         DateTime createdAt
         DateTime updatedAt
@@ -195,7 +197,7 @@ erDiagram
 | `EmailVerificationToken` | Token de un solo uso (hash en DB) para confirmar el email tras registro o cambio de dirección. Expira a las 24 h. |
 | `Materia` | Materias del usuario, estado académico y metadatos de cursada. Puede vincularse opcionalmente a `PlanEstudio`. |
 | `Entrega` | TP, parciales y finales asociados a una materia. |
-| `Horario` | Bloques semanales asociados a una materia. |
+| `Horario` | Bloques semanales asociados a una materia. Para cursada presencial guarda la ubicación en el campus (`edificioId` 1–21 y `aula`); para virtual, el link de la clase en `aulaLink`. |
 | `LinkExterno` | Accesos frecuentes, con categoría y marca de favorito. |
 | `Post` | Publicación del foro estudiantil. Vincula autor (`Perfil`), carrera y materia del plan (`PlanEstudio`, opcional). |
 | `PostAttachment` | Enlaces externos adjuntos a un post (Drive, PDF, examen). |
@@ -242,6 +244,13 @@ erDiagram
 - `Materia.codigo` es único cuando existe.
 - `Materia` tiene índices por `estado` y `nombre`.
 - `Entrega` tiene índices por `fecha`, `materiaId` y `estado`.
+- `Horario` tiene índice por `edificioId` y un `CHECK` que lo restringe a `1..21` (o `NULL`). El `CHECK` vive en la migración porque Prisma no lo expresa en el schema; la validación equivalente está en `horarioSchema`.
+
+## Ubicación en el campus
+
+`Horario.edificioId` referencia la numeración oficial del mapa del Campus Castañares, no una tabla de la base. El diccionario de esos 21 edificios (con nombre, unidad académica y coordenadas del mapa) vive en `src/lib/campus/edificios.ts`. Ver [Mapa del campus](Mapa-del-campus.md).
+
+Antes de este módulo, `aulaLink` mezclaba el aula presencial y la URL de la clase virtual. La migración `20260813180000_horario_ubicacion_campus` separa ambos casos: los valores que no eran URL pasaron a `aula` y `aulaLink` quedó solo para links.
 
 ## Plan de estudios y correlatividades
 

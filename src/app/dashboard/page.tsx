@@ -9,7 +9,7 @@ import {
   Link2,
   Star,
 } from "lucide-react";
-import { DiaSemana, EstadoMateria } from "@/generated/prisma/client";
+import { EstadoMateria } from "@/generated/prisma/client";
 import { AgendaResumida } from "@/components/agenda-resumida";
 import { EntregaCard } from "@/components/entrega-card";
 import {
@@ -19,6 +19,9 @@ import {
   SectionCard,
   StatCard,
 } from "@/components/layout";
+import { ProximaClaseCard } from "@/components/proxima-clase-card";
+import { getEdificio } from "@/lib/campus/edificios";
+import { claseDestacada, momentoCampus } from "@/lib/horario-utils";
 import { categoriaLinkLabel, diaSemanaLabel } from "@/lib/labels";
 import { getOrCreatePerfil } from "@/lib/perfil";
 import { prisma } from "@/lib/prisma";
@@ -28,18 +31,18 @@ export const metadata: Metadata = {
   title: "Dashboard — UcaNode",
 };
 
-function currentDayEnum(): DiaSemana | null {
-  const idx = new Date().getDay();
-  const map: Record<number, DiaSemana | null> = {
-    0: null,
-    1: DiaSemana.LUNES,
-    2: DiaSemana.MARTES,
-    3: DiaSemana.MIERCOLES,
-    4: DiaSemana.JUEVES,
-    5: DiaSemana.VIERNES,
-    6: null,
-  };
-  return map[idx];
+function ubicacionResumen(horario: {
+  edificioId: number | null;
+  aula: string | null;
+  aulaLink: string | null;
+}): string | null {
+  const edificio = getEdificio(horario.edificioId);
+  if (edificio) {
+    return horario.aula
+      ? `Ed. #${edificio.id} · ${horario.aula}`
+      : `Ed. #${edificio.id}`;
+  }
+  return horario.aula ?? horario.aulaLink;
 }
 
 export default async function DashboardPage() {
@@ -79,8 +82,10 @@ export default async function DashboardPage() {
     .filter((e) => daysUntil(e.fecha) >= -3)
     .slice(0, 4);
 
-  const hoy = currentDayEnum();
+  const momento = momentoCampus();
+  const hoy = momento.dia;
   const clasesHoy = hoy ? horarios.filter((h) => h.dia === hoy) : [];
+  const destacada = claseDestacada(clasesHoy, momento);
 
   return (
     <main className="min-w-0 space-y-8">
@@ -90,6 +95,23 @@ export default async function DashboardPage() {
         description="Planificá, priorizá y organizá tu semana académica con un vistazo rápido a lo más importante."
         action={<LinkButton href="/entregas">Ver entregas</LinkButton>}
       />
+
+      {destacada && (
+        <ProximaClaseCard
+          clase={{
+            materia: destacada.horario.materia.nombre,
+            horaInicio: destacada.horario.horaInicio,
+            horaFin: destacada.horario.horaFin,
+            modalidad: destacada.horario.modalidad,
+            etiqueta: destacada.horario.etiqueta,
+            edificioId: destacada.horario.edificioId,
+            aula: destacada.horario.aula,
+            aulaLink: destacada.horario.aulaLink,
+            estado: destacada.estado,
+            minutos: destacada.minutos,
+          }}
+        />
+      )}
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
@@ -182,10 +204,10 @@ export default async function DashboardPage() {
                         <span className="font-medium text-secondary">{h.etiqueta}</span>
                       </>
                     ) : null}
-                    {h.aulaLink ? (
+                    {ubicacionResumen(h) ? (
                       <>
                         {" · "}
-                        <span className="break-all">{h.aulaLink}</span>
+                        <span className="break-all">{ubicacionResumen(h)}</span>
                       </>
                     ) : null}
                   </p>

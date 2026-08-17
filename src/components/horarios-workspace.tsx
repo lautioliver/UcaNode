@@ -10,6 +10,7 @@ import {
   deleteHorario,
   updateHorario,
 } from "@/lib/actions";
+import { getEdificio } from "@/lib/campus/edificios";
 import { diaSemanaLabel, modalidadLabel } from "@/lib/labels";
 
 export type HorarioData = {
@@ -20,6 +21,8 @@ export type HorarioData = {
   modalidad: string;
   aulaLink: string | null;
   etiqueta: string | null;
+  edificioId: number | null;
+  aula: string | null;
   materiaId: string;
   materia: {
     id: string;
@@ -45,6 +48,7 @@ function HorarioLine({
   compact?: boolean;
 }) {
   const presencial = horario.modalidad === "PRESENCIAL";
+  const edificio = getEdificio(horario.edificioId);
 
   return (
     <div
@@ -77,6 +81,18 @@ function HorarioLine({
           )}
           {modalidadLabel[horario.modalidad as keyof typeof modalidadLabel]}
         </span>
+        {edificio && (
+          <span
+            title={edificio.nombre}
+            className="inline-flex items-center gap-1 rounded-full bg-accent-ghost px-2 py-0.5 text-[10px] font-medium text-accent"
+          >
+            Ed. #{edificio.id}
+            {horario.aula ? ` · ${horario.aula}` : ""}
+          </span>
+        )}
+        {!edificio && horario.aula && (
+          <span className="text-[11px] leading-snug text-muted">{horario.aula}</span>
+        )}
         {horario.aulaLink && (
           <span className="text-[11px] leading-snug text-muted break-all">
             {horario.aulaLink}
@@ -314,6 +330,8 @@ export function HorariosWorkspace({
               modalidad: editing.modalidad,
               aulaLink: editing.aulaLink,
               etiqueta: editing.etiqueta,
+              edificioId: editing.edificioId,
+              aula: editing.aula,
               materiaId: editing.materiaId,
             }}
             onSuccess={() => setEditing(null)}

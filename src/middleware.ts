@@ -6,6 +6,9 @@ function shouldSkipSession(pathname: string) {
   return (
     pathname === "/" ||
     pathname.startsWith("/api/") ||
+    // Assets estáticos de /public: el optimizador de imágenes los pide por HTTP
+    // y un redirect a /login le devuelve HTML en lugar de la imagen.
+    pathname.startsWith("/images/") ||
     pathname.startsWith("/login") ||
     pathname.startsWith("/registro") ||
     pathname.startsWith("/verificar-email") ||
