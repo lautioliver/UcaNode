@@ -318,6 +318,16 @@ body {
   }
 }
 
+@keyframes carreraWanderG {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(-1deg);
+  }
+  50% {
+    transform: translate(7px, 9px) rotate(1deg);
+  }
+}
+
 @keyframes landingFloatA {
   0%,
   100% {
@@ -380,6 +390,10 @@ body {
 
 .carrera-float-f {
   animation-name: carreraWanderF;
+}
+
+.carrera-float-g {
+  animation-name: carreraWanderG;
 }
 
 @media (prefers-reduced-motion: reduce) {

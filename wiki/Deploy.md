@@ -99,7 +99,7 @@ En una instalación fresca, el seed crea un perfil **sin** `carreraId` para que 
 1. Abrí [https://ucanode.app](https://ucanode.app).
 2. Registrate en `/registro` y confirmá que llega el mail de verificación desde `noreply@mail.ucanode.app`.
 3. Completá el onboarding si no hay perfil con carrera.
-4. Elegí una carrera del catálogo (Informática, Industrial, Psicología, Arquitectura o Ingeniería Civil).
+4. Elegí una carrera del catálogo (Informática, Industrial, Psicología, Arquitectura, Ingeniería Civil, Telecomunicaciones o Relaciones Internacionales).
 5. Confirmá que la ingesta lazy carga el plan sin errores.
 6. Revisá `/materias`, `/entregas`, `/concurrencia` y `/perfil`.
 

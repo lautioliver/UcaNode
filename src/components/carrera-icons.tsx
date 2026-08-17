@@ -4,6 +4,7 @@ import {
   Building2,
   Cpu,
   Factory,
+  Globe,
   HardHat,
   Radio,
   type LucideProps,
@@ -47,6 +48,11 @@ const CARRERA_VISUALS: Record<string, CarreraVisual> = {
     Icon: Radio,
     iconClassName: "text-cyan-500",
     badgeClassName: "bg-cyan-500/12 ring-cyan-500/25",
+  },
+  "licenciatura-en-relaciones-internacionales-2026": {
+    Icon: Globe,
+    iconClassName: "text-indigo-500",
+    badgeClassName: "bg-indigo-500/12 ring-indigo-500/25",
   },
 };
 
