@@ -8,14 +8,6 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-4169E1?logo=postgresql&logoColor=white)](https://neon.tech/)
 [![Deploy](https://img.shields.io/badge/Deploy-Vercel-000000?logo=vercel&logoColor=white)](https://ucanode.app)
 
-## Preview
-
-<p align="center">
-  <img src="docs/assets/ucanode-preview.gif" alt="Preview de UcaNode" width="100%" />
-  <br />
-  <sub><a href="https://github.com/lautioliver/UcaNode/releases/download/readme-assets/ucanode-preview.mp4">Ver en MP4</a></sub>
-</p>
-
 Sistema de autogestión para estudiantes de la Ucasal.
 
 UcaNode toma como referencia un dashboard personal de Notion, pero funciona como una aplicación web independiente con PostgreSQL (Neon en producción). Permite organizar materias, entregas, horarios, links útiles y datos del perfil académico desde una interfaz hecha con Next.js.
