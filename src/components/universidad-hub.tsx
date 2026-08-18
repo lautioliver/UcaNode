@@ -47,15 +47,9 @@ export function UniversidadHub({
             <LandingThemeToggle initialDark={initialDark} />
             <Link
               href="/"
-              className="hidden h-9 items-center rounded-full border border-border bg-surface-card px-4 text-sm font-medium text-secondary transition hover:border-border-strong hover:text-primary sm:inline-flex"
+              className="inline-flex h-9 items-center rounded-full border border-border bg-surface-card px-4 text-sm font-medium text-secondary transition hover:border-border-strong hover:text-primary"
             >
               Ir a Ucasal
-            </Link>
-            <Link
-              href="/registro"
-              className="inline-flex h-9 items-center rounded-full bg-accent px-3.5 text-sm font-medium text-white transition hover:bg-accent-hover sm:px-4"
-            >
-              Crear cuenta
             </Link>
           </div>
         </div>
@@ -173,25 +167,17 @@ export function UniversidadHub({
             UCASAL ya está disponible
           </h2>
           <p className="max-w-lg text-sm text-secondary sm:text-base">
-            Si estudiás en la Ucasal, podés crear tu cuenta ahora. El registro
-            de {universidad.nombreCorto} se habilita cuando este espacio deje de
-            estar en construcción.
+            El registro de {universidad.nombreCorto} se habilita cuando este
+            espacio deje de estar en construcción. Si estudiás en la Ucasal,
+            UcaNode ya está disponible.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/registro"
-              className="inline-flex h-11 items-center gap-2 rounded-full bg-accent px-6 text-sm font-medium text-white transition hover:bg-accent-hover"
-            >
-              Crear cuenta Ucasal
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link
-              href="/login"
-              className="inline-flex h-11 items-center rounded-full border border-border bg-surface-card px-6 text-sm font-medium text-secondary transition hover:border-border-strong hover:text-primary"
-            >
-              Ya tengo cuenta
-            </Link>
-          </div>
+          <Link
+            href="/"
+            className="inline-flex h-11 items-center gap-2 rounded-full bg-accent px-6 text-sm font-medium text-white transition hover:bg-accent-hover"
+          >
+            Ver UcaNode en Ucasal
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </section>
 
