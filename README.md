@@ -25,6 +25,7 @@ Producción: [https://ucanode.app](https://ucanode.app)
 - Grilla semanal de horarios (materias en cursada / para finalizar).
 - Concurrencia del campus en tiempo casi real vía CampuStatus.
 - Comunidad estudiantil con feed de publicaciones, filtros por carrera/materias, votos, comentarios anidados y adjuntos por URL externa (Drive, PDF).
+- Hubs públicos por universidad (`/u/unsa`) con estado en construcción y novedades, pensados para replicar la integración de nuevas instituciones.
 - Administración de links externos frecuentes.
 - Perfil del estudiante con secciones de información, seguridad (contraseña actual requerida) y apariencia.
 - Tema claro/oscuro, sidebar colapsable y búsqueda global (Ctrl+K).

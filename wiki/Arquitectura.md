@@ -12,6 +12,7 @@ UcaNode sigue el patrón de Next.js App Router con Server Components para lectur
 | `src/lib/schemas.ts` | Validación de entrada con Zod |
 | `src/lib/perfil.ts` | Obtiene o crea el perfil del estudiante |
 | `src/lib/planes-estudio/` | Catálogo, fuente JSON, ingesta lazy y consultas del plan |
+| `src/lib/universidades/` | Catálogo config-first de universidades (hubs `/u/[slug]`) |
 | `src/lib/prisma.ts` | Singleton del cliente Prisma |
 | `prisma/schema.prisma` | Modelo de datos, enums, relaciones e índices |
 | `src/generated/prisma/` | Cliente Prisma generado |

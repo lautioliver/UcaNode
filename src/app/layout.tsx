@@ -9,6 +9,7 @@ import { confirmarCarrera } from "@/lib/actions";
 import { isPerfilPendienteVerificacion, isPerfilRegistrado } from "@/lib/auth";
 import { listCarrerasDisponibles } from "@/lib/planes-estudio/catalogo";
 import { displayEmailUcasal, getPerfil, isAuthPath, requirePerfil } from "@/lib/perfil";
+import { isPublicMarketingPath } from "@/lib/public-paths";
 import { prisma } from "@/lib/prisma";
 import "./globals.css";
 
@@ -42,11 +43,11 @@ export default async function RootLayout({
   const pathnameWithSearch = hdrs.get("x-pathname") ?? "/";
   const pathname = pathnameWithSearch.split("?")[0] ?? "/";
   const onAuthRoute = isAuthPath(pathname);
-  const onLanding = pathname === "/";
+  const onMarketing = isPublicMarketingPath(pathname);
 
-  const perfil = onAuthRoute || onLanding ? await getPerfil() : await requirePerfil();
+  const perfil = onAuthRoute || onMarketing ? await getPerfil() : await requirePerfil();
 
-  if (!onAuthRoute && !onLanding && perfil) {
+  if (!onAuthRoute && !onMarketing && perfil) {
     if (perfil.fantasma) {
       // FantasmaGate rendered in LayoutClient
     } else if (isPerfilPendienteVerificacion(perfil)) {

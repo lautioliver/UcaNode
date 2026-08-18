@@ -22,6 +22,7 @@ UcaNode ayuda a centralizar la organización académica:
 - Horarios semanales.
 - Links externos frecuentes.
 - Perfil del estudiante vinculado a una carrera UCASAL.
+- Hubs públicos por universidad (`/u/[slug]`): UCASAL activa en `/`, UNSa y futuras instituciones en construcción con novedades.
 - Correlatividades del plan oficial (desde DB tras onboarding).
 
 ## Decisiones principales
