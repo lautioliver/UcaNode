@@ -1,4 +1,5 @@
 import type { CarreraCatalogo } from "@/lib/planes-estudio/types";
+import { UNIVERSIDAD_DEFAULT_SLUG } from "@/lib/universidades/catalogo";
 import planInformatica from "@/data/correlatividades.json";
 import planArquitectura from "@/data/planes/arquitectura-2015.json";
 import planIndustrial from "@/data/planes/ingenieria-industrial-2005.json";
@@ -16,6 +17,7 @@ export const CARRERAS_DISPONIBLES: CarreraCatalogo[] = [
     modalidad: planInformatica.modalidad,
     duracionAnios: planInformatica.duracionAnios,
     descripcion: planInformatica.descripcion,
+    universidadSlug: UNIVERSIDAD_DEFAULT_SLUG,
   },
   {
     slug: "ingenieria-industrial-2005",
@@ -25,6 +27,7 @@ export const CARRERAS_DISPONIBLES: CarreraCatalogo[] = [
     modalidad: planIndustrial.modalidad,
     duracionAnios: planIndustrial.duracionAnios,
     descripcion: planIndustrial.descripcion,
+    universidadSlug: UNIVERSIDAD_DEFAULT_SLUG,
   },
   {
     slug: "licenciatura-en-psicologia-1114",
@@ -34,6 +37,7 @@ export const CARRERAS_DISPONIBLES: CarreraCatalogo[] = [
     modalidad: planPsicologia.modalidad,
     duracionAnios: planPsicologia.duracionAnios,
     descripcion: planPsicologia.descripcion,
+    universidadSlug: UNIVERSIDAD_DEFAULT_SLUG,
   },
   {
     slug: "arquitectura-2015",
@@ -43,6 +47,7 @@ export const CARRERAS_DISPONIBLES: CarreraCatalogo[] = [
     modalidad: planArquitectura.modalidad,
     duracionAnios: planArquitectura.duracionAnios,
     descripcion: planArquitectura.descripcion,
+    universidadSlug: UNIVERSIDAD_DEFAULT_SLUG,
   },
   {
     slug: "ingenieria-civil-2012",
@@ -52,6 +57,7 @@ export const CARRERAS_DISPONIBLES: CarreraCatalogo[] = [
     modalidad: planCivil.modalidad,
     duracionAnios: planCivil.duracionAnios,
     descripcion: planCivil.descripcion,
+    universidadSlug: UNIVERSIDAD_DEFAULT_SLUG,
   },
   {
     slug: "ingenieria-en-telecomunicaciones-2012",
@@ -61,6 +67,7 @@ export const CARRERAS_DISPONIBLES: CarreraCatalogo[] = [
     modalidad: planTelecomunicaciones.modalidad,
     duracionAnios: planTelecomunicaciones.duracionAnios,
     descripcion: planTelecomunicaciones.descripcion,
+    universidadSlug: UNIVERSIDAD_DEFAULT_SLUG,
   },
   {
     slug: "licenciatura-en-relaciones-internacionales-2026",
@@ -70,6 +77,7 @@ export const CARRERAS_DISPONIBLES: CarreraCatalogo[] = [
     modalidad: planRrii.modalidad,
     duracionAnios: planRrii.duracionAnios,
     descripcion: planRrii.descripcion,
+    universidadSlug: UNIVERSIDAD_DEFAULT_SLUG,
   },
 ];
 
@@ -79,4 +87,8 @@ export function getCarreraCatalogo(slug: string): CarreraCatalogo | null {
 
 export function listCarrerasDisponibles(): CarreraCatalogo[] {
   return CARRERAS_DISPONIBLES;
+}
+
+export function listCarrerasByUniversidad(universidadSlug: string): CarreraCatalogo[] {
+  return CARRERAS_DISPONIBLES.filter((carrera) => carrera.universidadSlug === universidadSlug);
 }

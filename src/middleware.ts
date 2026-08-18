@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { isPublicMarketingPath } from "@/lib/public-paths";
 import { PERFIL_COOKIE } from "@/lib/session";
 
 function shouldSkipSession(pathname: string) {
   return (
-    pathname === "/" ||
+    isPublicMarketingPath(pathname) ||
     pathname.startsWith("/api/") ||
     pathname.startsWith("/login") ||
     pathname.startsWith("/registro") ||
