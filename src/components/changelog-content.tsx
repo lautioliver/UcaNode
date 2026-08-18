@@ -9,18 +9,13 @@ import {
   type ChangelogKind,
 } from "@/lib/changelog-labels";
 
-function ChangelogKindIcons({ kind }: { kind: ChangelogKind }) {
+function ChangelogKindLabel({ kind }: { kind: ChangelogKind }) {
   const meta = CHANGELOG_KIND_META[kind];
-  const Icon = meta.icon;
 
   return (
-    <span
-      className="inline-flex shrink-0 items-center gap-1.5 text-secondary"
-      title={meta.label}
-      aria-label={meta.label}
-    >
+    <span className="inline-flex shrink-0 items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted">
       <span aria-hidden>{meta.emoji}</span>
-      <Icon className="h-3.5 w-3.5" aria-hidden />
+      <span>{meta.label}</span>
     </span>
   );
 }
@@ -64,7 +59,7 @@ function ReleaseCard({ release }: { release: ChangelogRelease }) {
           return (
             <div key={kind}>
               <div className="mb-2">
-                <ChangelogKindIcons kind={kind} />
+                <ChangelogKindLabel kind={kind} />
               </div>
               <ul className="space-y-1.5 pl-7">
                 {items.map((item, idx) => (
