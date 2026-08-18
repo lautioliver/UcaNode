@@ -9,6 +9,7 @@ import { FantasmaGate } from "@/components/fantasma-gate";
 import { OnboardingCarrera } from "@/components/onboarding-carrera";
 import type { CarreraCatalogo } from "@/lib/planes-estudio/types";
 import type { ActionResult } from "@/lib/actions";
+import { isPublicMarketingPath } from "@/lib/public-paths";
 
 function isAuthRoute(pathname: string) {
   return (
@@ -17,10 +18,6 @@ function isAuthRoute(pathname: string) {
     pathname.startsWith("/verificar-email") ||
     pathname.startsWith("/terminos-y-condiciones")
   );
-}
-
-function isLandingRoute(pathname: string) {
-  return pathname === "/";
 }
 
 export function LayoutClient({
@@ -53,7 +50,7 @@ export function LayoutClient({
 }) {
   const pathname = usePathname();
 
-  if (isAuthRoute(pathname) || isLandingRoute(pathname)) {
+  if (isAuthRoute(pathname) || isPublicMarketingPath(pathname)) {
     return <>{children}</>;
   }
 

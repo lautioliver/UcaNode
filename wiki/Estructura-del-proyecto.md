@@ -17,7 +17,8 @@ UcaNode/
 │   ├── data/
 │   ├── generated/prisma/
 │   └── lib/
-│       └── planes-estudio/
+│       ├── planes-estudio/
+│       └── universidades/
 ├── wiki/
 ├── .env.example
 ├── package.json
@@ -31,7 +32,9 @@ UcaNode/
 | Archivo/carpeta | Rol |
 |---|---|
 | `layout.tsx` | Layout raíz, gate de onboarding, fuentes, sidebar, top bar, búsqueda global y tema inicial |
-| `page.tsx` | Redirect a `/dashboard` |
+| `page.tsx` | Landing pública UCASAL |
+| `u/[slug]/page.tsx` | Hub de universidad (`activa` redirige a `/`; `en_construccion` muestra estado y novedades) |
+| `dashboard/page.tsx` | Home autenticado |
 | `materias/page.tsx` | Catálogo de materias en tarjetas (año/semestre destacados) |
 | `materias/[id]/page.tsx` | Detalle de materia |
 | `entregas/page.tsx` | Gestión de entregas |
@@ -70,6 +73,7 @@ UcaNode/
 | `campustatus-workspace.tsx` | Vista de concurrencia del campus |
 | `auth-forms.tsx`, `auth-shell.tsx` | Formularios y layout de auth |
 | `logo.tsx` | Marca visual del proyecto |
+| `universidad-hub.tsx` | Landing pública de universidad en construcción + novedades |
 
 ## `src/lib/`
 
@@ -81,7 +85,9 @@ UcaNode/
 | `email.ts`, `email-verification.ts` | Envío de mails con Resend y tokens de verificación |
 | `campustatus/` | Cliente y utilidades de CampuStatus |
 | `perfil.ts` | Obtiene o crea el perfil del estudiante |
+| `public-paths.ts` | Helper `isPublicMarketingPath` (`/` y `/u/...`) para middleware y layout |
 | `planes-estudio/` | Catálogo, fuente JSON, ingesta lazy, consultas y tipos del plan |
+| `universidades/` | Catálogo config-first de universidades (estado, copy y novedades) |
 | `schemas.ts` | Schemas Zod para validar formularios |
 | `search.ts` | Server Action de búsqueda global (materias, entregas, links) |
 | `prisma.ts` | Cliente Prisma singleton |

@@ -136,6 +136,7 @@ Si falla, corregí antes de seguir.
 
 ```typescript
 import planNueva from "@/data/planes/{slug}.json";
+import { UNIVERSIDAD_DEFAULT_SLUG } from "@/lib/universidades/catalogo";
 
 // Agregar a CARRERAS_DISPONIBLES:
 {
@@ -146,6 +147,7 @@ import planNueva from "@/data/planes/{slug}.json";
   modalidad: planNueva.modalidad,
   duracionAnios: planNueva.duracionAnios,
   descripcion: planNueva.descripcion,
+  universidadSlug: UNIVERSIDAD_DEFAULT_SLUG, // o el slug de otra universidad del catálogo
 },
 ```
 

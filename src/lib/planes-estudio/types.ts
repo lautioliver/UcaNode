@@ -37,6 +37,7 @@ export type CarreraCatalogo = {
   modalidad: string;
   duracionAnios: number;
   descripcion: string;
+  universidadSlug: string;
 };
 
 export type CorrelativaInsert = {

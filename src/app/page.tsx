@@ -22,6 +22,7 @@ import { TiltCard } from "@/components/landing/tilt-card";
 import { AppPreview } from "@/components/landing/app-preview";
 import { LandingThemeToggle } from "@/components/landing/theme-toggle";
 import { CARRERAS_DISPONIBLES } from "@/lib/planes-estudio/catalogo";
+import { listUniversidades } from "@/lib/universidades/catalogo";
 
 export const metadata: Metadata = {
   title: "UcaNode — Autogestión Ucasal",
@@ -390,7 +391,7 @@ export default async function LandingPage() {
       {/* Footer */}
       <footer className="border-t border-border bg-surface-subtle">
         <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 lg:gap-8">
             {/* Marca */}
             <div className="space-y-4 sm:col-span-2 lg:col-span-1">
               <Link href="/" className="inline-block">
@@ -464,6 +465,39 @@ export default async function LandingPage() {
                     Ingresar
                   </Link>
                 </li>
+              </ul>
+            </div>
+
+            {/* Universidades */}
+            <div>
+              <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+                Universidades
+              </p>
+              <ul className="space-y-2">
+                {listUniversidades().map((universidad) => (
+                  <li key={universidad.slug}>
+                    <Link
+                      href={
+                        universidad.estado === "activa"
+                          ? "/"
+                          : `/u/${universidad.slug}`
+                      }
+                      className="inline-flex items-center gap-2 text-sm text-secondary transition hover:text-primary"
+                    >
+                      {universidad.nombreCorto}
+                      {universidad.estado === "en_construccion" ? (
+                        <span className="rounded-full border border-border bg-surface-card px-1.5 py-0.5 text-[10px] font-medium text-muted">
+                          Próximamente
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-medium text-success">
+                          <span className="h-1.5 w-1.5 rounded-full bg-success" />
+                          Disponible
+                        </span>
+                      )}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
 

@@ -6,12 +6,13 @@ Esta página resume la navegación principal y cómo se leen/escriben datos en c
 
 El layout raíz aplica varios gates en orden:
 
-1. **Sin cookie** → el middleware redirige a `/login?next=...`.
-2. **Perfil `fantasma`** (invitados legacy) → cartel amigable pidiendo crear cuenta o iniciar sesión (`FantasmaGate`). Al registrarse se adopta el perfil y se conservan los datos.
-3. **Email pendiente de verificación** → redirect a `/verificar-email`.
-4. **Sin cuenta verificada** → redirect a `/login`.
-5. **Sin `carreraId`** → onboarding (`OnboardingCarrera`) a pantalla completa, sin sidebar.
-6. **Con carrera** → layout habitual con sidebar.
+1. **Ruta de marketing pública** (`/` o `/u/...`) → sin cookie ni sidebar; `/u/[slug]` activa redirige a `/`.
+2. **Sin cookie** → el middleware redirige a `/login?next=...`.
+3. **Perfil `fantasma`** (invitados legacy) → cartel amigable pidiendo crear cuenta o iniciar sesión (`FantasmaGate`). Al registrarse se adopta el perfil y se conservan los datos.
+4. **Email pendiente de verificación** → redirect a `/verificar-email`.
+5. **Sin cuenta verificada** → redirect a `/login`.
+6. **Sin `carreraId`** → onboarding (`OnboardingCarrera`) a pantalla completa, sin sidebar.
+7. **Con carrera** → layout habitual con sidebar.
 
 La acción `confirmarCarrera` exige cuenta verificada, asigna la carrera, dispara la ingesta lazy del plan y revalida toda la aplicación.
 
@@ -66,8 +67,9 @@ La sidebar incluye accesos a dashboard, materias, entregas, horarios, concurrenc
 
 | Ruta | Lecturas principales | Acciones disponibles |
 |---|---|---|
+| `/` | Landing pública UCASAL | - |
+| `/u/[slug]` | Catálogo `src/lib/universidades/` (estado + novedades) | Redirect a `/` si la universidad está `activa` |
 | Onboarding (layout) | `requirePerfil`, `listCarrerasDisponibles` | `confirmarCarrera` (requiere email verificado) |
-| `/` | Entregas, materias cursando, horarios y links favoritos | - |
 | `/materias` | `materia.findMany`, `getPlanMateriasByCarreraId` (autocompletado) | `createMateria`, `updateMateria`, `deleteMateria` |
 | `/materias/[id]` | `materia.findUnique` con entregas y horarios | Acciones sobre items relacionados según componentes reutilizados |
 | `/entregas` | `entrega.findMany`, `materia.findMany` | `createEntrega`, `updateEntrega`, `deleteEntrega` |
@@ -77,6 +79,10 @@ La sidebar incluye accesos a dashboard, materias, entregas, horarios, concurrenc
 | `/comunidad/[postId]` | `getPostById`, comentarios anidados | `createComment`, `votePost`, `voteComment` |
 | `/links` | `linkExterno.findMany`, perfil | `createLink`, `updateLink`, `deleteLink` |
 | `/perfil` | `perfil.findFirst` con `carrera` | `updatePerfil` (carrera de solo lectura, definida en onboarding) |
+
+## Universidades
+
+El listado vive en `src/lib/universidades/catalogo.ts` (sin tabla Prisma). Cada entrada tiene `estado` (`activa` | `en_construccion`) y `novedades`. Las carreras del onboarding llevan `universidadSlug` en `CarreraCatalogo`. Para sumar otra universidad: agregar el objeto al catálogo; `/u/{slug}` aparece sola. Cuando haya planes, cambiar `estado` a `activa` y filtrar onboarding por `universidadSlug`.
 
 ## Comunidad (foro estudiantil)
 
@@ -104,6 +110,8 @@ Rutas públicas (sin gate de carrera ni cookie obligatoria para la pantalla):
 
 | Ruta / API | Rol |
 |---|---|
+| `/` | Landing de marketing (UCASAL) |
+| `/u/[slug]` | Hub de universidad: en construcción + novedades, o redirect si está activa |
 | `/login`, `/registro` | Formularios de acceso; login muestra carreras disponibles |
 | `/verificar-email` | Post-registro, reenvío de mail y botón Continuar |
 | `POST /api/auth/login` | Valida credenciales; bloquea si el email no está verificado |
