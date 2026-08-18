@@ -2,14 +2,14 @@ import type { ChangelogKind } from "@/lib/changelog-labels";
 
 export type ChangelogItem = {
   kind: ChangelogKind;
-  /** Texto con markdown inline (`**negrita**`, `` `código` ``). */
-  text: string;
+  /** Título breve del cambio; el detalle va en `summary` de la release. */
+  title: string;
 };
 
 export type ChangelogRelease = {
   version: string;
   date: string;
-  summary?: string;
+  summary: string;
   items: ChangelogItem[];
   /** Bloque markdown completo de la release (fuente legible / exportable). */
   markdown: string;
@@ -18,7 +18,7 @@ export type ChangelogRelease = {
 export const CHANGELOG_META = {
   title: "Novedades",
   subtitle:
-    "Lo último que fuimos sumando a UcaNode. Categorizado como en nuestros commits: feat, fix, docs y más.",
+    "Resumen de lo último en UcaNode. Cada versión tiene un título general y los cambios agrupados por tipo.",
   currentVersion: "0.1.0",
 } as const;
 
@@ -29,43 +29,27 @@ export const CHANGELOG_RELEASES: ChangelogRelease[] = [
     summary: "Landing pública, nuevas carreras y mejoras de acceso.",
     markdown: `## v0.1.0 — Agosto 2026
 
+Landing pública, nuevas carreras y mejoras de acceso.
+
 ### ✨ Nuevo
-- **Landing page** para visitantes sin sesión, con preview interactivo del panel.
-- Plan de estudios de **Licenciatura en Relaciones Internacionales 2026** en el onboarding.
+- Landing page
+- Relaciones Internacionales 2026
 
 ### 🐛 Fix
-- Login redirige a \`/dashboard\` en lugar de volver a la landing.
-- Preview de la landing sin duplicados y con URL \`ucanode.app\` en la barra del mock.
-- Responsive y estabilidad general de la landing en mobile.
+- Redirección post-login
+- Preview de la landing
+- Responsive mobile
 
 ### 📚 Docs
-- Badges de **shields.io** y workflow de **CI** apuntando a \`develop\`.
+- Badges y CI
 `,
     items: [
-      {
-        kind: "feature",
-        text: "**Landing page** para visitantes sin sesión, con preview interactivo del panel.",
-      },
-      {
-        kind: "feature",
-        text: "Plan de estudios de **Licenciatura en Relaciones Internacionales 2026** en el onboarding.",
-      },
-      {
-        kind: "fix",
-        text: "Login redirige a `/dashboard` en lugar de volver a la landing.",
-      },
-      {
-        kind: "fix",
-        text: "Preview de la landing sin duplicados y con URL `ucanode.app` en la barra del mock.",
-      },
-      {
-        kind: "fix",
-        text: "Responsive y estabilidad general de la landing en mobile.",
-      },
-      {
-        kind: "docs",
-        text: "Badges de **shields.io** y workflow de **CI** apuntando a `develop`.",
-      },
+      { kind: "feature", title: "Landing page" },
+      { kind: "feature", title: "Relaciones Internacionales 2026" },
+      { kind: "fix", title: "Redirección post-login" },
+      { kind: "fix", title: "Preview de la landing" },
+      { kind: "fix", title: "Responsive mobile" },
+      { kind: "docs", title: "Badges y CI" },
     ],
   },
   {
@@ -74,53 +58,31 @@ export const CHANGELOG_RELEASES: ChangelogRelease[] = [
     summary: "Seguridad de cuenta, términos legales y catálogo de materias.",
     markdown: `## v0.0.9 — Julio 2026
 
+Seguridad de cuenta, términos legales y catálogo de materias.
+
 ### ✨ Nuevo
-- Cambio de **contraseña** y **email** con verificación por correo.
-- **Términos y Condiciones** con aceptación obligatoria en registro e ingreso.
-- Filtro y visualización de materias por **estado** en el catálogo.
+- Cambio de contraseña y email
+- Términos y Condiciones
+- Filtro por estado en materias
 
 ### 🐛 Fix
-- Card de Seguridad en \`/perfil\` alineada al resto del diseño.
-- Selector **Tipo** en el drawer de entregas ya no se trunca.
-- Borrador de auth al leer términos sin perder el flujo de registro.
-- URL actualizada de **CampuStatus** en el footer.
+- Card Seguridad en perfil
+- Selector Tipo en entregas
+- Borrador de auth en términos
+- URL CampuStatus
 
 ### 🔒 Seguridad
-- Endurecimiento de **CSP** y headers HTTP en \`next.config.ts\`.
+- CSP y headers HTTP
 `,
     items: [
-      {
-        kind: "feature",
-        text: "Cambio de **contraseña** y **email** con verificación por correo.",
-      },
-      {
-        kind: "feature",
-        text: "**Términos y Condiciones** con aceptación obligatoria en registro e ingreso.",
-      },
-      {
-        kind: "feature",
-        text: "Filtro y visualización de materias por **estado** en el catálogo.",
-      },
-      {
-        kind: "fix",
-        text: "Card de Seguridad en `/perfil` alineada al resto del diseño.",
-      },
-      {
-        kind: "fix",
-        text: "Selector **Tipo** en el drawer de entregas ya no se trunca.",
-      },
-      {
-        kind: "fix",
-        text: "Borrador de auth al leer términos sin perder el flujo de registro.",
-      },
-      {
-        kind: "fix",
-        text: "URL actualizada de **CampuStatus** en el footer.",
-      },
-      {
-        kind: "security",
-        text: "Endurecimiento de **CSP** y headers HTTP en `next.config.ts`.",
-      },
+      { kind: "feature", title: "Cambio de contraseña y email" },
+      { kind: "feature", title: "Términos y Condiciones" },
+      { kind: "feature", title: "Filtro por estado en materias" },
+      { kind: "fix", title: "Card Seguridad en perfil" },
+      { kind: "fix", title: "Selector Tipo en entregas" },
+      { kind: "fix", title: "Borrador de auth en términos" },
+      { kind: "fix", title: "URL CampuStatus" },
+      { kind: "security", title: "CSP y headers HTTP" },
     ],
   },
   {
@@ -129,63 +91,37 @@ export const CHANGELOG_RELEASES: ChangelogRelease[] = [
     summary: "Comunidad, horarios personalizados y más carreras.",
     markdown: `## v0.0.8 — Junio 2026
 
+Comunidad, horarios personalizados y más carreras.
+
 ### ✨ Nuevo
-- Sección **Comunidad** con feed, votos, comentarios y publicaciones por materia.
-- **Etiquetas personalizadas** en horarios de clase.
-- Planes de **Ingeniería Civil 2012** e **Ingeniería en Telecomunicaciones 2012**.
-- Formulario de **soporte** con envío por Resend.
-- Nuevo **favicon** con el logo actualizado.
+- Comunidad
+- Etiquetas en horarios
+- Civil y Telecomunicaciones
+- Formulario de soporte
+- Nuevo favicon
 
 ### 💡 Mejora
-- Rediseño de interfaz con **shadcn/ui** y búsqueda global (\`Ctrl+K\`).
-- Verificación de email con template **React Email** en dark mode.
+- Rediseño shadcn/ui
+- Email de verificación
 
 ### 🐛 Fix
-- Validación de publicaciones en Comunidad con mensajes más claros.
-- Cuentas invitado deprecadas: se exige auth verificada.
+- Validación en Comunidad
+- Deprecación cuentas invitado
 `,
     items: [
-      {
-        kind: "feature",
-        text: "Sección **Comunidad** con feed, votos, comentarios y publicaciones por materia.",
-      },
-      {
-        kind: "feature",
-        text: "**Etiquetas personalizadas** en horarios de clase.",
-      },
-      {
-        kind: "feature",
-        text: "Planes de **Ingeniería Civil 2012** e **Ingeniería en Telecomunicaciones 2012**.",
-      },
-      {
-        kind: "feature",
-        text: "Formulario de **soporte** con envío por Resend.",
-      },
-      {
-        kind: "feature",
-        text: "Nuevo **favicon** con el logo actualizado.",
-      },
-      {
-        kind: "improvement",
-        text: "Rediseño de interfaz con **shadcn/ui** y búsqueda global (`Ctrl+K`).",
-      },
-      {
-        kind: "improvement",
-        text: "Verificación de email con template **React Email** en dark mode.",
-      },
-      {
-        kind: "fix",
-        text: "Validación de publicaciones en Comunidad con mensajes más claros.",
-      },
-      {
-        kind: "fix",
-        text: "Cuentas invitado deprecadas: se exige auth verificada.",
-      },
+      { kind: "feature", title: "Comunidad" },
+      { kind: "feature", title: "Etiquetas en horarios" },
+      { kind: "feature", title: "Civil y Telecomunicaciones" },
+      { kind: "feature", title: "Formulario de soporte" },
+      { kind: "feature", title: "Nuevo favicon" },
+      { kind: "improvement", title: "Rediseño shadcn/ui" },
+      { kind: "improvement", title: "Email de verificación" },
+      { kind: "fix", title: "Validación en Comunidad" },
+      { kind: "fix", title: "Deprecación cuentas invitado" },
     ],
   },
 ];
 
-/** Markdown completo del changelog (todas las releases concatenadas). */
 export const CHANGELOG_MARKDOWN = CHANGELOG_RELEASES.map((r) => r.markdown).join(
   "\n\n---\n\n",
 );
