@@ -9,28 +9,25 @@ import {
   type ChangelogKind,
 } from "@/lib/changelog-labels";
 
-function ChangelogKindBadge({ kind }: { kind: ChangelogKind }) {
+function ChangelogKindIcons({ kind }: { kind: ChangelogKind }) {
   const meta = CHANGELOG_KIND_META[kind];
   const Icon = meta.icon;
 
   return (
     <span
-      className="inline-flex shrink-0 items-center gap-1 rounded-full border border-border bg-surface-card px-2 py-0.5 text-[10px] font-medium text-secondary"
+      className="inline-flex shrink-0 items-center gap-1.5 text-secondary"
       title={meta.label}
+      aria-label={meta.label}
     >
       <span aria-hidden>{meta.emoji}</span>
-      <Icon className="h-3 w-3" aria-hidden />
-      <span className="sr-only">{meta.label}</span>
+      <Icon className="h-3.5 w-3.5" aria-hidden />
     </span>
   );
 }
 
 function ChangelogEntry({ item }: { item: ChangelogItem }) {
   return (
-    <li className="flex items-center gap-2 text-sm text-secondary">
-      <ChangelogKindBadge kind={item.kind} />
-      <span className="text-primary">{item.title}</span>
-    </li>
+    <li className="text-sm text-primary">{item.title}</li>
   );
 }
 
@@ -62,18 +59,14 @@ function ReleaseCard({ release }: { release: ChangelogRelease }) {
 
       <div className="space-y-4">
         {kinds.map((kind) => {
-          const meta = CHANGELOG_KIND_META[kind];
-          const Icon = meta.icon;
           const items = grouped[kind];
 
           return (
             <div key={kind}>
-              <p className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted">
-                <span aria-hidden>{meta.emoji}</span>
-                <Icon className="h-3.5 w-3.5" aria-hidden />
-                {meta.label}
-              </p>
-              <ul className="space-y-2">
+              <div className="mb-2">
+                <ChangelogKindIcons kind={kind} />
+              </div>
+              <ul className="space-y-1.5 pl-7">
                 {items.map((item, idx) => (
                   <ChangelogEntry key={`${kind}-${idx}`} item={item} />
                 ))}
