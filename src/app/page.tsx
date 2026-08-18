@@ -21,6 +21,7 @@ import { LogoMark } from "@/components/logo";
 import { TiltCard } from "@/components/landing/tilt-card";
 import { AppPreview } from "@/components/landing/app-preview";
 import { LandingThemeToggle } from "@/components/landing/theme-toggle";
+import { ChangelogSection } from "@/components/landing/changelog-section";
 import { CARRERAS_DISPONIBLES } from "@/lib/planes-estudio/catalogo";
 
 export const metadata: Metadata = {
@@ -55,6 +56,9 @@ export default async function LandingPage() {
             </a>
             <a href="#vista" className="transition hover:text-primary">
               La app
+            </a>
+            <a href="#novedades" className="transition hover:text-primary">
+              Novedades
             </a>
             <a href="#pasos" className="transition hover:text-primary">
               Cómo empezar
@@ -325,6 +329,8 @@ export default async function LandingPage() {
         </div>
       </section>
 
+      <ChangelogSection />
+
       {/* Cómo empezar */}
       <section id="pasos" className="border-t border-border">
         <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
@@ -438,6 +444,14 @@ export default async function LandingPage() {
                     className="inline-flex items-center gap-1 text-sm text-secondary transition hover:text-primary"
                   >
                     La app
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#novedades"
+                    className="inline-flex items-center gap-1 text-sm text-secondary transition hover:text-primary"
+                  >
+                    Novedades
                   </a>
                 </li>
                 <li>
@@ -562,9 +576,12 @@ export default async function LandingPage() {
               estudiantes de la Ucasal.
             </p>
             <p className="inline-flex items-center gap-2 text-xs text-muted">
-              <span className="font-mono text-[10px] tracking-wide text-secondary">
+              <a
+                href="#novedades"
+                className="font-mono text-[10px] tracking-wide text-secondary transition hover:text-accent"
+              >
                 v0.1
-              </span>
+              </a>
               <span className="h-1 w-1 rounded-full bg-border-strong" />
               Hecho con Next.js
             </p>
