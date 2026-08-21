@@ -20,6 +20,10 @@ import type { EstadoEntrega, TipoEntrega } from "@/generated/prisma/client";
 import { Drawer } from "@/components/drawer";
 import { EntregaCard } from "@/components/entrega-card";
 import { EntregaCreateForm, EntregaEditForm } from "@/components/forms";
+import {
+  EntregaNotasPanel,
+  type NotasSaveStatus,
+} from "@/components/entrega-notas-panel";
 import { CounterChip, EmptyState, FilterPill, PageHeader } from "@/components/layout";
 import {
   createEntrega,
@@ -50,6 +54,8 @@ export type EntregaData = {
 type ViewMode = "semana" | "mes";
 
 type OrdenEstado = "pendientes-primero" | "entregados-primero";
+
+type EditTab = "datos" | "apuntes";
 
 type DrawerState =
   | { mode: "create"; fecha?: string }
@@ -95,6 +101,8 @@ export function EntregasWorkspace({
 }) {
   const [view, setView] = useState<ViewMode>("semana");
   const [drawer, setDrawer] = useState<DrawerState>(null);
+  const [editTab, setEditTab] = useState<EditTab>("datos");
+  const [notasStatus, setNotasStatus] = useState<NotasSaveStatus>("idle");
   const [weekOffset, setWeekOffset] = useState(0);
   const [monthOffset, setMonthOffset] = useState(0);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -179,8 +187,16 @@ export function EntregasWorkspace({
   }, [filtered, view, weekOffset, monthOffset, selectedDate, entregasByDay]);
 
   const openCreate = (fecha?: string) => setDrawer({ mode: "create", fecha });
-  const openEdit = (entrega: EntregaData) => setDrawer({ mode: "edit", entrega });
-  const closeDrawer = () => setDrawer(null);
+  const openEdit = (entrega: EntregaData) => {
+    setEditTab("datos");
+    setNotasStatus("idle");
+    setDrawer({ mode: "edit", entrega });
+  };
+  const closeDrawer = () => {
+    setDrawer(null);
+    setEditTab("datos");
+    setNotasStatus("idle");
+  };
 
   const handleDelete = async (entrega: EntregaData) => {
     if (!confirm(`¿Eliminar "${entrega.titulo}"?`)) return;
@@ -603,28 +619,80 @@ export function EntregasWorkspace({
       <Drawer
         open={drawer?.mode === "edit"}
         onClose={closeDrawer}
+        wide
         subtitle="Editar entrega"
         title={drawer?.mode === "edit" ? drawer.entrega.titulo : ""}
       >
         {drawer?.mode === "edit" && (
-          <EntregaEditForm
-            action={updateEntrega}
-            materias={materias}
-            compact
-            onSuccess={closeDrawer}
-            onDelete={() => handleDelete(drawer.entrega)}
-            defaultValues={{
-              id: drawer.entrega.id,
-              titulo: drawer.entrega.titulo,
-              tipo: drawer.entrega.tipo,
-              fecha: drawer.entrega.fecha.slice(0, 10),
-              estado: drawer.entrega.estado,
-              nota: drawer.entrega.nota,
-              materiaId: drawer.entrega.materiaId,
-              recurso: drawer.entrega.recurso,
-              prioridad: drawer.entrega.prioridad,
-            }}
-          />
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="flex flex-1 gap-1 rounded-xl border border-border bg-surface p-1">
+                {(
+                  [
+                    { key: "datos", label: "Datos" },
+                    { key: "apuntes", label: "Apuntes / Notas" },
+                  ] as const
+                ).map((tab) => (
+                  <button
+                    key={tab.key}
+                    type="button"
+                    onClick={() => setEditTab(tab.key)}
+                    className={`flex-1 rounded-lg px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
+                      editTab === tab.key
+                        ? "bg-accent text-white shadow-[var(--shadow-sm)]"
+                        : "text-secondary hover:text-primary"
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+              {editTab === "apuntes" && (
+                <p
+                  className={`shrink-0 text-xs ${
+                    notasStatus === "error"
+                      ? "text-danger"
+                      : notasStatus === "saved"
+                        ? "text-success"
+                        : "text-muted"
+                  }`}
+                  aria-live="polite"
+                >
+                  {notasStatus === "saving" && "Guardando…"}
+                  {notasStatus === "saved" && "Guardado"}
+                  {notasStatus === "dirty" && "Sin guardar"}
+                  {notasStatus === "error" && "Error al guardar"}
+                </p>
+              )}
+            </div>
+
+            {editTab === "datos" ? (
+              <EntregaEditForm
+                action={updateEntrega}
+                materias={materias}
+                compact
+                onSuccess={closeDrawer}
+                onDelete={() => handleDelete(drawer.entrega)}
+                defaultValues={{
+                  id: drawer.entrega.id,
+                  titulo: drawer.entrega.titulo,
+                  tipo: drawer.entrega.tipo,
+                  fecha: drawer.entrega.fecha.slice(0, 10),
+                  estado: drawer.entrega.estado,
+                  nota: drawer.entrega.nota,
+                  materiaId: drawer.entrega.materiaId,
+                  recurso: drawer.entrega.recurso,
+                  prioridad: drawer.entrega.prioridad,
+                }}
+              />
+            ) : (
+              <EntregaNotasPanel
+                key={drawer.entrega.id}
+                entregaId={drawer.entrega.id}
+                onStatusChange={setNotasStatus}
+              />
+            )}
+          </div>
         )}
       </Drawer>
     </>

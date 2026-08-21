@@ -195,3 +195,46 @@ export const registroSchema = z
     message: "Las contraseñas no coinciden",
     path: ["confirmPassword"],
   });
+
+export const NOTAS_CONTENIDO_MAX_BYTES = 200 * 1024;
+
+export type TiptapDoc = {
+  type: "doc";
+  content?: unknown[];
+  [key: string]: unknown;
+};
+
+export function isTiptapDoc(value: unknown): value is TiptapDoc {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value) &&
+    (value as { type?: unknown }).type === "doc"
+  );
+}
+
+export const notasContenidoSchema = z
+  .custom<TiptapDoc | null>(
+    (value) => value === null || isTiptapDoc(value),
+    { message: "Documento de notas inválido" },
+  )
+  .refine(
+    (value) => {
+      if (value === null) return true;
+      try {
+        return JSON.stringify(value).length <= NOTAS_CONTENIDO_MAX_BYTES;
+      } catch {
+        return false;
+      }
+    },
+    { message: "El documento es demasiado grande" },
+  );
+
+export const obtenerNotasEntregaSchema = z.object({
+  entregaId: z.string().min(1, "ID requerido"),
+});
+
+export const guardarNotasEntregaSchema = z.object({
+  entregaId: z.string().min(1, "ID requerido"),
+  notasContenido: notasContenidoSchema,
+});

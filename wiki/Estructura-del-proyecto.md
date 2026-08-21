@@ -68,6 +68,10 @@ UcaNode/
 | `onboarding-carrera.tsx` | Pantalla de selección de carrera (onboarding inicial) |
 | `materia-catalog.tsx` | Catálogo de tarjetas en `/materias` |
 | `entrega-card.tsx` | Tarjetas de entregas |
+| `entregas-workspace.tsx` | Calendario/listado de entregas, drawer de edición y pestaña de apuntes |
+| `entrega-notas-editor.tsx` | Editor Tiptap de apuntes por entrega |
+| `entrega-notas-panel.tsx` | Carga lazy y autosave de apuntes |
+| `entrega-notas-slash.tsx` | Menú `/` de bloques del editor |
 | `calendario.tsx` | Vista de calendario/agrupación de entregas |
 | `links-catalog.tsx` | Catálogo de tarjetas en `/links` |
 | `campustatus-workspace.tsx` | Vista de concurrencia del campus |

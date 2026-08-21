@@ -217,6 +217,7 @@ model Entrega {
   fechaCompletada   DateTime?
   recurso           String?
   prioridad         String?
+  notasContenido    Json?
   materiaId         String
   materia           Materia        @relation(fields: [materiaId], references: [id], onDelete: Cascade)
   createdAt         DateTime       @default(now())

@@ -72,7 +72,7 @@ La sidebar incluye accesos a dashboard, materias, entregas, horarios, concurrenc
 | Onboarding (layout) | `requirePerfil`, `listCarrerasDisponibles` | `confirmarCarrera` (requiere email verificado) |
 | `/materias` | `materia.findMany`, `getPlanMateriasByCarreraId` (autocompletado) | `createMateria`, `updateMateria`, `deleteMateria` |
 | `/materias/[id]` | `materia.findUnique` con entregas y horarios | Acciones sobre items relacionados según componentes reutilizados |
-| `/entregas` | `entrega.findMany`, `materia.findMany` | `createEntrega`, `updateEntrega`, `deleteEntrega` |
+| `/entregas` | `entrega.findMany`, `materia.findMany` | `createEntrega`, `updateEntrega`, `deleteEntrega`, `obtenerNotasEntrega`, `guardarNotasEntrega` |
 | `/horarios` | `horario.findMany` y `materia.findMany` filtrados a estados activos (`CURSANDO`, `PARA_FINALIZAR`) | `createHorario`, `updateHorario`, `deleteHorario` |
 | `/concurrencia` | `fetchZones` desde CampuStatus (`GET /api/zones`, cache 60 s) | - |
 | `/comunidad` | `getPosts`, `getCommunitySidebarData`, perfil, materias `CURSANDO`, plan de estudio | `createPost`, `votePost` |
@@ -219,7 +219,7 @@ sequenceDiagram
 
 - Onboarding / carrera: toda la app (`revalidateApp`).
 - Materias: dashboard, listado y detalle cuando aplica.
-- Entregas: dashboard, entregas y detalle de materia.
+- Entregas: dashboard, entregas y detalle de materia. Los apuntes (`guardarNotasEntrega`) se persisten sin `revalidatePath` para no remountar el editor.
 - Horarios: dashboard, horarios y detalle de materia.
 - Links: dashboard y links.
 - Perfil: layout/rutas que muestran datos del perfil.

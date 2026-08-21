@@ -92,6 +92,7 @@ erDiagram
         DateTime fechaCompletada
         String recurso
         String prioridad
+        Json notasContenido
         String materiaId FK
         DateTime createdAt
         DateTime updatedAt
@@ -218,6 +219,8 @@ erDiagram
 | `AttachmentType` | `PDF`, `DRIVE`, `EXAM`, `OTRO` |
 
 > `Entrega.nota` es un campo opcional (`Float`, 0–10) que aplica a entregas de tipo `PARCIAL` y `FINAL`. Se carga desde la creación o edición de la entrega cuando el estudiante recibe la calificación; si el tipo deja de ser evaluable (`TP`), la nota se descarta.
+
+> `Entrega.notasContenido` es un JSON opcional (JSONB) con el documento Tiptap de apuntes de esa entrega. Las filas existentes quedan en `NULL` hasta que el estudiante escriba en la pestaña **Apuntes / Notas**. El autosave no revalida el listado.
 
 > `Entrega.fechaInicio` se registra la primera vez que la entrega pasa a `EN_CURSO`. `Entrega.fechaCompletada` se registra al marcar `ENTREGADO`. Si se revierte el estado, esos timestamps se limpian según las reglas de transición.
 
