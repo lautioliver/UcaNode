@@ -4,10 +4,10 @@ import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Placeholder from "@tiptap/extension-placeholder";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
 import { BubbleMenu } from "@tiptap/react/menus";
 import StarterKit from "@tiptap/starter-kit";
-import type { JSONContent } from "@tiptap/core";
+import type { Editor, JSONContent } from "@tiptap/core";
 import {
   Bold,
   CheckSquare,
@@ -30,7 +30,7 @@ import bash from "highlight.js/lib/languages/bash";
 import sql from "highlight.js/lib/languages/sql";
 import xml from "highlight.js/lib/languages/xml";
 import css from "highlight.js/lib/languages/css";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { SlashCommand } from "@/components/entrega-notas-slash";
 import type { TiptapDoc } from "@/lib/schemas";
@@ -78,6 +78,107 @@ function ToolbarBtn({ active, label, onClick, children }: ToolbarBtnProps) {
   );
 }
 
+function EntregaNotasToolbar({ editor }: { editor: Editor }) {
+  const active = useEditorState({
+    editor,
+    selector: ({ editor: instance }) => ({
+      h1: instance.isActive("heading", { level: 1 }),
+      h2: instance.isActive("heading", { level: 2 }),
+      h3: instance.isActive("heading", { level: 3 }),
+      bold: instance.isActive("bold"),
+      italic: instance.isActive("italic"),
+      strike: instance.isActive("strike"),
+      bullet: instance.isActive("bulletList"),
+      ordered: instance.isActive("orderedList"),
+      task: instance.isActive("taskList"),
+      quote: instance.isActive("blockquote"),
+      code: instance.isActive("codeBlock"),
+    }),
+  });
+
+  return (
+    <div className="flex flex-wrap items-center gap-0.5 border-b border-border px-1.5 py-1">
+      <ToolbarBtn
+        label="Título 1"
+        active={active.h1}
+        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+      >
+        <Heading1 className="h-3.5 w-3.5" />
+      </ToolbarBtn>
+      <ToolbarBtn
+        label="Título 2"
+        active={active.h2}
+        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+      >
+        <Heading2 className="h-3.5 w-3.5" />
+      </ToolbarBtn>
+      <ToolbarBtn
+        label="Título 3"
+        active={active.h3}
+        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+      >
+        <Heading3 className="h-3.5 w-3.5" />
+      </ToolbarBtn>
+      <ToolbarBtn
+        label="Negrita"
+        active={active.bold}
+        onClick={() => editor.chain().focus().toggleBold().run()}
+      >
+        <Bold className="h-3.5 w-3.5" />
+      </ToolbarBtn>
+      <ToolbarBtn
+        label="Cursiva"
+        active={active.italic}
+        onClick={() => editor.chain().focus().toggleItalic().run()}
+      >
+        <Italic className="h-3.5 w-3.5" />
+      </ToolbarBtn>
+      <ToolbarBtn
+        label="Tachado"
+        active={active.strike}
+        onClick={() => editor.chain().focus().toggleStrike().run()}
+      >
+        <Strikethrough className="h-3.5 w-3.5" />
+      </ToolbarBtn>
+      <ToolbarBtn
+        label="Lista"
+        active={active.bullet}
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+      >
+        <List className="h-3.5 w-3.5" />
+      </ToolbarBtn>
+      <ToolbarBtn
+        label="Lista numerada"
+        active={active.ordered}
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+      >
+        <ListOrdered className="h-3.5 w-3.5" />
+      </ToolbarBtn>
+      <ToolbarBtn
+        label="Lista de tareas"
+        active={active.task}
+        onClick={() => editor.chain().focus().toggleTaskList().run()}
+      >
+        <CheckSquare className="h-3.5 w-3.5" />
+      </ToolbarBtn>
+      <ToolbarBtn
+        label="Cita"
+        active={active.quote}
+        onClick={() => editor.chain().focus().toggleBlockquote().run()}
+      >
+        <Quote className="h-3.5 w-3.5" />
+      </ToolbarBtn>
+      <ToolbarBtn
+        label="Bloque de código"
+        active={active.code}
+        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+      >
+        <Code2 className="h-3.5 w-3.5" />
+      </ToolbarBtn>
+    </div>
+  );
+}
+
 export function EntregaNotasEditor({
   initialContent,
   onChange,
@@ -85,9 +186,13 @@ export function EntregaNotasEditor({
   initialContent: TiptapDoc | null;
   onChange: (doc: TiptapDoc) => void;
 }) {
+  const onChangeRef = useRef(onChange);
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
+
   const editor = useEditor({
     immediatelyRender: false,
-    shouldRerenderOnTransaction: true,
     extensions: [
       StarterKit.configure({
         heading: { levels: [1, 2, 3] },
@@ -108,7 +213,7 @@ export function EntregaNotasEditor({
       },
     },
     onUpdate: ({ editor: instance }) => {
-      onChange(instance.getJSON() as TiptapDoc);
+      onChangeRef.current(instance.getJSON() as TiptapDoc);
     },
   });
 
@@ -122,85 +227,7 @@ export function EntregaNotasEditor({
 
   return (
     <div className="entrega-notas-editor rounded-xl border border-border bg-surface">
-      <div className="flex flex-wrap items-center gap-0.5 border-b border-border px-1.5 py-1">
-        <ToolbarBtn
-          label="Título 1"
-          active={editor.isActive("heading", { level: 1 })}
-          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        >
-          <Heading1 className="h-3.5 w-3.5" />
-        </ToolbarBtn>
-        <ToolbarBtn
-          label="Título 2"
-          active={editor.isActive("heading", { level: 2 })}
-          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        >
-          <Heading2 className="h-3.5 w-3.5" />
-        </ToolbarBtn>
-        <ToolbarBtn
-          label="Título 3"
-          active={editor.isActive("heading", { level: 3 })}
-          onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        >
-          <Heading3 className="h-3.5 w-3.5" />
-        </ToolbarBtn>
-        <ToolbarBtn
-          label="Negrita"
-          active={editor.isActive("bold")}
-          onClick={() => editor.chain().focus().toggleBold().run()}
-        >
-          <Bold className="h-3.5 w-3.5" />
-        </ToolbarBtn>
-        <ToolbarBtn
-          label="Cursiva"
-          active={editor.isActive("italic")}
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-        >
-          <Italic className="h-3.5 w-3.5" />
-        </ToolbarBtn>
-        <ToolbarBtn
-          label="Tachado"
-          active={editor.isActive("strike")}
-          onClick={() => editor.chain().focus().toggleStrike().run()}
-        >
-          <Strikethrough className="h-3.5 w-3.5" />
-        </ToolbarBtn>
-        <ToolbarBtn
-          label="Lista"
-          active={editor.isActive("bulletList")}
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-        >
-          <List className="h-3.5 w-3.5" />
-        </ToolbarBtn>
-        <ToolbarBtn
-          label="Lista numerada"
-          active={editor.isActive("orderedList")}
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        >
-          <ListOrdered className="h-3.5 w-3.5" />
-        </ToolbarBtn>
-        <ToolbarBtn
-          label="Lista de tareas"
-          active={editor.isActive("taskList")}
-          onClick={() => editor.chain().focus().toggleTaskList().run()}
-        >
-          <CheckSquare className="h-3.5 w-3.5" />
-        </ToolbarBtn>
-        <ToolbarBtn
-          label="Cita"
-          active={editor.isActive("blockquote")}
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        >
-          <Quote className="h-3.5 w-3.5" />
-        </ToolbarBtn>
-        <ToolbarBtn
-          label="Bloque de código"
-          active={editor.isActive("codeBlock")}
-          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        >
-          <Code2 className="h-3.5 w-3.5" />
-        </ToolbarBtn>
-      </div>
+      <EntregaNotasToolbar editor={editor} />
 
       <BubbleMenu
         editor={editor}

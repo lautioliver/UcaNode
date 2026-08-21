@@ -1,7 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { EntregaNotasEditor } from "@/components/entrega-notas-editor";
+import {
+  EntregaNotasEditor,
+  EMPTY_TIPTAP_DOC,
+} from "@/components/entrega-notas-editor";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   guardarNotasEntrega,
@@ -30,6 +33,7 @@ export function EntregaNotasPanel({
   const dirtyRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const entregaIdRef = useRef(entregaId);
+  const lastSavedRef = useRef<string>(JSON.stringify(EMPTY_TIPTAP_DOC));
 
   useEffect(() => {
     entregaIdRef.current = entregaId;
@@ -52,6 +56,7 @@ export function EntregaNotasPanel({
       contentRef.current,
     );
     if (result.success) {
+      lastSavedRef.current = JSON.stringify(contentRef.current ?? EMPTY_TIPTAP_DOC);
       updateStatus("saved");
       return;
     }
@@ -70,6 +75,9 @@ export function EntregaNotasPanel({
         return;
       }
       setInitial(result.contenido ?? null);
+      lastSavedRef.current = JSON.stringify(
+        result.contenido ?? EMPTY_TIPTAP_DOC,
+      );
     });
 
     return () => {
@@ -95,6 +103,8 @@ export function EntregaNotasPanel({
   }, [persist]);
 
   function handleChange(doc: TiptapDoc) {
+    const serialized = JSON.stringify(doc);
+    if (serialized === lastSavedRef.current) return;
     contentRef.current = doc;
     dirtyRef.current = true;
     updateStatus("dirty");
