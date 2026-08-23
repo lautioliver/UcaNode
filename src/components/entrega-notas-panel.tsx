@@ -1,6 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import {
   EntregaNotasEditor,
   EMPTY_TIPTAP_DOC,
@@ -14,17 +21,23 @@ import type { TiptapDoc } from "@/lib/schemas";
 
 export type NotasSaveStatus = "idle" | "dirty" | "saving" | "saved" | "error";
 
+export type EntregaNotasPanelHandle = {
+  getContent: () => TiptapDoc | null;
+};
+
 const AUTOSAVE_MS = 1500;
 
-export function EntregaNotasPanel({
-  entregaId,
-  onStatusChange,
-  variant = "default",
-}: {
-  entregaId: string;
-  onStatusChange?: (status: NotasSaveStatus) => void;
-  variant?: "default" | "notion";
-}) {
+export const EntregaNotasPanel = forwardRef<
+  EntregaNotasPanelHandle,
+  {
+    entregaId: string;
+    onStatusChange?: (status: NotasSaveStatus) => void;
+    variant?: "default" | "notion";
+  }
+>(function EntregaNotasPanel(
+  { entregaId, onStatusChange, variant = "default" },
+  ref,
+) {
   const isNotion = variant === "notion";
   const [status, setStatus] = useState<NotasSaveStatus>("idle");
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -37,6 +50,11 @@ export function EntregaNotasPanel({
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const entregaIdRef = useRef(entregaId);
   const lastSavedRef = useRef<string>(JSON.stringify(EMPTY_TIPTAP_DOC));
+  const initialRef = useRef<TiptapDoc | null>(null);
+
+  useImperativeHandle(ref, () => ({
+    getContent: () => contentRef.current ?? initialRef.current,
+  }));
 
   useEffect(() => {
     entregaIdRef.current = entregaId;
@@ -78,6 +96,8 @@ export function EntregaNotasPanel({
         return;
       }
       setInitial(result.contenido ?? null);
+      initialRef.current = result.contenido ?? null;
+      contentRef.current = result.contenido ?? null;
       lastSavedRef.current = JSON.stringify(
         result.contenido ?? EMPTY_TIPTAP_DOC,
       );
@@ -144,4 +164,4 @@ export function EntregaNotasPanel({
       )}
     </div>
   );
-}
+});

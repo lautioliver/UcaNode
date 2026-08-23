@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   ArrowUpRight,
   Calendar,
@@ -10,7 +10,9 @@ import {
   CircleDot,
   Clock,
   ExternalLink,
+  FileDown,
   List,
+  Loader2,
   MoreHorizontal,
   Pencil,
 } from "lucide-react";
@@ -19,9 +21,11 @@ import { Drawer } from "@/components/drawer";
 import { EntregaEditForm } from "@/components/forms";
 import {
   EntregaNotasPanel,
+  type EntregaNotasPanelHandle,
   type NotasSaveStatus,
 } from "@/components/entrega-notas-panel";
 import { deleteEntrega, updateEntrega } from "@/lib/actions";
+import { exportEntregaNotasPdf } from "@/lib/entrega-notas-export";
 import {
   formatEntregaFechaLarga,
   formatEntregaHora,
@@ -117,9 +121,12 @@ export function EntregaNotionPage({
   materias: { id: string; nombre: string }[];
 }) {
   const router = useRouter();
+  const notasPanelRef = useRef<EntregaNotasPanelHandle>(null);
   const [editOpen, setEditOpen] = useState(false);
   const [extraOpen, setExtraOpen] = useState(false);
   const [notasStatus, setNotasStatus] = useState<NotasSaveStatus>("idle");
+  const [exportingPdf, setExportingPdf] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
 
   const pageTitle = formatEntregaPageTitle(entrega.titulo, entrega.materia);
   const materiaLabel = entrega.materia.codigo
@@ -179,6 +186,25 @@ export function EntregaNotionPage({
     router.refresh();
   }
 
+  async function handleExportPdf() {
+    setExportError(null);
+    setExportingPdf(true);
+    try {
+      const doc = notasPanelRef.current?.getContent() ?? null;
+      await exportEntregaNotasPdf(doc, {
+        title: pageTitle,
+        materia: materiaLabel,
+        fechaEntrega: `${formatEntregaFechaLarga(entrega.fecha)} · ${formatEntregaHora(entrega.fecha)}`,
+        tipo: tipoEntregaLabel[entrega.tipo],
+        estado: estadoEntregaLabel[entrega.estado],
+      });
+    } catch {
+      setExportError("No se pudo generar el PDF. Intentá de nuevo.");
+    } finally {
+      setExportingPdf(false);
+    }
+  }
+
   return (
     <>
       <div className="entrega-notion-page pb-16">
@@ -205,6 +231,19 @@ export function EntregaNotionPage({
                 {statusText}
               </p>
             )}
+            <button
+              type="button"
+              onClick={() => void handleExportPdf()}
+              disabled={exportingPdf}
+              className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs text-muted transition hover:bg-surface-hover hover:text-primary disabled:opacity-60"
+            >
+              {exportingPdf ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <FileDown className="h-3.5 w-3.5" />
+              )}
+              Exportar PDF
+            </button>
             <button
               type="button"
               onClick={() => setEditOpen(true)}
@@ -289,7 +328,11 @@ export function EntregaNotionPage({
         </section>
 
         <section className="mt-8">
+          {exportError && (
+            <p className="mb-2 text-sm text-danger">{exportError}</p>
+          )}
           <EntregaNotasPanel
+            ref={notasPanelRef}
             entregaId={entrega.id}
             variant="notion"
             onStatusChange={setNotasStatus}
