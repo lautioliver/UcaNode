@@ -15,6 +15,7 @@ import {
   Loader2,
   MoreHorizontal,
   Pencil,
+  Sparkles,
 } from "lucide-react";
 import type { EstadoEntrega, TipoEntrega } from "@/generated/prisma/client";
 import { Drawer } from "@/components/drawer";
@@ -35,6 +36,11 @@ import {
 } from "@/lib/entrega-display";
 import { estadoEntregaLabel, tipoEntregaLabel } from "@/lib/labels";
 import { cn } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export type EntregaNotionData = {
   id: string;
@@ -231,19 +237,33 @@ export function EntregaNotionPage({
                 {statusText}
               </p>
             )}
-            <button
-              type="button"
-              onClick={() => void handleExportPdf()}
-              disabled={exportingPdf}
-              className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs text-muted transition hover:bg-surface-hover hover:text-primary disabled:opacity-60"
-            >
-              {exportingPdf ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              ) : (
-                <FileDown className="h-3.5 w-3.5" />
-              )}
-              Exportar PDF
-            </button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-surface/40 px-1 py-0.5 opacity-60">
+                  <button
+                    type="button"
+                    onClick={() => void handleExportPdf()}
+                    disabled={exportingPdf}
+                    className="inline-flex items-center gap-1.5 rounded-md px-1.5 py-0.5 text-xs text-muted transition hover:text-secondary disabled:cursor-wait disabled:opacity-50"
+                  >
+                    {exportingPdf ? (
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    ) : (
+                      <FileDown className="h-3.5 w-3.5" />
+                    )}
+                    Exportar PDF
+                  </button>
+                  <span className="inline-flex items-center gap-1 rounded-md border border-border/60 bg-surface-hover/50 px-1.5 py-0.5 text-[10px] font-medium text-muted">
+                    <Sparkles className="h-3 w-3 opacity-70" />
+                    En desarrollo
+                  </span>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="max-w-[220px] text-center">
+                La exportación a PDF está en desarrollo. Podés probarla, pero el
+                formato puede cambiar.
+              </TooltipContent>
+            </Tooltip>
             <button
               type="button"
               onClick={() => setEditOpen(true)}
