@@ -4,26 +4,34 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   Activity,
   AlertTriangle,
+  ArrowLeft,
   Bell,
   BookOpen,
+  CalendarClock,
   CalendarDays,
+  Check,
+  CheckSquare,
   ChevronDown,
   ChevronUp,
+  CircleDot,
   ClipboardCheck,
   Clock,
   Code2,
   ExternalLink,
+  FileDown,
   FileText,
   HardDrive,
   LayoutDashboard,
   Link2,
   MapPin,
   MessageSquare,
+  NotebookPen,
   RefreshCw,
   School,
   Search,
   Star,
   Sun,
+  Tag,
   Users,
   Video,
 } from "lucide-react";
@@ -48,6 +56,7 @@ import {
 type ViewId =
   | "dashboard"
   | "entregas"
+  | "entrega-detalle"
   | "horarios"
   | "materias"
   | "links"
@@ -57,6 +66,7 @@ type ViewId =
 const VIEWS: ViewId[] = [
   "dashboard",
   "entregas",
+  "entrega-detalle",
   "horarios",
   "materias",
   "links",
@@ -67,11 +77,23 @@ const VIEWS: ViewId[] = [
 const VIEW_LABEL: Record<ViewId, string> = {
   dashboard: "dashboard",
   entregas: "entregas",
+  "entrega-detalle": "entregas/tp-modelado",
   horarios: "horarios",
   materias: "materias",
   links: "links",
   comunidad: "comunidad",
   concurrencia: "concurrencia",
+};
+
+const VIEW_TITLE: Record<ViewId, string> = {
+  dashboard: "Dashboard",
+  entregas: "Entregas",
+  "entrega-detalle": "Apuntes de entrega",
+  horarios: "Horarios",
+  materias: "Materias",
+  links: "Links",
+  comunidad: "Comunidad",
+  concurrencia: "Concurrencia",
 };
 
 const NAV: { id: ViewId; label: string; Icon: ComponentType<{ className?: string }> }[] = [
@@ -441,7 +463,10 @@ export function AppPreview({
               ) : (
                 <>
                   {view === "dashboard" && <DashboardView />}
-                  {view === "entregas" && <EntregasView />}
+                  {view === "entregas" && (
+                    <EntregasView onOpenDetalle={() => select("entrega-detalle")} />
+                  )}
+                  {view === "entrega-detalle" && <EntregaDetalleView />}
                   {view === "horarios" && <HorariosView />}
                   {view === "materias" && <MateriasView />}
                   {view === "links" && <LinksView />}
@@ -469,8 +494,8 @@ export function AppPreview({
                 key={v}
                 type="button"
                 onClick={() => select(v)}
-                title={NAV.find((n) => n.id === v)?.label}
-                aria-label={NAV.find((n) => n.id === v)?.label}
+                title={VIEW_TITLE[v]}
+                aria-label={VIEW_TITLE[v]}
                 className={`h-1.5 rounded-full transition-all ${
                   view === v ? "w-6 bg-accent" : "w-1.5 bg-muted hover:bg-secondary"
                 }`}
@@ -604,7 +629,7 @@ const FILTROS_ENTREGAS = [
   { value: "FINAL", label: "Final" },
 ] as const;
 
-function EntregasView() {
+function EntregasView({ onOpenDetalle }: { onOpenDetalle?: () => void }) {
   const [filtro, setFiltro] = useState<(typeof FILTROS_ENTREGAS)[number]["value"]>("TODOS");
   const filtradas =
     filtro === "TODOS"
@@ -617,7 +642,7 @@ function EntregasView() {
       <ViewHeader
         pill="Todo lo que se acerca"
         title="Entregas"
-        description="TPs, parciales y finales con su urgencia."
+        description="TPs, parciales y finales. Abrí una entrega para ver apuntes y detalles."
         chips={
           <>
             <CounterChip count={filtradas.length} label="Total" />
@@ -640,11 +665,124 @@ function EntregasView() {
       </div>
 
       <div className="grid gap-2.5 md:grid-cols-2">
-        {filtradas.map((e) => (
-          <EntregaCard key={e.id} entrega={e} />
+        {filtradas.map((e, index) => (
+          <EntregaCard
+            key={e.id}
+            entrega={e}
+            interactive={index === 0 && Boolean(onOpenDetalle)}
+            onOpen={index === 0 ? onOpenDetalle : undefined}
+          />
         ))}
       </div>
     </>
+  );
+}
+
+function EntregaDetalleView() {
+  const entrega = ENTREGAS_EJEMPLO[0];
+
+  return (
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-card px-2 py-1 text-[10px] font-medium text-secondary shadow-[var(--shadow-card)]">
+          <ArrowLeft className="h-3 w-3" />
+          Entregas
+        </span>
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span className="inline-flex items-center gap-1 rounded-full border border-dashed border-border bg-surface-card/70 px-2 py-1 text-[10px] font-medium text-muted opacity-75">
+            <FileDown className="h-3 w-3" />
+            Exportar PDF
+            <span className="rounded-full bg-surface-hover px-1 py-px text-[9px]">Beta</span>
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-card px-2 py-1 text-[10px] font-medium text-secondary">
+            Ver detalles
+          </span>
+        </div>
+      </div>
+
+      <div className="flex items-start gap-2.5">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent-ghost text-accent">
+          <ClipboardCheck className="h-4 w-4" />
+        </span>
+        <div className="min-w-0 flex-1 space-y-1">
+          <h2 className="text-base font-bold leading-tight text-primary sm:text-lg">
+            {entrega.materia.codigo} | {entrega.titulo}
+          </h2>
+          <p className="truncate text-[11px] text-secondary">{entrega.materia.nombre}</p>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-1.5">
+        <StatusBadge tone="accent">Trabajo Práctico</StatusBadge>
+        <StatusBadge tone="warning">En curso</StatusBadge>
+        <StatusBadge tone="danger">Urgente</StatusBadge>
+      </div>
+
+      <div className="overflow-hidden rounded-xl border border-border bg-surface-card shadow-[var(--shadow-card)]">
+        <div className="border-b border-border bg-danger-ghost/40 px-3 py-2.5">
+          <div className="flex items-center gap-2">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-danger-ghost text-danger">
+              <CalendarClock className="h-3.5 w-3.5" />
+            </span>
+            <div>
+              <p className="text-[11px] font-semibold text-danger">Vence mañana</p>
+              <p className="text-[10px] text-muted">Mañana · 23:59</p>
+            </div>
+          </div>
+          <div className="mt-2">
+            <ProgressBar value={88} tone="danger" showValue={false} />
+          </div>
+        </div>
+        <div className="space-y-0.5 p-1.5">
+          {[
+            { icon: BookOpen, label: "Materia", value: "INF-403 | Bases de Datos" },
+            { icon: Tag, label: "Tipo", value: "Trabajo Práctico" },
+            { icon: CircleDot, label: "Estado", value: "En curso" },
+            { icon: Clock, label: "Hora entrega", value: "23:59" },
+          ].map(({ icon: Icon, label, value }) => (
+            <div
+              key={label}
+              className="grid grid-cols-[88px_minmax(0,1fr)] items-center gap-2 rounded-md px-2 py-1.5 text-[11px]"
+            >
+              <span className="flex items-center gap-1.5 text-muted">
+                <Icon className="h-3 w-3 shrink-0" />
+                {label}
+              </span>
+              <span className="truncate font-medium text-primary">{value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5">
+            <NotebookPen className="h-3.5 w-3.5 text-accent" />
+            <p className="text-[11px] font-semibold text-primary">Apuntes</p>
+          </div>
+          <span className="inline-flex items-center gap-1 rounded-full border border-[color:var(--success)]/30 bg-success-ghost px-2 py-0.5 text-[9px] font-medium text-success">
+            <Check className="h-2.5 w-2.5" />
+            Guardado
+          </span>
+        </div>
+        <div className="rounded-xl border border-border bg-surface-card px-3 py-2.5 text-[11px] leading-relaxed text-secondary shadow-[var(--shadow-card)]">
+          <p className="font-semibold text-primary">Checklist del TP</p>
+          <ul className="mt-1.5 space-y-1">
+            <li className="flex items-start gap-1.5">
+              <CheckSquare className="mt-0.5 h-3 w-3 shrink-0 text-success" />
+              Modelo ER con cardinalidades
+            </li>
+            <li className="flex items-start gap-1.5">
+              <CheckSquare className="mt-0.5 h-3 w-3 shrink-0 text-muted" />
+              Script SQL de creación
+            </li>
+          </ul>
+          <p className="mt-2 text-[10px] text-muted">
+            Autosave · Exportar a PDF (beta)
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
 

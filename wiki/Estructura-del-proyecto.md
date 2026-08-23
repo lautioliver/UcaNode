@@ -37,7 +37,8 @@ UcaNode/
 | `dashboard/page.tsx` | Home autenticado |
 | `materias/page.tsx` | Catálogo de materias en tarjetas (año/semestre destacados) |
 | `materias/[id]/page.tsx` | Detalle de materia |
-| `entregas/page.tsx` | Gestión de entregas |
+| `entregas/page.tsx` | Listado y calendario de entregas |
+| `entregas/[id]/page.tsx` | Vista dedicada de entrega con propiedades y editor de apuntes |
 | `horarios/page.tsx` | Grilla semanal de horarios (solo materias activas) |
 | `concurrencia/page.tsx` | Concurrencia del campus vía CampuStatus |
 | `links/page.tsx` | Catálogo de links con filtros por categoría |
@@ -68,10 +69,13 @@ UcaNode/
 | `onboarding-carrera.tsx` | Pantalla de selección de carrera (onboarding inicial) |
 | `materia-catalog.tsx` | Catálogo de tarjetas en `/materias` |
 | `entrega-card.tsx` | Tarjetas de entregas |
-| `entregas-workspace.tsx` | Calendario/listado de entregas, drawer de edición y pestaña de apuntes |
+| `entregas-workspace.tsx` | Calendario/listado de entregas y drawer para crear |
+| `entrega-notion-page.tsx` | Vista full-page estilo Notion por entrega (`/entregas/[id]`) |
 | `entrega-notas-editor.tsx` | Editor Tiptap de apuntes por entrega |
 | `entrega-notas-panel.tsx` | Carga lazy y autosave de apuntes |
 | `entrega-notas-slash.tsx` | Menú `/` de bloques del editor |
+| `entrega-notas-export.ts` | Exportación a PDF en cliente (beta) |
+| `entrega-display.ts` | Formato de título/fecha y clases visuales de la vista Notion |
 | `calendario.tsx` | Vista de calendario/agrupación de entregas |
 | `links-catalog.tsx` | Catálogo de tarjetas en `/links` |
 | `campustatus-workspace.tsx` | Vista de concurrencia del campus |
