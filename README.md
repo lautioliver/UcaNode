@@ -21,7 +21,7 @@ Producción: [https://ucanode.app](https://ucanode.app)
 - Login como punto de entrada; listado de carreras disponibles en la pantalla de acceso.
 - Dashboard con próximas entregas, clases del día, materias en curso y links favoritos.
 - Gestión de materias en catálogo de tarjetas (año/semestre, estados y correlatividades).
-- Calendario/listado de entregas por materia, tipo, fecha, prioridad y estado, con apuntes de texto enriquecido por entrega.
+- Calendario/listado de entregas por materia, tipo, fecha, prioridad y estado; vista dedicada `/entregas/[id]` estilo Notion con apuntes enriquecidos (Tiptap), autosave y exportación a PDF (beta).
 - Grilla semanal de horarios (materias en cursada / para finalizar).
 - Concurrencia del campus en tiempo casi real vía CampuStatus.
 - Comunidad estudiantil con feed de publicaciones, filtros por carrera/materias, votos, comentarios anidados y adjuntos por URL externa (Drive, PDF).

@@ -13,6 +13,7 @@ import {
   Link2,
   Mail,
   MapPin,
+  NotebookPen,
   ShieldCheck,
   Sparkles,
   Users,
@@ -27,7 +28,7 @@ import { listUniversidades } from "@/lib/universidades/catalogo";
 export const metadata: Metadata = {
   title: "UcaNode — Autogestión Ucasal",
   description:
-    "UcaNode es la autogestión de la Ucasal: entregas, horarios, materias con plan de estudios y estado del campus en un solo panel, para estudiantes de la universidad.",
+    "UcaNode es la autogestión de la Ucasal: entregas con apuntes enriquecidos, horarios, materias con plan de estudios y estado del campus en un solo panel.",
 };
 
 export default async function LandingPage() {
@@ -97,9 +98,10 @@ export default async function LandingPage() {
               <span className="text-accent">en un solo panel.</span>
             </h1>
             <p className="mx-auto max-w-lg text-base text-secondary sm:text-lg">
-              UcaNode junta todo lo que te rodea en la facultad — entregas,
-              horarios, materias con su plan de estudios, accesos y el estado
-              del campus — para que dejes de buscar en mil lugares.
+              UcaNode junta todo lo que te rodea en la facultad — entregas con
+              apuntes por TP o parcial, horarios, materias con su plan de
+              estudios, accesos y el estado del campus — para que dejes de
+              buscar en mil lugares.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-3">
@@ -183,7 +185,12 @@ export default async function LandingPage() {
               <FeatureCard
                 icon={<ClipboardCheck className="h-5 w-5" />}
                 title="Entregas"
-                description="TPs, parciales y finales con fecha, estado y contadores de urgencia."
+                description="TPs, parciales y finales con urgencia, estado y vista dedicada por entrega."
+              />
+              <FeatureCard
+                icon={<NotebookPen className="h-5 w-5" />}
+                title="Apuntes por entrega"
+                description="Editor enriquecido estilo Notion con autosave, checklist y exportación a PDF (beta)."
               />
               <FeatureCard
                 icon={<CalendarDays className="h-5 w-5" />}
@@ -302,6 +309,11 @@ export default async function LandingPage() {
                 icon={<Check className="h-4 w-4" />}
                 title="Prioridades claras"
                 description="Urgentes, de la semana y a tiempo: cada entrega en su lugar."
+              />
+              <CheckItem
+                icon={<NotebookPen className="h-4 w-4" />}
+                title="Apuntes en cada entrega"
+                description="Checklists, links y código en una página dedicada que se guarda sola."
               />
               <CheckItem
                 icon={<Users className="h-4 w-4" />}

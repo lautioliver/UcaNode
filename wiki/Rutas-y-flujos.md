@@ -27,6 +27,7 @@ flowchart TD
     Mat["/materias Materias"]
     MatId["/materias/[id] Detalle de materia"]
     Ent["/entregas Entregas"]
+    EntId["/entregas/[id] Detalle y apuntes"]
     Hor["/horarios Horarios"]
     Con["/concurrencia Concurrencia"]
     Com["/comunidad Comunidad"]
@@ -41,6 +42,8 @@ flowchart TD
     Login --> Onb
     Root --> Mat
     Root --> Ent
+    Ent --> EntId
+    EntId --> Ent
     Root --> Hor
     Root --> Con
     Root --> Com
@@ -57,8 +60,8 @@ flowchart TD
     Com --> Per
     Lnk --> Per
 
-    Root & Mat & MatId & Ent & Hor & Con & Com & ComId & Lnk & Per -.-> Err
-    Root & Mat & MatId & Ent & Hor & Con & Com & ComId & Lnk & Per -.-> Ld
+    Root & Mat & MatId & Ent & EntId & Hor & Con & Com & ComId & Lnk & Per -.-> Err
+    Root & Mat & MatId & Ent & EntId & Hor & Con & Com & ComId & Lnk & Per -.-> Ld
 ```
 
 La sidebar incluye accesos a dashboard, materias, entregas, horarios, concurrencia, comunidad, links y perfil. Solo es visible después de completar el onboarding. También maneja el modo claro/oscuro y el colapso en pantallas grandes.
@@ -72,7 +75,8 @@ La sidebar incluye accesos a dashboard, materias, entregas, horarios, concurrenc
 | Onboarding (layout) | `requirePerfil`, `listCarrerasDisponibles` | `confirmarCarrera` (requiere email verificado) |
 | `/materias` | `materia.findMany`, `getPlanMateriasByCarreraId` (autocompletado) | `createMateria`, `updateMateria`, `deleteMateria` |
 | `/materias/[id]` | `materia.findUnique` con entregas y horarios | Acciones sobre items relacionados según componentes reutilizados |
-| `/entregas` | `entrega.findMany`, `materia.findMany` | `createEntrega`, `updateEntrega`, `deleteEntrega`, `obtenerNotasEntrega`, `guardarNotasEntrega` |
+| `/entregas` | `entrega.findMany`, `materia.findMany` | `createEntrega` (drawer desde calendario/listado) |
+| `/entregas/[id]` | `entrega.findFirst` con materia, `materia.findMany` | `updateEntrega`, `deleteEntrega`, `obtenerNotasEntrega`, `guardarNotasEntrega`; exportación PDF en cliente (beta) |
 | `/horarios` | `horario.findMany` y `materia.findMany` filtrados a estados activos (`CURSANDO`, `PARA_FINALIZAR`) | `createHorario`, `updateHorario`, `deleteHorario` |
 | `/concurrencia` | `fetchZones` desde CampuStatus (`GET /api/zones`, cache 60 s) | - |
 | `/comunidad` | `getPosts`, `getCommunitySidebarData`, perfil, materias `CURSANDO`, plan de estudio | `createPost`, `votePost` |
@@ -219,7 +223,7 @@ sequenceDiagram
 
 - Onboarding / carrera: toda la app (`revalidateApp`).
 - Materias: dashboard, listado y detalle cuando aplica.
-- Entregas: dashboard, entregas y detalle de materia. Los apuntes (`guardarNotasEntrega`) se persisten sin `revalidatePath` para no remountar el editor.
+- Entregas: dashboard, listado, detalle `/entregas/[id]` y detalle de materia. Los apuntes (`guardarNotasEntrega`) se persisten sin `revalidatePath` para no remountar el editor.
 - Horarios: dashboard, horarios y detalle de materia.
 - Links: dashboard y links.
 - Perfil: layout/rutas que muestran datos del perfil.
