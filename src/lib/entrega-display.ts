@@ -21,17 +21,19 @@ export function formatEntregaHora(fecha: Date | string): string {
 }
 
 export const tipoEntregaNotionClass: Record<TipoEntrega, string> = {
-  TP: "border-[color-mix(in_oklch,var(--accent)_35%,transparent)] bg-[color-mix(in_oklch,#c084fc_16%,transparent)] text-[#d8b4fe]",
-  PARCIAL:
-    "border-[color-mix(in_oklch,var(--warning)_35%,transparent)] bg-warning-ghost text-warning",
-  FINAL:
-    "border-[color-mix(in_oklch,var(--danger)_35%,transparent)] bg-danger-ghost text-danger",
+  TP: "border-[color:var(--accent)]/30 bg-accent-ghost text-accent",
+  PARCIAL: "border-[color:var(--warning)]/30 bg-warning-ghost text-warning",
+  FINAL: "border-[color:var(--danger)]/30 bg-danger-ghost text-danger",
+};
+
+export const tipoEntregaTileClass: Record<TipoEntrega, string> = {
+  TP: "bg-accent-ghost text-accent",
+  PARCIAL: "bg-warning-ghost text-warning",
+  FINAL: "bg-danger-ghost text-danger",
 };
 
 export const estadoEntregaNotionClass = {
-  PENDIENTE: "border-border bg-surface-hover text-secondary",
-  EN_CURSO:
-    "border-[color-mix(in_oklch,var(--accent)_35%,transparent)] bg-accent-ghost text-accent",
-  ENTREGADO:
-    "border-[color-mix(in_oklch,var(--success)_35%,transparent)] bg-success-ghost text-success",
+  PENDIENTE: "border-border bg-surface text-secondary",
+  EN_CURSO: "border-[color:var(--warning)]/30 bg-warning-ghost text-warning",
+  ENTREGADO: "border-[color:var(--success)]/30 bg-success-ghost text-success",
 } as const;
