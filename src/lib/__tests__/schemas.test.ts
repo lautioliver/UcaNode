@@ -7,6 +7,9 @@ import {
   perfilSchema,
   loginSchema,
   registroSchema,
+  notasContenidoSchema,
+  guardarNotasEntregaSchema,
+  NOTAS_CONTENIDO_MAX_BYTES,
 } from "../schemas";
 
 const validRegistro = {
@@ -94,6 +97,57 @@ describe("entregaSchema", () => {
       fecha: "2026-08-01",
       materiaId: "abc123",
       nota: 11,
+    });
+    expect(result.success).toBe(false);
+  });
+});
+
+describe("notasContenidoSchema", () => {
+  it("accepts a valid Tiptap doc", () => {
+    const result = notasContenidoSchema.safeParse({
+      type: "doc",
+      content: [{ type: "paragraph", content: [{ type: "text", text: "hola" }] }],
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("accepts null", () => {
+    const result = notasContenidoSchema.safeParse(null);
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects an invalid document shape", () => {
+    expect(notasContenidoSchema.safeParse({ type: "paragraph" }).success).toBe(
+      false,
+    );
+    expect(notasContenidoSchema.safeParse("markdown").success).toBe(false);
+    expect(notasContenidoSchema.safeParse([{ type: "doc" }]).success).toBe(false);
+  });
+
+  it("rejects a payload over the size limit", () => {
+    const result = notasContenidoSchema.safeParse({
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [{ type: "text", text: "x".repeat(NOTAS_CONTENIDO_MAX_BYTES) }],
+        },
+      ],
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues[0]?.message).toBe(
+        "El documento es demasiado grande",
+      );
+    }
+  });
+});
+
+describe("guardarNotasEntregaSchema", () => {
+  it("requires entregaId", () => {
+    const result = guardarNotasEntregaSchema.safeParse({
+      entregaId: "",
+      notasContenido: { type: "doc" },
     });
     expect(result.success).toBe(false);
   });

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   addMonths,
   addWeeks,
@@ -19,12 +20,10 @@ import { ChevronLeft, ChevronRight, Plus, Search } from "lucide-react";
 import type { EstadoEntrega, TipoEntrega } from "@/generated/prisma/client";
 import { Drawer } from "@/components/drawer";
 import { EntregaCard } from "@/components/entrega-card";
-import { EntregaCreateForm, EntregaEditForm } from "@/components/forms";
+import { EntregaCreateForm } from "@/components/forms";
 import { CounterChip, EmptyState, FilterPill, PageHeader } from "@/components/layout";
 import {
   createEntrega,
-  deleteEntrega,
-  updateEntrega,
 } from "@/lib/actions";
 import { tipoEntregaLabel } from "@/lib/labels";
 import { daysUntil } from "@/lib/entrega-utils";
@@ -51,10 +50,7 @@ type ViewMode = "semana" | "mes";
 
 type OrdenEstado = "pendientes-primero" | "entregados-primero";
 
-type DrawerState =
-  | { mode: "create"; fecha?: string }
-  | { mode: "edit"; entrega: EntregaData }
-  | null;
+type DrawerState = { mode: "create"; fecha?: string } | null;
 
 const FILTROS = [
   { value: "", label: "Todos" },
@@ -93,6 +89,7 @@ export function EntregasWorkspace({
   initialTipo?: string;
   initialQ?: string;
 }) {
+  const router = useRouter();
   const [view, setView] = useState<ViewMode>("semana");
   const [drawer, setDrawer] = useState<DrawerState>(null);
   const [weekOffset, setWeekOffset] = useState(0);
@@ -179,15 +176,11 @@ export function EntregasWorkspace({
   }, [filtered, view, weekOffset, monthOffset, selectedDate, entregasByDay]);
 
   const openCreate = (fecha?: string) => setDrawer({ mode: "create", fecha });
-  const openEdit = (entrega: EntregaData) => setDrawer({ mode: "edit", entrega });
-  const closeDrawer = () => setDrawer(null);
-
-  const handleDelete = async (entrega: EntregaData) => {
-    if (!confirm(`¿Eliminar "${entrega.titulo}"?`)) return;
-    const fd = new FormData();
-    fd.set("id", entrega.id);
-    await deleteEntrega({ success: true }, fd);
-    closeDrawer();
+  const openEntrega = (entrega: EntregaData) => {
+    router.push(`/entregas/${entrega.id}`);
+  };
+  const closeDrawer = () => {
+    setDrawer(null);
   };
 
   return (
@@ -336,7 +329,7 @@ export function EntregasWorkspace({
                             <button
                               key={e.id}
                               type="button"
-                              onClick={() => openEdit(e)}
+                              onClick={() => openEntrega(e)}
                               className={`block w-full rounded-lg px-2 py-2 text-left text-sm transition hover:bg-surface-hover ${
                                 e.estado === "ENTREGADO"
                                   ? "text-muted line-through"
@@ -396,7 +389,7 @@ export function EntregasWorkspace({
                           <button
                             key={e.id}
                             type="button"
-                            onClick={() => openEdit(e)}
+                            onClick={() => openEntrega(e)}
                             className={`block w-full truncate rounded px-1 py-0.5 text-left text-[10px] transition hover:bg-surface-hover ${
                               e.estado === "ENTREGADO"
                                 ? "text-muted line-through"
@@ -566,8 +559,7 @@ export function EntregasWorkspace({
                 <EntregaCard
                   key={e.id}
                   entrega={{ ...e, fecha: e.fecha }}
-                  interactive
-                  onOpen={() => openEdit(e)}
+                  href={`/entregas/${e.id}`}
                 />
               ))}
             </div>
@@ -597,35 +589,6 @@ export function EntregasWorkspace({
           onSuccess={closeDrawer}
           compact
         />
-      </Drawer>
-
-      {/* Drawer editar */}
-      <Drawer
-        open={drawer?.mode === "edit"}
-        onClose={closeDrawer}
-        subtitle="Editar entrega"
-        title={drawer?.mode === "edit" ? drawer.entrega.titulo : ""}
-      >
-        {drawer?.mode === "edit" && (
-          <EntregaEditForm
-            action={updateEntrega}
-            materias={materias}
-            compact
-            onSuccess={closeDrawer}
-            onDelete={() => handleDelete(drawer.entrega)}
-            defaultValues={{
-              id: drawer.entrega.id,
-              titulo: drawer.entrega.titulo,
-              tipo: drawer.entrega.tipo,
-              fecha: drawer.entrega.fecha.slice(0, 10),
-              estado: drawer.entrega.estado,
-              nota: drawer.entrega.nota,
-              materiaId: drawer.entrega.materiaId,
-              recurso: drawer.entrega.recurso,
-              prioridad: drawer.entrega.prioridad,
-            }}
-          />
-        )}
       </Drawer>
     </>
   );

@@ -18,7 +18,7 @@ UcaNode ayuda a centralizar la organización académica:
 - Registro/login con verificación de email vía Resend (`mail.ucanode.app`).
 - Onboarding de carrera con carga lazy del plan de estudios.
 - Materias por estado: cursando, para finalizar, regular y finalizada.
-- Entregas, parciales y finales asociados a materias.
+- Entregas, parciales y finales asociados a materias, con apuntes de texto enriquecido por entrega.
 - Horarios semanales.
 - Links externos frecuentes.
 - Perfil del estudiante vinculado a una carrera UCASAL.

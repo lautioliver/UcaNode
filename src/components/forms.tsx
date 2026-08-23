@@ -587,13 +587,9 @@ export function EntregaCreateForm({
         </select>
       </Field>
       <Field
-        label={compact ? "Apuntes / enlace" : "Recurso"}
+        label={compact ? "Enlace / recurso" : "Recurso"}
         span
-        hint={
-          compact
-            ? "Notas, link al enunciado o repo (opcional)"
-            : "Link al enunciado, consigna o repo (opcional)"
-        }
+        hint="Link al enunciado, consigna o repo (opcional)"
       >
         <input
           name="recurso"
@@ -741,13 +737,9 @@ export function EntregaEditForm({
         </select>
       </Field>
       <Field
-        label={compact ? "Apuntes / enlace" : "Recurso"}
+        label={compact ? "Enlace / recurso" : "Recurso"}
         span
-        hint={
-          compact
-            ? "Notas, link al enunciado o repo (opcional)"
-            : "Link al enunciado, consigna o repo (opcional)"
-        }
+        hint="Link al enunciado, consigna o repo (opcional)"
       >
         <input
           name="recurso"

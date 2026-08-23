@@ -17,6 +17,10 @@ import {
   passwordResetRequestSchema,
   applyPasswordChangeSchema,
   applyEmailChangeSchema,
+  obtenerNotasEntregaSchema,
+  guardarNotasEntregaSchema,
+  isTiptapDoc,
+  type TiptapDoc,
 } from "@/lib/schemas";
 import { getCarreraCatalogo } from "@/lib/planes-estudio/catalogo";
 import { hydrateCarrera } from "@/lib/planes-estudio/ingesta";
@@ -31,7 +35,7 @@ import {
 import { sendSupportEmail } from "@/lib/email";
 import { getOrCreatePerfil, setSessionCookies } from "@/lib/perfil";
 import { isPerfilRegistrado } from "@/lib/auth";
-import { SecurityActionType } from "@/generated/prisma/client";
+import { Prisma, SecurityActionType } from "@/generated/prisma/client";
 import {
   consumeSecurityToken,
   isEligibleForPasswordRecovery,
@@ -204,11 +208,12 @@ export async function deleteMateria(
 
 // ── ENTREGAS ──────────────────────────────────────────────
 
-function revalidateEntrega(materiaId?: string) {
+function revalidateEntrega(materiaId?: string, entregaId?: string) {
   revalidatePath("/");
   revalidatePath("/entregas");
   revalidatePath("/analytics");
   if (materiaId) revalidatePath(`/materias/${materiaId}`);
+  if (entregaId) revalidatePath(`/entregas/${entregaId}`);
 }
 
 export async function createEntrega(
@@ -311,7 +316,7 @@ export async function updateEntrega(
       data: dataUpdate,
     });
     if (updated.count === 0) return fail("Entrega no encontrada");
-    revalidateEntrega(parsed.data.materiaId);
+    revalidateEntrega(parsed.data.materiaId, id);
     refresh();
     return ok("Entrega actualizada");
   } catch (e) {
@@ -343,12 +348,86 @@ export async function toggleEntregaEstado(id: string): Promise<ActionResult> {
       where: { id: entrega.id },
       data: { estado: nuevoEstado, ...timestamps },
     });
-    revalidateEntrega(entrega.materiaId);
+    revalidateEntrega(entrega.materiaId, entrega.id);
     refresh();
     return ok(nuevoEstado === "ENTREGADO" ? "Marcada como entregada" : "Marcada como pendiente");
   } catch (e) {
     console.error("toggleEntregaEstado", e);
     return fail("Error al actualizar el estado");
+  }
+}
+
+export type NotasEntregaResult = ActionResult & {
+  contenido?: TiptapDoc | null;
+};
+
+async function checkNotasLimit(): Promise<ActionResult | null> {
+  const hdrs = await headers();
+  const ip = hdrs.get("x-forwarded-for") ?? hdrs.get("x-real-ip") ?? "unknown";
+  if (!checkRateLimit(ip, { key: "notas-entrega", max: 40 })) {
+    return fail("Demasiadas solicitudes. Esperá un momento e intentá de nuevo.");
+  }
+  return null;
+}
+
+export async function obtenerNotasEntrega(
+  entregaId: string,
+): Promise<NotasEntregaResult> {
+  const parsed = obtenerNotasEntregaSchema.safeParse({ entregaId });
+  if (!parsed.success) {
+    return fail("ID requerido", parsed.error.flatten().fieldErrors);
+  }
+
+  try {
+    const perfil = await sessionPerfil();
+    const entrega = await ownedEntrega(parsed.data.entregaId, perfil.id);
+    if (!entrega) return fail("Entrega no encontrada");
+
+    const raw = entrega.notasContenido;
+    const contenido = raw === null ? null : isTiptapDoc(raw) ? raw : null;
+    return { success: true, contenido };
+  } catch (e) {
+    console.error("obtenerNotasEntrega", e);
+    return fail("Error al cargar las notas");
+  }
+}
+
+export async function guardarNotasEntrega(
+  entregaId: string,
+  notasContenido: unknown,
+): Promise<ActionResult> {
+  const limit = await checkNotasLimit();
+  if (limit) return limit;
+
+  const parsed = guardarNotasEntregaSchema.safeParse({
+    entregaId,
+    notasContenido,
+  });
+  if (!parsed.success) {
+    const fieldErrors = parsed.error.flatten().fieldErrors;
+    const first = Object.values(fieldErrors).flat()[0];
+    return fail(first ?? "Datos inválidos", fieldErrors);
+  }
+
+  try {
+    const perfil = await sessionPerfil();
+    const existing = await ownedEntrega(parsed.data.entregaId, perfil.id);
+    if (!existing) return fail("Entrega no encontrada");
+
+    const updated = await prisma.entrega.updateMany({
+      where: { id: parsed.data.entregaId, materia: { perfilId: perfil.id } },
+      data: {
+        notasContenido:
+          parsed.data.notasContenido === null
+            ? Prisma.DbNull
+            : (parsed.data.notasContenido as Prisma.InputJsonValue),
+      },
+    });
+    if (updated.count === 0) return fail("Entrega no encontrada");
+    return ok("Notas guardadas");
+  } catch (e) {
+    console.error("guardarNotasEntrega", e);
+    return fail("Error al guardar las notas");
   }
 }
 
@@ -363,11 +442,14 @@ export async function deleteEntrega(
 
   try {
     const perfil = await sessionPerfil();
+    const entrega = await ownedEntrega(id, perfil.id);
+    if (!entrega) return fail("Entrega no encontrada");
+
     const deleted = await prisma.entrega.deleteMany({
       where: { id, materia: { perfilId: perfil.id } },
     });
     if (deleted.count === 0) return fail("Entrega no encontrada");
-    revalidateEntrega();
+    revalidateEntrega(entrega.materiaId, id);
     refresh();
     return ok("Entrega eliminada");
   } catch (e) {

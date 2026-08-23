@@ -402,6 +402,166 @@ body {
   }
 }
 
+.entrega-notas-editor .ProseMirror {
+  min-height: 16rem;
+  color: var(--primary);
+}
+
+.entrega-notas-editor .ProseMirror p.is-editor-empty:first-child::before,
+.entrega-notas-editor .ProseMirror p.is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: var(--muted);
+}
+
+.entrega-notas-editor .ProseMirror h1,
+.entrega-notas-editor .ProseMirror h2,
+.entrega-notas-editor .ProseMirror h3 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 0.85em 0 0.35em;
+}
+
+.entrega-notas-editor .ProseMirror h1 {
+  font-size: 1.5rem;
+}
+
+.entrega-notas-editor .ProseMirror h2 {
+  font-size: 1.25rem;
+}
+
+.entrega-notas-editor .ProseMirror h3 {
+  font-size: 1.05rem;
+}
+
+.entrega-notas-editor .ProseMirror p,
+.entrega-notas-editor .ProseMirror ul,
+.entrega-notas-editor .ProseMirror ol,
+.entrega-notas-editor .ProseMirror blockquote,
+.entrega-notas-editor .ProseMirror pre {
+  margin: 0.4em 0;
+}
+
+.entrega-notas-editor .ProseMirror ul,
+.entrega-notas-editor .ProseMirror ol {
+  padding-left: 1.25rem;
+}
+
+.entrega-notas-editor .ProseMirror ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0;
+}
+
+.entrega-notas-editor .ProseMirror ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.entrega-notas-editor .ProseMirror ul[data-type="taskList"] li > label {
+  margin-top: 0.2rem;
+}
+
+.entrega-notas-editor .ProseMirror ul[data-type="taskList"] input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
+.entrega-notas-editor .ProseMirror blockquote {
+  border-left: 3px solid var(--border-accent);
+  color: var(--secondary);
+  padding-left: 0.75rem;
+}
+
+.entrega-notas-editor .ProseMirror code {
+  border-radius: 0.375rem;
+  background: var(--surface-hover);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.85em;
+  padding: 0.1em 0.35em;
+}
+
+.entrega-notas-editor .ProseMirror pre {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface-hover);
+  padding: 0.75rem 1rem;
+}
+
+.entrega-notas-editor .ProseMirror pre code {
+  background: transparent;
+  padding: 0;
+  font-size: 0.8125rem;
+}
+
+.entrega-notas-editor .hljs-keyword,
+.entrega-notas-editor .hljs-selector-tag,
+.entrega-notas-editor .hljs-built_in {
+  color: var(--accent);
+}
+
+.entrega-notas-editor .hljs-string,
+.entrega-notas-editor .hljs-attr {
+  color: var(--success);
+}
+
+.entrega-notas-editor .hljs-number,
+.entrega-notas-editor .hljs-literal {
+  color: var(--warning);
+}
+
+.entrega-notas-editor .hljs-comment,
+.entrega-notas-editor .hljs-quote {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.entrega-notas-editor .hljs-title,
+.entrega-notas-editor .hljs-section {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.entrega-notas-editor .hljs-variable,
+.entrega-notas-editor .hljs-template-variable {
+  color: var(--secondary);
+}
+
+.entrega-notion-page {
+  margin-inline: auto;
+  max-width: 46rem;
+  width: 100%;
+}
+
+.entrega-notas-editor--notion .ProseMirror {
+  min-height: 40vh;
+}
+
+.entrega-notas-editor--notion .ProseMirror h1 {
+  font-size: 1.875rem;
+  margin-top: 1.25em;
+}
+
+.entrega-notas-editor--notion .ProseMirror h2 {
+  font-size: 1.5rem;
+}
+
+.entrega-notas-editor--notion .ProseMirror h3 {
+  font-size: 1.2rem;
+}
+
+.entrega-notas-editor--notion .ProseMirror p,
+.entrega-notas-editor--notion .ProseMirror ul,
+.entrega-notas-editor--notion .ProseMirror ol,
+.entrega-notas-editor--notion .ProseMirror blockquote,
+.entrega-notas-editor--notion .ProseMirror pre {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
