@@ -9,21 +9,33 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 
 type DrawerProps = {
   open: boolean;
   onClose: () => void;
   title: string;
   subtitle?: string;
+  wide?: boolean;
   children: React.ReactNode;
 };
 
-export function Drawer({ open, onClose, title, subtitle, children }: DrawerProps) {
+export function Drawer({
+  open,
+  onClose,
+  title,
+  subtitle,
+  wide = false,
+  children,
+}: DrawerProps) {
   return (
     <Sheet open={open} onOpenChange={(next) => !next && onClose()}>
       <SheetContent
         side="right"
-        className="flex w-full max-w-md flex-col border-border bg-surface-card p-0"
+        className={cn(
+          "flex w-full flex-col border-border bg-surface-card p-0",
+          wide ? "max-w-full sm:max-w-2xl" : "max-w-md sm:max-w-md",
+        )}
         showCloseButton={false}
       >
         <SheetHeader className="border-b border-border px-5 py-4 text-left">

@@ -106,6 +106,8 @@ Cada Server Action:
 5. Revalida las rutas afectadas con `revalidatePath`.
 6. Devuelve un `ActionResult` consistente para la UI.
 
+Los apuntes de una entrega (`obtenerNotasEntrega` / `guardarNotasEntrega`) usan un rate limit propio y no llaman `revalidatePath` ni `refresh()`, para no remountar el editor durante el autosave.
+
 ## Revalidación
 
 La revalidación busca ser granular. Por ejemplo, al modificar materias se revalidan el dashboard, el listado de materias y, cuando corresponde, el detalle de la materia afectada. Confirmar carrera revalida toda la app (`revalidateApp`).

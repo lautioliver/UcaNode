@@ -85,13 +85,11 @@ export async function getPerfil(): Promise<Perfil | null> {
 
   const perfil = await prisma.perfil.findUnique({ where: { id: cookieId } });
   if (!perfil) {
-    await clearSessionCookies();
     return null;
   }
 
   const cookieVersion = await getSessionVersionFromCookie();
   if (!sessionVersionMatches(cookieVersion, perfil.sessionVersion)) {
-    await clearSessionCookies();
     return null;
   }
 
@@ -106,10 +104,18 @@ async function loginRedirectPath(): Promise<string> {
 }
 
 export async function requirePerfil(): Promise<Perfil> {
+  const cookieId = await getPerfilCookieId();
   const perfil = await getPerfil();
   if (perfil) return perfil;
 
-  redirect(await loginRedirectPath());
+  const loginPath = await loginRedirectPath();
+  if (cookieId) {
+    const hdrs = await headers();
+    const pathname = hdrs.get("x-pathname") ?? "/";
+    redirect(`/api/auth/logout?next=${encodeURIComponent(pathname)}`);
+  }
+
+  redirect(loginPath);
 }
 
 /** @deprecated Use requirePerfil() — kept for page imports */

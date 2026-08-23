@@ -223,7 +223,7 @@ export function GlobalSearch({
                   <CommandItem
                     key={e.id}
                     value={`entrega-${e.id}`}
-                    onSelect={() => go(`/entregas?q=${encodeURIComponent(e.titulo)}`)}
+                    onSelect={() => go(`/entregas/${e.id}`)}
                   >
                     <ClipboardCheck className="h-4 w-4 text-accent" />
                     <span className="min-w-0 flex-1 truncate">

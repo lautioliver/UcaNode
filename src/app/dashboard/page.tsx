@@ -132,7 +132,7 @@ export default async function DashboardPage() {
         {proximas.length > 0 ? (
           <div className="grid min-w-0 gap-4 md:grid-cols-2">
             {proximas.map((e) => (
-              <EntregaCard key={e.id} entrega={e} />
+              <EntregaCard key={e.id} entrega={e} href={`/entregas/${e.id}`} />
             ))}
           </div>
         ) : (

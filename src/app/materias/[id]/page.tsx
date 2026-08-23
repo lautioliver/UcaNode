@@ -102,7 +102,7 @@ export default async function MateriaDetailPage({
           {entregasEnriched.length > 0 ? (
             <div className="space-y-3">
               {entregasEnriched.map((e) => (
-                <EntregaCard key={e.id} entrega={e} />
+                <EntregaCard key={e.id} entrega={e} href={`/entregas/${e.id}`} />
               ))}
             </div>
           ) : (
