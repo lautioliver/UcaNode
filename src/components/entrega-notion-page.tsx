@@ -14,7 +14,6 @@ import {
   List,
   Loader2,
   MoreHorizontal,
-  Pencil,
   Sparkles,
 } from "lucide-react";
 import type { EstadoEntrega, TipoEntrega } from "@/generated/prisma/client";
@@ -264,14 +263,6 @@ export function EntregaNotionPage({
                 formato puede cambiar.
               </TooltipContent>
             </Tooltip>
-            <button
-              type="button"
-              onClick={() => setEditOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs text-muted transition hover:bg-surface-hover hover:text-primary"
-            >
-              <Pencil className="h-3.5 w-3.5" />
-              Editar
-            </button>
           </div>
         </div>
 
