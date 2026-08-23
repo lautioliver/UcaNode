@@ -208,11 +208,12 @@ export async function deleteMateria(
 
 // ── ENTREGAS ──────────────────────────────────────────────
 
-function revalidateEntrega(materiaId?: string) {
+function revalidateEntrega(materiaId?: string, entregaId?: string) {
   revalidatePath("/");
   revalidatePath("/entregas");
   revalidatePath("/analytics");
   if (materiaId) revalidatePath(`/materias/${materiaId}`);
+  if (entregaId) revalidatePath(`/entregas/${entregaId}`);
 }
 
 export async function createEntrega(
@@ -315,7 +316,7 @@ export async function updateEntrega(
       data: dataUpdate,
     });
     if (updated.count === 0) return fail("Entrega no encontrada");
-    revalidateEntrega(parsed.data.materiaId);
+    revalidateEntrega(parsed.data.materiaId, id);
     refresh();
     return ok("Entrega actualizada");
   } catch (e) {
@@ -347,7 +348,7 @@ export async function toggleEntregaEstado(id: string): Promise<ActionResult> {
       where: { id: entrega.id },
       data: { estado: nuevoEstado, ...timestamps },
     });
-    revalidateEntrega(entrega.materiaId);
+    revalidateEntrega(entrega.materiaId, entrega.id);
     refresh();
     return ok(nuevoEstado === "ENTREGADO" ? "Marcada como entregada" : "Marcada como pendiente");
   } catch (e) {
@@ -441,11 +442,14 @@ export async function deleteEntrega(
 
   try {
     const perfil = await sessionPerfil();
+    const entrega = await ownedEntrega(id, perfil.id);
+    if (!entrega) return fail("Entrega no encontrada");
+
     const deleted = await prisma.entrega.deleteMany({
       where: { id, materia: { perfilId: perfil.id } },
     });
     if (deleted.count === 0) return fail("Entrega no encontrada");
-    revalidateEntrega();
+    revalidateEntrega(entrega.materiaId, id);
     refresh();
     return ok("Entrega eliminada");
   } catch (e) {

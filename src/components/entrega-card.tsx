@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ClipboardList, FileText, GraduationCap } from "lucide-react";
 import type { ComponentType } from "react";
 import type {
@@ -36,12 +37,14 @@ export type EntregaLite = {
 type EntregaCardProps = {
   entrega: EntregaLite;
   interactive?: boolean;
+  href?: string;
   onOpen?: () => void;
 };
 
 export function EntregaCard({
   entrega,
   interactive = false,
+  href,
   onOpen,
 }: EntregaCardProps) {
   const fecha = typeof entrega.fecha === "string" ? new Date(entrega.fecha) : entrega.fecha;
@@ -51,30 +54,19 @@ export function EntregaCard({
   const Icon = tipoIcon[entrega.tipo];
   const progress = progressToDeadline(days);
   const entregado = entrega.estado === "ENTREGADO";
+  const isLink = Boolean(href);
+  const isInteractive = interactive || isLink;
 
-  return (
-    <article
-      role={interactive ? "button" : undefined}
-      tabIndex={interactive ? 0 : undefined}
-      onClick={interactive ? onOpen : undefined}
-      onKeyDown={
-        interactive
-          ? (e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                onOpen?.();
-              }
-            }
-          : undefined
-      }
-      className={`flex min-w-0 w-full flex-col gap-4 overflow-hidden rounded-2xl border border-border bg-surface-card p-4 shadow-[var(--shadow-card)] transition sm:p-5 ${
-        entregado ? "opacity-55 saturate-75" : ""
-      } ${
-        interactive
-          ? "cursor-pointer hover:border-border-strong hover:shadow-[var(--shadow-md)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          : "hover:border-border-strong"
-      }`}
-    >
+  const className = `flex min-w-0 w-full flex-col gap-4 overflow-hidden rounded-2xl border border-border bg-surface-card p-4 shadow-[var(--shadow-card)] transition sm:p-5 ${
+    entregado ? "opacity-55 saturate-75" : ""
+  } ${
+    isInteractive
+      ? "cursor-pointer hover:border-border-strong hover:shadow-[var(--shadow-md)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      : "hover:border-border-strong"
+  }`;
+
+  const inner = (
+    <>
       <div className="flex min-w-0 items-start justify-between gap-2 sm:gap-3">
         <div className="flex min-w-0 flex-1 items-start gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-ghost text-accent">
@@ -128,6 +120,35 @@ export function EntregaCard({
           <span>{tipoEntregaLabel[entrega.tipo]}</span>
         </span>
       </div>
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link href={href} className={className}>
+        {inner}
+      </Link>
+    );
+  }
+
+  return (
+    <article
+      role={interactive ? "button" : undefined}
+      tabIndex={interactive ? 0 : undefined}
+      onClick={interactive ? onOpen : undefined}
+      onKeyDown={
+        interactive
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onOpen?.();
+              }
+            }
+          : undefined
+      }
+      className={className}
+    >
+      {inner}
     </article>
   );
 }

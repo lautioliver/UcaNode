@@ -19,10 +19,13 @@ const AUTOSAVE_MS = 1500;
 export function EntregaNotasPanel({
   entregaId,
   onStatusChange,
+  variant = "default",
 }: {
   entregaId: string;
   onStatusChange?: (status: NotasSaveStatus) => void;
+  variant?: "default" | "notion";
 }) {
+  const isNotion = variant === "notion";
   const [status, setStatus] = useState<NotasSaveStatus>("idle");
   const [loadError, setLoadError] = useState<string | null>(null);
   const [initial, setInitial] = useState<TiptapDoc | null | undefined>(
@@ -124,7 +127,7 @@ export function EntregaNotasPanel({
   }
 
   return (
-    <div className="space-y-2">
+    <div className={isNotion ? "space-y-0" : "space-y-2"}>
       {loadError && (
         <p className="text-sm text-danger">{loadError}</p>
       )}
@@ -132,6 +135,7 @@ export function EntregaNotasPanel({
         key={entregaId}
         initialContent={initial}
         onChange={handleChange}
+        variant={variant}
       />
       {status === "error" && (
         <p className="text-sm text-danger">

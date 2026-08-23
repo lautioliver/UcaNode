@@ -530,6 +530,38 @@ body {
   color: var(--secondary);
 }
 
+.entrega-notion-page {
+  margin-inline: auto;
+  max-width: 46rem;
+  width: 100%;
+}
+
+.entrega-notas-editor--notion .ProseMirror {
+  min-height: 40vh;
+}
+
+.entrega-notas-editor--notion .ProseMirror h1 {
+  font-size: 1.875rem;
+  margin-top: 1.25em;
+}
+
+.entrega-notas-editor--notion .ProseMirror h2 {
+  font-size: 1.5rem;
+}
+
+.entrega-notas-editor--notion .ProseMirror h3 {
+  font-size: 1.2rem;
+}
+
+.entrega-notas-editor--notion .ProseMirror p,
+.entrega-notas-editor--notion .ProseMirror ul,
+.entrega-notas-editor--notion .ProseMirror ol,
+.entrega-notas-editor--notion .ProseMirror blockquote,
+.entrega-notas-editor--notion .ProseMirror pre {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

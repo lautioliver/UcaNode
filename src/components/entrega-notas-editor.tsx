@@ -182,10 +182,13 @@ function EntregaNotasToolbar({ editor }: { editor: Editor }) {
 export function EntregaNotasEditor({
   initialContent,
   onChange,
+  variant = "default",
 }: {
   initialContent: TiptapDoc | null;
   onChange: (doc: TiptapDoc) => void;
+  variant?: "default" | "notion";
 }) {
+  const isNotion = variant === "notion";
   const onChangeRef = useRef(onChange);
   useEffect(() => {
     onChangeRef.current = onChange;
@@ -209,7 +212,10 @@ export function EntregaNotasEditor({
     content: (initialContent ?? EMPTY_TIPTAP_DOC) as JSONContent,
     editorProps: {
       attributes: {
-        class: "entrega-notas-prose min-h-64 px-1 py-2 focus:outline-none",
+        class: cn(
+          "entrega-notas-prose focus:outline-none",
+          isNotion ? "min-h-[40vh] px-0 py-1" : "min-h-64 px-1 py-2",
+        ),
       },
     },
     onUpdate: ({ editor: instance }) => {
@@ -219,15 +225,29 @@ export function EntregaNotasEditor({
 
   if (!editor) {
     return (
-      <div className="min-h-64 rounded-xl border border-border bg-surface px-3 py-2 text-sm text-muted">
+      <div
+        className={cn(
+          "text-sm text-muted",
+          isNotion
+            ? "min-h-[40vh] py-2"
+            : "min-h-64 rounded-xl border border-border bg-surface px-3 py-2",
+        )}
+      >
         Cargando editor…
       </div>
     );
   }
 
   return (
-    <div className="entrega-notas-editor rounded-xl border border-border bg-surface">
-      <EntregaNotasToolbar editor={editor} />
+    <div
+      className={cn(
+        "entrega-notas-editor",
+        isNotion
+          ? "entrega-notas-editor--notion"
+          : "rounded-xl border border-border bg-surface",
+      )}
+    >
+      {!isNotion ? <EntregaNotasToolbar editor={editor} /> : null}
 
       <BubbleMenu
         editor={editor}
@@ -259,7 +279,10 @@ export function EntregaNotasEditor({
         </ToolbarBtn>
       </BubbleMenu>
 
-      <EditorContent editor={editor} className="px-3 pb-3" />
+      <EditorContent
+        editor={editor}
+        className={isNotion ? "pb-2" : "px-3 pb-3"}
+      />
     </div>
   );
 }

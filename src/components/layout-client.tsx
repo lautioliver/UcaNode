@@ -49,6 +49,7 @@ export function LayoutClient({
   nextPath?: string;
 }) {
   const pathname = usePathname();
+  const isEntregaDetail = /^\/entregas\/[^/]+$/.test(pathname);
 
   if (isAuthRoute(pathname) || isPublicMarketingPath(pathname)) {
     return <>{children}</>;
@@ -87,12 +88,26 @@ export function LayoutClient({
           cuentaRegistrada={cuentaRegistrada}
           initialDark={dark}
         />
-        <div className="w-full flex-1 px-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] pt-4 sm:px-6 lg:px-8 lg:pb-10">
-          <div className="mx-auto w-full min-w-0 max-w-7xl overflow-x-clip">{children}</div>
+        <div
+          className={
+            isEntregaDetail
+              ? "w-full flex-1 px-4 pb-8 pt-2 sm:px-6 lg:px-8"
+              : "w-full flex-1 px-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] pt-4 sm:px-6 lg:px-8 lg:pb-10"
+          }
+        >
+          <div
+            className={
+              isEntregaDetail
+                ? "mx-auto w-full min-w-0 max-w-3xl overflow-x-clip"
+                : "mx-auto w-full min-w-0 max-w-7xl overflow-x-clip"
+            }
+          >
+            {children}
+          </div>
         </div>
-        <Footer carreraNombre={perfil.carreraNombre} />
+        {!isEntregaDetail && <Footer carreraNombre={perfil.carreraNombre} />}
       </div>
-      <EntregaFab materias={materias} />
+      {!isEntregaDetail && <EntregaFab materias={materias} />}
     </div>
   );
 }
