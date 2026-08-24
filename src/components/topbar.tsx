@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { GlobalSearch } from "@/components/global-search";
+import { SearchShortcutKbd } from "@/components/search-shortcut-kbd";
 
 const THEME_COOKIE = "ucanode_theme";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
@@ -67,9 +68,7 @@ export function Topbar({
               <span className="flex-1 truncate text-left">
                 Buscar materias, entregas, links...
               </span>
-              <kbd className="rounded-md border border-border bg-surface-subtle px-1.5 py-0.5 text-[10px] font-medium text-muted">
-                Ctrl K
-              </kbd>
+              <SearchShortcutKbd />
             </button>
           </div>
 
