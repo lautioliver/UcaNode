@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/command";
 import { buscarGlobal, type BusquedaResultados } from "@/lib/search";
 import { estadoMateriaLabel, tipoEntregaLabel } from "@/lib/labels";
+import { SearchShortcutKbd } from "@/components/search-shortcut-kbd";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Dashboard", Icon: LayoutDashboard },
@@ -153,9 +154,7 @@ export function GlobalSearch({
         >
           <Search className="h-4 w-4 shrink-0" />
           <span className="flex-1 truncate text-left">Buscar materias, entregas, links...</span>
-          <kbd className="hidden rounded-md border border-border bg-surface-subtle px-1.5 py-0.5 text-[10px] font-medium text-muted sm:inline">
-            Ctrl K
-          </kbd>
+          <SearchShortcutKbd className="hidden sm:inline" />
         </button>
       )}
 
