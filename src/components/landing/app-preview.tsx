@@ -37,6 +37,7 @@ import {
 } from "lucide-react";
 import type { ComponentType } from "react";
 import { LogoMark } from "@/components/logo";
+import { SearchShortcutKbd } from "@/components/search-shortcut-kbd";
 import { EntregaCard, type EntregaLite } from "@/components/entrega-card";
 import {
   CounterChip,
@@ -365,9 +366,7 @@ export function AppPreview({
           <div className="flex h-8 w-full max-w-sm items-center gap-2 rounded-lg border border-border bg-surface-subtle px-2.5 text-[11px] text-muted">
             <Search className="h-3 w-3 shrink-0" />
             <span className="truncate">Buscar materias, entregas, links...</span>
-            <kbd className="ml-auto rounded border border-border bg-surface-card px-1 py-px text-[9px] font-medium text-muted">
-              Ctrl K
-            </kbd>
+            <SearchShortcutKbd className="ml-auto rounded border border-border bg-surface-card px-1 py-px text-[9px]" />
           </div>
         </div>
         <div className="ml-auto flex items-center gap-2">
