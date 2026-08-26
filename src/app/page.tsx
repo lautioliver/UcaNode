@@ -58,6 +58,9 @@ export default async function LandingPage() {
             <a href="#vista" className="transition hover:text-primary">
               La app
             </a>
+            <Link href="/novedades" className="transition hover:text-primary">
+              Novedades
+            </Link>
             <a href="#pasos" className="transition hover:text-primary">
               Cómo empezar
             </a>
@@ -454,6 +457,14 @@ export default async function LandingPage() {
                   </a>
                 </li>
                 <li>
+                  <Link
+                    href="/novedades"
+                    className="inline-flex items-center gap-1 text-sm text-secondary transition hover:text-primary"
+                  >
+                    Novedades
+                  </Link>
+                </li>
+                <li>
                   <a
                     href="#pasos"
                     className="inline-flex items-center gap-1 text-sm text-secondary transition hover:text-primary"
@@ -608,9 +619,12 @@ export default async function LandingPage() {
               estudiantes de la Ucasal.
             </p>
             <p className="inline-flex items-center gap-2 text-xs text-muted">
-              <span className="font-mono text-[10px] tracking-wide text-secondary">
+              <Link
+                href="/novedades"
+                className="font-mono text-[10px] tracking-wide text-secondary transition hover:text-accent"
+              >
                 v0.1
-              </span>
+              </Link>
               <span className="h-1 w-1 rounded-full bg-border-strong" />
               Hecho con Next.js
             </p>

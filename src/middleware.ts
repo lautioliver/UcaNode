@@ -11,6 +11,7 @@ function shouldSkipSession(pathname: string) {
     pathname.startsWith("/registro") ||
     pathname.startsWith("/verificar-email") ||
     pathname.startsWith("/terminos-y-condiciones") ||
+    pathname.startsWith("/novedades") ||
     pathname.startsWith("/cambiar-contrasena") ||
     pathname.startsWith("/cambiar-email") ||
     pathname.startsWith("/recuperar-contrasena") ||
