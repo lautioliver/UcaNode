@@ -1,3 +1,4 @@
+/** Marca in-app (colores vía CSS vars). El SVG estático equivalente está en `public/logo.svg`. */
 export function LogoMark({ className }: { className?: string }) {
   return (
     <svg

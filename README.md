@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/logo.svg" width="72" height="72" alt="UcaNode">
+</p>
+
 # UcaNode
 
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fucanode.app&label=ucanode.app)](https://ucanode.app)
