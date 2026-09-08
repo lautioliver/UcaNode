@@ -11,6 +11,7 @@ UcaNode/
 ├── scripts/
 │   └── validate-plan-estudio.ts
 ├── public/
+│   └── logo.svg
 ├── src/
 │   ├── app/
 │   ├── components/
@@ -27,11 +28,18 @@ UcaNode/
 └── README.md
 ```
 
+## `public/`
+
+| Archivo | Rol |
+|---|---|
+| `logo.svg` | Marca vectorial de UcaNode (misma geometría que `LogoMark`, con variante dark vía `prefers-color-scheme`) |
+
 ## `src/app/`
 
 | Archivo/carpeta | Rol |
 |---|---|
 | `layout.tsx` | Layout raíz, gate de onboarding, fuentes, sidebar, top bar, búsqueda global y tema inicial |
+| `favicon.ico`, `icon.svg`, `apple-icon.png` | Ícono de la app (misma geometría que `LogoMark`) |
 | `page.tsx` | Landing pública UCASAL |
 | `u/[slug]/page.tsx` | Hub de universidad (`activa` redirige a `/`; `en_construccion` muestra estado y novedades) |
 | `dashboard/page.tsx` | Home autenticado |
@@ -80,7 +88,7 @@ UcaNode/
 | `links-catalog.tsx` | Catálogo de tarjetas en `/links` |
 | `campustatus-workspace.tsx` | Vista de concurrencia del campus |
 | `auth-forms.tsx`, `auth-shell.tsx` | Formularios y layout de auth |
-| `logo.tsx` | Marca visual del proyecto |
+| `logo.tsx` | Marca visual del proyecto (`LogoMark`; SVG estático en `public/logo.svg`) |
 | `universidad-hub.tsx` | Landing pública de universidad en construcción + novedades |
 
 ## `src/lib/`
