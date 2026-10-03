@@ -1,0 +1,3 @@
+# UcaNode
+
+Índice para modelos: [`docs/llms.txt`](docs/llms.txt). Hub humano: [`docs/README.md`](docs/README.md). Convenciones: [`AGENTS.md`](AGENTS.md).

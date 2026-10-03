@@ -1,101 +1,122 @@
-# UcaNode
+# Plantilla de repo: reglas para agentes + documentación
 
-[![Website](https://img.shields.io/website?url=https%3A%2F%2Fucanode.app&label=ucanode.app)](https://ucanode.app)
-[![CI](https://img.shields.io/github/actions/workflow/status/lautioliver/UcaNode/ci.yml?branch=develop&label=CI)](https://github.com/lautioliver/UcaNode/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/github/license/lautioliver/UcaNode)](LICENSE)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D20.9.0-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-4169E1?logo=postgresql&logoColor=white)](https://neon.tech/)
-[![Deploy](https://img.shields.io/badge/Deploy-Vercel-000000?logo=vercel&logoColor=white)](https://ucanode.app)
+Repo plantilla para arrancar proyectos con una estructura de documentación y reglas para LLMs lista para usar.
 
-Sistema de autogestión para estudiantes de la Ucasal.
+## Qué trae
 
-UcaNode toma como referencia un dashboard personal de Notion, pero funciona como una aplicación web independiente con PostgreSQL (Neon en producción). Permite organizar materias, entregas, horarios, links útiles y datos del perfil académico desde una interfaz hecha con Next.js.
-
-Producción: [https://ucanode.app](https://ucanode.app)
-
-## Funcionalidades
-
-- Registro y login con verificación de email (Resend, dominio `mail.ucanode.app`).
-- Onboarding inicial (tras login y verificación de email): selección de carrera y carga lazy del plan de estudios desde JSON.
-- Login como punto de entrada; listado de carreras disponibles en la pantalla de acceso.
-- Dashboard con próximas entregas, clases del día, materias en curso y links favoritos.
-- Gestión de materias en catálogo de tarjetas (año/semestre, estados y correlatividades).
-- Calendario/listado de entregas por materia, tipo, fecha, prioridad y estado; vista dedicada `/entregas/[id]` estilo Notion con apuntes enriquecidos (Tiptap), autosave y exportación a PDF (beta).
-- Grilla semanal de horarios (materias en cursada / para finalizar).
-- Concurrencia del campus en tiempo casi real vía CampuStatus.
-- Comunidad estudiantil con feed de publicaciones, filtros por carrera/materias, votos, comentarios anidados y adjuntos por URL externa (Drive, PDF).
-- Hubs públicos por universidad (`/u/unsa`) con estado en construcción y novedades, pensados para replicar la integración de nuevas instituciones.
-- Administración de links externos frecuentes.
-- Perfil del estudiante con secciones de información, seguridad (contraseña actual requerida) y apariencia.
-- Tema claro/oscuro, sidebar colapsable y búsqueda global (Ctrl+K).
-
-## Stack
-
-| Capa | Tecnología |
+| Pieza | Archivos |
 |---|---|
-| Framework | Next.js 16 App Router |
-| UI | React 19 + Tailwind CSS 4 + shadcn/ui (Radix) |
-| Íconos | lucide-react |
-| ORM | Prisma 7 |
-| Base de datos | PostgreSQL (Neon en producción) |
-| Validación | Zod |
-| Email | Resend (`mail.ucanode.app`) |
-| Tests | Vitest |
+| Reglas para agentes | `AGENTS.md` (fuente), `CLAUDE.md` (apunta a AGENTS.md), `llms.txt`, `docs/llms.txt` |
+| Hub de documentación | `docs/README.md` + `reference/`, `development/`, `guides/`, `decisions/` |
+| ADRs | `docs/decisions/README.md` (cómo se escriben) + `ADR-000-plantilla.md` |
+| Convenciones de GitHub | `docs/convencion-nombres-github.md` (ramas, commits, PRs, issues, labels) |
+| Labels | `.github/labels.yml` (fuente), `.github/labeler.yml` (auto-etiquetado de PRs), `.github/workflows/labels.yml` (sync + labeler + check) |
+| PRs | `.github/pull_request_template.md` |
+| Issues | `.github/ISSUE_TEMPLATE/*.yml` (formularios con labels automáticos), `.github/workflows/desbloquear.yml` (saca `estado:bloqueado` al cerrarse los bloqueantes) |
+| Skills de Claude Code | Ver [El flujo con agentes](#el-flujo-con-agentes) |
+| Autonomía del agente | `AGENTS.md` → qué puede hacer solo, qué tiene que consultar y qué nunca |
+| Mapa para agentes | `docs/mapa-agentes.json` → qué docs revisar según lo que cambia, rutas sensibles, docs obligatorios |
+| Docs testeados en CI | `.github/workflows/docs.yml` + `scripts/agentes/check-docs.py` → links, rutas y ADRs rotos, rutas del mapa que ya no existen |
+| Verificación antes del PR | `scripts/agentes/verificar.py` → según lo que cambió, corre lint, typecheck, tests afectados, drift de migraciones… (sección `verificar` del mapa) |
 
-## Instalación rápida
+## Requisitos
 
-Requisitos:
+- **GitHub con sub-issues y dependencias de issues** ("Blocked by" / "Blocking") habilitados. Son funciones nuevas de GitHub: si el repo o el plan no las tiene, las skills avisan con el error (404/422) y dejan el bloqueo escrito en el cuerpo del issue, pero `planificar.py`, `disponibles.sh`, `preparar.sh` y el workflow `desbloquear.yml` pierden la parte automática.
+- `gh` autenticado, `jq` y `python3` en la máquina donde corre el agente.
 
-- Node.js 20.9 o superior.
-- npm.
-- PostgreSQL (Neon recomendado; ver [Deploy](wiki/Deploy.md)).
+## Cómo usarla
 
-El proyecto incluye `.nvmrc` con Node 22:
+1. En GitHub: **Use this template → Create a new repository**.
+2. Cloná el repo nuevo y corré:
 
-```bash
-nvm use
-cp .env.example .env   # DATABASE_URL, Resend (RESEND_API_KEY, EMAIL_FROM) y APP_URL
-npm install
-npx prisma generate
-npm run db:migrate
-npm run db:seed
-npm run dev
+   ```bash
+   ./scripts/init-plantilla.sh "Nombre del proyecto" main
+   ```
+
+   El segundo argumento es la rama base de los PRs:
+
+   | Opción | Flujo | Cuándo |
+   |---|---|---|
+   | `main` | rama → `main` | Proyecto nuevo, sin usuarios todavía |
+   | `develop` | rama → `develop` → `main` | Separar integración de producción |
+   | `develop releases` | rama → `develop` → `release/vX.Y.Z` → `main` | La app ya tiene usuarios activos: cada versión se congela y se prueba en staging antes de llegar a producción |
+
+   Ejemplo con releases: `./scripts/init-plantilla.sh "Nombre del proyecto" develop releases`. El script pone el nombre, la rama base, la regla de ramas que corresponde y la fecha de hoy como fecha de las decisiones. Después se borra solo.
+
+   **Proyecto chico** (una o dos personas): agregá `--chico`, por ejemplo `./scripts/init-plantilla.sh "Nombre del proyecto" main --chico`.
+
+   | | Completo | `--chico` |
+   |---|---|---|
+   | Skills | 9 | 4: `implement-issue`, `crear-issue`, `debug`, `update-docs` |
+   | Workflows | 4 | 2: docs y sync de labels |
+   | Labels | `tipo:`, `area:`, `prioridad:`, `estado:` y especiales | 7: `tipo:` y `prioridad:` |
+   | Docs | hub con `reference/`, `development/`, `guides/` | un solo archivo de arquitectura y los ADRs |
+   | Convención de GitHub | documento con opciones y decisiones | una página con las reglas |
+   | Autonomía y rutas sensibles | `AGENTS.md` + `docs/mapa-agentes.json` | todo en `AGENTS.md`, con la checklist de migraciones |
+   | Sale | | épicas y `plan-feature`, `review-pr`, `estado`, bloqueos, labeler, formularios de issue, modo releases |
+
+   Los archivos del modo chico están en `perfiles/chico/` (más la lista `BORRAR`); el init los aplica y borra la carpeta. Lo común (skills como `debug`, `check-docs.py`, `preparar.sh`) es el mismo archivo en los dos modos, así los arreglos llegan a ambos.
+
+   **Si el proyecto chico crece:** `python3 scripts/crecer.py` (con `--releases` si la base es `develop` y querés ese flujo) lo pasa al modo completo. Clona la plantilla, la inicializa con los datos de `.agent-kit.json` y agrega lo que falta. Los archivos que el proyecto nunca tocó se reemplazan por la versión completa; los que modificó **no se pisan**: la versión completa queda en `.agent-kit/pendientes/` para integrarla. La arquitectura que escribió el proyecto chico pasa a `docs/development/architecture.md`. No commitea: revisás el diff y abrís un PR.
+
+   `.agent-kit.json` lo escribe el init en los dos modos: proyecto, rama base, modo, fecha y la huella de cada archivo. Commitealo.
+3. Completá lo que está marcado con `TODO:`. Lo más importante para los agentes es `docs/mapa-agentes.json`: poné las rutas reales de schema, auth, pagos y API pública, y los comandos de `verificar`. Las rutas con `?` adelante son alternativas de stack opcionales; las propias van sin `?`, así el check falla si dejan de existir. Hasta que no quede ningún `TODO/` ahí, el check de docs en CI falla a propósito: con rutas de ejemplo, el agente nunca detectaría que tocó algo sensible. Buscalo con `grep -rn "TODO:" .`. Lo mínimo:
+   - `AGENTS.md`: qué es, stack, comandos y convenciones de código.
+   - `.github/labels.yml` y `.github/labeler.yml`: los labels `area:` y las rutas de tu repo.
+   - `docs/convencion-nombres-github.md` §2: los scopes de commit.
+4. Corré el workflow **Labels** a mano (Actions → Labels → Run workflow) para crear los labels en el repo.
+5. Si usás Cursor, copiá o enlazá las skills: `ln -s ../.claude/skills .cursor/skills`.
+
+## Abrir issues desde el chat
+
+Con Claude Code en el repo, pedilo en lenguaje natural:
+
+> abrí un issue: el QR no valida sin conexión, es urgente
+
+La skill `crear-issue` arma el título según la convención, elige labels que existan en `labels.yml`, busca duplicados, te muestra el borrador y lo crea con `gh` cuando lo confirmás. También sirve para pasar una auditoría a issues (un issue por hallazgo) y para marcar bloqueos:
+
+> la migración de pagos depende de que se cierre #25
+
+La skill registra la dependencia nativa de GitHub ("Blocked by"), pone `estado:bloqueado` y el workflow `desbloquear.yml` saca el label solo cuando se cierran todos los bloqueantes.
+
+Y para trabajos más grandes:
+
+> planificá la migración de cuentas
+
+arma una épica con sus sub-issues y los bloqueos entre ellos, te muestra el borrador en el orden en que se pueden hacer y lo crea al confirmar.
+
+> ¿qué puedo hacer ahora?
+
+lista los issues sin bloqueantes abiertos por prioridad, los bloqueados con lo que los bloquea y el avance de cada épica.
+
+Necesita `gh` instalado y autenticado (`gh auth status`).
+
+## El flujo con agentes
+
+```
+idea → /plan-feature → épica + issues con bloqueos
+     → /implement-issue <n>
+         [tests en rojo desde los criterios → código en verde · debug · db-migration · autorevisión · update-docs]
+     → PR → /review-pr <n> (otra sesión) [+ /security-review si toca rutas sensibles]
+     → merge (una persona)
+     → retro en el issue fijado → /mejorar-skills propone ajustes en un PR
 ```
 
-Abrí [http://localhost:3000](http://localhost:3000).
-
-## Scripts principales
-
-| Comando | Descripción |
+| Skill | Para qué |
 |---|---|
-| `npm run dev` | Levanta el servidor de desarrollo |
-| `npm run build` | Genera Prisma Client, aplica migraciones y compila producción |
-| `npm run start` | Inicia el servidor de producción |
-| `npm run lint` | Ejecuta ESLint |
-| `npm run test` | Ejecuta tests con Vitest |
-| `npm run validate:plan` | Valida un JSON de plan de estudio |
-| `npm run db:migrate` | Crea/aplica migraciones de desarrollo |
-| `npm run db:deploy` | Aplica migraciones en producción (también en build de Vercel) |
-| `npm run db:seed` | Carga datos de ejemplo (solo desarrollo) |
-| `npm run db:reset` | Reinicia migraciones y seed (solo desarrollo) |
+| `/plan-feature` | Investiga código, arquitectura y ADRs, arma un plan técnico y lo convierte en épica + issues. No escribe código. |
+| `crear-issue` | Issues sueltos, auditoría → issues, bloqueos entre issues existentes. |
+| `/implement-issue <n>` | Del issue al PR con TDD: tests desde los criterios de aceptación en rojo (`rojo.sh` comprueba que fallen por una aserción), código hasta verde, autorevisión, docs, PR. No mergea. |
+| `debug` | Síntoma → evidencia → causa raíz → arreglo → test de regresión. |
+| `db-migration` | Plan con compatibilidad, backfill y rollback antes de tocar el schema. |
+| `update-docs` | Qué docs quedaron viejos por un cambio (según el mapa) y corregirlos en el mismo PR. |
+| `/review-pr <n>` | Revisión con foco en lo propio del proyecto: reglas de negocio, ADRs, autonomía, docs, tests, rutas sensibles. No aprueba. |
+| `/mejorar-skills` | Junta las retros (issue fijado "Retros del flujo con agentes") y las señales objetivas (fallas de CI en ramas de agentes, reverts) y propone ajustes a las skills en un PR. Nunca afloja controles. |
+| `/estado` | Resumen del proyecto generado en el momento (versión, trabajo, épicas, PRs, deuda, decisiones, migraciones) y "¿qué puedo hacer ahora?" (`disponibles.sh`). |
+| `git-workflow` | Ramas, commits y PRs. |
 
-## Documentación
+Dos puntos de control quedan siempre en manos de personas: **aprobar el plan** y **mergear**.
 
-La documentación técnica vive en la wiki del repo:
+**Las skills mejoran con el uso, pero no se reescriben solas.** Cada `implement-issue` y `review-pr` deja una retro; `/mejorar-skills` busca patrones (al menos dos casos o uno grave), prefiere convertirlos en scripts o checks antes que en más texto, y siempre propone en un PR. Las skills tienen un máximo de 120 líneas (lo controla `check-docs.py`) para que no crezcan con cada ajuste. Se puede programar para que corra una vez por semana.
 
-- [Inicio de la wiki](wiki/Home.md)
-- [Arquitectura](wiki/Arquitectura.md)
-- [Modelo de datos](wiki/Modelo-de-datos.md)
-- [Rutas y flujos](wiki/Rutas-y-flujos.md)
-- [Guía de desarrollo](wiki/Desarrollo.md)
-- [Deploy en Vercel + Neon](wiki/Deploy.md)
-- [Estructura del proyecto](wiki/Estructura-del-proyecto.md)
-
-## Relación con Notion
-
-Notion fue la referencia de diseño inicial. Los datos de UcaNode viven en PostgreSQL y no se sincronizan con Notion.
-
-## Licencia
-
-UcaNode se distribuye bajo la [Licencia MIT](LICENSE). Copyright (c) 2026 lautioliver.
+Dos checks del workflow de labels salieron de ese circuito en un repo real: un PR con `logica-negocio` tiene que tocar `docs/decisions/` (o decir "ADR sin cambios: <motivo>"), y un PR que llega sin `tipo:` lo copia del issue que cierra.
